@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Control Matrix</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the <details> summary cursor */
+        summary {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-6 md:p-12">
+
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-blue-800">Asset Control Matrix</h1>
+            <p class="text-xl text-gray-600 mt-2">CMMC & Principle of Least Privilege Instructional Tool</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left Column: Instructions & Case Study -->
+            <div class="lg:col-span-1 space-y-8">
+
+                <!-- Instructional Card -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4">Professor's Overview</h2>
+                    <p class="mb-4">Welcome, students. This application will guide you in building an <strong>Asset Control Matrix</strong>. This matrix is the foundation of your CMMC assessment scope and the primary tool for implementing the <strong>Principle of Least Privilege (PoLP)</strong>.</p>
+                    <p class="mb-4">Your goal is to map every user role to the specific assets they need to access, explicitly defining *what* level of access they have. This is critical for protecting <strong>CUI (Controlled Unclassified Information)</strong> and <strong>FCI (Federal Contract Information)</strong>.</p>
+                    <p class="mb-4">An effective matrix defines who can access what, why they need it, and how that access is governed. It integrates identity management with HR processes to ensure access is updated as roles change.</p>
+                    <!-- Visual aid for the matrix concept -->
+                    
+                </div>
+
+                <!-- Case Study Card -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <details>
+                        <summary class="text-2xl font-semibold text-blue-700">Mock Case Study: "AeroDefense Inc."</summary>
+                        <div class="mt-4 border-t pt-4 text-sm">
+                            <p class="mb-4">Use the following mock case study to populate your matrix. Note the roles, assets, and data types.</p>
+                            <ul class="list-disc list-inside space-y-3">
+                                <li>
+                                    <strong>Company:</strong> AeroDefense Inc. (a small DoD contractor).
+                                </li>
+                                <li>
+                                    <strong>Assets:</strong>
+                                    <ul class="list-['-_'] list-inside ml-4 mt-2 space-y-1">
+                                        <li><strong>Project "Odyssey" Server:</strong> Contains engineering designs (CUI).</li>
+                                        <li><strong>HR Database:</strong> Contains employee PII and contract details (FCI).</li>
+                                        <li><strong>SharePoint Portal:</strong> Used for general project management (Mixed FCI & Public).</li>
+                                        <li><strong>Firewall/AD Server:</strong> Manages network access and user identity (Privileged).</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>User Roles:</strong>
+                                    <ul class="list-['-_'] list-inside ml-4 mt-2 space-y-1">
+                                        <li><strong>Lead Engineer:</strong> Needs R/W access to Project "Odyssey". Read-only to SharePoint. No access to HR DB.</li>
+                                        <li><strong>HR Manager:</strong> Needs R/W access to HR Database. No access to Project "Odyssey".</li>
+                                        <li><strong>Project Manager:</strong> Needs R/W access to SharePoint Portal. Read-only to Project "Odyssey" (for status checks).</li>
+                                        <li><strong>System Administrator:</strong> Privileged access to Firewall/AD Server. *Should not* have standing access to CUI data on Project "Odyssey".</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Right Column: Matrix Builder & Key Concepts -->
+            <div class="lg:col-span-2 space-y-8">
+
+                <!-- Matrix Builder Card -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4">Matrix Builder</h2>
+                    <p class="mb-6">Use the form below to add entries to your matrix based on the case study (or your own). Remember PoLP: grant only the *minimum* access necessary for a role to function.</p>
+
+                    <!-- Input Form -->
+                    <form id="matrix-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label for="asset-name" class="block text-sm font-medium text-gray-700">System / Asset</label>
+                            <input type="text" id="asset-name" placeholder="e.g., Project 'Odyssey' Server" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div>
+                            <label for="data-type" class="block text-sm font-medium text-gray-700">Primary Data Type</label>
+                            <select id="data-type" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                <option>CUI</option>
+                                <option>FCI</option>
+                                <option>PII</option>
+                                <option>Privileged/System</option>
+                                <option>Public</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="user-role" class="block text-sm font-medium text-gray-700">User Role</label>
+                            <input type="text" id="user-role" placeholder="e.g., Lead Engineer" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div>
+                            <label for="access-level" class="block text-sm font-medium text-gray-700">Access Level</label>
+                            <select id="access-level" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                                <option>No Access</option>
+                                <option>Read-Only</option>
+                                <option>Read/Write</option>
+                                <option>Full Control / Admin</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="justification" class="block text-sm font-medium text-gray-700">Justification (PoLP)</label>
+                            <input type="text" id="justification" placeholder="Why does this role need this access?" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div class="md:col-span-2 text-right">
+                            <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow">Add to Matrix</button>
+                        </div>
+                    </form>
+
+                    <!-- The Matrix Table -->
+                    <div class="overflow-x-auto">
+                        <table id="matrix-table" class="w-full text-left border-collapse">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">System / Asset</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">Data Type</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">User Role</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">Access Level</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">Justification</th>
+                                    <th class="p-3 text-sm font-semibold tracking-wide border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matrix-body" class="divide-y divide-gray-200">
+                                <!-- JS will populate this -->
+                                <tr id="placeholder-row">
+                                    <td colspan="6" class="p-4 text-center text-gray-500">Your matrix is empty. Add entries using the form above.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right mt-6">
+                        <button id="export-csv" class="bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow">Export to CSV</button>
+                    </div>
+                </div>
+
+                <!-- Key Concepts Card -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4">Key Concepts & Maintenance</h2>
+                    <p class="mb-4">Your matrix is a living document. It must be maintained.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold text-lg mr-3">►</span>
+                            <div>
+                                <strong class="text-gray-900">Privileged Access Management (PAM):</strong> How do you control the "System Administrator" role? Privileged access must be temporary, monitored, and require multi-factor authentication (MFA). It should not be a standing permission.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold text-lg mr-3">►</span>
+                            <div>
+                                <strong class="text-gray-900">HR Integration & Automation:</strong> This matrix must integrate with HR processes.
+                                <ul class="list-disc list-inside ml-4 mt-2 text-sm">
+                                    <li><strong>Provisioning:</strong> When a new "Lead Engineer" is hired, an automated tool (Identity Management System) should use this matrix to grant them the *correct* permissions.</li>
+                                    <li><strong>Deprovisioning:</strong> When an employee leaves, their access must be revoked *immediately*.</li>
+                                </ul>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-blue-600 font-bold text-lg mr-3">►</span>
+                            <div>
+                                <strong class="text-gray-900">Quarterly Access Reviews:</strong> As a CMMC requirement, you must conduct regular (e.g., quarterly) reviews. Managers must certify that their team members *still need* the access they have. Has a Project Manager moved to a new project? Their old access must be revoked.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('matrix-form');
+            const tableBody = document.getElementById('matrix-body');
+            const placeholderRow = document.getElementById('placeholder-row');
+            const exportButton = document.getElementById('export-csv');
+
+            // Handle Form Submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Get values from form
+                const asset = document.getElementById('asset-name').value;
+                const dataType = document.getElementById('data-type').value;
+                const userRole = document.getElementById('user-role').value;
+                const accessLevel = document.getElementById('access-level').value;
+                const justification = document.getElementById('justification').value;
+
+                // Remove placeholder if it exists
+                if (placeholderRow) {
+                    placeholderRow.remove();
+                }
+
+                // Create new row
+                const newRow = document.createElement('tr');
+                newRow.className = 'hover:bg-gray-50';
+                newRow.innerHTML = `
+                    <td class="p-3 text-sm text-gray-700 border-b">${escapeHTML(asset)}</td>
+                    <td class="p-3 text-sm text-gray-700 border-b">${escapeHTML(dataType)}</td>
+                    <td class="p-3 text-sm text-gray-700 border-b">${escapeHTML(userRole)}</td>
+                    <td class="p-3 text-sm text-gray-700 border-b">${escapeHTML(accessLevel)}</td>
+                    <td class="p-3 text-sm text-gray-700 border-b">${escapeHTML(justification)}</td>
+                    <td class="p-3 text-sm text-gray-700 border-b">
+                        <button class="text-red-500 hover:text-red-700 remove-btn font-medium">Remove</button>
+                    </td>
+                `;
+
+                // Add row to table
+                tableBody.appendChild(newRow);
+
+                // Reset form
+                form.reset();
+            });
+
+            // Handle Row Removal (Event Delegation)
+            tableBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-btn')) {
+                    const row = e.target.closest('tr');
+                    row.remove();
+
+                    // Show placeholder if table is empty
+                    if (tableBody.rows.length === 0 && placeholderRow) {
+                        tableBody.appendChild(placeholderRow);
+                    }
+                }
+            });
+
+            // Handle CSV Export
+            exportButton.addEventListener('click', () => {
+                const rows = Array.from(tableBody.querySelectorAll('tr'));
+                
+                // Check if table is empty (only has placeholder)
+                if (rows.length === 0 || (rows.length === 1 && rows[0].id === 'placeholder-row')) {
+                    // We can't use alert, so we'll just log to console or add a temp message
+                    console.warn('Matrix is empty. Nothing to export.');
+                    // Optionally, show a message on the UI
+                    exportButton.innerText = 'Matrix is empty!';
+                    setTimeout(() => {
+                        exportButton.innerText = 'Export to CSV';
+                    }, 2000);
+                    return;
+                }
+
+                const headers = ["System / Asset", "Data Type", "User Role", "Access Level", "Justification"];
+                let csvContent = headers.join(",") + "\n";
+
+                rows.forEach(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    if (cells.length === 0) return; // Skip placeholder or empty
+
+                    const rowData = cells.slice(0, 5).map(cell => {
+                        let cellText = cell.innerText.replace(/"/g, '""'); // Escape double quotes
+                        return `"${cellText}"`; // Wrap all cells in quotes
+                    });
+                    csvContent += rowData.join(",") + "\n";
+                });
+
+                downloadCSV(csvContent, 'asset-control-matrix.csv');
+            });
+
+            // Helper function to download CSV
+            function downloadCSV(csvContent, fileName) {
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute('href', url);
+                link.setAttribute('download', fileName);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            // Helper function to escape HTML
+            function escapeHTML(str) {
+                return str.replace(/[&<>"']/g, (match) => {
+                    const swap = {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#39;'
+                    };
+                    return swap[match];
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
