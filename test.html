@@ -270,7 +270,7 @@
     <script type="module">
         import { GoogleGenAI } from "@google/genai";
 
-        // --- STATE & DATA ---
+        // --- DATA DEFINITIONS ---
         const SAR_DATA = [
             {
                 id: 'exec-summary',
@@ -348,30 +348,9 @@
 
         let currentQuizIndex = 0;
         let chatSession = null;
-        const md = window.markdownit();
+        const md = window.markdownit ? window.markdownit() : { render: (t) => t };
 
-        // --- GEMINI SETUP ---
-        const apiKey = process.env.API_KEY;
-        const ai = new GoogleGenAI({ apiKey: apiKey });
-
-        const SYSTEM_INSTRUCTION = `
-        You are Professor Cyber, a distinguished and rigorous yet approachable Cybersecurity Professor.
-        Your specialty is the Cybersecurity Maturity Model Certification (CMMC) v2.0 framework.
-        You are currently teaching a master's level module on the Security Assessment Report (SAR).
-
-        Your goals are:
-        1. To explain complex CMMC concepts simply but accurately.
-        2. To strictly adhere to CMMC v2.0 documentation standards.
-        3. To help the student understand the relationship between the SAR, the System Security Plan (SSP), and the Plan of Action and Milestones (POA&M).
-        4. If asked about specific controls, reference NIST SP 800-171.
-
-        Tone: Academic, Encouraging, Authoritative.
-        Format: Use Markdown for readability.
-
-        If the user asks for a quiz question, generate a multiple-choice question about CMMC SAR.
-        `;
-
-        // --- APP FUNCTIONS ---
+        // --- INIT APP LOGIC (BEFORE API KEY) ---
         window.app = {
             switchTab: (tabId) => {
                 document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -381,9 +360,9 @@
                 document.getElementById(`tab-${tabId}`).classList.add('active');
             },
 
-            // SAR Module Logic
             renderSarList: () => {
                 const container = document.getElementById('sar-sidebar-list');
+                if (!container) return;
                 container.innerHTML = SAR_DATA.map(section => `
                     <button onclick="app.viewSarSection('${section.id}')" 
                             class="w-full text-left p-4 border-b border-slate-100 hover:bg-slate-50 transition-colors flex items-center justify-between group"
@@ -398,7 +377,6 @@
                 const section = SAR_DATA.find(s => s.id === id);
                 if (!section) return;
 
-                // Update Active State
                 document.querySelectorAll('#sar-sidebar-list button').forEach(b => {
                     b.classList.remove('bg-emerald-50', 'border-l-4', 'border-l-emerald-500');
                     b.classList.add('border-l-4', 'border-l-transparent');
@@ -406,7 +384,6 @@
                 const btn = document.getElementById(`btn-sar-${id}`);
                 if(btn) btn.classList.add('bg-emerald-50', 'border-l-emerald-500');
 
-                // Render Content
                 document.getElementById('sar-detail-title').innerText = section.title;
                 document.getElementById('sar-detail-desc').innerText = section.description;
                 document.getElementById('sar-detail-critical').classList.remove('hidden');
@@ -418,10 +395,8 @@
                 `).join('');
             },
 
-            // Quiz Logic
             renderQuiz: () => {
                 if (currentQuizIndex >= QUIZ_DATA.length) {
-                    // End of regular questions
                     document.getElementById('btn-next-q').classList.add('hidden');
                     document.getElementById('btn-ai-q').classList.remove('hidden');
                     return;
@@ -445,7 +420,6 @@
                 const q = QUIZ_DATA[currentQuizIndex];
                 const isCorrect = selectedIdx === q.correct;
                 
-                // Update UI
                 document.querySelectorAll('.quiz-opt-btn').forEach(btn => {
                     btn.disabled = true;
                     const idx = parseInt(btn.dataset.idx);
@@ -479,12 +453,15 @@
             },
 
             generateAiQuestion: async () => {
+                if (!ai) {
+                    alert("AI features are currently unavailable (API Key missing).");
+                    return;
+                }
                 const btn = document.getElementById('btn-ai-q');
                 btn.innerText = "Professor is thinking...";
                 btn.disabled = true;
 
                 try {
-                    // Use generateContent instead of chat to keep contexts separate
                     const response = await ai.models.generateContent({
                         model: 'gemini-2.5-flash',
                         contents: `Generate a single multiple choice quiz question about CMMC v2.0 Security Assessment Report (SAR). 
@@ -501,15 +478,13 @@
                     });
                     
                     const text = response.text;
-                    
                     const newQ = JSON.parse(text);
                     QUIZ_DATA.push(newQ);
                     currentQuizIndex = QUIZ_DATA.length - 1;
                     app.renderQuiz();
-                    // Reset button for next time
                     btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Generate AI Question`;
                     btn.disabled = false;
-                    btn.classList.add('hidden'); // hide until answered
+                    btn.classList.add('hidden');
 
                 } catch (e) {
                     console.error(e);
@@ -518,13 +493,15 @@
                 }
             },
 
-            // Chat Logic
             getChatSession: async () => {
-                if (!chatSession) {
+                if (!chatSession && ai) {
                     chatSession = await ai.chats.create({
                         model: 'gemini-2.5-flash',
                         config: {
-                            systemInstruction: SYSTEM_INSTRUCTION,
+                            systemInstruction: `You are Professor Cyber, a distinguished CMMC instructor. 
+                            Teach the student about CMMC v2.0, specifically the Security Assessment Report (SAR).
+                            Explain the relationship between SSP, SAR, and POA&M.
+                            Be academic but accessible.`,
                             temperature: 0.7,
                         },
                     });
@@ -533,11 +510,15 @@
             },
 
             sendMessage: async () => {
+                if (!ai) {
+                    const history = document.getElementById('chat-history');
+                    history.innerHTML += `<div class="text-red-500 text-sm text-center p-2">AI features are unavailable. Please check API Key configuration.</div>`;
+                    return;
+                }
                 const input = document.getElementById('chat-input');
                 const text = input.value.trim();
                 if (!text) return;
 
-                // Append User Message
                 const history = document.getElementById('chat-history');
                 history.innerHTML += `
                     <div class="flex gap-3 flex-row-reverse">
@@ -552,7 +533,6 @@
                 input.value = '';
                 history.scrollTop = history.scrollHeight;
 
-                // Add Loading State
                 const loadingId = 'loading-' + Date.now();
                 history.innerHTML += `
                     <div id="${loadingId}" class="flex gap-3">
@@ -573,10 +553,8 @@
                     const session = await app.getChatSession();
                     const result = await session.sendMessage({ message: text });
                     
-                    // Remove Loading
                     document.getElementById(loadingId).remove();
 
-                    // Append Bot Message
                     const htmlContent = md.render(result.text);
                     history.innerHTML += `
                         <div class="flex gap-3">
@@ -600,18 +578,35 @@
             }
         };
 
-        // Initialize
+        // --- INITIALIZE UI IMMEDIATELY ---
         app.renderSarList();
         app.viewSarSection('exec-summary');
         app.renderQuiz();
 
-        // Input Enter Key
-        document.getElementById('chat-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                app.sendMessage();
+        // --- GEMINI SETUP (SAFE LOADING) ---
+        let ai = null;
+        try {
+            // Safety check for process.env to prevent script crash in generic browser envs
+            const key = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : null;
+            if (key) {
+                ai = new GoogleGenAI({ apiKey: key });
+            } else {
+                console.warn("API Key not found in process.env. AI features disabled.");
             }
-        });
+        } catch (err) {
+            console.error("Error initializing Gemini:", err);
+        }
+
+        // Input Event Listeners
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    app.sendMessage();
+                }
+            });
+        }
 
     </script>
 </body>
