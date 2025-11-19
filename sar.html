@@ -715,30 +715,16 @@
                     </p>
 
                     <h3 class="text-xl font-semibold text-red-800 border-b pb-2 mb-4"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Risk and Impact Analysis</h3>
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="riskLikelihood" class="block text-sm font-medium text-gray-700 mb-1">Overall Likelihood of Exploitation</label>
-                            <select id="riskLikelihood" onchange="renderRiskConclusion()" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                                <option value="Low">Low</option>
-                                <option value="Moderate">Moderate</option>
-                                <option value="High">High</option>
-                            </select>
-                            <p class="text-xs text-gray-500 mt-1">Probability the vulnerability will be successfully exploited.</p>
+                    <p class="text-sm text-gray-600 mb-4">
+                        In accordance with NIST guidelines, the risk for each deficiency must be calculated based on the <strong>Likelihood</strong> of a threat exploiting the vulnerability and the resulting <strong>Impact</strong> to the confidentiality, integrity, or availability (CIA) of CUI.
+                        <div class="p-3 bg-gray-100 rounded-lg border border-gray-300 text-center text-sm font-semibold text-gray-700">
+                            The Overall Highest Risk Rating will appear here after deficiencies are scored in the POA&amp;M builder below.
                         </div>
-                        <div>
-                            <label for="riskImpact" class="block text-sm font-medium text-gray-700 mb-1">Overall Impact to CUI</label>
-                            <select id="riskImpact" onchange="renderRiskConclusion()" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                                <option value="Low">Low (Minor disruption)</option>
-                                <option value="Moderate">Moderate (Significant CUI breach/loss)</option>
-                                <option value="High">High (Severe, critical impact to national security)</option>
-                            </select>
-                            <p class="text-xs text-gray-500 mt-1">Severity of harm resulting from the successful exploitation.</p>
-                        </div>
-                    </div>
+                    </p>
                     
                     <h3 class="text-xl font-semibold text-blue-800 border-b pb-2 mb-4 pt-4"><i class="fa-solid fa-list-check mr-2"></i> Plan of Action & Milestones (POA&M)</h3>
                     <p class="text-sm text-gray-600 mb-4">
-                        Document the remediation steps for the controls marked <strong>NOT MET</strong> in the SAR Lab. This is required for a Conditional Pass.
+                        Document the remediation steps for the controls marked <strong>NOT MET</strong> in the SAR Lab. This is required for a Conditional Pass. For each deficiency, assign a Likelihood and Impact score.
                     </p>
                     
                     <div id="poamBuilder" class="space-y-4">
@@ -834,6 +820,16 @@
         let stats = { met: 0, notMet: 0, total: 0 };
         let sarFindings = []; // Stores all recorded SAR entries
         let poamEntries = {}; // Stores POA&M details for NOT MET findings
+
+        // --- Utility for Risk Rating ---
+        function calculateRiskRating(likelihood, impact) {
+            const riskMap = {
+                'Low': { 'Low': 'Low', 'Moderate': 'Low', 'High': 'Moderate' },
+                'Moderate': { 'Low': 'Low', 'Moderate': 'Moderate', 'High': 'High' },
+                'High': { 'Low': 'Moderate', 'Moderate': 'High', 'High': 'High' }
+            };
+            return riskMap[likelihood] ? (riskMap[likelihood][impact] || 'N/A') : 'N/A';
+        }
 
         // --- Navigation Logic ---
         function switchTab(tabId) {
@@ -1223,7 +1219,9 @@
                         deficiency: newEntry.deficiency, // Use the deficiency from the finding for initial POA&M
                         remediation: '',
                         responsible: '',
-                        milestone: ''
+                        milestone: '',
+                        likelihood: 'Moderate', // Default for new deficiency
+                        impact: 'Moderate'     // Default for new deficiency
                     };
                 } else {
                     // Update deficiency text if it was changed
@@ -1337,11 +1335,14 @@
                         deficiency: f.deficiency,
                         remediation: '',
                         responsible: '',
-                        milestone: ''
+                        milestone: '',
+                        likelihood: 'Moderate', // Default for new deficiency
+                        impact: 'Moderate'     // Default for new deficiency
                     };
                 }
                 
                 const poam = poamEntries[f.controlId];
+                const riskRating = calculateRiskRating(poam.likelihood, poam.impact);
 
                 html += `
                     <div class="border p-4 rounded-lg bg-red-50">
@@ -1349,6 +1350,31 @@
                         <p class="text-xs text-red-700 mb-3"><strong>Deficiency:</strong> ${f.deficiency}</p>
 
                         <div class="space-y-3">
+                             <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label for="likelihood-${f.controlId}" class="block text-xs font-medium text-gray-700">Likelihood</label>
+                                    <select id="likelihood-${f.controlId}" onchange="updatePoam('${f.controlId}', 'likelihood', this.value)" class="w-full border rounded p-2 text-sm">
+                                        <option value="Low" ${poam.likelihood === 'Low' ? 'selected' : ''}>Low</option>
+                                        <option value="Moderate" ${poam.likelihood === 'Moderate' ? 'selected' : ''}>Moderate</option>
+                                        <option value="High" ${poam.likelihood === 'High' ? 'selected' : ''}>High</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="impact-${f.controlId}" class="block text-xs font-medium text-gray-700">Impact</label>
+                                    <select id="impact-${f.controlId}" onchange="updatePoam('${f.controlId}', 'impact', this.value)" class="w-full border rounded p-2 text-sm">
+                                        <option value="Low" ${poam.impact === 'Low' ? 'selected' : ''}>Low</option>
+                                        <option value="Moderate" ${poam.impact === 'Moderate' ? 'selected' : ''}>Moderate</option>
+                                        <option value="High" ${poam.impact === 'High' ? 'selected' : ''}>High</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-end">
+                                    <div class="p-2 border bg-white rounded w-full text-center">
+                                        <span class="text-xs text-gray-500 block leading-tight">Risk Rating:</span>
+                                        <span class="font-bold text-sm text-red-700">${riskRating}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div>
                                 <label for="remediation-${f.controlId}" class="block text-xs font-medium text-gray-700">Remediation Action</label>
                                 <textarea id="remediation-${f.controlId}" oninput="updatePoam('${f.controlId}', 'remediation', this.value)" rows="2" class="w-full border rounded p-2 text-sm" placeholder="e.g. Implement MFA on all remote access points">${poam.remediation}</textarea>
@@ -1374,24 +1400,47 @@
         function updatePoam(controlId, field, value) {
             if (poamEntries[controlId]) {
                 poamEntries[controlId][field] = value;
+                
+                // If likelihood or impact changes, re-render the builder to update the risk rating display
+                if (field === 'likelihood' || field === 'impact') {
+                    renderPoamBuilder();
+                }
             }
             // Trigger report render
             // NOTE: We rely on the final report render function to call all partial renders.
         }
 
         function renderRiskConclusion() {
-            const likelihoodEl = document.getElementById('riskLikelihood');
-            const impactEl = document.getElementById('riskImpact');
             const improvementRecsEl = document.getElementById('improvementRecs');
-            
-            const likelihood = likelihoodEl ? likelihoodEl.value : 'Low';
-            const impact = impactEl ? impactEl.value : 'Low';
-            const overallRisk = `${likelihood}/${impact}`;
             const improvementRecs = improvementRecsEl ? improvementRecsEl.value.replace(/\n/g, '<br>') : 'No specific recommendations provided by the assessor.';
 
-            let poamTableHtml = '';
             const poamArray = Object.values(poamEntries);
 
+            // --- Risk Summary Calculation (finding the highest risk) ---
+            let riskSummary = { Low: 0, Moderate: 0, High: 0 };
+            poamArray.forEach(p => {
+                const rating = calculateRiskRating(p.likelihood, p.impact);
+                if (rating in riskSummary) {
+                    riskSummary[rating] += 1;
+                }
+            });
+            
+            const highestRisk = Object.keys(riskSummary).sort((a, b) => {
+                const order = { 'Low': 1, 'Moderate': 2, 'High': 3 };
+                return order[b] - order[a];
+            })[0];
+
+            const riskSummaryTableHtml = `
+                <table class="w-full text-xs mb-4">
+                    <tr><td class="w-1/3 py-1">Total Deficiencies:</td><td class="font-semibold">${stats.notMet}</td></tr>
+                    <tr><td class="w-1/3 py-1">Highest Deficiency Risk:</td><td class="font-bold text-red-600">${highestRisk.toUpperCase()}</td></tr>
+                    <tr><td class="w-1/3 py-1">High Risk Count:</td><td class="font-semibold">${riskSummary.High}</td></tr>
+                    <tr><td class="w-1/3 py-1">Moderate Risk Count:</td><td class="font-semibold">${riskSummary.Moderate}</td></tr>
+                </table>
+            `;
+            
+            // --- POA&M Table HTML ---
+            let poamTableHtml = '';
             if (poamArray.length > 0) {
                 poamTableHtml = `
                     <h5 class="font-bold text-md mb-2 mt-4 text-blue-900">5.2 Plan of Action & Milestones (POA&M)</h5>
@@ -1400,18 +1449,20 @@
                         <thead>
                             <tr>
                                 <th class="w-1/6">Control ID</th>
-                                <th class="w-2/6">Deficiency</th>
-                                <th class="w-2/6">Remediation Plan</th>
+                                <th class="w-1/6">Risk Rating</th>
+                                <th class="w-1/6">Responsible</th>
                                 <th class="w-1/6">Milestone</th>
+                                <th class="w-2/6">Remediation Plan</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${poamArray.map(p => `
                                 <tr>
                                     <td>${p.controlId}</td>
-                                    <td>${p.deficiency || 'Deficiency description missing.'}</td>
-                                    <td>${p.remediation || 'Remediation plan missing.'}</td>
+                                    <td>${calculateRiskRating(p.likelihood, p.impact)}</td>
+                                    <td>${p.responsible || 'N/A'}</td>
                                     <td>${p.milestone || 'Date pending.'}</td>
+                                    <td>${p.remediation || 'Remediation plan missing.'}</td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -1424,45 +1475,136 @@
                 `;
             }
             
-            let conclusionFooterHtml = '';
-            if (stats.total > 0) {
-                let textContent = '';
-                let statusColor = 'text-gray-600';
+            // --- New Certification Decision HTML (Replacement for 5.4) ---
+            
+            const leadAssessor = teamMembers.find(m => m.role.includes('Lead Certified CMMC Assessor')) || { 
+                name: 'Lead Assessor Name', 
+                cert: 'CCA-XXXX-XXX', 
+                role: 'Lead Certified CMMC Assessor' 
+            };
+            const poamCount = stats.notMet;
+            const execData = getExecutiveSummaryData();
+            const issueDate = execData.assessmentDate;
+            
+            // --- Date Calculations ---
+            const assessmentDateElement = document.getElementById('assessmentDate');
+            const assessmentDateValue = assessmentDateElement ? assessmentDateElement.value : new Date().toISOString().split('T')[0];
+            const assessmentDateObj = new Date(assessmentDateValue + 'T00:00:00');
+            const issueYear = assessmentDateObj.getFullYear();
+            
+            // Expiration Date (3 years later)
+            const expDate = new Date(assessmentDateObj);
+            expDate.setFullYear(issueYear + 3);
+            const expirationDateFormatted = expDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Annual Reaffirmation Dates (1 and 2 years later)
+            const reaffirmation1 = new Date(assessmentDateObj);
+            reaffirmation1.setFullYear(issueYear + 1);
+            const reaffirmation2 = new Date(assessmentDateObj);
+            reaffirmation2.setFullYear(issueYear + 2);
+            
+            const reaffirmationDate1 = reaffirmation1.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const reaffirmationDate2 = reaffirmation2.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const reAssessmentDate = expirationDateFormatted;
+            let certNumber = `CMMC-L2-${issueYear}-${execData.orgName.slice(0, 4).toUpperCase()}-001`;
 
-                if (stats.notMet === 0) {
-                    textContent = `<span class="text-green-700 font-bold">FINAL CERTIFICATION RECOMMENDED</span><br>All assessed controls have been satisfied. The <strong>Organization Seeking Certification (OSC)</strong> is recommended for Level 2 certification.`;
-                } else if (stats.notMet > 0) {
-                     textContent = `<span class="text-yellow-600 font-bold">CONDITIONAL CERTIFICATION RECOMMENDED</span><br>
-                     Assessment identified ${stats.notMet} deficiencies. The <strong>OSC</strong> is recommended for Conditional Certification pending the timely execution and closeout of the <strong>Plan of Action & Milestones (POA&amp;M)</strong>.`;
-                } else {
-                     textContent = `<span class="text-gray-600 font-bold">ASSESSMENT IN PROGRESS</span><br>
-                     Final recommendation will be issued upon completion of control assessment.`;
-                }
+            let resultBannerHtml = '';
+            let conditionsListHtml = '';
+            
+            if (stats.notMet === 0) {
+                // Final Pass
+                resultBannerHtml = `
+                    <div class="bg-green-600 text-white p-5 rounded-lg text-center shadow-lg mb-4">
+                        <h4 class="text-2xl font-extrabold uppercase mb-1">FINAL LEVEL 2 CERTIFICATE ISSUED</h4>
+                        <p class="text-sm">Valid for 3 years, subject to annual affirmation.</p>
+                    </div>`;
                 
-                conclusionFooterHtml = `
-                    <div id="certificationFooter" class="mt-8">
-                        <h4 class="font-bold text-lg mb-2 uppercase border-b border-gray-400">5.4 Certification Decision</h4>
-                        <p class="text-sm">${textContent}</p>
-                    </div>
+                conditionsListHtml = `<p class="text-green-700 font-semibold text-sm">No POA&M items identified. Final certification granted.</p>`;
+                
+            } else {
+                // Conditional Pass
+                const poamCloseoutDate = new Date(assessmentDateObj);
+                poamCloseoutDate.setMonth(poamCloseoutDate.getMonth() + 6); // 6 months (180 days) as an example closeout window
+                const closeoutDateFormatted = poamCloseoutDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                resultBannerHtml = `
+                    <div class="bg-orange-500 text-white p-5 rounded-lg text-center shadow-lg mb-4">
+                        <h4 class="text-2xl font-extrabold uppercase mb-1">CONDITIONAL LEVEL 2 CERTIFICATE ISSUED</h4>
+                        <p class="text-sm">Valid subject to POA&M closeout by ${closeoutDateFormatted}</p>
+                    </div>`;
+
+                conditionsListHtml = `
+                    <h5 class="font-bold text-md mb-2 text-blue-900">Conditions for Final Certification</h5>
+                    <p class="text-xs text-gray-700">To convert this conditional certification to final status, <strong>${execData.orgName}</strong> must:</p>
+                    <ul class="list-decimal list-inside text-sm text-gray-700 space-y-1 ml-4">
+                        <li>Complete all <strong>${poamCount}</strong> POA&M items within 180 days (or by the milestone dates listed in the POA&M).</li>
+                        <li>Engage a C3PAO for POA&M closeout assessment.</li>
+                        <li>Demonstrate full implementation of all 110 NIST SP 800-171 controls.</li>
+                        <li>Submit evidence packages for all remediated controls.</li>
+                    </ul>
                 `;
             }
 
+            const certificationDecisionHtml = `
+                <div id="certificationDecision" class="mt-8">
+                    <h4 class="font-bold text-lg mb-2 uppercase border-b border-gray-400">5.4 Certification Decision</h4>
+                    
+                    <h5 class="font-bold text-md mb-2 text-blue-900">Assessment Conclusion</h5>
+                    <p class="text-xs text-gray-700 mb-4">
+                        Based on the comprehensive assessment conducted on ${issueDate}, 
+                        <strong>${execData.orgName}</strong> has demonstrated substantial compliance with CMMC Level 2 requirements.
+                    </p>
+
+                    ${resultBannerHtml}
+
+                    <h5 class="font-bold text-md mb-2 text-blue-900">Certification Details</h5>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1 ml-4 mb-4">
+                        <li><strong>Certificate Number:</strong> ${certNumber}</li>
+                        <li><strong>Issue Date:</strong> ${issueDate}</li>
+                        <li><strong>Expiration Date:</strong> ${expirationDateFormatted} (3 years)</li>
+                        <li><strong>Annual Reaffirmation Required:</strong> ${reaffirmationDate1} and ${reaffirmationDate2}</li>
+                        <li><strong>Re-assessment Required:</strong> ${reAssessmentDate}</li>
+                    </ul>
+
+                    ${conditionsListHtml}
+
+                    <h5 class="font-bold text-md mb-2 mt-4 text-blue-900">Assessor Signature</h5>
+                    <p class="text-sm text-gray-700">
+                        <strong>Lead Certified CMMC Assessor:</strong> ${leadAssessor.name}, ${leadAssessor.cert}
+                    </p>
+                    <p class="text-sm text-gray-700">
+                        <strong>Date:</strong> ${issueDate}
+                    </p>
+                    <p class="text-sm text-gray-700">
+                        <strong>C3PAO:</strong> ${getTeamCredentialsData().c3paoName}
+                    </p>
+                </div>
+            `;
+
+
+            // --- New Overall Risk Display HTML ---
+            const overallRiskDisplayHtml = `
+                <div class="p-3 bg-red-100 border-l-4 border-red-500 mb-4">
+                    <p class="text-sm font-bold text-red-800">Overall Highest Risk Rating: ${highestRisk.toUpperCase()}</p>
+                </div>
+            `;
+            
+            // Generate content HTML
             return `
                 <h4 class="font-bold text-lg mb-2 uppercase border-b border-gray-400 mt-6">5.0 Risk Management & Conclusion</h4>
                 
                 <h5 class="font-bold text-md mb-2 text-red-900">5.1 Risk and Impact Summary</h5>
-                <table class="w-full text-xs mb-4">
-                    <tr><td class="w-1/3 py-1">Likelihood:</td><td class="font-semibold">${likelihood}</td></tr>
-                    <tr><td class="w-1/3 py-1">Impact:</td><td class="font-semibold">${impact}</td></tr>
-                    <tr><td class="w-1/3 py-1">Overall Risk Rating:</td><td class="font-bold text-red-600">${overallRisk.toUpperCase()}</td></tr>
-                </table>
+                <p class="text-xs text-gray-700 mb-4">The overall risk profile is aggregated from individual deficiency scores.</p>
+                ${overallRiskDisplayHtml}
+                ${riskSummaryTableHtml}
 
                 ${poamTableHtml}
 
                 <h5 class="font-bold text-md mb-2 mt-4 text-green-900">5.3 Assessor Recommendations for Improvement</h5>
                 <p class="text-xs text-gray-700 mb-4">${improvementRecs}</p>
                 
-                ${conclusionFooterHtml}
+                ${certificationDecisionHtml}
             `;
         }
         
@@ -1537,11 +1679,12 @@
                 return;
             }
 
-            const header = ["Control ID", "Requirement", "Status", "Observation", "Deficiency", "Remediation Plan", "Responsible Party", "Milestone Date"];
+            const header = ["Control ID", "Requirement", "Status", "Observation", "Deficiency", "Likelihood", "Impact", "Risk Rating", "Remediation Plan", "Responsible Party", "Milestone Date"];
             let csv = header.join(",") + "\n";
 
             sarFindings.forEach(f => {
                 const poam = poamEntries[f.controlId] || {};
+                const riskRating = poam.likelihood ? calculateRiskRating(poam.likelihood, poam.impact) : '';
                 
                 const row = [
                     f.controlId,
@@ -1549,6 +1692,9 @@
                     f.status,
                     `"${f.observation.replace(/"/g, '""').replace(/\n/g, ' ')}"`, // Observation
                     `"${f.deficiency.replace(/"/g, '""').replace(/\n/g, ' ')}"`,  // Deficiency
+                    poam.likelihood || '',
+                    poam.impact || '',
+                    riskRating,
                     `"${poam.remediation ? poam.remediation.replace(/"/g, '""').replace(/\n/g, ' ') : ''}"`, // POA&M
                     `"${poam.responsible ? poam.responsible.replace(/"/g, '""') : ''}"`,
                     poam.milestone || ''
@@ -1579,10 +1725,6 @@
             renderLoggedFindingsList();
             
             // Clear inputs in Risk/Conclusion tab
-            const likelihoodEl = document.getElementById('riskLikelihood');
-            if (likelihoodEl) likelihoodEl.value = 'Low';
-            const impactEl = document.getElementById('riskImpact');
-            if (impactEl) impactEl.value = 'Low';
             const improvementRecsEl = document.getElementById('improvementRecs');
             if (improvementRecsEl) improvementRecsEl.value = '';
 
