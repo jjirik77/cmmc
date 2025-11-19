@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMMC 2.0 SAR Master</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              cyber: {
+                900: '#0f172a',
+                800: '#1e293b',
+                700: '#334155',
+                500: '#3b82f6',
+                400: '#60a5fa',
+                accent: '#0ea5e9',
+                success: '#10b981',
+                warning: '#f59e0b',
+                danger: '#ef4444',
+              }
+            },
+            animation: {
+              fadeIn: 'fadeIn 0.5s ease-in-out',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748b; 
+      }
+      
+      .typing-dot {
+        animation: bounce 1.4s infinite ease-in-out both;
+      }
+      .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+      .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+      
+      @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
+      }
+      
+      .prose p { margin-bottom: 0.5em; }
+      .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 0.5em; }
+      .prose strong { color: #fff; font-weight: 700; }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.run/@google/genai",
+    "marked": "https://esm.run/marked",
+    "lucide": "https://esm.run/lucide",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0"
+  }
+}
+</script>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-cyber-900 border-b border-cyber-700 h-16 flex items-center justify-between px-4 sticky top-0 z-50">
+      <div class="flex items-center gap-3">
+        <button id="mobile-menu-btn" class="p-2 hover:bg-cyber-800 rounded-lg lg:hidden text-cyber-400">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+        <i data-lucide="shield-check" class="text-cyber-500 w-8 h-8"></i>
+        <h1 class="text-xl font-bold tracking-tight text-white font-mono hidden sm:block">
+          CMMC 2.0 SAR Master
+        </h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="text-xs text-cyber-400 bg-cyber-800 px-3 py-1 rounded-full border border-cyber-700 font-mono">
+          v2.0 BETA
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full lg:relative lg:translate-x-0 transition duration-200 ease-in-out w-64 bg-cyber-900 border-r border-cyber-700 z-40 flex flex-col pt-16 lg:pt-0">
+            <div class="p-4 flex justify-between items-center lg:hidden">
+                <span class="font-bold text-white">Menu</span>
+                <button id="close-sidebar-btn" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <nav class="flex-1 px-2 py-4 space-y-2" id="nav-container">
+                <!-- Nav items injected by JS -->
+            </nav>
+            
+            <div class="p-4 border-t border-cyber-700">
+                <div class="text-xs text-gray-500 text-center">
+                    Study Guide for CMMC 2.0<br/>
+                    &copy; 2025 CyberEd
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Mobile Overlay -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden backdrop-blur-sm"></div>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 w-full max-w-7xl mx-auto relative">
+            
+            <!-- DASHBOARD VIEW -->
+            <div id="view-dashboard" class="view-section space-y-6 animate-fadeIn">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Stat Cards -->
+                    <div class="bg-cyber-800 border border-cyber-700 p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-400 text-sm font-mono">Target Level</p>
+                                <h3 class="text-3xl font-bold text-white mt-1">Level 2</h3>
+                            </div>
+                            <div class="p-2 bg-cyber-500/20 rounded-lg text-cyber-400">
+                                <i data-lucide="shield" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4">Advanced Cyber Hygiene</p>
+                    </div>
+
+                    <div class="bg-cyber-800 border border-cyber-700 p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-400 text-sm font-mono">Controls (NIST)</p>
+                                <h3 class="text-3xl font-bold text-white mt-1">110</h3>
+                            </div>
+                            <div class="p-2 bg-cyber-success/20 rounded-lg text-cyber-success">
+                                <i data-lucide="file-text" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4">NIST SP 800-171 Rev 2</p>
+                    </div>
+
+                    <div class="bg-cyber-800 border border-cyber-700 p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-400 text-sm font-mono">Required Score</p>
+                                <h3 class="text-3xl font-bold text-white mt-1">88/110</h3>
+                            </div>
+                            <div class="p-2 bg-cyber-warning/20 rounded-lg text-cyber-warning">
+                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4">Min for Conditional ATO</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Custom CSS Chart -->
+                    <div class="bg-cyber-800 border border-cyber-700 p-6 rounded-xl">
+                        <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Common Compliance Gaps
+                        </h3>
+                        <div class="h-64 w-full flex items-end space-x-2 sm:space-x-6 justify-between px-2" id="chart-container">
+                            <!-- Chart bars injected via JS -->
+                        </div>
+                        <p class="text-sm text-gray-400 mt-6 text-center">
+                            *Red bars indicate domains frequently failing in SAR assessments.
+                        </p>
+                    </div>
+
+                    <!-- Intro Text -->
+                    <div class="bg-cyber-800 border border-cyber-700 p-6 rounded-xl">
+                        <h3 className="text-lg font-semibold text-white mb-4">About CMMC 2.0 SAR</h3>
+                        <div class="space-y-4 text-gray-300 text-sm leading-relaxed mt-4">
+                            <p>
+                                The <span class="text-cyber-400 font-bold">Security Assessment Report (SAR)</span> is a critical deliverable in the CMMC assessment process. It documents the assessment team's findings and provides the evidentiary basis for the certification decision.
+                            </p>
+                            <p>
+                                Unlike the System Security Plan (SSP) which describes how controls are <em>intended</em> to function, the SAR records how they <em>actually</em> performed during the assessment.
+                            </p>
+                            <div class="bg-cyber-900/50 p-4 rounded-lg border border-cyber-700 mt-4">
+                                <h4 class="text-cyber-accent font-bold mb-2">Key Changes in 2.0</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-400">
+                                    <li>Streamlined levels (1, 2, and 3).</li>
+                                    <li>Removal of process maturity requirements.</li>
+                                    <li>Allowance for POAMs on select controls.</li>
+                                    <li>Bifurcated assessment (Self vs. Third-party).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAR VIEWER VIEW -->
+            <div id="view-sar" class="view-section hidden animate-fadeIn max-w-4xl mx-auto">
+                <div class="mb-8 text-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">Anatomy of a SAR</h2>
+                    <p class="text-gray-400">
+                        Explore the structure of the Security Assessment Report. 
+                        Click the sections below to reveal critical details required for CMMC 2.0 compliance.
+                    </p>
+                </div>
+                <div id="sar-accordion" class="space-y-4">
+                    <!-- Accordion Items injected via JS -->
+                </div>
+            </div>
+
+            <!-- QUIZ VIEW -->
+            <div id="view-quiz" class="view-section hidden animate-fadeIn max-w-3xl mx-auto h-full">
+                <!-- Start/Loading Screen -->
+                <div id="quiz-loading" class="hidden flex flex-col items-center justify-center text-center p-8 h-full">
+                    <i data-lucide="loader-2" class="w-12 h-12 text-cyber-500 animate-spin mb-4"></i>
+                    <h3 class="text-xl font-bold text-white">Generating Assessment...</h3>
+                    <p class="text-gray-400 mt-2">Consulting the Professor for challenging scenarios.</p>
+                </div>
+
+                <!-- Results Screen -->
+                <div id="quiz-results" class="hidden max-w-2xl mx-auto text-center bg-cyber-800 border border-cyber-700 rounded-xl p-8 shadow-2xl">
+                   <h2 class="text-3xl font-bold text-white mb-4">Assessment Complete</h2>
+                   <div id="quiz-final-score" class="text-6xl font-mono font-bold text-cyber-500 mb-6">0%</div>
+                   <p id="quiz-feedback" class="text-gray-300 mb-8"></p>
+                   <button id="quiz-retry-btn" class="inline-flex items-center gap-2 bg-cyber-500 hover:bg-cyber-400 text-white px-6 py-3 rounded-lg font-bold transition-colors">
+                       <i data-lucide="refresh-cw" class="w-5 h-5"></i> New Assessment
+                   </button>
+                </div>
+
+                <!-- Active Quiz -->
+                <div id="quiz-active" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <span id="quiz-progress" class="text-gray-400 font-mono text-sm"></span>
+                        <span id="quiz-score-display" class="text-cyber-500 font-mono text-sm"></span>
+                    </div>
+
+                    <div class="bg-cyber-800 border border-cyber-700 rounded-xl p-6 md:p-8 shadow-lg">
+                        <h3 id="quiz-question-text" class="text-xl font-bold text-white mb-6 leading-relaxed"></h3>
+                        <div id="quiz-options" class="space-y-3"></div>
+
+                        <div id="quiz-explanation" class="hidden mt-6 p-4 bg-cyber-900/80 border-l-4 border-cyber-500 rounded-r-lg animate-fadeIn">
+                            <h4 class="text-sm font-bold text-cyber-400 mb-2">Professor's Analysis</h4>
+                            <p id="quiz-explanation-text" class="text-gray-300 text-sm"></p>
+                            <div class="mt-4 flex justify-end">
+                                <button id="quiz-next-btn" class="bg-cyber-500 hover:bg-cyber-400 text-white px-6 py-2 rounded-lg font-bold transition-colors">
+                                    Next Question
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Initial State (Start Button) -->
+                 <div id="quiz-start" class="text-center py-20">
+                    <h2 class="text-3xl font-bold text-white mb-4">CMMC Level 2 Assessment</h2>
+                    <p class="text-gray-400 mb-8 max-w-lg mx-auto">Test your knowledge on SAR requirements, POA&M limitations, and scoring methodologies with questions generated by AI.</p>
+                    <button id="quiz-start-btn" class="bg-cyber-500 hover:bg-cyber-400 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg shadow-cyber-500/20">
+                        Start Assessment
+                    </button>
+                </div>
+            </div>
+
+            <!-- TUTOR VIEW -->
+            <div id="view-tutor" class="view-section hidden animate-fadeIn h-[calc(100vh-140px)] flex flex-col bg-cyber-800 border border-cyber-700 rounded-xl overflow-hidden shadow-2xl">
+                 <!-- Chat Header -->
+                 <div class="bg-cyber-900 p-4 border-b border-cyber-700 flex justify-between items-center flex-shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-cyber-700 flex items-center justify-center">
+                            <i data-lucide="bot" class="text-cyber-500 w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white">Professor Cyber</h3>
+                            <p class="text-xs text-cyber-success flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-cyber-success animate-pulse"></span>
+                                Online
+                            </p>
+                        </div>
+                    </div>
+                    <button id="chat-clear-btn" class="text-gray-500 hover:text-cyber-danger transition-colors p-2" title="Clear Chat">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Messages -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+                    <!-- Messages injected here -->
+                </div>
+
+                <!-- Input -->
+                <div class="p-4 bg-cyber-900 border-t border-cyber-700 flex-shrink-0">
+                    <div class="flex gap-2">
+                        <textarea id="chat-input" placeholder="Ask about SAR requirements, Level 2 controls, or POA&M policies..." class="flex-1 bg-cyber-800 text-white border border-cyber-700 rounded-xl px-4 py-3 focus:outline-none focus:border-cyber-500 focus:ring-1 focus:ring-cyber-500 resize-none h-12 min-h-[3rem] max-h-32" rows="1"></textarea>
+                        <button id="chat-send-btn" class="bg-cyber-800 text-gray-500 cursor-not-allowed px-4 rounded-xl flex items-center justify-center transition-all duration-200" disabled>
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module">
+        import { GoogleGenAI, Type } from "@google/genai";
+        import { marked } from "marked";
+        import { createIcons, icons } from "lucide";
+
+        // --- CONSTANTS & DATA ---
+        const APP_NAME = "CMMC 2.0 SAR Master";
+        const API_KEY = process.env.API_KEY || '';
+
+        const SAR_SECTIONS = [
+            {
+                id: "exec-summary",
+                title: "1. Executive Summary",
+                description: "Provides a high-level overview of the assessment results, including the aggregate score and overall risk posture.",
+                keyPoints: ["Summarize scope of assessment", "State the CMMC Level targeted", "Provide the final SPRS Score", "Highlight critical non-compliant practices"]
+            },
+            {
+                id: "scope",
+                title: "2. System Security Plan (SSP) Scope",
+                description: "Defines the boundary of the authorization. It must match the SSP exactly.",
+                keyPoints: ["Identify CUI assets", "Identify Security Protection Assets", "Document interconnections", "Verify network diagrams match reality"]
+            },
+            {
+                id: "poam",
+                title: "3. Plan of Action & Milestones (POA&M)",
+                description: "Details the specific findings that were not met and the remediation plan.",
+                keyPoints: ["Only 1-point and 3-point controls can be on a POA&M for Level 2 (conditional)", "5-point controls MUST be met for certification", "Timelines for remediation (usually 180 days)", "Resource requirements for fixes"]
+            },
+            {
+                id: "results",
+                title: "4. Assessment Results",
+                description: "Detailed breakdown of every practice assessed.",
+                keyPoints: ["MET: Practice is fully implemented", "NOT MET: Practice has deficiencies", "N/A: Practice does not apply (must be justified)", "Inherited: Practice provided by MSP/CSP"]
+            }
+        ];
+
+        const MOCK_CHART_DATA = [
+            { name: 'Access Control', score: 85 },
+            { name: 'Incident Response', score: 60 },
+            { name: 'Risk Mgmt', score: 40 },
+            { name: 'Audit/Acct', score: 90 },
+            { name: 'Sys/Comm', score: 70 },
+        ];
+
+        // --- STATE MANAGEMENT ---
+        const state = {
+            currentView: 'DASHBOARD',
+            sidebarOpen: false,
+            quiz: {
+                questions: [],
+                currentIndex: 0,
+                score: 0,
+                loading: false,
+                completed: false,
+                selectedOption: null
+            },
+            chat: {
+                history: [
+                     { role: 'model', text: "Greetings. I am Professor Cyber. I am here to assist you with understanding the intricacies of CMMC v2.0, specifically the Security Assessment Report (SAR) and NIST 800-171 requirements. What is your query?" }
+                ],
+                isTyping: false
+            },
+            sar: {
+                expandedId: 'exec-summary'
+            }
+        };
+
+        // --- SERVICES ---
+        const getAiClient = () => {
+            if (!API_KEY) {
+                console.error("API Key missing");
+                return null;
+            }
+            return new GoogleGenAI({ apiKey: API_KEY });
+        };
+
+        const geminiService = {
+            generateTutorResponse: async (history, newMessage) => {
+                const client = getAiClient();
+                if (!client) return "Error: API Key not configured.";
+                
+                try {
+                    // Format history for Gemini API
+                    const formattedHistory = history.map(h => ({
+                        role: h.role,
+                        parts: [{ text: h.text }]
+                    }));
+                    
+                    const chat = client.chats.create({
+                        model: 'gemini-2.5-flash',
+                        config: {
+                            systemInstruction: "You are 'Professor Cyber', a strict but encouraging cybersecurity expert specializing in CMMC v2.0, NIST 800-171, and the Security Assessment Report (SAR). Keep answers concise, professional, and focused on compliance.",
+                            temperature: 0.7,
+                        },
+                        history: formattedHistory
+                    });
+
+                    const result = await chat.sendMessage({ message: newMessage });
+                    return result.text;
+                } catch (error) {
+                    console.error("Tutor Error:", error);
+                    return "I apologize, but I could not contact the server. Please check your connection.";
+                }
+            },
+
+            generateQuiz: async (topic = "CMMC Level 2 SAR Requirements") => {
+                const client = getAiClient();
+                if (!client) throw new Error("No API Key");
+
+                try {
+                    const response = await client.models.generateContent({
+                        model: 'gemini-2.5-flash',
+                        contents: `Generate 5 difficult multiple-choice questions about ${topic}. Focus on SAR, POA&M limitations, and scoring.`,
+                        config: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: Type.ARRAY,
+                                items: {
+                                    type: Type.OBJECT,
+                                    properties: {
+                                        id: { type: Type.INTEGER },
+                                        question: { type: Type.STRING },
+                                        options: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                        correctAnswerIndex: { type: Type.INTEGER },
+                                        explanation: { type: Type.STRING }
+                                    },
+                                    required: ["id", "question", "options", "correctAnswerIndex", "explanation"]
+                                }
+                            }
+                        }
+                    });
+                    return JSON.parse(response.text);
+                } catch (error) {
+                    console.error("Quiz Error, using fallback:", error);
+                    return [{
+                        id: 1,
+                        question: "Which type of controls are strictly prohibited from being placed on a POA&M for CMMC Level 2 certification?",
+                        options: ["1-point controls (NIST 800-171 basic)", "3-point controls (CUI specific)", "5-point controls (Highest weighted)", "Inherited controls"],
+                        correctAnswerIndex: 2,
+                        explanation: "5-point controls must be fully implemented (MET) to achieve Level 2 certification."
+                    }];
+                }
+            }
+        };
+
+        // --- UI RENDERING ---
+        const ui = {
+            init: () => {
+                ui.renderSidebar();
+                ui.renderChart();
+                ui.renderSarAccordion();
+                ui.renderChatMessages(); // Initial welcome message
+                ui.updateView();
+                
+                // Listeners
+                document.getElementById('mobile-menu-btn').addEventListener('click', ui.toggleSidebar);
+                document.getElementById('close-sidebar-btn').addEventListener('click', ui.toggleSidebar);
+                document.getElementById('sidebar-overlay').addEventListener('click', ui.toggleSidebar);
+                
+                // Chat Listeners
+                document.getElementById('chat-send-btn').addEventListener('click', actions.sendChatMessage);
+                document.getElementById('chat-input').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        actions.sendChatMessage();
+                    }
+                });
+                document.getElementById('chat-input').addEventListener('input', (e) => {
+                    const btn = document.getElementById('chat-send-btn');
+                    if (e.target.value.trim()) {
+                        btn.disabled = false;
+                        btn.classList.remove('bg-cyber-800', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.add('bg-cyber-500', 'text-white', 'hover:bg-cyber-400', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]');
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add('bg-cyber-800', 'text-gray-500', 'cursor-not-allowed');
+                        btn.classList.remove('bg-cyber-500', 'text-white', 'hover:bg-cyber-400', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]');
+                    }
+                });
+                document.getElementById('chat-clear-btn').addEventListener('click', actions.clearChat);
+
+                // Quiz Listeners
+                document.getElementById('quiz-start-btn').addEventListener('click', actions.startQuiz);
+                document.getElementById('quiz-retry-btn').addEventListener('click', actions.startQuiz);
+                document.getElementById('quiz-next-btn').addEventListener('click', actions.nextQuestion);
+                
+                createIcons({ icons });
+            },
+
+            toggleSidebar: () => {
+                state.sidebarOpen = !state.sidebarOpen;
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                
+                if (state.sidebarOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            },
+
+            setView: (viewId) => {
+                state.currentView = viewId;
+                ui.updateView();
+                if (window.innerWidth < 1024 && state.sidebarOpen) ui.toggleSidebar();
+            },
+
+            updateView: () => {
+                // Update Nav Highlighting
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    const isActive = btn.dataset.view === state.currentView;
+                    if (isActive) {
+                        btn.className = 'nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 bg-cyber-500/20 text-cyber-400 border-l-4 border-cyber-500 cursor-pointer';
+                    } else {
+                        btn.className = 'nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-gray-400 hover:bg-cyber-800 hover:text-white cursor-pointer';
+                    }
+                });
+
+                // Show/Hide Sections
+                document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+                
+                if (state.currentView === 'DASHBOARD') document.getElementById('view-dashboard').classList.remove('hidden');
+                if (state.currentView === 'SAR_GUIDE') document.getElementById('view-sar').classList.remove('hidden');
+                if (state.currentView === 'QUIZ') document.getElementById('view-quiz').classList.remove('hidden');
+                if (state.currentView === 'TUTOR') {
+                    document.getElementById('view-tutor').classList.remove('hidden');
+                    ui.scrollToBottomChat();
+                }
+            },
+
+            renderSidebar: () => {
+                const navItems = [
+                    { id: 'DASHBOARD', label: 'Dashboard', icon: 'layout-dashboard' },
+                    { id: 'SAR_GUIDE', label: 'SAR Deep Dive', icon: 'book-open' },
+                    { id: 'QUIZ', label: 'Certification Quiz', icon: 'brain-circuit' },
+                    { id: 'TUTOR', label: 'Professor AI', icon: 'message-square' },
+                ];
+
+                const container = document.getElementById('nav-container');
+                container.innerHTML = navItems.map(item => `
+                    <button data-view="${item.id}" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-gray-400 hover:bg-cyber-800 hover:text-white">
+                        <i data-lucide="${item.icon}" class="w-5 h-5"></i>
+                        <span class="font-medium">${item.label}</span>
+                    </button>
+                `).join('');
+
+                // Bind clicks
+                container.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.addEventListener('click', () => ui.setView(btn.dataset.view));
+                });
+            },
+
+            renderChart: () => {
+                const container = document.getElementById('chart-container');
+                const maxScore = 100;
+                
+                container.innerHTML = MOCK_CHART_DATA.map((data, index) => {
+                    const isLow = data.score < 80;
+                    const colorClass = isLow ? 'bg-cyber-danger' : 'bg-cyber-500';
+                    return `
+                        <div class="flex flex-col items-center justify-end h-full group flex-1 cursor-default">
+                            <div class="relative w-full max-w-[60px] rounded-t-md ${colorClass} transition-all duration-500 hover:opacity-80" style="height: ${data.score}%">
+                                <div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 transform -translate-x-1/2 bg-cyber-900 text-white text-xs px-2 py-1 rounded border border-cyber-700 whitespace-nowrap z-10">
+                                    ${data.score}%
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-400 mt-2 truncate w-full text-center font-mono" title="${data.name}">${data.name.split(' ')[0]}</span>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            renderSarAccordion: () => {
+                const container = document.getElementById('sar-accordion');
+                container.innerHTML = SAR_SECTIONS.map(section => {
+                    const isExpanded = state.sar.expandedId === section.id;
+                    return `
+                        <div class="border rounded-xl transition-all duration-300 overflow-hidden ${isExpanded ? 'bg-cyber-800 border-cyber-500 shadow-[0_0_15px_rgba(59,130,246,0.15)]' : 'bg-cyber-800/50 border-cyber-700 hover:bg-cyber-800'}">
+                            <button onclick="window.toggleSarSection('${section.id}')" class="w-full flex items-center justify-between p-5 text-left">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${isExpanded ? 'bg-cyber-500 text-white' : 'bg-cyber-700 text-gray-400'}">
+                                        ${section.title.split('.')[0]}
+                                    </div>
+                                    <span class="text-lg font-semibold ${isExpanded ? 'text-white' : 'text-gray-300'}">
+                                        ${section.title.substring(section.title.indexOf(' ') + 1)}
+                                    </span>
+                                </div>
+                                <i data-lucide="${isExpanded ? 'chevron-up' : 'chevron-down'}" class="${isExpanded ? 'text-cyber-500' : 'text-gray-500'} w-5 h-5"></i>
+                            </button>
+                            
+                            <div class="${isExpanded ? 'block' : 'hidden'} px-5 pb-6 text-gray-300 animate-fadeIn">
+                                <p class="mb-4 border-l-2 border-cyber-500 pl-4 italic text-cyber-100">${section.description}</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div class="bg-cyber-900/50 p-4 rounded-lg border border-cyber-700/50">
+                                        <h4 class="text-sm font-bold text-cyber-400 mb-3 flex items-center gap-2">
+                                            <i data-lucide="info" class="w-4 h-4"></i> Critical Components
+                                        </h4>
+                                        <ul class="space-y-2 text-sm">
+                                            ${section.keyPoints.map(p => `<li class="flex items-start gap-2"><span class="text-cyber-500 mt-1">•</span>${p}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                    <div class="bg-cyber-900/50 p-4 rounded-lg border border-cyber-700/50 flex flex-col justify-center items-center text-center">
+                                        <i data-lucide="alert-circle" class="text-cyber-warning mb-2 w-8 h-8"></i>
+                                        <h4 class="text-sm font-bold text-white mb-1">Professor's Tip</h4>
+                                        <p class="text-xs text-gray-400">"Auditors look for consistency here. If your SAR findings don't align with your SSP description, you will face scrutiny. Ensure your diagrams are updated."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                createIcons({ icons }); // Refresh icons in accordion
+            },
+
+            renderChatMessages: () => {
+                const container = document.getElementById('chat-messages');
+                container.innerHTML = state.chat.history.map(msg => `
+                    <div class="flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}">
+                        <div class="max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-3 shadow-sm ${msg.role === 'user' ? 'bg-cyber-500 text-white rounded-br-none' : 'bg-cyber-700 text-gray-200 rounded-bl-none'}">
+                            <div class="prose prose-invert prose-sm max-w-none">
+                                ${msg.role === 'model' ? marked.parse(msg.text) : msg.text}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                if (state.chat.isTyping) {
+                    container.innerHTML += `
+                        <div class="flex justify-start">
+                            <div class="bg-cyber-700 rounded-2xl rounded-bl-none px-4 py-3 flex items-center gap-2">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                                <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                                <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                ui.scrollToBottomChat();
+            },
+
+            scrollToBottomChat: () => {
+                const container = document.getElementById('chat-messages');
+                container.scrollTop = container.scrollHeight;
+            },
+
+            renderQuizQuestion: () => {
+                const q = state.quiz.questions[state.quiz.currentIndex];
+                
+                document.getElementById('quiz-progress').innerText = `Question ${state.quiz.currentIndex + 1} of ${state.quiz.questions.length}`;
+                document.getElementById('quiz-score-display').innerText = `Score: ${state.quiz.score}`;
+                document.getElementById('quiz-question-text').innerText = q.question;
+                document.getElementById('quiz-explanation').classList.add('hidden');
+
+                const optionsContainer = document.getElementById('quiz-options');
+                optionsContainer.innerHTML = q.options.map((opt, idx) => `
+                    <button onclick="window.handleQuizOption(${idx})" id="opt-${idx}" class="w-full text-left p-4 rounded-lg border transition-all duration-200 flex items-center justify-between group bg-cyber-900/50 border-cyber-700 hover:bg-cyber-700 hover:border-cyber-500 text-gray-300">
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+            }
+        };
+
+        // --- ACTIONS ---
+        const actions = {
+            // SAR
+            toggleSarSection: (id) => {
+                state.sar.expandedId = state.sar.expandedId === id ? null : id;
+                ui.renderSarAccordion();
+            },
+
+            // Chat
+            sendChatMessage: async () => {
+                const input = document.getElementById('chat-input');
+                const text = input.value.trim();
+                if (!text) return;
+
+                input.value = '';
+                input.dispatchEvent(new Event('input')); // reset button state
+
+                // Add user message
+                state.chat.history.push({ role: 'user', text });
+                state.chat.isTyping = true;
+                ui.renderChatMessages();
+
+                // Fetch AI
+                const response = await geminiService.generateTutorResponse(state.chat.history.slice(0, -1), text); // send history excluding latest for pure context + new msg? Gemini wrapper handles history usually, but service expects history
+                
+                state.chat.history.push({ role: 'model', text: response });
+                state.chat.isTyping = false;
+                ui.renderChatMessages();
+            },
+
+            clearChat: () => {
+                state.chat.history = [{ role: 'model', text: "Chat cleared. How else may I assist you with your CMMC studies?" }];
+                ui.renderChatMessages();
+            },
+
+            // Quiz
+            startQuiz: async () => {
+                // Show Loading
+                document.getElementById('quiz-start').classList.add('hidden');
+                document.getElementById('quiz-results').classList.add('hidden');
+                document.getElementById('quiz-loading').classList.remove('hidden');
+                
+                state.quiz.questions = await geminiService.generateQuiz();
+                state.quiz.currentIndex = 0;
+                state.quiz.score = 0;
+                state.quiz.selectedOption = null;
+
+                document.getElementById('quiz-loading').classList.add('hidden');
+                document.getElementById('quiz-active').classList.remove('hidden');
+                
+                ui.renderQuizQuestion();
+            },
+
+            handleQuizOption: (idx) => {
+                if (state.quiz.selectedOption !== null) return;
+                
+                state.quiz.selectedOption = idx;
+                const q = state.quiz.questions[state.quiz.currentIndex];
+                const isCorrect = idx === q.correctAnswerIndex;
+
+                if (isCorrect) state.quiz.score++;
+
+                // Visual feedback
+                q.options.forEach((_, i) => {
+                    const el = document.getElementById(`opt-${i}`);
+                    el.disabled = true;
+                    if (i === q.correctAnswerIndex) {
+                        el.classList.remove('bg-cyber-900/50', 'border-cyber-700', 'text-gray-300');
+                        el.classList.add('bg-cyber-success/20', 'border-cyber-success', 'text-white');
+                        el.innerHTML += `<i data-lucide="check-circle" class="w-5 h-5 text-cyber-success"></i>`;
+                    } else if (i === idx && !isCorrect) {
+                        el.classList.remove('bg-cyber-900/50', 'border-cyber-700', 'text-gray-300');
+                        el.classList.add('bg-cyber-danger/20', 'border-cyber-danger', 'text-white');
+                        el.innerHTML += `<i data-lucide="x-circle" class="w-5 h-5 text-cyber-danger"></i>`;
+                    } else {
+                        el.classList.add('opacity-50');
+                    }
+                });
+                createIcons({ icons });
+
+                // Show explanation
+                document.getElementById('quiz-explanation').classList.remove('hidden');
+                document.getElementById('quiz-explanation-text').innerText = q.explanation;
+            },
+
+            nextQuestion: () => {
+                if (state.quiz.currentIndex < state.quiz.questions.length - 1) {
+                    state.quiz.currentIndex++;
+                    state.quiz.selectedOption = null;
+                    ui.renderQuizQuestion();
+                } else {
+                    // Finish
+                    document.getElementById('quiz-active').classList.add('hidden');
+                    document.getElementById('quiz-results').classList.remove('hidden');
+                    
+                    const pct = Math.round((state.quiz.score / state.quiz.questions.length) * 100);
+                    document.getElementById('quiz-final-score').innerText = `${pct}%`;
+                    document.getElementById('quiz-feedback').innerText = pct === 100 
+                        ? "Outstanding work! You are ready for C3PAO assessment." 
+                        : "Review the SAR documentation and try again.";
+                }
+            }
+        };
+
+        // Expose to window for HTML attributes
+        window.toggleSarSection = actions.toggleSarSection;
+        window.handleQuizOption = actions.handleQuizOption;
+
+        // Start App
+        ui.init();
+
+    </script>
+</body>
+</html>
