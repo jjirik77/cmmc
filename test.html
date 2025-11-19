@@ -27,13 +27,6 @@
         .prose strong { font-weight: 600; color: #0f172a; }
         .prose pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
     </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
-      }
-    }
-    </script>
 </head>
 <body class="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
 
@@ -267,9 +260,8 @@
         </div>
     </footer>
 
-    <script type="module">
-        import { GoogleGenAI } from "@google/genai";
-
+    <!-- 1. CORE LOGIC: Runs immediately, ensures UI works -->
+    <script>
         // --- DATA DEFINITIONS ---
         const SAR_DATA = [
             {
@@ -346,11 +338,13 @@
             }
         ];
 
+        // Global State
+        window.ai = null; // Will be set by module script
+        window.chatSession = null;
         let currentQuizIndex = 0;
-        let chatSession = null;
         const md = window.markdownit ? window.markdownit() : { render: (t) => t };
 
-        // --- INIT APP LOGIC (BEFORE API KEY) ---
+        // Core Application Object
         window.app = {
             switchTab: (tabId) => {
                 document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -453,8 +447,8 @@
             },
 
             generateAiQuestion: async () => {
-                if (!ai) {
-                    alert("AI features are currently unavailable (API Key missing).");
+                if (!window.ai) {
+                    alert("AI functionality is not available. Check your API key configuration.");
                     return;
                 }
                 const btn = document.getElementById('btn-ai-q');
@@ -462,7 +456,7 @@
                 btn.disabled = true;
 
                 try {
-                    const response = await ai.models.generateContent({
+                    const response = await window.ai.models.generateContent({
                         model: 'gemini-2.5-flash',
                         contents: `Generate a single multiple choice quiz question about CMMC v2.0 Security Assessment Report (SAR). 
                         Format it strictly as JSON: 
@@ -494,8 +488,8 @@
             },
 
             getChatSession: async () => {
-                if (!chatSession && ai) {
-                    chatSession = await ai.chats.create({
+                if (!window.chatSession && window.ai) {
+                    window.chatSession = await window.ai.chats.create({
                         model: 'gemini-2.5-flash',
                         config: {
                             systemInstruction: `You are Professor Cyber, a distinguished CMMC instructor. 
@@ -506,11 +500,11 @@
                         },
                     });
                 }
-                return chatSession;
+                return window.chatSession;
             },
 
             sendMessage: async () => {
-                if (!ai) {
+                if (!window.ai) {
                     const history = document.getElementById('chat-history');
                     history.innerHTML += `<div class="text-red-500 text-sm text-center p-2">AI features are unavailable. Please check API Key configuration.</div>`;
                     return;
@@ -578,24 +572,10 @@
             }
         };
 
-        // --- INITIALIZE UI IMMEDIATELY ---
+        // Initialize UI Logic Immediately
         app.renderSarList();
         app.viewSarSection('exec-summary');
         app.renderQuiz();
-
-        // --- GEMINI SETUP (SAFE LOADING) ---
-        let ai = null;
-        try {
-            // Safety check for process.env to prevent script crash in generic browser envs
-            const key = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : null;
-            if (key) {
-                ai = new GoogleGenAI({ apiKey: key });
-            } else {
-                console.warn("API Key not found in process.env. AI features disabled.");
-            }
-        } catch (err) {
-            console.error("Error initializing Gemini:", err);
-        }
 
         // Input Event Listeners
         const chatInput = document.getElementById('chat-input');
@@ -607,7 +587,41 @@
                 }
             });
         }
+    </script>
 
+    <!-- 2. IMPORT MAP -->
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+      }
+    }
+    </script>
+
+    <!-- 3. ASYNC AI MODULE -->
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
+
+        try {
+            // Safely access API Key
+            let key = null;
+            try {
+                if (typeof process !== 'undefined' && process.env) {
+                    key = process.env.API_KEY;
+                }
+            } catch (e) {
+                console.warn("Environment access prevented by browser policy.");
+            }
+
+            if (key) {
+                window.ai = new GoogleGenAI({ apiKey: key });
+                console.log("Gemini AI Initialized Successfully");
+            } else {
+                console.warn("API Key not found. AI features disabled.");
+            }
+        } catch (err) {
+            console.error("Error initializing Gemini Module:", err);
+        }
     </script>
 </body>
 </html>
