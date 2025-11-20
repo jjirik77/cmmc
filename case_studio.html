@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DefenseCore CMMC Auditor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+    }
+    /* Hide scrollbar for horizontal tab scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.292.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-type="module">
+    import React, { useState } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { 
+      ShieldAlert, 
+      Users, 
+      Laptop, 
+      Server, 
+      AlertTriangle, 
+      Share2, 
+      Globe, 
+      Shield, 
+      Wifi, 
+      Cloud, 
+      Box, 
+      AlertCircle, 
+      Cpu, 
+      FileText, 
+      HardDrive, 
+      FileWarning, 
+      Filter,
+      Search,
+      ArrowRight
+    } from 'lucide-react';
+
+    // --- CONSTANTS & DATA ---
+
+    const COMPANY_PROFILE = {
+      name: "DefenseCore Manufacturing Inc.",
+      description: "DefenseCore Manufacturing Inc. is a medium-sized defense contractor headquartered in El Paso, Texas (Simulated for Case Study). The company specializes in uniform and textile logistics services for the U.S. Army. Note: Detailed topology reflects the Raleigh/Indy/FW/Huntsville architecture.",
+      employees: 80,
+      workstations: 65,
+      servers: 32,
+      sites: 4,
+      cmmcTarget: "Level 2"
+    };
+
+    const FACILITIES = [
+      {
+        name: "Raleigh Data Center",
+        location: "Raleigh, NC",
+        isp: "Spectrum Business Fiber (500/500)",
+        connectionType: "Hub (VPN Concentrator)",
+        vlans: [
+          { id: "10", name: "Server Infrastructure", cidr: "10.50.10.0/24", description: "Core Servers" },
+          { id: "20", name: "Engineering", cidr: "10.50.20.0/23", description: "CAD Workstations" },
+          { id: "30", name: "Admin/Office", cidr: "10.50.30.0/23", description: "General Staff" },
+          { id: "40", name: "Manufacturing", cidr: "10.50.40.0/24", description: "Shop Floor" },
+          { id: "50", name: "Guest", cidr: "10.50.50.0/24", description: "Visitor Access" },
+          { id: "99", name: "Network Mgmt", cidr: "10.50.99.0/28", description: "Mgmt" },
+        ]
+      },
+      {
+        name: "Indianapolis HQ",
+        location: "Indianapolis, IN",
+        isp: "AT&T Business Fiber (250/250)",
+        connectionType: "Spoke (VPN to Raleigh)",
+        vlans: [
+          { id: "110", name: "Server Infrastructure", cidr: "10.51.10.0/26", description: "Local Infra" },
+          { id: "120", name: "Admin/Office", cidr: "10.51.20.0/24", description: "HQ Staff" },
+          { id: "150", name: "Guest", cidr: "10.51.50.0/25", description: "Visitor Access" },
+        ]
+      },
+      {
+        name: "Fort Worth Facility",
+        location: "Fort Worth, TX",
+        isp: "Comcast Business (250/35)",
+        connectionType: "Spoke (VPN to Raleigh)",
+        vlans: [
+          { id: "210", name: "Server Infrastructure", cidr: "10.52.10.0/26", description: "Local Infra" },
+          { id: "220", name: "Engineering", cidr: "10.52.20.0/25", description: "Regional Eng" },
+          { id: "240", name: "Manufacturing", cidr: "10.52.40.0/24", description: "Shop Floor" },
+        ]
+      },
+      {
+        name: "Huntsville Facility",
+        location: "Huntsville, AL",
+        isp: "Charter Business (250/20)",
+        connectionType: "Spoke (VPN to Raleigh)",
+        vlans: [
+          { id: "310", name: "Server Infrastructure", cidr: "10.53.10.0/26", description: "Local Infra" },
+          { id: "320", name: "Engineering", cidr: "10.53.20.0/25", description: "Regional Eng" },
+          { id: "340", name: "Manufacturing", cidr: "10.53.40.0/24", description: "Shop Floor" },
+        ]
+      }
+    ];
+
+    const SERVER_RACKS = [
+      {
+        name: "ESXi Host 1",
+        model: "Dell PowerEdge R750",
+        role: "Core Services",
+        vms: [
+          { name: "DC01", role: "Domain Controller", specs: "4 vCPU, 8GB RAM" },
+          { name: "FILE01", role: "File Server", specs: "8 vCPU, 32GB RAM" },
+          { name: "SQL01", role: "Database", specs: "16 vCPU, 64GB RAM" }
+        ]
+      },
+      {
+        name: "ESXi Host 2",
+        model: "Dell PowerEdge R750",
+        role: "Core Services",
+        vms: [
+          { name: "DC02", role: "Domain Controller", specs: "4 vCPU, 8GB RAM" },
+          { name: "FILE02", role: "File Server", specs: "8 vCPU, 32GB RAM" },
+          { name: "SQL02", role: "Database", specs: "16 vCPU, 64GB RAM" }
+        ]
+      },
+      {
+        name: "ESXi Host 3",
+        model: "Dell PowerEdge R750",
+        role: "Business Apps",
+        vms: [
+          { name: "APP01", role: "Epicor ERP", specs: "12 vCPU, 48GB RAM" },
+          { name: "PLM01", role: "Teamcenter PLM", specs: "8 vCPU, 32GB RAM" }
+        ]
+      },
+      {
+        name: "ESXi Host 4",
+        model: "Dell PowerEdge R750",
+        role: "Apps & Patching",
+        vms: [
+          { name: "APP02", role: "Epicor ERP", specs: "12 vCPU, 48GB RAM" },
+          { name: "WSUS01", role: "Patch Mgmt", specs: "4 vCPU, 8GB RAM" }
+        ]
+      },
+      {
+        name: "ESXi Host 5",
+        model: "Dell PowerEdge R750",
+        role: "Ops & Mgmt",
+        vms: [
+          { name: "BACKUP01", role: "Veeam", specs: "8 vCPU, 32GB RAM" },
+          { name: "MONITOR01", role: "SolarWinds", specs: "8 vCPU, 16GB RAM" }
+        ]
+      }
+    ];
+
+    const AWS_ASSETS = [
+      { type: "VPC", name: "vpc-0a1b2c3d4e5f6g7h8", details: "10.100.0.0/16 (us-east-1)", status: "Secure" },
+      { type: "EC2", name: "Web Tier", details: "EC2-WEB01, WEB02 (Public Subnets)", status: "Secure" },
+      { type: "EC2", name: "App Tier", details: "EC2-APP01 - APP04 (Private Subnets)", status: "Secure" },
+      { type: "RDS", name: "RDS-PROD01", details: "PostgreSQL 14.7 (Multi-AZ)", status: "Secure" },
+      { type: "S3", name: "defensecore-cui-documents", details: "2.1 TB, SSE-S3, Logging DISABLED", status: "Critical" },
+      { type: "S3", name: "defensecore-application-logs", details: "0.6 TB, Logging DISABLED", status: "Risk" },
+    ];
+
+    const MANUFACTURING_EQUIPMENT = [
+      { id: "CNC-HAAS-01..12", ip: "10.50.40.101-112", type: "CNC Mill", os: "Windows 7 (Embedded)", risk: "High" },
+      { id: "CNC-MAZAK-01..08", ip: "10.50.40.121-128", type: "CNC Lathe", os: "Proprietary", risk: "Medium" },
+      { id: "CMM-HEXAGON-01..03", ip: "10.50.40.141-143", type: "Inspection", os: "Windows 10", risk: "Low" },
+      { id: "PRINTER-ZT600-01..09", ip: "10.50.40.151-159", type: "Label Printer", os: "Firmware", risk: "Low" }
+    ];
+
+    const FIREWALL_RULES = [
+      { id: "FW-01", source: "VPN (Any)", destination: "Firewall", service: "UDP 500, 4500", action: "ALLOW", note: "IPSec VPN" },
+      { id: "FW-03", source: "Any", destination: "10.50.10.50 (DMZ)", service: "HTTPS (443)", action: "ALLOW", note: "Stale Rule (Server Decommissioned)" },
+      { id: "FW-04", source: "Any", destination: "Internal", service: "Any", action: "DENY", note: "Implicit Deny" },
+      { id: "INT-01", source: "Engineering", destination: "Internet", service: "HTTP, HTTPS, DNS, FTP", action: "ALLOW", note: "Insecure Protocol (FTP) Allowed" },
+      { id: "INT-02", source: "Manufacturing", destination: "Engineering", service: "Any", action: "DENY", note: "Segmentation Enforced" },
+      { id: "INT-03", source: "Guest", destination: "Internal", service: "Any", action: "DENY", note: "Guest Isolation" },
+      { id: "VPN-01", source: "VPN Users", destination: "Server VLAN", service: "Any", action: "ALLOW", note: "Broad Access Risk" },
+      { id: "VPN-02", source: "VPN Users", destination: "IT Mgmt", service: "Any", action: "DENY", note: "IT Staff Exception" },
+    ];
+
+    const PAST_AUDIT_FINDINGS = [
+      { id: "AUD-2023-001", date: "2023-10-15", category: "Configuration", severity: "High", description: "CNC machines running Windows 7 (End of Life) without extended support.", status: "Open" },
+      { id: "AUD-2023-002", date: "2023-10-15", category: "Access Control", severity: "High", description: "Guest network WPA2-PSK password shared widely and rarely changed.", status: "Open" },
+      { id: "AUD-2023-003", date: "2023-10-18", category: "Access Control", severity: "High", description: "17% of VPN users do not have MFA enabled (Legacy exemptions).", status: "Remediation In Progress" },
+      { id: "AUD-2023-004", date: "2023-10-18", category: "Configuration", severity: "High", description: "S3 Access Logging disabled for CUI and Application Log buckets.", status: "Open" },
+      { id: "AUD-2023-005", date: "2023-10-20", category: "Network", severity: "Medium", description: "FTP allowed outbound for Engineering VLAN (Insecure Protocol).", status: "Open" },
+      { id: "AUD-2023-006", date: "2023-10-20", category: "System Integrity", severity: "Medium", description: "No endpoint logs collected from workstations; No DNS query logging.", status: "Open" },
+      { id: "AUD-2023-007", date: "2023-10-22", category: "Access Control", severity: "Medium", description: "Vendor TeamViewer access to manufacturing equipment is configured as always-on.", status: "Open" },
+      { id: "AUD-2023-008", date: "2023-10-25", category: "Configuration", severity: "Low", description: "Wireless heat maps and CUI data flow diagrams missing from documentation.", status: "Open" },
+      { id: "AUD-2023-009", date: "2023-10-25", category: "Network", severity: "Medium", description: "Stale firewall rule allows HTTPS to decommissioned DMZ server.", status: "Open" },
+      { id: "AUD-2023-010", date: "2023-11-01", category: "Configuration", severity: "High", description: "No DLP solution to prevent CUI exfiltration; USB ports not disabled.", status: "Open" },
+      { id: "AUD-2023-011", date: "2023-11-01", category: "Configuration", severity: "Medium", description: "No automated compliance checking; Configuration change approval is informal.", status: "Open" },
+      { id: "AUD-2023-012", date: "2023-11-02", category: "Physical", severity: "Medium", description: "Backup testing not performed regularly (last test: 8 months ago).", status: "Open" },
+    ];
+
+    const EMPLOYEES = [
+      { id: "EMP-101", name: "Robert Chen", title: "Chief Executive Officer", dept: "Executive", location: "Indianapolis, IN", email: "r.chen@defensecore.com" },
+      { id: "EMP-102", name: "Amanda Richardson", title: "Chief Financial Officer", dept: "Finance", location: "Indianapolis, IN", email: "a.richardson@defensecore.com" },
+      { id: "EMP-103", name: "Sarah Miller", title: "Facility Security Officer (FSO)", dept: "Security", location: "Raleigh, NC", email: "s.miller@defensecore.com" },
+      { id: "EMP-104", name: "James Wilson", title: "IT Director", dept: "Information Technology", location: "Raleigh, NC", email: "j.wilson@defensecore.com" },
+      { id: "EMP-105", name: "Michael Chang", title: "Sr. Network Administrator", dept: "Information Technology", location: "Raleigh, NC", email: "m.chang@defensecore.com" },
+      { id: "EMP-106", name: "Emily Davis", title: "HR Manager", dept: "Human Resources", location: "Indianapolis, IN", email: "e.davis@defensecore.com" },
+      { id: "EMP-107", name: "David Martinez", title: "VP of Operations", dept: "Operations", location: "Fort Worth, TX", email: "d.martinez@defensecore.com" },
+      { id: "EMP-108", name: "Jennifer Wu", title: "Lead Systems Engineer", dept: "Engineering", location: "Raleigh, NC", email: "j.wu@defensecore.com" },
+      { id: "EMP-109", name: "Thomas Brown", title: "Manufacturing Supervisor", dept: "Manufacturing", location: "Raleigh, NC", email: "t.brown@defensecore.com" },
+      { id: "EMP-110", name: "Jessica Taylor", title: "Systems Administrator", dept: "Information Technology", location: "Indianapolis, IN", email: "j.taylor@defensecore.com" },
+      { id: "EMP-111", name: "William Anderson", title: "Quality Assurance Manager", dept: "Quality", location: "Huntsville, AL", email: "w.anderson@defensecore.com" },
+      { id: "EMP-112", name: "Elizabeth Thomas", title: "Contracts Manager", dept: "Legal", location: "Indianapolis, IN", email: "e.thomas@defensecore.com" },
+      { id: "EMP-113", name: "Richard Jackson", title: "Senior CAD Engineer", dept: "Engineering", location: "Fort Worth, TX", email: "r.jackson@defensecore.com" },
+      { id: "EMP-114", name: "Patricia White", title: "Office Administrator", dept: "Administration", location: "Raleigh, NC", email: "p.white@defensecore.com" },
+      { id: "EMP-115", name: "Joseph Harris", title: "Logistics Coordinator", dept: "Supply Chain", location: "Huntsville, AL", email: "j.harris@defensecore.com" },
+      { id: "EMP-116", name: "Karen Lewis", title: "Accounts Payable", dept: "Finance", location: "Indianapolis, IN", email: "k.lewis@defensecore.com" },
+      { id: "EMP-117", name: "Steven Clark", title: "Machine Operator Lead", dept: "Manufacturing", location: "Fort Worth, TX", email: "s.clark@defensecore.com" },
+      { id: "EMP-118", name: "Nancy Hall", title: "IT Support Specialist", dept: "Information Technology", location: "Huntsville, AL", email: "n.hall@defensecore.com" },
+      { id: "EMP-119", name: "Daniel Young", title: "Security Analyst", dept: "Security", location: "Raleigh, NC", email: "d.young@defensecore.com" },
+      { id: "EMP-120", name: "Lisa King", title: "Procurement Specialist", dept: "Supply Chain", location: "Indianapolis, IN", email: "l.king@defensecore.com" }
+    ];
+
+    const CUI_FLOWS = [
+      {
+        name: "Engineering CUI",
+        steps: [
+          "Engineer creates CAD file on Workstation (VLAN 20)",
+          "Data stored on PLM01 Server (VLAN 10)",
+          "Metadata stored in SQL01 Database",
+          "Archives pushed to AWS S3 'defensecore-cui-documents'"
+        ],
+        risks: ["S3 Access Logging Disabled", "FTP Outbound Allowed"]
+      },
+      {
+        name: "Contract Data",
+        steps: [
+          "Admin receives contract on Workstation (VLAN 30)",
+          "Stored on SharePoint Server (FILE02)",
+          "Synced to SharePoint Online (O365)"
+        ],
+        risks: ["Encryption to O365 not verified", "Local drive storage violations"]
+      },
+      {
+        name: "Quality Docs",
+        steps: [
+          "Quality Inspector inputs data to MasterControl (SaaS)",
+          "Local copies saved to FILE02",
+          "Reports generated in ERP (APP01)"
+        ],
+        risks: ["DLP solution missing", "SaaS data sovereignty verification"]
+      }
+    ];
+
+    const OPS_STATS = [
+      { label: "Backup RPO", value: "24 Hours", status: "Good" },
+      { label: "Backup Testing", value: "8 Months Ago", status: "Critical" },
+      { label: "Disaster Recovery", value: "No DR Site", status: "Critical" },
+      { label: "Change Mgmt", value: "Informal", status: "Warning" },
+      { label: "Log Retention", value: "90 Days", status: "Good" },
+      { label: "Patching", value: "Manual (WSUS)", status: "Warning" },
+    ];
+
+    // --- COMPONENTS ---
+
+    const Header = () => {
+      return (
+        <div className="bg-slate-800 text-white pt-6 pb-10 shadow-lg relative z-10">
+          <div className="container mx-auto px-6">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-600 rounded-lg">
+                  <ShieldAlert className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold tracking-tight">DefenseCore</h1>
+                  <p className="text-slate-400 text-sm font-medium uppercase tracking-wider">Manufacturing Inc.</p>
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold mb-2">CMMC 2.0 Training Case Study</h2>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const StatCard = ({ title, value, subtext, icon, alert }) => {
+      return (
+        <div className={`bg-white p-6 rounded-xl shadow-sm border-l-4 ${alert ? 'border-red-500' : 'border-blue-500'} hover:shadow-md transition-shadow`}>
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mb-1">{title}</p>
+              <h3 className={`text-4xl font-bold ${alert ? 'text-red-600' : 'text-slate-800'}`}>{value}</h3>
+              {subtext && <p className="text-slate-400 text-sm mt-2">{subtext}</p>}
+            </div>
+            {icon && <div className="text-slate-300">{icon}</div>}
+          </div>
+        </div>
+      );
+    };
+
+    const Overview = ({ setTab }) => {
+      const highRiskCount = PAST_AUDIT_FINDINGS.filter(g => g.severity === 'High').length;
+
+      return (
+        <div className="space-y-8">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg">
+            <h2 className="text-2xl font-bold mb-2">Defense Contractor Profile</h2>
+            <p className="leading-relaxed opacity-90 max-w-4xl">
+              {COMPANY_PROFILE.description}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4 justify-between items-end">
+              <div className="flex gap-4 text-sm bg-white/10 w-fit px-4 py-2 rounded-lg">
+                <span className="font-semibold">Headquarters:</span> Indianapolis, IN
+                <span className="mx-2">|</span>
+                <span className="font-semibold">Primary Data Center:</span> Raleigh, NC
+              </div>
+              <button 
+                onClick={() => setTab('directory')}
+                className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors flex items-center gap-2"
+              >
+                <Users className="w-4 h-4" />
+                View Employee Directory
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard 
+              title="Total Employees" 
+              value={COMPANY_PROFILE.employees} 
+              subtext="Across 4 locations" 
+              icon={<Users className="w-8 h-8" />} 
+            />
+            <StatCard 
+              title="Workstations" 
+              value={COMPANY_PROFILE.workstations} 
+              subtext="Approximate Count" 
+              icon={<Laptop className="w-8 h-8" />} 
+            />
+            <StatCard 
+              title="Servers" 
+              value={COMPANY_PROFILE.servers} 
+              subtext="Physical & Virtual" 
+              icon={<Server className="w-8 h-8" />} 
+            />
+            <StatCard 
+              title="Critical Risks" 
+              value={highRiskCount} 
+              subtext="Identified Gaps" 
+              alert={true}
+              icon={<AlertTriangle className="w-8 h-8 text-red-400" />} 
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+                <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Infrastructure Highlights</h3>
+                <ul className="space-y-3 text-slate-600 text-sm">
+                    <li className="flex items-start gap-2">
+                        <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-bold mt-0.5">SECURE</span>
+                        Segmented network with VLANs for Engineering, Admin, and Guest traffic.
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-bold mt-0.5">CLOUD</span>
+                        Hybrid environment utilizing AWS (US-East-1) for storage and web tier.
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded font-bold mt-0.5">RISK</span>
+                        Manufacturing floor utilizes legacy OS (Windows 7) on CNC machines.
+                    </li>
+                    <li className="flex items-start gap-2">
+                        <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded font-bold mt-0.5">GAP</span>
+                        Incomplete documentation regarding CUI data flows and wireless heat maps.
+                    </li>
+                </ul>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+                 <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Audit Focus Areas</h3>
+                 <p className="text-slate-600 text-sm mb-4">
+                     Students should focus their audit on the following high-priority domains based on initial reconnaissance:
+                 </p>
+                 <div className="flex flex-wrap gap-2">
+                     <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold">Asset Inventory</span>
+                     <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold">Configuration Management Plan</span>
+                     <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold">Vulnerability Management Plan</span>
+                     <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-semibold">Security Assessment Report</span>
+                 </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const NetworkArchitecture = () => {
+      return (
+        <div className="space-y-8">
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Share2 className="w-5 h-5 text-blue-600" />
+                Network Topology & Segmentation (VLANs)
+            </h3>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {FACILITIES.map((facility, idx) => (
+                <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden">
+                  <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h4 className="font-bold text-slate-700">{facility.name}</h4>
+                        <p className="text-xs text-slate-500">{facility.connectionType}</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs bg-white px-2 py-1 rounded border">
+                        <Globe className="w-3 h-3 text-slate-400" />
+                        {facility.isp}
+                    </div>
+                  </div>
+                  
+                  <div className="p-4">
+                    <table className="w-full text-sm text-left text-slate-600">
+                        <thead className="text-xs text-slate-400 uppercase bg-slate-50">
+                            <tr>
+                                <th className="px-2 py-2">ID</th>
+                                <th className="px-2 py-2">Segment</th>
+                                <th className="px-2 py-2">CIDR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {facility.vlans.map((vlan) => (
+                                <tr key={vlan.id} className="border-b border-slate-100 hover:bg-slate-50">
+                                    <td className="px-2 py-2 font-mono text-xs text-slate-500">{vlan.id}</td>
+                                    <td className="px-2 py-2 font-medium">
+                                        {vlan.name}
+                                        {vlan.name.includes("Manufacturing") && <span className="ml-2 inline-block w-2 h-2 bg-red-400 rounded-full" title="High Risk Zone"></span>}
+                                        {vlan.name.includes("Engineering") && <span className="ml-2 inline-block w-2 h-2 bg-blue-400 rounded-full" title="CUI Zone"></span>}
+                                    </td>
+                                    <td className="px-2 py-2 font-mono text-xs">{vlan.cidr}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+           <div className="bg-white p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-blue-600" />
+                Firewall Access Control Lists (Raleigh Edge)
+            </h3>
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-600">
+                    <thead className="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th className="px-4 py-3">ID</th>
+                            <th className="px-4 py-3">Source</th>
+                            <th className="px-4 py-3">Destination</th>
+                            <th className="px-4 py-3">Service</th>
+                            <th className="px-4 py-3">Action</th>
+                            <th className="px-4 py-3">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {FIREWALL_RULES.map((rule) => (
+                           <tr key={rule.id} className="border-b hover:bg-slate-50">
+                            <td className="px-4 py-3 font-mono text-xs">{rule.id}</td>
+                            <td className="px-4 py-3">{rule.source}</td>
+                            <td className="px-4 py-3">{rule.destination}</td>
+                            <td className="px-4 py-3 font-mono text-xs">{rule.service}</td>
+                            <td className={`px-4 py-3 font-bold ${rule.action === 'ALLOW' ? 'text-green-600' : 'text-red-600'}`}>{rule.action}</td>
+                            <td className="px-4 py-3 text-xs italic text-slate-500 flex items-center gap-1">
+                              {rule.note && rule.note.includes("Risk") ? <AlertTriangle className="w-3 h-3 text-orange-500" /> : null}
+                              {rule.note && rule.note.includes("Stale") ? <AlertTriangle className="w-3 h-3 text-orange-500" /> : null}
+                              {rule.note}
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <Wifi className="w-5 h-5 text-blue-600" />
+                Wireless Configuration (SSIDs)
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="font-bold text-slate-700 mb-1">DefenseCore-Corporate</div>
+                    <div className="text-xs text-green-600 font-semibold mb-2">SECURE (802.1X)</div>
+                    <ul className="text-sm text-slate-600 list-disc list-inside">
+                      <li>Auth: AD + RADIUS</li>
+                      <li>Encryption: AES-CCMP</li>
+                      <li>VLAN: Dynamic</li>
+                    </ul>
+                </div>
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="font-bold text-slate-700 mb-1">DefenseCore-Manufacturing</div>
+                    <div className="text-xs text-orange-500 font-semibold mb-2">RISK (WPA2-PSK)</div>
+                    <ul className="text-sm text-slate-600 list-disc list-inside">
+                      <li>Key Rotated: Quarterly</li>
+                      <li>Coverage: Shop Floor</li>
+                      <li>No individual auth</li>
+                    </ul>
+                </div>
+                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="font-bold text-slate-700 mb-1">DefenseCore-Guest</div>
+                    <div className="text-xs text-red-500 font-semibold mb-2">CRITICAL (Weak PSK)</div>
+                     <ul className="text-sm text-slate-600 list-disc list-inside">
+                      <li>Bandwidth Limit: 10Mbps</li>
+                      <li>Client Isolation: <span className="text-red-600 font-bold">DISABLED</span></li>
+                      <li>Password: Shared widely</li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Infrastructure = () => {
+      return (
+        <div className="space-y-8">
+          
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <Server className="w-5 h-5 text-blue-600" />
+                    Raleigh Data Center Infrastructure
+                </h3>
+                <span className="text-sm text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Virtualization: VMware ESXi</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {SERVER_RACKS.map((host, idx) => (
+                    <div key={idx} className="border border-slate-200 rounded-lg p-4 bg-slate-50 relative">
+                        <div className="flex justify-between items-start mb-4">
+                            <div>
+                                 <h4 className="font-bold text-slate-700">{host.name}</h4>
+                                 <p className="text-xs text-slate-500">{host.model}</p>
+                            </div>
+                            <Cpu className="w-4 h-4 text-slate-400" />
+                        </div>
+                        <div className="space-y-2">
+                            {host.vms.map((vm, vidx) => (
+                                <div key={vidx} className="bg-white p-2 rounded border border-slate-200 text-sm shadow-sm">
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-blue-700">{vm.name}</span>
+                                        <span className="text-xs text-slate-500 bg-slate-100 px-1 rounded">{vm.role}</span>
+                                    </div>
+                                    <div className="text-xs text-slate-500 mt-1">{vm.specs}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+             <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Box className="w-5 h-5 text-orange-600" />
+                Operational Technology (OT) Assets
+            </h3>
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                    <thead className="bg-slate-100 text-slate-700 uppercase text-xs">
+                        <tr>
+                            <th className="px-4 py-3">Asset ID</th>
+                            <th className="px-4 py-3">IP Range</th>
+                            <th className="px-4 py-3">Type</th>
+                            <th className="px-4 py-3">Operating System</th>
+                            <th className="px-4 py-3">Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MANUFACTURING_EQUIPMENT.map((item) => (
+                            <tr key={item.id} className="border-b hover:bg-slate-50">
+                                <td className="px-4 py-3 font-medium">{item.id}</td>
+                                <td className="px-4 py-3 font-mono text-xs">{item.ip}</td>
+                                <td className="px-4 py-3">{item.type}</td>
+                                <td className="px-4 py-3">
+                                    {item.os}
+                                    {item.os.includes("Windows 7") && <span className="ml-2 text-red-500 font-bold text-xs">(EOL)</span>}
+                                </td>
+                                <td className="px-4 py-3">
+                                    <span className={`px-2 py-1 rounded text-xs font-bold ${
+                                        item.risk === 'High' ? 'bg-red-100 text-red-700' :
+                                        item.risk === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                        'bg-green-100 text-green-700'
+                                    }`}>
+                                        {item.risk}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <Cloud className="w-5 h-5 text-indigo-600" />
+                AWS Cloud Environment (us-east-1)
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {AWS_ASSETS.map((asset, idx) => (
+                    <div key={idx} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="font-bold text-slate-700">{asset.name}</span>
+                            <span className="text-xs font-mono bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">{asset.type}</span>
+                        </div>
+                        <p className="text-sm text-slate-600 mb-3">{asset.details}</p>
+                        
+                        {asset.status === 'Critical' || asset.status === 'Risk' ? (
+                            <div className="flex items-center gap-2 text-xs text-red-600 bg-red-50 p-2 rounded">
+                                <AlertCircle className="w-3 h-3" />
+                                {asset.status === 'Critical' ? 'Critical Config Gap' : 'Security Risk'}
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 p-2 rounded">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                Configuration Verified
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Operations = () => {
+      return (
+        <div className="space-y-8">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {OPS_STATS.map((stat, idx) => (
+               <div key={idx} className={`p-4 rounded-lg border ${
+                   stat.status === 'Good' ? 'bg-green-50 border-green-200' : 
+                   stat.status === 'Warning' ? 'bg-yellow-50 border-yellow-200' : 
+                   'bg-red-50 border-red-200'
+               }`}>
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">{stat.label}</p>
+                  <p className="text-xl font-bold text-slate-800">{stat.value}</p>
+               </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+                <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-blue-600" />
+                    Controlled Unclassified Information (CUI) Flows
+                </h3>
+                <div className="space-y-6">
+                    {CUI_FLOWS.map((flow, idx) => (
+                        <div key={idx} className="border border-slate-200 rounded-lg p-5">
+                            <h4 className="font-bold text-lg text-slate-800 mb-3 pb-2 border-b border-slate-100">{flow.name}</h4>
+                            
+                            <div className="mb-4">
+                                <div className="space-y-2">
+                                    {flow.steps.map((step, sIdx) => (
+                                        <div key={sIdx} className="flex items-start gap-3 text-sm text-slate-600">
+                                            <div className="mt-1 min-w-[20px] h-5 flex items-center justify-center rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+                                                {sIdx + 1}
+                                            </div>
+                                            {step}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div className="bg-red-50 p-3 rounded border border-red-100">
+                                <h5 className="text-xs uppercase text-red-700 font-bold mb-1">Identified Risks</h5>
+                                <ul className="list-disc list-inside text-sm text-red-600">
+                                    {flow.risks.map((risk, rIdx) => (
+                                        <li key={rIdx}>{risk}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="space-y-8">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <HardDrive className="w-5 h-5 text-blue-600" />
+                        Backup & Disaster Recovery
+                    </h3>
+                    <div className="space-y-3 text-sm text-slate-600">
+                        <p><span className="font-bold text-slate-800">System:</span> Veeam Backup & Replication 12</p>
+                        <p><span className="font-bold text-slate-800">Schedule:</span> Daily Incremental, Weekly Full</p>
+                        <p><span className="font-bold text-slate-800">Storage:</span> 30 days on disk, Monthly LTO-8 Tape (Off-site)</p>
+                        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                             <h5 className="font-bold text-yellow-800 mb-1">Deficiencies</h5>
+                             <ul className="list-disc list-inside text-yellow-700">
+                                <li>No Cloud Backup configured</li>
+                                <li>DR Site not established</li>
+                                <li>Last Restore Test: 8 months ago</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                     <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Users className="w-5 h-5 text-blue-600" />
+                        Remote Access (VPN)
+                    </h3>
+                    <div className="space-y-2 text-sm text-slate-600">
+                        <p><span className="font-bold text-slate-800">Tech:</span> Fortinet SSL VPN</p>
+                        <p><span className="font-bold text-slate-800">Concurrent Users:</span> ~50</p>
+                        <p><span className="font-bold text-slate-800">Authentication:</span> AD + Duo MFA (63% adoption)</p>
+                        <p><span className="font-bold text-slate-800">Configuration:</span> Split Tunnel Enabled</p>
+                    </div>
+                </div>
+
+                 <div className="bg-white p-6 rounded-xl shadow-sm">
+                     <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-blue-600" />
+                        Security Tooling
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="p-2 bg-slate-50 rounded">
+                            <div className="font-bold text-slate-700">SolarWinds</div>
+                            <div className="text-xs text-slate-500">Network Performance Monitor</div>
+                        </div>
+                        <div className="p-2 bg-slate-50 rounded">
+                            <div className="font-bold text-slate-700">WSUS</div>
+                            <div className="text-xs text-slate-500">Patch Management</div>
+                        </div>
+                        <div className="p-2 bg-slate-50 rounded">
+                            <div className="font-bold text-slate-700">FortiGate</div>
+                            <div className="text-xs text-slate-500">Perimeter Firewall</div>
+                        </div>
+                        <div className="p-2 bg-slate-50 rounded opacity-50 border border-dashed">
+                            <div className="font-bold text-slate-400">SIEM/DLP</div>
+                            <div className="text-xs text-slate-400">Not Implemented</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Compliance = () => {
+      const [filter, setFilter] = useState('All');
+
+      const categories = ['All', ...Array.from(new Set(PAST_AUDIT_FINDINGS.map(f => f.category)))];
+      
+      const filteredFindings = filter === 'All' 
+        ? PAST_AUDIT_FINDINGS 
+        : PAST_AUDIT_FINDINGS.filter(f => f.category === filter);
+
+      return (
+        <div className="space-y-8">
+          
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <FileWarning className="w-6 h-6 text-blue-600" />
+                        Past Audit Findings & Vulnerability Ledger
+                    </h3>
+                    <p className="text-sm text-slate-500 mt-1">
+                        Reference these historical findings to populate the SAR (Security Assessment Report) and VAR (Vulnerability Assessment Report).
+                    </p>
+                </div>
+                
+                <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-lg border border-slate-200">
+                    <Filter className="w-4 h-4 text-slate-400 ml-2" />
+                    <select 
+                        value={filter} 
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="bg-transparent text-sm font-medium text-slate-700 focus:outline-none p-1"
+                    >
+                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                </div>
+             </div>
+
+             <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-slate-600">
+                    <thead className="text-xs text-slate-700 uppercase bg-slate-100 border-b border-slate-200">
+                        <tr>
+                            <th className="px-4 py-3">Finding ID</th>
+                            <th className="px-4 py-3">Date Detected</th>
+                            <th className="px-4 py-3">Category</th>
+                            <th className="px-4 py-3">Severity</th>
+                            <th className="px-4 py-3">Description</th>
+                            <th className="px-4 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredFindings.map((finding) => (
+                            <tr key={finding.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                <td className="px-4 py-3 font-mono text-xs font-bold text-slate-500">{finding.id}</td>
+                                <td className="px-4 py-3 whitespace-nowrap">{finding.date}</td>
+                                <td className="px-4 py-3">
+                                    <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-medium">
+                                        {finding.category}
+                                    </span>
+                                </td>
+                                <td className="px-4 py-3">
+                                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${
+                                        finding.severity === 'High' ? 'bg-red-100 text-red-700' :
+                                        finding.severity === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                        'bg-blue-100 text-blue-700'
+                                    }`}>
+                                        {finding.severity}
+                                    </span>
+                                </td>
+                                <td className="px-4 py-3 max-w-md">{finding.description}</td>
+                                <td className="px-4 py-3">
+                                    <span className={`flex items-center gap-1 font-medium ${
+                                        finding.status === 'Open' ? 'text-red-600' : 'text-orange-600'
+                                    }`}>
+                                        {finding.status === 'Open' && <AlertTriangle className="w-3 h-3" />}
+                                        {finding.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+             </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <h4 className="text-blue-800 font-bold mb-2">CMMC Auditor Instructions</h4>
+            <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
+                <li>Use <strong>High</strong> severity findings to identify critical Plan of Action & Milestones (POAM) items.</li>
+                <li>Cross-reference <strong>Network</strong> findings with the topology map to validate scope.</li>
+                <li>Findings marked as <strong>Open</strong> must be included in the current Security Assessment Report (SAR).</li>
+                <li>Review <strong>Configuration</strong> findings to assess the maturity of the Configuration Management Plan (CMP).</li>
+            </ul>
+          </div>
+
+        </div>
+      );
+    };
+
+    const EmployeeDirectory = () => {
+      const [searchTerm, setSearchTerm] = useState('');
+      
+      const filteredEmployees = EMPLOYEES.filter(emp => 
+        emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.dept.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      return (
+        <div className="space-y-6">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <Users className="w-5 h-5 text-blue-600" />
+                            Employee Directory
+                        </h3>
+                        <p className="text-sm text-slate-500 mt-1">
+                            Personnel listing for role-based access control (RBAC) verification.
+                        </p>
+                    </div>
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            placeholder="Search directory..." 
+                            className="pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+                    </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left text-slate-600">
+                        <thead className="text-xs text-slate-700 uppercase bg-slate-100 border-b border-slate-200">
+                            <tr>
+                                <th className="px-4 py-3">Name</th>
+                                <th className="px-4 py-3">Title</th>
+                                <th className="px-4 py-3">Department</th>
+                                <th className="px-4 py-3">Location</th>
+                                <th className="px-4 py-3">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredEmployees.map((emp) => (
+                                <tr key={emp.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                    <td className="px-4 py-3 font-medium text-slate-800">{emp.name}</td>
+                                    <td className="px-4 py-3">{emp.title}</td>
+                                    <td className="px-4 py-3">
+                                        <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-medium">
+                                            {emp.dept}
+                                        </span>
+                                    </td>
+                                    <td className="px-4 py-3 text-slate-500">{emp.location}</td>
+                                    <td className="px-4 py-3 font-mono text-xs text-blue-600">{emp.email}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="mt-4 text-xs text-slate-400 text-center">
+                    Showing {filteredEmployees.length} of {EMPLOYEES.length} records
+                </div>
+            </div>
+        </div>
+      );
+    }
+
+    const TabNavigation = ({ activeTab, setActiveTab }) => {
+      // Renamed tabs for better fit
+      const TABS = [
+        { id: 'overview', label: 'Overview' },
+        { id: 'network', label: 'Network' },
+        { id: 'systems', label: 'Systems' },
+        { id: 'operations', label: 'Operations' },
+        { id: 'findings', label: 'Findings' },
+        { id: 'directory', label: 'Directory' },
+      ];
+
+      return (
+        <div className="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-20">
+          <div className="container mx-auto px-6">
+            <div className="flex gap-8 overflow-x-auto no-scrollbar">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`py-4 px-2 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? 'border-blue-600 text-blue-600'
+                      : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [activeTab, setActiveTab] = useState('overview');
+
+      const renderContent = () => {
+        switch (activeTab) {
+          case 'overview':
+            return <Overview setTab={setActiveTab} />;
+          case 'network':
+            return <NetworkArchitecture />;
+          case 'systems':
+            return <Infrastructure />;
+          case 'operations':
+            return <Operations />;
+          case 'findings':
+            return <Compliance />;
+          case 'directory':
+            return <EmployeeDirectory />;
+          default:
+            return <Overview setTab={setActiveTab} />;
+        }
+      };
+
+      return (
+        <div className="min-h-screen bg-slate-100 font-sans text-slate-900 pb-20">
+          <Header />
+          
+          <main className="-mt-8 container mx-auto px-4 sm:px-6 relative z-20">
+            <div className="bg-white rounded-xl shadow-xl overflow-hidden min-h-[800px] flex flex-col">
+                <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+                
+                <div className="p-6 md:p-8 bg-slate-50 flex-grow">
+                   {renderContent()}
+                </div>
+            </div>
+          </main>
+
+          <footer className="text-center py-8 text-slate-400 text-sm">
+            DefenseCore CMMC Training Environment &copy; 2024.
+          </footer>
+        </div>
+      );
+    };
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
