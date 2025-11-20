@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefenseCore Manufacturing | CMMC Case Study</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --bg-light: #f8fafc;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: #334155;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 260px;
+            background-color: var(--primary);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-bottom: 1px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        nav {
+            flex: 1;
+            overflow-y: auto;
+            padding-top: 10px;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            width: 100%;
+            padding: 12px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav button:hover {
+            background-color: var(--secondary);
+            color: var(--text-light);
+        }
+
+        nav button.active {
+            background-color: var(--secondary);
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+        }
+
+        .gap-count {
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin: 15px 0 10px 0;
+            color: var(--primary);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards & Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-light);
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-danger { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .badge-warning { background-color: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+        .badge-success { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .badge-info { background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+        /* Architecture Visuals */
+        .site-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .site-node {
+            width: 160px;
+            height: 120px;
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .site-node.hub {
+            border-color: var(--accent);
+            background: #eff6ff;
+            width: 180px;
+            height: 140px;
+        }
+
+        .site-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .site-name { font-weight: bold; }
+        .site-isp { font-size: 0.75rem; color: var(--text-gray); }
+
+        /* Scratchpad */
+        #scratchpad {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        #scratchpad.collapsed .pad-content {
+            display: none;
+        }
+
+        .pad-header {
+            background: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: none;
+            resize: vertical;
+            font-family: monospace;
+            outline: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .alert-box {
+            background-color: #fff1f2;
+            border-left: 4px solid var(--danger);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .alert-title { color: #be123c; font-weight: bold; display: block; margin-bottom: 5px; }
+
+        .code-block {
+            background: #1e293b;
+            color: #a5b4fc;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside>
+        <div class="brand">
+            <div class="brand-icon"></div>
+            <div>
+                <div>DefenseCore Inc.</div>
+                <div style="font-size: 0.75rem; font-weight: 400; opacity: 0.7; margin-top: 2px;">CMMC Training Case Study</div>
+            </div>
+        </div>
+        <nav>
+            <button onclick="showSection('overview')" class="active" id="nav-overview">Company Overview</button>
+            <button onclick="showSection('topology')" id="nav-topology">Network Topology</button>
+            <button onclick="showSection('infrastructure')" id="nav-infrastructure">Infrastructure & Cloud</button>
+            <button onclick="showSection('security')" id="nav-security">Security Controls <span class="gap-count">!</span></button>
+            <button onclick="showSection('cui')" id="nav-cui">CUI Data Flows</button>
+            <button onclick="showSection('manufacturing')" id="nav-manufacturing">Manufacturing Ops</button>
+            <button onclick="showSection('directory')" id="nav-directory">Employee Directory</button>
+            <button onclick="showSection('gaps')" id="nav-gaps" style="color: #fca5a5;">Audit Findings / Gaps</button>
+        </nav>
+        <div style="padding: 20px; font-size: 0.8rem; color: var(--text-gray); margin-top: auto;">
+            Doc Ver: 1.2<br>
+            Class: Company Confidential
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+        
+        <!-- SECTION: COMPANY OVERVIEW -->
+        <div id="overview" class="section active">
+            <header>
+                <h1>Company Profile</h1>
+            </header>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        Organization Summary
+                    </div>
+                    <p><strong>Name:</strong> DefenseCore Manufacturing Inc.</p>
+                    <p><strong>Industry:</strong> Defense Industrial Base (DIB) Manufacturer</p>
+                    <p><strong>Headquarters:</strong> Indianapolis, IN</p>
+                    <p><strong>Primary Data Center:</strong> Raleigh, NC</p>
+                    <p><strong>Total Employees:</strong> <span class="badge badge-info">54 FTE</span></p>
+                    <br>
+                    <p><strong>Operational Focus:</strong> Precision manufacturing for aerospace and defense contracts. The organization manages Controlled Unclassified Information (CUI) requiring NIST 800-171 / CMMC compliance.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Site Locations & Connectivity
+                    </div>
+                    <ul>
+                        <li><strong>Raleigh, NC:</strong> Main Data Center & Manufacturing. Hub for VPNs.</li>
+                        <li><strong>Indianapolis, IN:</strong> Corporate HQ. Connected via Site-to-Site VPN.</li>
+                        <li><strong>Fort Worth, TX:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
+                        <li><strong>Huntsville, AL:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
+                        <li><strong>AWS (us-east-1):</strong> Cloud extension connected via VPN to Raleigh.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: NETWORK TOPOLOGY -->
+        <div id="topology" class="section">
+            <header>
+                <h1>Network Architecture</h1>
+            </header>
+
+            <div class="card">
+                <div class="card-header">Hub & Spoke Topology Visualization</div>
+                <div class="site-diagram">
+                    <div class="site-node">
+                        <span class="site-icon">🏢</span>
+                        <span class="site-name">Indianapolis HQ</span>
+                        <span class="site-isp">AT&T Fiber (250/250)</span>
+                        <span class="badge badge-success">IPsec VPN</span>
+                    </div>
+                    
+                    <div class="site-node hub">
+                        <span class="site-icon">🗄️</span>
+                        <span class="site-name">Raleigh (DC)</span>
+                        <span class="site-isp">Spectrum (500/500)</span>
+                        <span class="badge badge-info">HUB</span>
+                    </div>
+
+                    <div class="site-node">
+                        <span class="site-icon">☁️</span>
+                        <span class="site-name">AWS Cloud</span>
+                        <span class="site-isp">us-east-1</span>
+                        <span class="badge badge-success">VPN (No DX)</span>
+                    </div>
+
+                    <div class="site-node">
+                        <span class="site-icon">🏭</span>
+                        <span class="site-name">Fort Worth</span>
+                        <span class="site-isp">Comcast (250/35)</span>
+                        <span class="badge badge-success">IPsec VPN</span>
+                    </div>
+
+                    <div class="site-node">
+                        <span class="site-icon">🚀</span>
+                        <span class="site-name">Huntsville</span>
+                        <span class="site-isp">Charter (250/20)</span>
+                        <span class="badge badge-success">IPsec VPN</span>
+                    </div>
+                </div>
+                <p style="text-align: center; font-size: 0.9rem; color: #64748b;">All Site-to-Site tunnels use AES-256 encryption, IKEv2.</p>
+            </div>
+            <br>
+
+            <h2>VLAN Segmentation</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">Raleigh Data Center (10.50.x.x)</div>
+                    <table>
+                        <tr><th>ID</th><th>Name</th><th>Subnet</th></tr>
+                        <tr><td>10</td><td>Server Infra</td><td>10.50.10.0/24</td></tr>
+                        <tr><td>20</td><td>Engineering</td><td>10.50.20.0/23</td></tr>
+                        <tr><td>30</td><td>Admin/Office</td><td>10.50.30.0/23</td></tr>
+                        <tr><td>40</td><td>Mfg/Shop</td><td>10.50.40.0/24</td></tr>
+                        <tr><td>50</td><td>Guest</td><td>10.50.50.0/24</td></tr>
+                        <tr><td>60</td><td>IT Mgmt</td><td>10.50.60.0/24</td></tr>
+                        <tr><td>99</td><td>Net Mgmt</td><td>10.50.99.0/28</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <div class="card-header">Branch Offices</div>
+                    <table>
+                        <tr><th>Site</th><th>VLAN Function</th><th>Subnet Range</th></tr>
+                        <tr><td>Indy</td><td>Server (110)</td><td>10.51.10.0/26</td></tr>
+                        <tr><td>Indy</td><td>Guest (150)</td><td>10.51.50.0/25</td></tr>
+                        <tr><td>Ft Worth</td><td>Engineering (220)</td><td>10.52.20.0/25</td></tr>
+                        <tr><td>Ft Worth</td><td>Mfg/Shop (240)</td><td>10.52.40.0/24</td></tr>
+                        <tr><td>Huntsville</td><td>Engineering (320)</td><td>10.53.20.0/25</td></tr>
+                        <tr><td>Huntsville</td><td>Mfg/Shop (340)</td><td>10.53.40.0/24</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: INFRASTRUCTURE -->
+        <div id="infrastructure" class="section">
+            <header>
+                <h1>Infrastructure & Cloud</h1>
+            </header>
+
+            <h2>Raleigh Physical Hardware</h2>
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-header">Rack Configuration (Key Assets)</div>
+                <table>
+                    <thead>
+                        <tr><th>Device</th><th>Role</th><th>Specs/Notes</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Fortinet FortiGate 600E</td><td>Firewall</td><td>HA Pair planned (Currently Single?)</td></tr>
+                        <tr><td>Cisco Catalyst 9300</td><td>Core Switches</td><td>Redundant pair</td></tr>
+                        <tr><td>Dell PowerEdge R750 (x6)</td><td>ESXi Hosts</td><td>Running VMware vSphere</td></tr>
+                        <tr><td>Dell EMC Unity 480</td><td>SAN Storage</td><td>Primary Storage Array</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>AWS Cloud Environment</h2>
+            <div class="alert-box">
+                <span class="alert-title">Configuration Note</span>
+                VPC ID: vpc-0a1b2c3d4e5f6g7h8 | CIDR: 10.100.0.0/16 | Region: us-east-1
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">EC2 Instances</div>
+                    <ul>
+                        <li><strong>Web Tier (Public):</strong> EC2-WEB01, EC2-WEB02 (AL2, t3.large)</li>
+                        <li><strong>App Tier (Private):</strong> EC2-APP01 thru 04 (Win2019, m5.xlarge)</li>
+                        <li><strong>Database (Private):</strong> RDS-PROD01 (PostgreSQL 14.7, Multi-AZ)</li>
+                        <li><strong>Mgmt:</strong> EC2-BASTION01 (10.100.99.10)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">S3 Storage Buckets</div>
+                    <table>
+                        <tr><th>Bucket Name</th><th>Encryption</th><th>Logging</th></tr>
+                        <tr><td>defensecore-cui-documents</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
+                        <tr><td>defensecore-engineering-archives</td><td>SSE-S3</td><td>Enabled</td></tr>
+                        <tr><td>defensecore-backups</td><td>SSE-S3</td><td>Enabled</td></tr>
+                        <tr><td>defensecore-application-logs</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: SECURITY -->
+        <div id="security" class="section">
+            <header>
+                <h1>Security Controls</h1>
+            </header>
+
+            <h2>Firewall Logic (FortiGate 600E)</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">Inbound Rules</div>
+                    <ul>
+                        <li><span class="badge badge-success">Allow</span> VPN (UDP 500, 4500)</li>
+                        <li><span class="badge badge-success">Allow</span> HTTPS (443) to DMZ Web (10.50.10.50) <br><small style="color:red;">*Issue: Server decommissioned, rule remains.</small></li>
+                        <li><span class="badge badge-danger">Implicit Deny</span> All other traffic. <br><small>*No explicit deny logged for RDP.</small></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">Outbound Rules</div>
+                    <ul>
+                        <li><span class="badge badge-success">Allow</span> Server/Admin VLAN -> Internet (HTTPS)</li>
+                        <li><span class="badge badge-success">Allow</span> Engineering -> Internet (HTTP, HTTPS, <span style="color:red">FTP</span>)</li>
+                        <li><span class="badge badge-success">Allow</span> Guest -> Internet Only</li>
+                        <li><span class="badge badge-danger">Deny</span> Guest -> Internal VLANs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 20px;">Wireless & Remote Access</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">Wireless Networks</div>
+                    <table>
+                        <tr><th>SSID</th><th>Auth</th><th>Risk</th></tr>
+                        <tr><td>DefenseCore-Corporate</td><td>802.1X (RADIUS)</td><td>Low</td></tr>
+                        <tr><td>DefenseCore-Manufacturing</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (PSK)</td></tr>
+                        <tr><td>DefenseCore-Guest</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (Shared PWD)</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <div class="card-header">VPN (Fortinet SSL)</div>
+                    <ul>
+                        <li><strong>Capacity:</strong> 100 Users (Avg 45-60 active)</li>
+                        <li><strong>Auth:</strong> AD + Duo MFA (63% Adoption)</li>
+                        <li><strong>Configuration:</strong> Split Tunnel Enabled</li>
+                        <li><span class="badge badge-danger">Critical</span> 17% of users lack MFA (Legacy exemptions)</li>
+                        <li><span class="badge badge-danger">Critical</span> Split tunnel allows local LAN access on remote clients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: CUI FLOWS -->
+        <div id="cui" class="section">
+            <header>
+                <h1>Controlled Unclassified Information (CUI)</h1>
+            </header>
+
+            <div class="alert-box">
+                <span class="alert-title">Data Flow Analysis</span>
+                The following flows describe how CUI moves through the environment. Students should map these to CMMC controls.
+            </div>
+
+            <div class="card" style="margin-bottom: 15px;">
+                <div class="card-header">1. Engineering CUI Flow</div>
+                <div class="site-diagram" style="padding: 10px; justify-content: flex-start; gap: 15px;">
+                    <div class="badge badge-info">CAD Workstation (V20)</div>
+                    <span>➔</span>
+                    <div class="badge badge-info">PLM01 Server</div>
+                    <span>➔</span>
+                    <div class="badge badge-info">SQL01 DB</div>
+                    <span>➔</span>
+                    <div class="badge badge-warning">AWS S3 (Cloud)</div>
+                </div>
+                <p style="margin-top:10px; font-size: 0.9rem;">Also flows from File Share (FILE01) ➔ Veeam Backup ➔ Tape Library (On-site).</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 15px;">
+                <div class="card-header">2. Contract CUI Flow</div>
+                <div class="site-diagram" style="padding: 10px; justify-content: flex-start; gap: 15px;">
+                    <div class="badge badge-info">Admin PC (V30)</div>
+                    <span>➔</span>
+                    <div class="badge badge-info">SharePoint (FILE02)</div>
+                    <span>➔</span>
+                    <div class="badge badge-warning">SharePoint Online (M365)</div>
+                </div>
+                <p style="margin-top:10px; font-size: 0.9rem; color: #be123c;"><strong>Risk:</strong> CUI transmitted to SharePoint Online without encryption verification.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Identified Protection Gaps</div>
+                <ul>
+                    <li style="margin-bottom: 8px;">❌ No DLP solution to prevent exfiltration.</li>
+                    <li style="margin-bottom: 8px;">❌ USB ports are open on workstations with CUI access.</li>
+                    <li style="margin-bottom: 8px;">❌ Email attachment scanning does not look for CUI markers.</li>
+                    <li style="margin-bottom: 8px;">❌ Local storage of CUI on workstation drives found (Policy Violation).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECTION: MANUFACTURING -->
+        <div id="manufacturing" class="section">
+            <header>
+                <h1>Manufacturing Operations</h1>
+            </header>
+
+            <div class="alert-box" style="border-color: #f59e0b; background-color: #fffbeb;">
+                <span class="alert-title" style="color: #b45309;">Legacy Equipment Warning</span>
+                Shop floor contains isolated but vulnerable equipment.
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">Equipment Inventory (Raleigh)</div>
+                    <ul>
+                        <li><strong>CNC-HAAS (12 units):</strong> 10.50.40.101-112</li>
+                        <li><strong>CNC-MAZAK (8 units):</strong> 10.50.40.121-128</li>
+                        <li><strong>CMM-HEXAGON (3 units):</strong> 10.50.40.141-143</li>
+                        <li><strong>Industrial Printers (9 units):</strong> 10.50.40.151-159</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-header">Operational Risks</div>
+                    <ul>
+                        <li><span class="badge badge-danger">OS EOL</span> CNC machines running Windows 7.</li>
+                        <li><span class="badge badge-danger">Remote Access</span> Vendors use TeamViewer (Always-on).</li>
+                        <li><span class="badge badge-danger">Auth</span> Default passwords on machine controllers.</li>
+                        <li><span class="badge badge-danger">AV</span> No antivirus on manufacturing equipment.</li>
+                        <li><span class="badge badge-warning">Segregation</span> No segmentation between individual machines.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: EMPLOYEE DIRECTORY -->
+        <div id="directory" class="section">
+            <header>
+                <h1>Employee Directory</h1>
+            </header>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span>Staff List (54 FTE)</span>
+                </div>
+                <input type="text" id="empSearch" placeholder="Search by name, title, or department..." onkeyup="filterEmployees()" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; background-color: var(--bg-light);">
+                
+                <div style="overflow-x: auto; max-height: 65vh; border: 1px solid var(--border); border-radius: 4px;">
+                    <table id="empTable" style="margin-bottom: 0;">
+                        <thead style="position: sticky; top: 0; z-index: 10; background: var(--bg-light);">
+                            <tr>
+                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Department</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Executive -->
+                            <tr><td>Robert Sterling</td><td>Chief Executive Officer (CEO)</td><td>Executive</td><td>Indianapolis</td></tr>
+                            <tr><td>Marcus Thorne</td><td>Chief Operating Officer (COO)</td><td>Executive</td><td>Indianapolis</td></tr>
+                            <tr><td>Sarah Jenkins</td><td>Chief Financial Officer (CFO)</td><td>Executive</td><td>Indianapolis</td></tr>
+                            <tr><td>David Chen</td><td>Chief Info Security Officer (CISO)</td><td>Executive</td><td>Raleigh</td></tr>
+                            
+                            <!-- IT & Security -->
+                            <tr><td>James Wilson</td><td>IT Manager</td><td>IT & Security</td><td>Raleigh</td></tr>
+                            <tr><td>Emily Rodriguez</td><td>Network Engineer</td><td>IT & Security</td><td>Raleigh</td></tr>
+                            <tr><td>Michael Chang</td><td>Systems Administrator</td><td>IT & Security</td><td>Raleigh</td></tr>
+                            <tr><td>Lisa Kumar</td><td>Systems Administrator</td><td>IT & Security</td><td>Indianapolis</td></tr>
+                            <tr><td>Alex Foster</td><td>Security Analyst</td><td>IT & Security</td><td>Raleigh</td></tr>
+                            
+                            <!-- Engineering -->
+                            <tr><td>Dr. Alan Grant</td><td>Chief Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
+                            <tr><td>Rebecca Moore</td><td>Sr. Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
+                            <tr><td>Kevin O'Connor</td><td>Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
+                            <tr><td>Diana Prince</td><td>Mechanical Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
+                            <tr><td>Bruce Miller</td><td>Mechanical Engineer</td><td>Engineering</td><td>Raleigh</td></tr>
+                            <tr><td>Gregory Hines</td><td>Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
+                            <tr><td>Brian Hughes</td><td>Electrical Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
+                            <tr><td>Jessica Wu</td><td>Electrical Engineer</td><td>Engineering</td><td>Raleigh</td></tr>
+                            <tr><td>Samuel Jackson</td><td>CAD Designer</td><td>Engineering</td><td>Fort Worth</td></tr>
+                            <tr><td>Patricia Lewis</td><td>CAD Designer</td><td>Engineering</td><td>Huntsville</td></tr>
+
+                            <!-- QA & Compliance -->
+                            <tr><td>Amanda Wallace</td><td>QA Manager</td><td>Quality Assurance</td><td>Raleigh</td></tr>
+                            <tr><td>Jennifer Walters</td><td>Compliance Officer</td><td>Quality Assurance</td><td>Indianapolis</td></tr>
+                            <tr><td>Peter Parks</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Raleigh</td></tr>
+                            <tr><td>Steven Rogers</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Fort Worth</td></tr>
+                            <tr><td>Natalie Roman</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Huntsville</td></tr>
+                            <tr><td>Clinton Barnes</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Raleigh</td></tr>
+
+                            <!-- Admin/HR -->
+                            <tr><td>Mary Watson</td><td>HR Director</td><td>Human Resources</td><td>Indianapolis</td></tr>
+                            <tr><td>Piper Potts</td><td>HR Generalist</td><td>Human Resources</td><td>Raleigh</td></tr>
+                            <tr><td>Harold Hogan</td><td>Office Manager</td><td>Administration</td><td>Indianapolis</td></tr>
+                            <tr><td>Edward Leeds</td><td>Accountant</td><td>Finance</td><td>Indianapolis</td></tr>
+
+                            <!-- Manufacturing / Ops (Raleigh) -->
+                            <tr><td>Frank Castiglione</td><td>Plant Manager</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>Logan Hewitt</td><td>Shop Foreman</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>John Smith</td><td>CNC Machinist III</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>Robert Johnson</td><td>CNC Machinist III</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>Michael Williams</td><td>CNC Machinist II</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>David Brown</td><td>CNC Machinist II</td><td>Operations</td><td>Raleigh</td></tr>
+                            <tr><td>James Jones</td><td>CNC Machinist I</td><td>Operations</td><td>Raleigh</td></tr>
+                            
+                            <!-- Manufacturing / Ops (Fort Worth) -->
+                            <tr><td>Arthur Curry</td><td>Shop Foreman</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <tr><td>Thomas Miller</td><td>CNC Machinist II</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <tr><td>Richard Davis</td><td>CNC Machinist I</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <tr><td>Charles Garcia</td><td>CNC Machinist I</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <tr><td>Joseph Rodriguez</td><td>Assembly Tech</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <tr><td>Christopher Wilson</td><td>Assembly Tech</td><td>Operations</td><td>Fort Worth</td></tr>
+
+                            <!-- Manufacturing / Ops (Huntsville) -->
+                            <tr><td>Barry Allen</td><td>Shop Foreman</td><td>Operations</td><td>Huntsville</td></tr>
+                            <tr><td>Daniel Martinez</td><td>CNC Machinist II</td><td>Operations</td><td>Huntsville</td></tr>
+                            <tr><td>Paul Anderson</td><td>CNC Machinist I</td><td>Operations</td><td>Huntsville</td></tr>
+                            <tr><td>Mark Taylor</td><td>CNC Machinist I</td><td>Operations</td><td>Huntsville</td></tr>
+                            <tr><td>Donald Thomas</td><td>Assembly Tech</td><td>Operations</td><td>Huntsville</td></tr>
+                            <tr><td>George Hernandez</td><td>Assembly Tech</td><td>Operations</td><td>Huntsville</td></tr>
+
+                            <!-- Maintenance & Logistics -->
+                            <tr><td>Kenneth White</td><td>Maintenance Tech</td><td>Facilities</td><td>Raleigh</td></tr>
+                            <tr><td>Steven Lopez</td><td>Maintenance Tech</td><td>Facilities</td><td>Fort Worth</td></tr>
+                            <tr><td>Edward Scott</td><td>Logistics Coordinator</td><td>Logistics</td><td>Raleigh</td></tr>
+                            <tr><td>Brian Green</td><td>Shipping/Receiving</td><td>Logistics</td><td>Raleigh</td></tr>
+                            <tr><td>Ronald Adams</td><td>Shipping/Receiving</td><td>Logistics</td><td>Fort Worth</td></tr>
+                            <tr><td>Anthony Baker</td><td>Shipping/Receiving</td><td>Logistics</td><td>Huntsville</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: GAPS (AUDIT SUMMARY) -->
+        <div id="gaps" class="section">
+            <header>
+                <h1 style="color: #be123c;">Audit Findings / Gap Analysis</h1>
+            </header>
+
+            <p>Summary of non-compliance issues identified in the documentation. Use this for the Plan of Action and Milestones (POAM).</p>
+            <br>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Finding / Deficiency</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Access Control</td>
+                            <td>17% of VPN users do not have MFA enabled (Legacy exemptions).</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>Network Security</td>
+                            <td>Split tunneling enabled on VPN (Risk to CUI).</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>Network Security</td>
+                            <td>FTP allowed outbound from Engineering VLAN.</td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Network Security</td>
+                            <td>Stale Firewall rule for decommissioned DMZ Web Server (10.50.10.50).</td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Logging</td>
+                            <td>AWS S3 Access Logging disabled on CUI and Log buckets.</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>Logging</td>
+                            <td>Alert fatigue (200+ alerts/day) & No workstation logs collected.</td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>System Integrity</td>
+                            <td>Windows 7 embedded used on CNC machines (EOL).</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>System Integrity</td>
+                            <td>Vendor "Always-on" TeamViewer access to shop floor.</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>Physical/Media</td>
+                            <td>USB ports not disabled on CUI machines.</td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Availability</td>
+                            <td>No Disaster Recovery (DR) site; Backups only on-prem; No AWS failover plan.</td>
+                            <td><span class="badge badge-danger">High</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Scratchpad for Students -->
+    <div id="scratchpad" class="collapsed">
+        <div class="pad-header" onclick="toggleScratchpad()">
+            <span>Audit Notes</span>
+            <span id="toggle-icon">▲</span>
+        </div>
+        <div class="pad-content">
+            <textarea id="student-notes" placeholder="Type your observations here... (Auto-saved)"></textarea>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Logic
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+
+            // Show target
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('nav-' + sectionId).classList.add('active');
+        }
+
+        // Scratchpad Logic
+        const scratchpad = document.getElementById('scratchpad');
+        const textarea = document.getElementById('student-notes');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        function toggleScratchpad() {
+            scratchpad.classList.toggle('collapsed');
+            toggleIcon.textContent = scratchpad.classList.contains('collapsed') ? '▲' : '▼';
+        }
+
+        // Local Storage for Notes
+        textarea.value = localStorage.getItem('defenseCoreNotes') || '';
+        textarea.addEventListener('input', (e) => {
+            localStorage.setItem('defenseCoreNotes', e.target.value);
+        });
+
+        // Employee Filter Logic
+        function filterEmployees() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("empSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("empTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                // Check Name, Title, and Dept columns
+                var match = false;
+                var tds = tr[i].getElementsByTagName("td");
+                for(var j=0; j<tds.length; j++){
+                    if(tds[j]){
+                        txtValue = tds[j].textContent || tds[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            match = true;
+                        }
+                    }
+                }
+                tr[i].style.display = match ? "" : "none";
+            }
+        }
+
+        // Initialize
+        console.log("DefenseCore Case Study App Loaded. Employees: 54.");
+    </script>
+</body>
+</html>
