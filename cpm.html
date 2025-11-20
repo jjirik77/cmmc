@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC Academy: Configuration Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #154494;
+            --header-bg: #154494;
+            --active-nav-bg: #154494;
+            --accent-blue: #2563eb;
+            --bg-color: #f0f2f5;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-width: 280px;
+            --light-blue-bg: #eef2ff;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            background-image: radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-opacity: 0.1;
+            color: white;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(21, 68, 148, 0.85);
+            z-index: -1;
+        }
+
+        .brand { display: flex; align-items: center; gap: 1rem; z-index: 1; }
+        .brand i { font-size: 1.5rem; }
+        .brand-text h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+        .brand-text p { margin: 0; font-size: 0.8rem; opacity: 0.9; }
+        .module-info { font-size: 0.9rem; opacity: 0.9; z-index: 1; }
+
+        /* Layout */
+        .container { display: flex; flex: 1; overflow: hidden; }
+
+        /* Sidebar */
+        aside {
+            width: var(--sidebar-width);
+            background-color: #fff;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+            border-radius: 6px; cursor: pointer; color: #4b5563; font-size: 0.95rem; font-weight: 500;
+            margin-bottom: 0.5rem; transition: all 0.2s; text-decoration: none; border: none; background: none; width: 100%; text-align: left;
+        }
+        .nav-item:hover { background-color: #f3f4f6; color: #111; }
+        .nav-item.active { background-color: var(--active-nav-bg); color: white; }
+        .nav-item i { width: 20px; text-align: center; }
+
+        /* Sub Navigation - Always Visible now */
+        .sub-nav {
+            padding-left: 2rem; 
+            display: flex; /* Changed from none to flex to make it always visible */
+            flex-direction: column; gap: 0.25rem;
+            margin-bottom: 0.5rem; border-left: 2px solid #f3f4f6; margin-left: 1rem;
+        }
+        
+        .sub-nav-item {
+            background: none; border: none; text-align: left; padding: 0.5rem 0.75rem; font-size: 0.85rem;
+            color: #6b7280; cursor: pointer; border-radius: 4px; transition: all 0.2s; width: 100%;
+        }
+        .sub-nav-item:hover { color: var(--primary-blue); background-color: #eff6ff; }
+        .sub-nav-item.active { color: var(--accent-blue); font-weight: 600; background-color: #e0e7ff; }
+
+        .key-defs {
+            margin-top: auto; background-color: #eff6ff; border-radius: 8px; padding: 1rem; border: 1px solid #dbeafe;
+        }
+        .key-defs h4 { color: var(--primary-blue); margin: 0 0 0.5rem 0; font-size: 0.9rem; }
+        .key-def-item { font-size: 0.8rem; margin-bottom: 0.5rem; line-height: 1.4; }
+        .key-def-item strong { color: var(--primary-blue); }
+
+        /* Main Content */
+        main { flex: 1; padding: 2rem 3rem; overflow-y: auto; }
+        .page-header { margin-bottom: 2rem; }
+        .page-header h2 { font-size: 1.8rem; color: #111827; margin: 0 0 0.5rem 0; }
+
+        /* Cards */
+        .content-card {
+            background: white; border-radius: var(--border-radius); padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem; border: 1px solid #e5e7eb;
+        }
+        .content-card h3 { margin-top: 0; font-size: 1.2rem; color: #1f2937; margin-bottom: 1rem; }
+
+        /* Holy Trinity Section */
+        .highlight-section {
+            background-color: var(--light-blue-bg); border-left: 4px solid var(--accent-blue); padding: 2rem;
+            margin-bottom: 2rem; border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .highlight-title { color: #1e3a8a; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .highlight-desc { color: #4338ca; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .mini-card {
+            background: white; padding: 1.5rem; border-radius: 6px; text-align: center; border: 1px solid #e5e7eb; transition: transform 0.2s;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .mini-card.featured { border: 2px solid var(--accent-blue); box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1); }
+        .mini-card h4 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+        .mini-card small { display: block; color: #6b7280; font-size: 0.75rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .mini-card p { font-size: 0.85rem; color: #4b5563; margin: 0; }
+
+        /* Lab Styles */
+        .lab-container { display: grid; grid-template-columns: 1fr 350px; gap: 2rem; }
+        .choice-btn {
+            display: flex; align-items: flex-start; width: 100%; text-align: left; padding: 1.2rem; margin: 0.8rem 0;
+            border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .choice-btn:hover { border-color: var(--accent-blue); background: #f8fafc; }
+        .choice-badge { background: #f3f4f6; color: #6b7280; padding: 2px 8px; border-radius: 4px; font-weight: bold; margin-right: 1rem; font-size: 0.9rem; }
+        .choice-btn:hover .choice-badge { background: var(--accent-blue); color: white; }
+        .plan-preview {
+            background: #1e293b; color: #4ade80; font-family: 'Courier New', monospace; padding: 1.5rem;
+            border-radius: 8px; font-size: 0.85rem; line-height: 1.5; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .next-btn {
+            background-color: var(--accent-blue); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 6px;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s;
+        }
+        .next-btn:hover { background-color: #1d4ed8; }
+        .feedback-msg { padding: 1rem; border-radius: 6px; margin-top: 1rem; font-size: 0.9rem; display: none; }
+        .feedback-success { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .feedback-error { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* CMP Wizard Styles */
+        .cmp-section { display: none; animation: fadeIn 0.3s ease; }
+        .cmp-section.active { display: block; }
+        
+        .cmp-form-group { margin-bottom: 1.5rem; }
+        .cmp-label { display: block; font-size: 0.85rem; color: #4b5563; font-weight: 600; margin-bottom: 0.5rem; }
+        .cmp-input {
+            width: 100%; padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; font-family: inherit; box-sizing: border-box;
+        }
+        .cmp-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 1rem; }
+        .cmp-table th, .cmp-table td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+        .cmp-table th { background-color: #f9fafb; font-weight: 600; color: #374151; }
+        .add-row-btn { background: none; border: 1px dashed #9ca3af; padding: 0.5rem; width: 100%; color: #4b5563; cursor: pointer; border-radius: 4px; font-size: 0.85rem; transition: all 0.2s; }
+        .add-row-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); background: #eff6ff; }
+        
+        .wizard-controls {
+            display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;
+        }
+        .wizard-btn-secondary {
+            background-color: #e5e7eb; color: #374151; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
+        .wizard-btn-secondary:hover { background-color: #d1d5db; }
+
+        .doc-title { text-align: center; margin-bottom: 2rem; }
+        .doc-title h1 { font-size: 1.5rem; color: var(--primary-blue); margin-bottom: 0.5rem; }
+        .doc-title p { color: #6b7280; font-size: 0.9rem; }
+
+        /* Status Badges for Controls Table */
+        .status-select {
+            padding: 5px; border-radius: 4px; border: 1px solid #ddd;
+        }
+        .priority-select {
+            padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-weight: bold;
+        }
+        
+        /* Readonly Textarea */
+        .read-only-text {
+            background-color: #f9fafb; border: 1px solid #e5e7eb; color: #6b7280; cursor: not-allowed;
+        }
+
+        /* PRINT STYLES - CRITICAL FOR PDF */
+        @media print {
+            body * { visibility: hidden; }
+            aside, header { display: none !important; }
+            #cmp-form, #cmp-form * { visibility: visible; }
+            
+            /* Reset Layout for Print */
+            .container { display: block; height: auto; overflow: visible; }
+            main { padding: 0; margin: 0; overflow: visible; }
+            #cmp { display: block !important; }
+            .content-card { border: none; box-shadow: none; padding: 0; margin: 0; }
+            
+            /* Unhide all sections and show as continuous document */
+            .cmp-section { display: block !important; margin-bottom: 2rem; page-break-inside: avoid; }
+            
+            /* Hide controls */
+            .wizard-controls, .add-row-btn { display: none !important; }
+            
+            /* Formatting for Paper */
+            .cmp-input, .status-select, .priority-select { border: none; border-bottom: 1px solid #ccc; padding-left: 0; border-radius: 0; background: none; -webkit-appearance: none; }
+            textarea.cmp-input { border: 1px solid #ddd; resize: none; }
+            .cmp-label { color: #000; }
+            .read-only-text { background: none; border: none; color: #000; }
+            
+            /* Ensure Title is Visible */
+            .doc-title { visibility: visible; margin-bottom: 3rem; }
+            .doc-title * { visibility: visible; }
+        }
+
+        /* Tab Logic */
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 1024px) {
+            .lab-container { grid-template-columns: 1fr; }
+            aside { display: none; }
+            .container { flex-direction: column; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand">
+        <i class="fas fa-shield-alt"></i>
+        <div class="brand-text">
+            <h1>CMMC Academy</h1>
+            <p>Configuration Management Plan (CMP)</p>
+        </div>
+    </div>
+    <div class="module-info">
+        Module: CONFIG-102
+    </div>
+</header>
+
+<div class="container">
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="sidebar-header">Course Material</div>
+        <button class="nav-item active" onclick="switchTab('lecture', this)">
+            <i class="fas fa-book-open"></i> Overview: CMMC 2.0
+        </button>
+        <button class="nav-item" onclick="switchTab('lab', this)">
+            <i class="fas fa-laptop-code"></i> Lab: Policy Decisions
+        </button>
+        
+        <!-- Main CMP Nav Item -->
+        <button class="nav-item" onclick="switchTab('cmp', this)">
+            <i class="fas fa-file-contract"></i> Config Mgmt Plan
+        </button>
+        
+        <!-- CMP Sub-Navigation (Always Visible) -->
+        <div id="cmp-subnav" class="sub-nav">
+            <button class="sub-nav-item active" onclick="jumpToSection('sec-org', this)">Organization Info</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-exec', this)">Executive Summary</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-controls', this)">CMMC Controls</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-roles', this)">Roles & Resp.</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-base', this)">Baselines</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-change', this)">Change Control</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-monitor', this)">Monitoring & Compliance</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-incident', this)">Incident Response</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-soft', this)">Approved Software</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-training', this)">Training & Awareness</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-improvement', this)">Continuous Improvement</button>
+            <button class="sub-nav-item" onclick="jumpToSection('sec-approval', this)">Approval</button>
+        </div>
+
+        <div class="key-defs">
+            <h4>Key Definitions</h4>
+            <div class="key-def-item"><strong>CUI:</strong> Controlled Unclassified Information.</div>
+            <div class="key-def-item"><strong>CCB:</strong> Configuration Control Board.</div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        
+        <!-- LECTURE VIEW -->
+        <div id="lecture" class="tab-content active">
+            <div class="page-header">
+                <h2>CMMC 2.0: Configuration Management</h2>
+            </div>
+            <div class="content-card">
+                <h3>NIST 800-171 Context</h3>
+                <p>Configuration Management (CM) is the foundation of system integrity. In the CMMC process, particularly for <strong>Level 2 Certification</strong>, you must prove that you know exactly what is running on your network and that no unauthorized changes occur.</p>
+            </div>
+            <div class="highlight-section">
+                <div class="highlight-title">The "Holy Trinity" of Configuration Management</div>
+                <div class="card-grid">
+                    <div class="mini-card">
+                        <small>NIST 3.4.1</small>
+                        <h4>Baselines</h4>
+                        <p><strong>"The Snapshot"</strong></p>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">A formally approved version of a configuration item (hardware, software, firmware) that exists at a specific point in time. It serves as the trusted reference for future builds and releases.</p>
+                    </div>
+                    <div class="mini-card featured">
+                        <small>NIST 3.4.3</small>
+                        <h4>Change Control</h4>
+                        <p><strong>"The Gatekeeper"</strong></p>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">A systematic approach to managing all changes made to a system. It ensures no change occurs without prior testing, impact analysis, and formal approval from the CCB.</p>
+                    </div>
+                    <div class="mini-card">
+                        <small>NIST 3.4.7</small>
+                        <h4>Least Functionality</h4>
+                        <p><strong>"The Diet"</strong></p>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">Configuring systems to provide only essential capabilities. This means disabling unnecessary ports, protocols, services, and software to reduce the attack surface.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="next-btn" onclick="switchTab('lab', document.querySelectorAll('.nav-item')[1])">
+                    Next: Interactive Lab <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- LAB VIEW -->
+        <div id="lab" class="tab-content">
+            <div class="page-header">
+                <h2>Lab: Policy Decisions</h2>
+                <p style="color: #6b7280;">Scenario: Act as the ISSO to define core policies.</p>
+            </div>
+            <div class="lab-container">
+                <div id="lab-steps">
+                    <div id="step1" class="content-card">
+                        <h3>01. Establishing Baselines (3.4.1)</h3>
+                        <button class="choice-btn" onclick="checkLabAnswer(1, 'A')"><span class="choice-badge">A</span> Default Settings</button>
+                        <button class="choice-btn" onclick="checkLabAnswer(1, 'B')"><span class="choice-badge">B</span> Secure Configs (STIGs)</button>
+                        <div id="feedback1" class="feedback-msg"></div>
+                    </div>
+                    <div id="step2" class="content-card" style="display:none;">
+                        <h3>02. Handling Changes (3.4.3)</h3>
+                        <button class="choice-btn" onclick="checkLabAnswer(2, 'A')"><span class="choice-badge">A</span> Notify After</button>
+                        <button class="choice-btn" onclick="checkLabAnswer(2, 'B')"><span class="choice-badge">B</span> Prior Approval (CCB)</button>
+                        <div id="feedback2" class="feedback-msg"></div>
+                    </div>
+                    <div id="step3" class="content-card" style="display:none;">
+                        <h3>03. Software (3.4.7)</h3>
+                        <button class="choice-btn" onclick="checkLabAnswer(3, 'A')"><span class="choice-badge">A</span> Whitelisting</button>
+                        <button class="choice-btn" onclick="checkLabAnswer(3, 'B')"><span class="choice-badge">B</span> Blacklisting</button>
+                        <div id="feedback3" class="feedback-msg"></div>
+                    </div>
+                    <button id="go-to-cmp-btn" class="next-btn" style="display:none; width: 100%; justify-content: center;" onclick="switchTab('cmp', document.querySelectorAll('.nav-item')[2])">
+                        Proceed to Write Plan <i class="fas fa-file-contract" style="margin-left:10px"></i>
+                    </button>
+                </div>
+                <div class="lab-sidebar">
+                    <div class="content-card" style="padding:0; overflow: hidden;">
+                        <div style="background: #374151; padding: 1rem; color: white; font-weight: bold;">Logic Check</div>
+                        <div class="plan-preview" id="plan-output">// LOGIC<br>[Waiting...]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CMP DOCUMENT WIZARD -->
+        <div id="cmp" class="tab-content">
+            <div class="content-card">
+                <div class="doc-title">
+                    <h1>Configuration Management Plan (CMP)</h1>
+                    <p>CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+
+                <form id="cmp-form">
+                    <!-- Section 1 -->
+                    <div id="sec-org" class="cmp-section active">
+                        <h3>1. Organization Information</h3>
+                        <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">Organization Name</label>
+                                <input type="text" class="cmp-input" placeholder="e.g. ACME Technology Services Corporation">
+                            </div>
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">Location</label>
+                                <input type="text" class="cmp-input" placeholder="e.g. El Paso, Texas">
+                            </div>
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">Employee Count</label>
+                                <input type="text" class="cmp-input" placeholder="e.g. 64">
+                            </div>
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">CMMC Level Required</label>
+                                <select class="cmp-input">
+                                    <option value="" selected disabled>Select Level...</option>
+                                    <option value="Level 2">Level 2 - Advanced</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="wizard-controls">
+                            <div></div> <!-- Spacer -->
+                            <button type="button" class="next-btn" onclick="nextSection('sec-exec')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div id="sec-exec" class="cmp-section">
+                        <h3>2. Executive Summary</h3>
+                        <div class="cmp-form-group">
+                            <label class="cmp-label">Policy Statement</label>
+                            <textarea class="cmp-input" rows="8" placeholder="e.g. This Configuration Management Plan (CMP) establishes the policies..."></textarea>
+                        </div>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-org')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-controls')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: CMMC Controls -->
+                    <div id="sec-controls" class="cmp-section">
+                        <h3>3. CMMC 2.0 Configuration Management Controls</h3>
+                        <p style="font-size:0.9rem; color:#666; margin-bottom: 1.5rem;">Address all nine configuration management controls from NIST SP 800-171 required for CMMC 2.0 Level 2.</p>
+                        <table class="cmp-table" id="controls-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">Control ID</th>
+                                    <th style="width: 35%;">Control Name</th>
+                                    <th style="width: 25%;">Implementation Status</th>
+                                    <th style="width: 25%;">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>3.4.1 (CM-2)</td>
+                                    <td>Baseline Configurations</td>
+                                    <td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td>
+                                    <td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td>
+                                </tr>
+                                <tr><td>3.4.2 (CM-6)</td><td>Configuration Settings</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.3 (CM-7)</td><td>Least Functionality</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.4 (CM-11)</td><td>User-Installed Software</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.5 (CM-3)</td><td>Configuration Change Control</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.6 (CM-4)</td><td>Security Impact Analysis</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.7 (CM-5)</td><td>Access Restrictions for Change</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.8 (CM-8)</td><td>System Component Inventory</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                                <tr><td>3.4.9 (CM-8)</td><td>Component Inventory (Enhanced)</td><td><select class="status-select"><option value="" selected disabled>Select...</option><option value="Implemented">Implemented</option><option value="In Progress">In Progress</option><option value="Planned">Planned</option></select></td><td><select class="priority-select"><option value="" selected disabled>Select...</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></td></tr>
+                            </tbody>
+                        </table>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-exec')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-roles')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Roles and Responsibilities -->
+                    <div id="sec-roles" class="cmp-section">
+                        <h3>4. Roles and Responsibilities</h3>
+                        
+                        <!-- CCB Table -->
+                        <h4 style="color: #1e3a8a; margin-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem;">Configuration Control Board (CCB)</h4>
+                        <p style="font-size:0.8rem; color:#666;">Select a role from the dropdown. The responsibilities will auto-populate.</p>
+                        <table class="cmp-table" id="ccb-table">
+                            <thead><tr><th style="width: 25%;">Role</th><th style="width: 25%;">Name</th><th style="width: 50%;">Responsibilities</th></tr></thead>
+                            <tbody>
+                                <!-- Empty row -->
+                                <tr>
+                                    <td>
+                                        <select class="cmp-input" onchange="updateResponsibility(this)">
+                                            <option value="" selected disabled>Select Role...</option>
+                                            <option value="CISO">CISO (Chair)</option>
+                                            <option value="IT_Manager">IT Ops Manager</option>
+                                            <option value="SysAdmin">Systems Administrator</option>
+                                            <option value="SecurityOfficer">Security Officer</option>
+                                            <option value="ContractCoord">Contract Coordinator</option>
+                                        </select>
+                                    </td>
+                                    <td><input class="cmp-input" placeholder="Enter Name..."></td>
+                                    <td><textarea class="cmp-input read-only-text" readonly rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRoleRow('ccb-table', 'CCB')">+ Add CCB Member</button>
+
+                        <!-- CMT Table -->
+                        <h4 style="color: #1e3a8a; margin-top: 2rem; margin-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem;">Configuration Management Team (CMT)</h4>
+                         <table class="cmp-table" id="cmt-table">
+                            <thead><tr><th style="width: 25%;">Role</th><th style="width: 25%;">Name</th><th style="width: 50%;">Responsibilities</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select class="cmp-input" onchange="updateResponsibility(this)">
+                                            <option value="" selected disabled>Select Role...</option>
+                                            <option value="ConfigManager">Configuration Manager</option>
+                                            <option value="SysAdmin_Team">System Administrators</option>
+                                            <option value="NetAdmin">Network Administrator</option>
+                                            <option value="SecAnalyst">Security Analyst</option>
+                                        </select>
+                                    </td>
+                                    <td><input class="cmp-input" placeholder="Enter Name..."></td>
+                                    <td><textarea class="cmp-input read-only-text" readonly rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRoleRow('cmt-table', 'CMT')">+ Add Team Member</button>
+
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-controls')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-base')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 5 -->
+                    <div id="sec-base" class="cmp-section">
+                        <h3>5. Configuration Baselines (3.4.1)</h3>
+                        <table class="cmp-table" id="baseline-table">
+                            <thead><tr><th>System Name/ID</th><th>Configuration Standard</th></tr></thead>
+                            <tbody>
+                                <tr><td><input class="cmp-input" placeholder="e.g. Primary Server"></td><td><input class="cmp-input" placeholder="e.g. Win Server 2022, STIG"></td></tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRow('baseline-table')">+ Add System</button>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-roles')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-change')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 6 -->
+                    <div id="sec-change" class="cmp-section">
+                        <h3>6. Change Control Procedures</h3>
+                        <table class="cmp-table" id="change-table">
+                            <thead><tr><th>Change Type</th><th>Approval Authority</th><th>Documentation</th></tr></thead>
+                            <tbody>
+                                <tr><td><input class="cmp-input" placeholder="e.g. Emergency Patch"></td><td><input class="cmp-input" placeholder="e.g. CISO"></td><td><input class="cmp-input" placeholder="e.g. Post-implementation log"></td></tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRow('change-table')">+ Add Procedure</button>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-base')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-monitor')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Monitoring -->
+                    <div id="sec-monitor" class="cmp-section">
+                        <h3>7. Monitoring and Compliance (3.4.8)</h3>
+                        
+                        <h4 style="margin-bottom:0.5rem;">Automated Monitoring Tools</h4>
+                        <div id="monitoring-tools-list" class="cmp-form-group">
+                            <div class="tool-row" style="display: flex; flex-direction: column; gap: 10px;">
+                                <input class="cmp-input" placeholder="e.g. Microsoft SCCM: Automated compliance monitoring">
+                                <input class="cmp-input" placeholder="e.g. SIEM: Centralized event monitoring">
+                            </div>
+                        </div>
+                        <button type="button" class="add-row-btn" onclick="addInput('monitoring-tools-list')">+ Add Tool</button>
+
+                        <h4 style="margin-top: 1.5rem; margin-bottom:0.5rem;">Monitoring Schedule</h4>
+                        <table class="cmp-table" id="monitor-table">
+                            <thead><tr><th>Activity</th><th>Frequency</th><th>Responsible</th></tr></thead>
+                            <tbody>
+                                <tr><td><input class="cmp-input" placeholder="e.g. Drift Analysis"></td><td><input class="cmp-input" placeholder="e.g. Weekly"></td><td><input class="cmp-input" placeholder="e.g. Sec Analyst"></td></tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRow('monitor-table')">+ Add Schedule Item</button>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-change')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-incident')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 8: Incident Response -->
+                    <div id="sec-incident" class="cmp-section">
+                        <h3>8. Configuration Incident Response</h3>
+                        
+                        <h4 style="margin-bottom:0.5rem;">Unauthorized Changes Procedure</h4>
+                        <div id="ir-steps" class="cmp-form-group">
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <input class="cmp-input" placeholder="1. e.g. Detection of unauthorized change">
+                                <input class="cmp-input" placeholder="2. e.g. Isolation of system">
+                            </div>
+                        </div>
+                        <button type="button" class="add-row-btn" onclick="addInput('ir-steps')">+ Add Step</button>
+
+                        <h4 style="margin-top: 1.5rem; margin-bottom:0.5rem;">Emergency Change Procedures</h4>
+                        <div id="emergency-steps" class="cmp-form-group">
+                             <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <input class="cmp-input" placeholder="e.g. CISO Approval required immediately">
+                                <input class="cmp-input" placeholder="e.g. Documentation within 24 hours">
+                            </div>
+                        </div>
+                        <button type="button" class="add-row-btn" onclick="addInput('emergency-steps')">+ Add Procedure</button>
+
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-monitor')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-soft')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 9 -->
+                    <div id="sec-soft" class="cmp-section">
+                        <h3>9. Approved Software (3.4.4)</h3>
+                        <div id="software-list">
+                            <div class="cmp-form-group" style="display:flex; gap:10px;">
+                                 <input class="cmp-input" placeholder="e.g. Microsoft Office 365">
+                                 <input class="cmp-input" placeholder="e.g. Productivity suite" style="width:50%">
+                            </div>
+                        </div>
+                        <button type="button" class="add-row-btn" onclick="addSoftwareInput()">+ Add Software</button>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-incident')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-training')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 10: Training -->
+                    <div id="sec-training" class="cmp-section">
+                        <h3>10. Training and Awareness</h3>
+                        <table class="cmp-table" id="training-table">
+                            <thead><tr><th>Program Name</th><th>Audience</th><th>Frequency</th></tr></thead>
+                            <tbody>
+                                <tr><td><input class="cmp-input" placeholder="e.g. CMMC Awareness"></td><td><input class="cmp-input" placeholder="e.g. All Personnel"></td><td><input class="cmp-input" placeholder="e.g. Annual"></td></tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRow('training-table')">+ Add Training</button>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-soft')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-improvement')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 11: Continuous Improvement -->
+                    <div id="sec-improvement" class="cmp-section">
+                        <h3>11. Continuous Improvement</h3>
+                        <h4 style="margin-bottom:0.5rem;">Performance Metrics</h4>
+                        <table class="cmp-table" id="metrics-table">
+                             <thead><tr><th>Metric</th><th>Target</th><th>Reporting Freq</th></tr></thead>
+                             <tbody>
+                                 <tr><td><input class="cmp-input" placeholder="e.g. Baseline Compliance"></td><td><input class="cmp-input" placeholder="e.g. 98%"></td><td><input class="cmp-input" placeholder="e.g. Monthly"></td></tr>
+                             </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn" onclick="addRow('metrics-table')">+ Add Metric</button>
+
+                        <h4 style="margin-top:1.5rem; margin-bottom:0.5rem;">Review Schedule</h4>
+                        <table class="cmp-table" id="review-table">
+                            <thead><tr><th>Frequency</th><th>Activity/Review Type</th></tr></thead>
+                            <tbody>
+                                <tr><td><input class="cmp-input" placeholder="e.g. Quarterly"></td><td><input class="cmp-input" placeholder="e.g. Baseline review"></td></tr>
+                            </tbody>
+                        </table>
+                         <button type="button" class="add-row-btn" onclick="addRow('review-table')">+ Add Review Cycle</button>
+
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-training')">Previous</button>
+                            <button type="button" class="next-btn" onclick="nextSection('sec-approval')">Next <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 12: Approval -->
+                    <div id="sec-approval" class="cmp-section">
+                        <h3>12. Plan Approval</h3>
+                        <div class="card-grid">
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">CISO Name</label>
+                                <input type="text" class="cmp-input">
+                            </div>
+                            <div class="cmp-form-group">
+                                <label class="cmp-label">Date</label>
+                                <input type="date" class="cmp-input">
+                            </div>
+                        </div>
+                        <div class="wizard-controls">
+                            <button type="button" class="wizard-btn-secondary" onclick="prevSection('sec-improvement')">Previous</button>
+                            <button type="button" class="next-btn" onclick="window.print()" style="background-color: #10b981;">
+                                <i class="fas fa-print"></i> Print / Save PDF
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    // --- Roles Data for Auto-Population ---
+    const roleResponsibilities = {
+        "CISO": "CCB Chair, final approval authority for major changes and emergency patches.",
+        "IT_Manager": "Responsible for implementation, technical oversight, and feasibility reviews.",
+        "SysAdmin": "Daily configuration management, monitoring, and routine maintenance.",
+        "SecurityOfficer": "Conducts security impact assessments and compliance validation.",
+        "ContractCoord": "Provides business impact assessment for CUI systems and contract requirements.",
+        "ConfigManager": "Maintains configuration baselines and change documentation logs.",
+        "SysAdmin_Team": "Implement approved configuration changes and patch management.",
+        "NetAdmin": "Network device configuration management and firewall rule maintenance.",
+        "SecAnalyst": "Security configuration monitoring, log review, and compliance auditing."
+    };
+
+    function updateResponsibility(selectElement) {
+        const roleKey = selectElement.value;
+        const row = selectElement.closest('tr');
+        const textArea = row.cells[2].querySelector('textarea');
+        
+        if (roleKey && roleResponsibilities[roleKey]) {
+            textArea.value = roleResponsibilities[roleKey];
+        } else {
+            textArea.value = "";
+        }
+    }
+
+    function addRoleRow(tableId, type) {
+        const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        
+        const cell1 = newRow.insertCell(0);
+        let options = '<option value="" selected disabled>Select Role...</option>';
+        if(type === 'CCB') {
+            options += `
+                <option value="CISO">CISO (Chair)</option>
+                <option value="IT_Manager">IT Ops Manager</option>
+                <option value="SysAdmin">Systems Administrator</option>
+                <option value="SecurityOfficer">Security Officer</option>
+                <option value="ContractCoord">Contract Coordinator</option>
+            `;
+        } else {
+            options += `
+                <option value="ConfigManager">Configuration Manager</option>
+                <option value="SysAdmin_Team">System Administrators</option>
+                <option value="NetAdmin">Network Administrator</option>
+                <option value="SecAnalyst">Security Analyst</option>
+            `;
+        }
+        cell1.innerHTML = `<select class="cmp-input" onchange="updateResponsibility(this)">${options}</select>`;
+
+        const cell2 = newRow.insertCell(1);
+        cell2.innerHTML = '<input class="cmp-input" placeholder="Enter Name...">';
+
+        const cell3 = newRow.insertCell(2);
+        cell3.innerHTML = '<textarea class="cmp-input read-only-text" readonly rows="2"></textarea>';
+    }
+
+    // --- Nav Logic ---
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        if(btnElement) btnElement.classList.add('active');
+    }
+
+    // --- CMP Wizard Logic ---
+    function jumpToSection(sectionId, btnElement) {
+        document.querySelectorAll('.cmp-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+        document.querySelectorAll('.sub-nav-item').forEach(btn => btn.classList.remove('active'));
+        if(btnElement) btnElement.classList.add('active');
+        switchTab('cmp', document.querySelectorAll('.nav-item')[2]);
+    }
+
+    function nextSection(targetId) {
+        document.querySelectorAll('.cmp-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        updateSidebarHighlight(targetId);
+    }
+
+    function prevSection(targetId) {
+        document.querySelectorAll('.cmp-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        updateSidebarHighlight(targetId);
+    }
+
+    function updateSidebarHighlight(sectionId) {
+        document.querySelectorAll('.sub-nav-item').forEach(btn => {
+            btn.classList.remove('active');
+            if(btn.getAttribute('onclick').includes(sectionId)) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // --- Lab Logic ---
+    let planContent = [];
+    function checkLabAnswer(step, answer) {
+        const feedbackEl = document.getElementById(`feedback${step}`);
+        const planOutput = document.getElementById('plan-output');
+        feedbackEl.style.display = 'block';
+        feedbackEl.className = 'feedback-msg';
+
+        if (step === 1) {
+            if (answer === 'B') {
+                feedbackEl.textContent = "Correct. STIGs/CIS Benchmarks provide a defensible baseline.";
+                feedbackEl.classList.add('feedback-success');
+                planContent.push("1. BASELINE: Secure configs (STIGs) selected.");
+                disableButtons('step1');
+                setTimeout(() => { document.getElementById('step2').style.display = 'block'; }, 600);
+            } else {
+                feedbackEl.textContent = "Incorrect. Default settings are insecure.";
+                feedbackEl.classList.add('feedback-error');
+            }
+        }
+        if (step === 2) {
+            if (answer === 'B') {
+                feedbackEl.textContent = "Correct. Changes require prior Impact Analysis & Approval.";
+                feedbackEl.classList.add('feedback-success');
+                planContent.push("2. CONTROL: CCB Approval workflow active.");
+                disableButtons('step2');
+                setTimeout(() => { document.getElementById('step3').style.display = 'block'; }, 600);
+            } else {
+                feedbackEl.textContent = "Incorrect. Notification is not control.";
+                feedbackEl.classList.add('feedback-error');
+            }
+        }
+        if (step === 3) {
+            if (answer === 'A') {
+                feedbackEl.textContent = "Correct. Whitelisting is best for CUI.";
+                feedbackEl.classList.add('feedback-success');
+                planContent.push("3. SOFTWARE: Whitelisting enforced.");
+                disableButtons('step3');
+                document.getElementById('go-to-cmp-btn').style.display = 'flex';
+            } else {
+                feedbackEl.textContent = "Incorrect. Blacklisting is insufficient.";
+                feedbackEl.classList.add('feedback-error');
+            }
+        }
+        let displayHtml = "// LOGIC CHECK<br>-----------------------<br><br>";
+        planContent.forEach(line => { displayHtml += `<span style="color: #4ade80;">> ${line}</span><br>`; });
+        planOutput.innerHTML = displayHtml;
+    }
+    
+    function disableButtons(stepId) {
+        const buttons = document.getElementById(stepId).querySelectorAll('.choice-btn');
+        buttons.forEach(btn => { btn.style.opacity = '0.5'; btn.style.pointerEvents = 'none'; });
+    }
+
+    // Generic Table Row Adder
+    function addRow(tableId) {
+        const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        // Get column count from header
+        const colCount = document.getElementById(tableId).getElementsByTagName('thead')[0].rows[0].cells.length;
+        
+        for (let i = 0; i < colCount; i++) {
+            const cell = newRow.insertCell(i);
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "cmp-input";
+            cell.appendChild(input);
+        }
+    }
+
+    // Software & Tool List Adder
+    function addSoftwareInput() {
+        const container = document.getElementById('software-list');
+        const div = document.createElement('div');
+        div.className = 'cmp-form-group';
+        div.style.display = 'flex'; div.style.gap = '10px'; div.style.marginBottom = '0.5rem';
+        div.innerHTML = `<input class="cmp-input" placeholder="Software Name"> <input class="cmp-input" placeholder="Context" style="width:50%">`;
+        container.appendChild(div);
+    }
+
+    // General Input Adder (for tools, IR steps, etc)
+    function addInput(containerId) {
+        const container = document.getElementById(containerId).firstElementChild; // get the wrapper div inside
+        const input = document.createElement("input");
+        input.className = "cmp-input";
+        input.placeholder = "e.g. New Item...";
+        container.appendChild(input);
+    }
+</script>
+
+</body>
+</html>
