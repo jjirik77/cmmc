@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DefenseCore Manufacturing | CMMC Case Study</title>
+    <title>Stratum Defense Systems | CMMC Case Study</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -328,7 +328,7 @@
         <div class="brand">
             <div class="brand-icon"></div>
             <div>
-                <div>DefenseCore Inc.</div>
+                <div>Stratum Defense</div>
                 <div style="font-size: 0.75rem; font-weight: 400; opacity: 0.7; margin-top: 2px;">CMMC Training Case Study</div>
             </div>
         </div>
@@ -343,7 +343,7 @@
             <button onclick="showSection('gaps')" id="nav-gaps" style="color: #fca5a5;">Audit Findings / Gaps</button>
         </nav>
         <div style="padding: 20px; font-size: 0.8rem; color: var(--text-gray); margin-top: auto;">
-            Doc Ver: 1.2<br>
+            Doc Ver: 1.3<br>
             Class: Company Confidential
         </div>
     </aside>
@@ -362,10 +362,10 @@
                     <div class="card-header">
                         Organization Summary
                     </div>
-                    <p><strong>Name:</strong> DefenseCore Manufacturing Inc.</p>
+                    <p><strong>Name:</strong> Stratum Defense Systems Inc.</p>
                     <p><strong>Industry:</strong> Defense Industrial Base (DIB) Manufacturer</p>
-                    <p><strong>Headquarters:</strong> Indianapolis, IN</p>
-                    <p><strong>Primary Data Center:</strong> Raleigh, NC</p>
+                    <p><strong>Headquarters:</strong> San Diego, CA</p>
+                    <p><strong>Primary Data Center:</strong> Phoenix, AZ</p>
                     <p><strong>Total Employees:</strong> <span class="badge badge-info">54 FTE</span></p>
                     <br>
                     <p><strong>Operational Focus:</strong> Precision manufacturing for aerospace and defense contracts. The organization manages Controlled Unclassified Information (CUI) requiring NIST 800-171 / CMMC compliance.</p>
@@ -376,11 +376,11 @@
                         Site Locations & Connectivity
                     </div>
                     <ul>
-                        <li><strong>Raleigh, NC:</strong> Main Data Center & Manufacturing. Hub for VPNs.</li>
-                        <li><strong>Indianapolis, IN:</strong> Corporate HQ. Connected via Site-to-Site VPN.</li>
-                        <li><strong>Fort Worth, TX:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
-                        <li><strong>Huntsville, AL:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
-                        <li><strong>AWS (us-east-1):</strong> Cloud extension connected via VPN to Raleigh.</li>
+                        <li><strong>Phoenix, AZ:</strong> Main Data Center & Manufacturing. Hub for VPNs.</li>
+                        <li><strong>San Diego, CA:</strong> Corporate HQ. Connected via Site-to-Site VPN.</li>
+                        <li><strong>Seattle, WA:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
+                        <li><strong>Norfolk, VA:</strong> Engineering & Mfg. Connected via Site-to-Site VPN.</li>
+                        <li><strong>AWS (us-west-2):</strong> Cloud extension connected via VPN to Phoenix.</li>
                     </ul>
                 </div>
             </div>
@@ -397,36 +397,36 @@
                 <div class="site-diagram">
                     <div class="site-node">
                         <span class="site-icon">🏢</span>
-                        <span class="site-name">Indianapolis HQ</span>
-                        <span class="site-isp">AT&T Fiber (250/250)</span>
+                        <span class="site-name">San Diego HQ</span>
+                        <span class="site-isp">AT&T Fiber (500/500)</span>
                         <span class="badge badge-success">IPsec VPN</span>
                     </div>
                     
                     <div class="site-node hub">
                         <span class="site-icon">🗄️</span>
-                        <span class="site-name">Raleigh (DC)</span>
-                        <span class="site-isp">Spectrum (500/500)</span>
+                        <span class="site-name">Phoenix (DC)</span>
+                        <span class="site-isp">Cox Business (1G/1G)</span>
                         <span class="badge badge-info">HUB</span>
                     </div>
 
                     <div class="site-node">
                         <span class="site-icon">☁️</span>
                         <span class="site-name">AWS Cloud</span>
-                        <span class="site-isp">us-east-1</span>
+                        <span class="site-isp">us-west-2</span>
                         <span class="badge badge-success">VPN (No DX)</span>
                     </div>
 
                     <div class="site-node">
                         <span class="site-icon">🏭</span>
-                        <span class="site-name">Fort Worth</span>
-                        <span class="site-isp">Comcast (250/35)</span>
+                        <span class="site-name">Seattle</span>
+                        <span class="site-isp">Lumen Fiber (500/500)</span>
                         <span class="badge badge-success">IPsec VPN</span>
                     </div>
 
                     <div class="site-node">
                         <span class="site-icon">🚀</span>
-                        <span class="site-name">Huntsville</span>
-                        <span class="site-isp">Charter (250/20)</span>
+                        <span class="site-name">Norfolk</span>
+                        <span class="site-isp">Verizon Fios (300/300)</span>
                         <span class="badge badge-success">IPsec VPN</span>
                     </div>
                 </div>
@@ -437,7 +437,7 @@
             <h2>VLAN Segmentation</h2>
             <div class="grid-2">
                 <div class="card">
-                    <div class="card-header">Raleigh Data Center (10.50.x.x)</div>
+                    <div class="card-header">Phoenix Data Center (10.50.x.x)</div>
                     <table>
                         <tr><th>ID</th><th>Name</th><th>Subnet</th></tr>
                         <tr><td>10</td><td>Server Infra</td><td>10.50.10.0/24</td></tr>
@@ -453,12 +453,12 @@
                     <div class="card-header">Branch Offices</div>
                     <table>
                         <tr><th>Site</th><th>VLAN Function</th><th>Subnet Range</th></tr>
-                        <tr><td>Indy</td><td>Server (110)</td><td>10.51.10.0/26</td></tr>
-                        <tr><td>Indy</td><td>Guest (150)</td><td>10.51.50.0/25</td></tr>
-                        <tr><td>Ft Worth</td><td>Engineering (220)</td><td>10.52.20.0/25</td></tr>
-                        <tr><td>Ft Worth</td><td>Mfg/Shop (240)</td><td>10.52.40.0/24</td></tr>
-                        <tr><td>Huntsville</td><td>Engineering (320)</td><td>10.53.20.0/25</td></tr>
-                        <tr><td>Huntsville</td><td>Mfg/Shop (340)</td><td>10.53.40.0/24</td></tr>
+                        <tr><td>San Diego</td><td>Server (110)</td><td>10.51.10.0/26</td></tr>
+                        <tr><td>San Diego</td><td>Guest (150)</td><td>10.51.50.0/25</td></tr>
+                        <tr><td>Seattle</td><td>Engineering (220)</td><td>10.52.20.0/25</td></tr>
+                        <tr><td>Seattle</td><td>Mfg/Shop (240)</td><td>10.52.40.0/24</td></tr>
+                        <tr><td>Norfolk</td><td>Engineering (320)</td><td>10.53.20.0/25</td></tr>
+                        <tr><td>Norfolk</td><td>Mfg/Shop (340)</td><td>10.53.40.0/24</td></tr>
                     </table>
                 </div>
             </div>
@@ -470,7 +470,7 @@
                 <h1>Infrastructure & Cloud</h1>
             </header>
 
-            <h2>Raleigh Physical Hardware</h2>
+            <h2>Phoenix Physical Hardware</h2>
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-header">Rack Configuration (Key Assets)</div>
                 <table>
@@ -489,7 +489,7 @@
             <h2>AWS Cloud Environment</h2>
             <div class="alert-box">
                 <span class="alert-title">Configuration Note</span>
-                VPC ID: vpc-0a1b2c3d4e5f6g7h8 | CIDR: 10.100.0.0/16 | Region: us-east-1
+                VPC ID: vpc-0a1b2c3d4e5f6g7h8 | CIDR: 10.100.0.0/16 | Region: us-west-2
             </div>
             
             <div class="grid-2">
@@ -506,10 +506,10 @@
                     <div class="card-header">S3 Storage Buckets</div>
                     <table>
                         <tr><th>Bucket Name</th><th>Encryption</th><th>Logging</th></tr>
-                        <tr><td>defensecore-cui-documents</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
-                        <tr><td>defensecore-engineering-archives</td><td>SSE-S3</td><td>Enabled</td></tr>
-                        <tr><td>defensecore-backups</td><td>SSE-S3</td><td>Enabled</td></tr>
-                        <tr><td>defensecore-application-logs</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
+                        <tr><td>stratum-cui-documents</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
+                        <tr><td>stratum-engineering-archives</td><td>SSE-S3</td><td>Enabled</td></tr>
+                        <tr><td>stratum-backups</td><td>SSE-S3</td><td>Enabled</td></tr>
+                        <tr><td>stratum-application-logs</td><td>SSE-S3</td><td><span class="badge badge-danger">Disabled</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -548,9 +548,9 @@
                     <div class="card-header">Wireless Networks</div>
                     <table>
                         <tr><th>SSID</th><th>Auth</th><th>Risk</th></tr>
-                        <tr><td>DefenseCore-Corporate</td><td>802.1X (RADIUS)</td><td>Low</td></tr>
-                        <tr><td>DefenseCore-Manufacturing</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (PSK)</td></tr>
-                        <tr><td>DefenseCore-Guest</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (Shared PWD)</td></tr>
+                        <tr><td>Stratum-Corporate</td><td>802.1X (RADIUS)</td><td>Low</td></tr>
+                        <tr><td>Stratum-Manufacturing</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (PSK)</td></tr>
+                        <tr><td>Stratum-Guest</td><td>WPA2-PSK</td><td><span class="badge badge-warning">Medium</span> (Shared PWD)</td></tr>
                     </table>
                 </div>
                 <div class="card">
@@ -627,7 +627,7 @@
 
             <div class="grid-2">
                 <div class="card">
-                    <div class="card-header">Equipment Inventory (Raleigh)</div>
+                    <div class="card-header">Equipment Inventory (Phoenix)</div>
                     <ul>
                         <li><strong>CNC-HAAS (12 units):</strong> 10.50.40.101-112</li>
                         <li><strong>CNC-MAZAK (8 units):</strong> 10.50.40.121-128</li>
@@ -672,76 +672,76 @@
                         </thead>
                         <tbody>
                             <!-- Executive -->
-                            <tr><td>Robert Sterling</td><td>Chief Executive Officer (CEO)</td><td>Executive</td><td>Indianapolis</td></tr>
-                            <tr><td>Marcus Thorne</td><td>Chief Operating Officer (COO)</td><td>Executive</td><td>Indianapolis</td></tr>
-                            <tr><td>Sarah Jenkins</td><td>Chief Financial Officer (CFO)</td><td>Executive</td><td>Indianapolis</td></tr>
-                            <tr><td>David Chen</td><td>Chief Info Security Officer (CISO)</td><td>Executive</td><td>Raleigh</td></tr>
+                            <tr><td>Robert Sterling</td><td>Chief Executive Officer (CEO)</td><td>Executive</td><td>San Diego</td></tr>
+                            <tr><td>Marcus Thorne</td><td>Chief Operating Officer (COO)</td><td>Executive</td><td>San Diego</td></tr>
+                            <tr><td>Sarah Jenkins</td><td>Chief Financial Officer (CFO)</td><td>Executive</td><td>San Diego</td></tr>
+                            <tr><td>David Chen</td><td>Chief Info Security Officer (CISO)</td><td>Executive</td><td>Phoenix</td></tr>
                             
                             <!-- IT & Security -->
-                            <tr><td>James Wilson</td><td>IT Manager</td><td>IT & Security</td><td>Raleigh</td></tr>
-                            <tr><td>Emily Rodriguez</td><td>Network Engineer</td><td>IT & Security</td><td>Raleigh</td></tr>
-                            <tr><td>Michael Chang</td><td>Systems Administrator</td><td>IT & Security</td><td>Raleigh</td></tr>
-                            <tr><td>Lisa Kumar</td><td>Systems Administrator</td><td>IT & Security</td><td>Indianapolis</td></tr>
-                            <tr><td>Alex Foster</td><td>Security Analyst</td><td>IT & Security</td><td>Raleigh</td></tr>
+                            <tr><td>James Wilson</td><td>IT Manager</td><td>IT & Security</td><td>Phoenix</td></tr>
+                            <tr><td>Emily Rodriguez</td><td>Network Engineer</td><td>IT & Security</td><td>Phoenix</td></tr>
+                            <tr><td>Michael Chang</td><td>Systems Administrator</td><td>IT & Security</td><td>Phoenix</td></tr>
+                            <tr><td>Lisa Kumar</td><td>Systems Administrator</td><td>IT & Security</td><td>San Diego</td></tr>
+                            <tr><td>Alex Foster</td><td>Security Analyst</td><td>IT & Security</td><td>Phoenix</td></tr>
                             
                             <!-- Engineering -->
-                            <tr><td>Dr. Alan Grant</td><td>Chief Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
-                            <tr><td>Rebecca Moore</td><td>Sr. Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
-                            <tr><td>Kevin O'Connor</td><td>Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
-                            <tr><td>Diana Prince</td><td>Mechanical Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
-                            <tr><td>Bruce Miller</td><td>Mechanical Engineer</td><td>Engineering</td><td>Raleigh</td></tr>
-                            <tr><td>Gregory Hines</td><td>Mechanical Engineer</td><td>Engineering</td><td>Fort Worth</td></tr>
-                            <tr><td>Brian Hughes</td><td>Electrical Engineer</td><td>Engineering</td><td>Huntsville</td></tr>
-                            <tr><td>Jessica Wu</td><td>Electrical Engineer</td><td>Engineering</td><td>Raleigh</td></tr>
-                            <tr><td>Samuel Jackson</td><td>CAD Designer</td><td>Engineering</td><td>Fort Worth</td></tr>
-                            <tr><td>Patricia Lewis</td><td>CAD Designer</td><td>Engineering</td><td>Huntsville</td></tr>
+                            <tr><td>Dr. Alan Grant</td><td>Chief Engineer</td><td>Engineering</td><td>Norfolk</td></tr>
+                            <tr><td>Rebecca Moore</td><td>Sr. Mechanical Engineer</td><td>Engineering</td><td>Seattle</td></tr>
+                            <tr><td>Kevin O'Connor</td><td>Mechanical Engineer</td><td>Engineering</td><td>Seattle</td></tr>
+                            <tr><td>Diana Prince</td><td>Mechanical Engineer</td><td>Engineering</td><td>Norfolk</td></tr>
+                            <tr><td>Bruce Miller</td><td>Mechanical Engineer</td><td>Engineering</td><td>Phoenix</td></tr>
+                            <tr><td>Gregory Hines</td><td>Mechanical Engineer</td><td>Engineering</td><td>Seattle</td></tr>
+                            <tr><td>Brian Hughes</td><td>Electrical Engineer</td><td>Engineering</td><td>Norfolk</td></tr>
+                            <tr><td>Jessica Wu</td><td>Electrical Engineer</td><td>Engineering</td><td>Phoenix</td></tr>
+                            <tr><td>Samuel Jackson</td><td>CAD Designer</td><td>Engineering</td><td>Seattle</td></tr>
+                            <tr><td>Patricia Lewis</td><td>CAD Designer</td><td>Engineering</td><td>Norfolk</td></tr>
 
                             <!-- QA & Compliance -->
-                            <tr><td>Amanda Wallace</td><td>QA Manager</td><td>Quality Assurance</td><td>Raleigh</td></tr>
-                            <tr><td>Jennifer Walters</td><td>Compliance Officer</td><td>Quality Assurance</td><td>Indianapolis</td></tr>
-                            <tr><td>Peter Parks</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Raleigh</td></tr>
-                            <tr><td>Steven Rogers</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Fort Worth</td></tr>
-                            <tr><td>Natalie Roman</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Huntsville</td></tr>
-                            <tr><td>Clinton Barnes</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Raleigh</td></tr>
+                            <tr><td>Amanda Wallace</td><td>QA Manager</td><td>Quality Assurance</td><td>Phoenix</td></tr>
+                            <tr><td>Jennifer Walters</td><td>Compliance Officer</td><td>Quality Assurance</td><td>San Diego</td></tr>
+                            <tr><td>Peter Parks</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Phoenix</td></tr>
+                            <tr><td>Steven Rogers</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Seattle</td></tr>
+                            <tr><td>Natalie Roman</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Norfolk</td></tr>
+                            <tr><td>Clinton Barnes</td><td>Quality Inspector</td><td>Quality Assurance</td><td>Phoenix</td></tr>
 
                             <!-- Admin/HR -->
-                            <tr><td>Mary Watson</td><td>HR Director</td><td>Human Resources</td><td>Indianapolis</td></tr>
-                            <tr><td>Piper Potts</td><td>HR Generalist</td><td>Human Resources</td><td>Raleigh</td></tr>
-                            <tr><td>Harold Hogan</td><td>Office Manager</td><td>Administration</td><td>Indianapolis</td></tr>
-                            <tr><td>Edward Leeds</td><td>Accountant</td><td>Finance</td><td>Indianapolis</td></tr>
+                            <tr><td>Mary Watson</td><td>HR Director</td><td>Human Resources</td><td>San Diego</td></tr>
+                            <tr><td>Piper Potts</td><td>HR Generalist</td><td>Human Resources</td><td>Phoenix</td></tr>
+                            <tr><td>Harold Hogan</td><td>Office Manager</td><td>Administration</td><td>San Diego</td></tr>
+                            <tr><td>Edward Leeds</td><td>Accountant</td><td>Finance</td><td>San Diego</td></tr>
 
-                            <!-- Manufacturing / Ops (Raleigh) -->
-                            <tr><td>Frank Castiglione</td><td>Plant Manager</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>Logan Hewitt</td><td>Shop Foreman</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>John Smith</td><td>CNC Machinist III</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>Robert Johnson</td><td>CNC Machinist III</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>Michael Williams</td><td>CNC Machinist II</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>David Brown</td><td>CNC Machinist II</td><td>Operations</td><td>Raleigh</td></tr>
-                            <tr><td>James Jones</td><td>CNC Machinist I</td><td>Operations</td><td>Raleigh</td></tr>
+                            <!-- Manufacturing / Ops (Phoenix) -->
+                            <tr><td>Frank Castiglione</td><td>Plant Manager</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>Logan Hewitt</td><td>Shop Foreman</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>John Smith</td><td>CNC Machinist III</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>Robert Johnson</td><td>CNC Machinist III</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>Michael Williams</td><td>CNC Machinist II</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>David Brown</td><td>CNC Machinist II</td><td>Operations</td><td>Phoenix</td></tr>
+                            <tr><td>James Jones</td><td>CNC Machinist I</td><td>Operations</td><td>Phoenix</td></tr>
                             
-                            <!-- Manufacturing / Ops (Fort Worth) -->
-                            <tr><td>Arthur Curry</td><td>Shop Foreman</td><td>Operations</td><td>Fort Worth</td></tr>
-                            <tr><td>Thomas Miller</td><td>CNC Machinist II</td><td>Operations</td><td>Fort Worth</td></tr>
-                            <tr><td>Richard Davis</td><td>CNC Machinist I</td><td>Operations</td><td>Fort Worth</td></tr>
-                            <tr><td>Charles Garcia</td><td>CNC Machinist I</td><td>Operations</td><td>Fort Worth</td></tr>
-                            <tr><td>Joseph Rodriguez</td><td>Assembly Tech</td><td>Operations</td><td>Fort Worth</td></tr>
-                            <tr><td>Christopher Wilson</td><td>Assembly Tech</td><td>Operations</td><td>Fort Worth</td></tr>
+                            <!-- Manufacturing / Ops (Seattle) -->
+                            <tr><td>Arthur Curry</td><td>Shop Foreman</td><td>Operations</td><td>Seattle</td></tr>
+                            <tr><td>Thomas Miller</td><td>CNC Machinist II</td><td>Operations</td><td>Seattle</td></tr>
+                            <tr><td>Richard Davis</td><td>CNC Machinist I</td><td>Operations</td><td>Seattle</td></tr>
+                            <tr><td>Charles Garcia</td><td>CNC Machinist I</td><td>Operations</td><td>Seattle</td></tr>
+                            <tr><td>Joseph Rodriguez</td><td>Assembly Tech</td><td>Operations</td><td>Seattle</td></tr>
+                            <tr><td>Christopher Wilson</td><td>Assembly Tech</td><td>Operations</td><td>Seattle</td></tr>
 
-                            <!-- Manufacturing / Ops (Huntsville) -->
-                            <tr><td>Barry Allen</td><td>Shop Foreman</td><td>Operations</td><td>Huntsville</td></tr>
-                            <tr><td>Daniel Martinez</td><td>CNC Machinist II</td><td>Operations</td><td>Huntsville</td></tr>
-                            <tr><td>Paul Anderson</td><td>CNC Machinist I</td><td>Operations</td><td>Huntsville</td></tr>
-                            <tr><td>Mark Taylor</td><td>CNC Machinist I</td><td>Operations</td><td>Huntsville</td></tr>
-                            <tr><td>Donald Thomas</td><td>Assembly Tech</td><td>Operations</td><td>Huntsville</td></tr>
-                            <tr><td>George Hernandez</td><td>Assembly Tech</td><td>Operations</td><td>Huntsville</td></tr>
+                            <!-- Manufacturing / Ops (Norfolk) -->
+                            <tr><td>Barry Allen</td><td>Shop Foreman</td><td>Operations</td><td>Norfolk</td></tr>
+                            <tr><td>Daniel Martinez</td><td>CNC Machinist II</td><td>Operations</td><td>Norfolk</td></tr>
+                            <tr><td>Paul Anderson</td><td>CNC Machinist I</td><td>Operations</td><td>Norfolk</td></tr>
+                            <tr><td>Mark Taylor</td><td>CNC Machinist I</td><td>Operations</td><td>Norfolk</td></tr>
+                            <tr><td>Donald Thomas</td><td>Assembly Tech</td><td>Operations</td><td>Norfolk</td></tr>
+                            <tr><td>George Hernandez</td><td>Assembly Tech</td><td>Operations</td><td>Norfolk</td></tr>
 
                             <!-- Maintenance & Logistics -->
-                            <tr><td>Kenneth White</td><td>Maintenance Tech</td><td>Facilities</td><td>Raleigh</td></tr>
-                            <tr><td>Steven Lopez</td><td>Maintenance Tech</td><td>Facilities</td><td>Fort Worth</td></tr>
-                            <tr><td>Edward Scott</td><td>Logistics Coordinator</td><td>Logistics</td><td>Raleigh</td></tr>
-                            <tr><td>Brian Green</td><td>Shipping/Receiving</td><td>Logistics</td><td>Raleigh</td></tr>
-                            <tr><td>Ronald Adams</td><td>Shipping/Receiving</td><td>Logistics</td><td>Fort Worth</td></tr>
-                            <tr><td>Anthony Baker</td><td>Shipping/Receiving</td><td>Logistics</td><td>Huntsville</td></tr>
+                            <tr><td>Kenneth White</td><td>Maintenance Tech</td><td>Facilities</td><td>Phoenix</td></tr>
+                            <tr><td>Steven Lopez</td><td>Maintenance Tech</td><td>Facilities</td><td>Seattle</td></tr>
+                            <tr><td>Edward Scott</td><td>Logistics Coordinator</td><td>Logistics</td><td>Phoenix</td></tr>
+                            <tr><td>Brian Green</td><td>Shipping/Receiving</td><td>Logistics</td><td>Phoenix</td></tr>
+                            <tr><td>Ronald Adams</td><td>Shipping/Receiving</td><td>Logistics</td><td>Seattle</td></tr>
+                            <tr><td>Anthony Baker</td><td>Shipping/Receiving</td><td>Logistics</td><td>Norfolk</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -858,9 +858,9 @@
         }
 
         // Local Storage for Notes
-        textarea.value = localStorage.getItem('defenseCoreNotes') || '';
+        textarea.value = localStorage.getItem('stratumDefenseNotes') || '';
         textarea.addEventListener('input', (e) => {
-            localStorage.setItem('defenseCoreNotes', e.target.value);
+            localStorage.setItem('stratumDefenseNotes', e.target.value);
         });
 
         // Employee Filter Logic
@@ -888,7 +888,7 @@
         }
 
         // Initialize
-        console.log("DefenseCore Case Study App Loaded. Employees: 54.");
+        console.log("Stratum Defense Case Study App Loaded. Employees: 54.");
     </script>
 </body>
 </html>
