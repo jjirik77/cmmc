@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC Academy: VSR Module</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #F3F4F6; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+        /* Header Pattern Effect */
+        .header-pattern {
+            background-color: #1e3a8a;
+            background-image: radial-gradient(#3b82f6 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Animations */
+        .tab-content { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tab-content.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Interactive Elements - Audit Mode */
+        .audit-item { transition: all 0.2s; position: relative; }
+        .audit-item:hover { background-color: rgba(59, 130, 246, 0.05); outline: 2px dashed #93c5fd; cursor: help; }
+        .audit-item.status-error { background-color: rgba(254, 226, 226, 0.3) !important; outline: 2px solid #ef4444 !important; }
+        .audit-item.status-valid { background-color: rgba(220, 252, 231, 0.3) !important; outline: 2px solid #22c55e !important; }
+
+        /* Navigation Styling */
+        .nav-item { color: #475569; transition: all 0.2s; border-radius: 0.375rem; }
+        .nav-item:hover { color: #1e293b; background-color: #f1f5f9; }
+        
+        /* Specific Sidebar Styling from Screenshot */
+        .sidebar-parent-active {
+            background-color: #1e3a8a; /* Dark Blue */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar-parent-active:hover { background-color: #1e3a8a; color: white; }
+
+        .sub-nav-item {
+            font-size: 0.85rem;
+            color: #64748b;
+            padding: 0.6rem 1rem;
+            border-left: 4px solid transparent;
+            transition: all 0.15s;
+            display: block;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sub-nav-item:hover { color: #1e293b; background-color: #f8fafc; }
+
+        /* The "Blue Left Border" look */
+        .sub-nav-item.active-sub {
+            background-color: #eff6ff; /* blue-50 */
+            color: #2563eb; /* blue-600 */
+            font-weight: 600;
+            border-left-color: #2563eb;
+        }
+
+        /* Form Styling */
+        .input-group label { 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            color: #334155; /* darker slate */
+            display: block; 
+            margin-bottom: 0.35rem; 
+        }
+        .input-field { 
+            width: 100%; 
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.25rem; 
+            padding: 0.6rem; 
+            font-size: 0.9rem; 
+            transition: all 0.2s; 
+            outline: none; 
+            color: #1e293b;
+        }
+        .input-field:focus { border-color: #3b82f6; ring: 1px solid #3b82f6; }
+        .input-field::placeholder { color: #94a3b8; }
+
+        /* Main Card Styling */
+        .content-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        @media print {
+            @page { margin: 1.5cm; size: auto; }
+            body { background-color: white; height: auto; overflow: visible; }
+            header, aside, .no-print { display: none !important; }
+            main { padding: 0 !important; margin: 0 !important; overflow: visible !important; width: 100% !important; }
+            .tab-content { display: none !important; }
+            #final-report { display: block !important; }
+            #report-paper { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-slate-800">
+
+    <!-- Header -->
+    <header class="header-pattern text-white shadow-md z-20 h-16 flex-none">
+        <div class="w-full h-full bg-blue-900/90 backdrop-blur-sm flex justify-between items-center px-6">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-shield-halved text-2xl text-white"></i>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white">CMMC Academy</h1>
+                    <p class="text-[10px] text-blue-200 uppercase tracking-wider font-semibold">Vulnerability Management Plan (VMP)</p>
+                </div>
+            </div>
+            <div class="text-xs font-medium text-white/80">
+                Module: VULN-402
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col flex-none z-10 shadow-sm overflow-y-auto">
+            <div class="py-6 pr-0 pl-0">
+                <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-4 px-6">Course Material</h2>
+                <nav class="space-y-1">
+                    <!-- Standard Nav Items -->
+                    <div class="px-3">
+                        <button onclick="switchTab('lecture')" id="nav-lecture" class="nav-item w-full flex items-center space-x-3 px-3 py-2 text-sm font-medium text-left">
+                            <i class="fas fa-book-open w-4 text-center"></i>
+                            <span>Overview: CMMC 2.0</span>
+                        </button>
+                        
+                        <button onclick="switchTab('case-study')" id="nav-case-study" class="nav-item w-full flex items-center space-x-3 px-3 py-2 text-sm font-medium text-left">
+                            <i class="fas fa-magnifying-glass w-4 text-center"></i>
+                            <span>Lab: Audit Findings</span>
+                        </button>
+                    </div>
+
+                    <!-- Active Parent Item (VSR Builder) -->
+                    <div id="builder-nav-group" class="mt-2">
+                        <div class="px-3">
+                            <div class="sidebar-parent-active w-full flex items-center space-x-3 px-3 py-2 text-sm font-medium text-left rounded-md cursor-default">
+                                <i class="fas fa-file-contract w-4 text-center"></i>
+                                <span>VSR Builder</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub-menu (Visible) -->
+                        <div id="lab-sub-menu" class="mt-1 space-y-0">
+                            <button onclick="switchTab('builder-org')" id="nav-builder-org" class="sub-nav-item active-sub">Organization Info</button>
+                            <button onclick="switchTab('builder-exec')" id="nav-builder-exec" class="sub-nav-item">Executive Summary</button>
+                            <button onclick="switchTab('builder-scope')" id="nav-builder-scope" class="sub-nav-item">Scope & Metrics</button>
+                            <button onclick="switchTab('builder-findings')" id="nav-builder-findings" class="sub-nav-item">Findings Manager</button>
+                            <button onclick="switchTab('builder-categories')" id="nav-builder-categories" class="sub-nav-item">Top 5 & Notable</button>
+                            <button onclick="switchTab('builder-analysis')" id="nav-builder-analysis" class="sub-nav-item">Analysis & Trends</button>
+                        </div>
+                    </div>
+
+                    <!-- Final Report Tab -->
+                    <div class="px-3 mt-2">
+                        <button onclick="switchTab('final-report')" id="nav-final-report" class="nav-item w-full flex items-center space-x-3 px-3 py-2 text-sm font-medium text-left">
+                            <i class="fas fa-print w-4 text-center"></i>
+                            <span>Final Report</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="mt-auto p-6">
+                <div class="bg-blue-50 rounded-lg p-4 text-xs border border-blue-100">
+                    <h3 class="font-bold text-blue-800 mb-2">Key Definitions</h3>
+                    <div class="space-y-2">
+                        <div><span class="font-bold text-blue-700">VSR:</span> Vulnerability Scan Report.</div>
+                        <div><span class="font-bold text-blue-700">POA&M:</span> Plan of Action & Milestones.</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-10 relative bg-slate-50" id="main-content">
+            
+            <!-- LECTURE TAB -->
+            <section id="lecture" class="tab-content max-w-5xl mx-auto">
+                <div class="content-card">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6">Vulnerability Scanning Landscape</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        The <strong>Vulnerability Scan Report (VSR)</strong> is the critical deliverable for CMMC Level 2 certification regarding Practice <strong>RA.L2-3.11.2</strong>. It serves as the "truth on the ground," documenting the actual technical state of your systems at a point in time.
+                    </p>
+                    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 text-sm text-blue-900">
+                        <i class="fas fa-info-circle mr-2"></i> Use the <strong>VSR Builder</strong> in the sidebar to construct your evidence artifact section by section.
+                    </div>
+                </div>
+            </section>
+
+            <!-- CASE STUDY TAB -->
+            <section id="case-study" class="tab-content max-w-6xl mx-auto h-full">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[80vh]">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Lab: Audit Simulator</h2>
+                            <p class="text-sm text-slate-500">Mode: <strong class="text-blue-600">Auditor</strong></p>
+                        </div>
+                        <div class="text-red-600 font-bold"><span id="score-counter">0</span>/5 Deficiencies</div>
+                    </div>
+                    <div id="feedback-panel" class="hidden bg-blue-50 border-b border-blue-100 p-4"><div class="flex items-center space-x-2"><div id="feedback-icon"></div><span id="feedback-msg" class="text-sm font-medium"></span></div></div>
+                    <div class="overflow-y-auto p-8 flex-1">
+                        <div class="bg-white shadow-lg max-w-3xl mx-auto border border-slate-200 rounded-sm">
+                            <div class="audit-item bg-slate-50 p-6 border-b border-slate-200 flex justify-between items-start" onclick="inspect(this, 'header', false)">
+                                <div><div class="text-2xl font-serif text-slate-800 font-bold">VULNERABILITY SCAN</div><div class="text-xs font-bold text-slate-400 uppercase">CONFIDENTIAL // CUI</div></div>
+                                <div class="text-right"><div class="font-bold text-slate-800">Acme Defense Corp</div><div class="text-xs text-slate-500">Nov 24, 2025</div></div>
+                            </div>
+                            <div class="grid grid-cols-4 border-b border-slate-200 text-center">
+                                <div class="audit-item p-4 border-r" onclick="inspect(this, 'scan-date', true)"><div class="text-[10px] text-slate-400 font-bold uppercase">Scan Date</div><div class="font-mono text-sm font-bold">Jan 12, 2024</div></div>
+                                <div class="audit-item p-4 border-r" onclick="inspect(this, 'tool-ver', true)"><div class="text-[10px] text-slate-400 font-bold uppercase">Engine</div><div class="font-mono text-sm font-bold">Nessus 6.2</div></div>
+                                <div class="audit-item p-4 border-r" onclick="inspect(this, 'auth', true)"><div class="text-[10px] text-slate-400 font-bold uppercase">Auth</div><div class="font-mono text-sm font-bold text-red-600">NO</div></div>
+                                <div class="audit-item p-4" onclick="inspect(this, 'scope', true)"><div class="text-[10px] text-slate-400 font-bold uppercase">Assets</div><div class="font-mono text-sm font-bold">1/45</div></div>
+                            </div>
+                            <div class="p-6">
+                                <div class="audit-item flex items-start p-3 rounded border border-red-100 bg-red-50/30" onclick="inspect(this, 'remediation', true)">
+                                    <div class="flex-none mt-1"><span class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">CRITICAL</span></div>
+                                    <div class="ml-3 flex-1"><div class="font-bold text-sm">MS17-010</div><div class="text-xs">Status: Open (No POA&M)</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUILDER: 1. ORGANIZATION INFO -->
+            <section id="builder-org" class="tab-content active max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">1. Organization Information</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Row 1 -->
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="input-group">
+                                <label>Organization Name</label>
+                                <input type="text" id="in-org" class="input-field" placeholder="e.g. ACME Technology Services Corporation" oninput="saveData()">
+                            </div>
+                            <div class="input-group">
+                                <label>Location</label>
+                                <input type="text" id="in-location" class="input-field" placeholder="e.g. El Paso, Texas" oninput="saveData()">
+                            </div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="input-group">
+                                <label>Employee Count</label>
+                                <input type="number" id="in-employees" class="input-field" placeholder="e.g. 64" oninput="saveData()">
+                            </div>
+                            <div class="input-group">
+                                <label>CMMC Level Required</label>
+                                <select id="in-level" class="input-field" onchange="saveData()">
+                                    <option>Select Level...</option>
+                                    <option value="1">Level 1 (Foundational)</option>
+                                    <option value="2">Level 2 (Advanced)</option>
+                                    <option value="3">Level 3 (Expert)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-200 my-6">
+
+                        <!-- VSR Critical Fields -->
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="input-group">
+                                <label>Report Date</label>
+                                <input type="date" id="in-date" class="input-field" oninput="saveData()">
+                            </div>
+                            <!-- Scanning tool moved from here -->
+                        </div>
+                    </div>
+
+                    <!-- Footer Button: Goes to Exec Summary now -->
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('builder-exec')" class="bg-blue-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-blue-700 transition flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. EXECUTIVE SUMMARY -->
+            <section id="builder-exec" class="tab-content max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">2. Executive Summary</h3>
+                    <div class="input-group">
+                        <label>Summary Narrative</label>
+                        <textarea id="in-summary" rows="8" class="input-field" placeholder="Assessment activities overview..." oninput="saveData()"></textarea>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('builder-scope')" class="bg-blue-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-blue-700 transition flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SCOPE & METRICS (Updated) -->
+            <section id="builder-scope" class="tab-content max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">3. Scope & Metrics</h3>
+                    <div class="grid grid-cols-2 gap-8 mb-6">
+                        <div class="input-group">
+                            <label>Total Assets (SSP)</label>
+                            <input type="number" id="in-total" class="input-field" placeholder="50" oninput="saveData()">
+                        </div>
+                        <div class="input-group">
+                            <label>Scanned Assets</label>
+                            <input type="number" id="in-scanned" class="input-field" placeholder="50" oninput="saveData()">
+                        </div>
+                    </div>
+                    
+                    <!-- New Row for Tool and Auth -->
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="input-group">
+                            <label>Scanning Tool(s)</label>
+                            <input type="text" id="in-tool" class="input-field" placeholder="e.g. Tenable Nessus, Burp Suite" oninput="saveData()">
+                        </div>
+                        <div class="input-group">
+                            <label>Authenticated Scan?</label>
+                            <select id="in-auth" class="input-field" onchange="saveData()">
+                                <option value="Yes">Yes (Credentialed)</option>
+                                <option value="No">No (Network Only)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('builder-findings')" class="bg-blue-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-blue-700 transition flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Findings -->
+            <section id="builder-findings" class="tab-content max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">4. Findings Manager</h3>
+                    <div class="bg-slate-50 p-4 rounded border border-slate-200 mb-6">
+                        <div class="grid grid-cols-12 gap-4 mb-3">
+                            <div class="col-span-5"><input type="text" id="add-vuln" class="input-field" placeholder="Vulnerability Name"></div>
+                            <div class="col-span-3"><select id="add-sev" class="input-field"><option value="Critical">Critical</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select></div>
+                            <div class="col-span-3"><input type="text" id="add-poam" class="input-field" placeholder="POA&M ID"></div>
+                            <div class="col-span-1"><button onclick="addFinding()" class="w-full h-full bg-slate-800 text-white rounded hover:bg-slate-700 flex items-center justify-center"><i class="fas fa-plus"></i></button></div>
+                        </div>
+                    </div>
+                    <div id="findings-list" class="space-y-2 mb-6"></div>
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('builder-categories')" class="bg-blue-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-blue-700 transition flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. TOP 5 & NOTABLE CATEGORIES -->
+            <section id="builder-categories" class="tab-content max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">5. Top 5 Vulnerability Categories</h3>
+                    <p class="text-sm text-slate-600 mb-4">Identify prevalent vulnerability types (e.g., "Missing Patches", "Config Issues").</p>
+                    
+                    <div class="bg-slate-50 p-4 rounded border border-slate-200 mb-6">
+                        <div class="grid grid-cols-12 gap-4 mb-3">
+                            <div class="col-span-8"><input type="text" id="add-cat-name" class="input-field" placeholder="Category Name (e.g. Outdated Software)"></div>
+                            <div class="col-span-3"><input type="number" id="add-cat-count" class="input-field" placeholder="Count"></div>
+                            <div class="col-span-1"><button onclick="addCategory()" class="w-full h-full bg-slate-800 text-white rounded hover:bg-slate-700 flex items-center justify-center"><i class="fas fa-plus"></i></button></div>
+                        </div>
+                    </div>
+                    <div id="categories-list" class="space-y-2 mb-8"></div>
+
+                    <hr class="border-gray-200 my-8">
+
+                    <!-- Notable Findings Section -->
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Notable Findings</h3>
+                    <p class="text-sm text-slate-600 mb-4">Add findings that are not in the Top 5 but require attention (e.g., zero-days, critical misconfigurations).</p>
+                    
+                    <div class="flex gap-3 mb-3">
+                        <input type="text" id="add-notable-text" class="input-field" placeholder="Describe notable finding...">
+                        <button onclick="addNotableFinding()" class="bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 font-medium text-sm flex-none">Add</button>
+                    </div>
+                    <div id="notable-list" class="space-y-2 mb-6"></div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('builder-analysis')" class="bg-blue-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-blue-700 transition flex items-center">
+                            Next <i class="fas fa-chevron-right ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. Analysis -->
+            <section id="builder-analysis" class="tab-content max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-blue-900">Vulnerability Management Plan (VMP)</h2>
+                    <p class="text-sm text-slate-500 mt-1">CMMC 2.0 Level 2 Compliance Framework | NIST SP 800-171</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">6. Analysis & Trends</h3>
+                    
+                    <!-- Industry Trends -->
+                    <div class="input-group mb-6">
+                        <label>Industry Trends</label>
+                        <textarea id="in-trends" rows="3" class="input-field" placeholder="Observed trends..." oninput="saveData()"></textarea>
+                    </div>
+
+                    <!-- Recommendations (Interactive) -->
+                    <div class="mb-6">
+                        <label class="text-sm font-bold text-slate-700 block mb-2">Recommendations</label>
+                        <div class="flex gap-3 mb-3">
+                            <input type="text" id="add-rec-text" class="input-field" placeholder="Enter a specific recommendation...">
+                            <button onclick="addRecommendation()" class="bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 font-medium text-sm flex-none">Add</button>
+                        </div>
+                        <div id="recs-list" class="space-y-2"></div>
+                    </div>
+
+                    <!-- Conclusion -->
+                    <div class="input-group mb-8">
+                        <label>Conclusion</label>
+                        <textarea id="in-conc" rows="3" class="input-field" placeholder="Determination..." oninput="saveData()"></textarea>
+                    </div>
+
+                    <!-- Report Sign-off Section (New) -->
+                    <div class="bg-blue-50 p-6 rounded border border-blue-100">
+                        <h3 class="text-sm font-bold text-blue-900 mb-4 uppercase tracking-wider">Report Sign-off</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="input-group">
+                                <label>Auditor Name</label>
+                                <input type="text" id="in-auditor" class="input-field" placeholder="e.g. Jane Doe" oninput="saveData()">
+                            </div>
+                            <div class="input-group">
+                                <label>Review Date</label>
+                                <input type="date" id="in-review-date" class="input-field" oninput="saveData()">
+                            </div>
+                        </div>
+                        <div class="input-group mt-4">
+                            <label>Document Classification</label>
+                            <select id="in-classification" class="input-field" onchange="saveData()">
+                                <option value="CONFIDENTIAL // CUI">CONFIDENTIAL // CUI</option>
+                                <option value="INTERNAL USE ONLY">INTERNAL USE ONLY</option>
+                                <option value="PUBLIC">PUBLIC</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('final-report')" class="bg-green-600 text-white px-6 py-2 rounded-md font-bold text-sm hover:bg-green-700 transition flex items-center">
+                            View Report <i class="fas fa-check-circle ml-2 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FINAL REPORT TAB -->
+            <section id="final-report" class="tab-content max-w-4xl mx-auto">
+                <div class="flex justify-between items-center mb-6 no-print">
+                    <h2 class="text-2xl font-bold text-slate-800">Final Artifact</h2>
+                    <div class="flex space-x-3">
+                        <button onclick="switchTab('builder-analysis')" class="bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded hover:bg-slate-50 font-medium shadow-sm transition flex items-center">
+                            <i class="fas fa-pen mr-2 text-xs"></i> Edit Report
+                        </button>
+                        <button onclick="window.print()" class="bg-slate-900 text-white px-4 py-2 rounded hover:bg-slate-800 font-medium shadow"><i class="fas fa-print mr-2"></i> Print</button>
+                    </div>
+                </div>
+                <div id="report-paper" class="bg-white p-12 rounded-xl shadow-lg border border-slate-200 font-serif text-slate-900 relative">
+                    
+                    <!-- Header -->
+                    <div class="border-b-4 border-slate-900 pb-6 mb-8 flex justify-between items-end">
+                        <div>
+                            <h1 class="text-3xl font-bold uppercase tracking-tight text-slate-900">Vulnerability<br>Scan Report</h1>
+                            <div class="mt-2 text-sm font-bold text-slate-500 tracking-widest" id="out-classification">CONFIDENTIAL // CUI</div>
+                        </div>
+                        <div class="text-right text-sm leading-relaxed">
+                            <div class="font-bold text-lg" id="out-org">[Org]</div>
+                            <div id="out-location"></div>
+                            <div>Date: <span id="out-date">---</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Executive Summary -->
+                    <div class="mb-8">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-3 pb-1">Executive Summary</h3>
+                        <p class="text-sm leading-relaxed text-justify" id="out-summary">---</p>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-12 mb-8">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-3 pb-1">Metrics</h3>
+                            <div class="flex justify-between text-sm mb-2"><span>Assets:</span> <span class="font-bold" id="out-total">0</span></div>
+                            <div class="flex justify-between text-sm"><span>Scanned:</span> <span class="font-bold" id="out-scanned">0</span></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-3 pb-1">Config</h3>
+                            <div class="flex justify-between text-sm mb-2"><span>Tool:</span> <span class="font-mono text-xs" id="out-tool">---</span></div>
+                            <div class="flex justify-between text-sm"><span>Auth:</span> <span class="font-bold" id="out-auth">---</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Findings -->
+                    <div class="mb-8">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-4 pb-1">Findings</h3>
+                        <div id="out-findings-table"><p class="italic text-slate-400 text-sm">None.</p></div>
+                    </div>
+                    
+                    <!-- Top Categories -->
+                    <div class="mb-8" id="out-categories-section">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-4 pb-1">Top Vulnerability Categories</h3>
+                        <div id="out-categories-table"><p class="italic text-slate-400 text-sm">None.</p></div>
+                        
+                        <!-- Notable Findings Output -->
+                        <div id="out-notable-section" class="mt-6">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-2">Notable Findings</h4>
+                            <ul id="out-notable-list" class="list-disc pl-5 text-sm text-slate-700"><li>None.</li></ul>
+                        </div>
+                    </div>
+
+                    <!-- Analysis -->
+                    <div class="bg-slate-50 p-6 rounded border border-slate-100 mb-8">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 border-b border-gray-200 mb-4 pb-1">Analysis</h3>
+                        <div class="mb-4"><strong class="block text-sm mb-1">Trends</strong><p class="text-xs text-slate-600" id="out-trends">---</p></div>
+                        <div class="mb-4">
+                            <strong class="block text-sm mb-1">Recommendations</strong>
+                            <ul class="list-disc pl-5 text-xs text-slate-600" id="out-recs"><li>None.</li></ul>
+                        </div>
+                        <div><strong class="block text-sm mb-1">Conclusion</strong><p class="text-xs text-slate-600" id="out-conc">---</p></div>
+                    </div>
+
+                    <!-- New Footer / Sign-off Area -->
+                    <div class="mt-12 pt-6 border-t-2 border-slate-200 flex justify-between items-center text-sm">
+                        <div>
+                            <div class="font-bold text-slate-800 mb-1">Audited By</div>
+                            <div class="font-mono text-slate-600" id="out-auditor">---</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-slate-800 mb-1">Review Date</div>
+                            <div class="font-mono text-slate-600" id="out-review-date">---</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-[10px] text-slate-400 uppercase pt-8 mt-4 border-t border-slate-50">
+                        Generated via CMMC Academy Lab Tool • Authorized Evidence Artifact
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- NAVIGATION ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => { el.classList.remove('active-parent'); el.classList.remove('bg-blue-900', 'text-white'); });
+            document.querySelectorAll('.sub-nav-item').forEach(el => el.classList.remove('active-sub'));
+
+            const subMenu = document.getElementById('lab-sub-menu');
+            if (tabId.startsWith('builder-')) {
+                subMenu.classList.remove('hidden');
+                document.getElementById('nav-' + tabId).classList.add('active-sub');
+            } else {
+                subMenu.classList.add('hidden');
+                const mainNav = document.getElementById('nav-' + tabId);
+                if (mainNav) mainNav.classList.add('active-parent');
+            }
+            document.getElementById(tabId).classList.add('active');
+            if(tabId === 'final-report') renderFinalReport();
+        }
+
+        // --- DATA ---
+        let reportData = { 
+            org: '', location: '', employees: '', level: '', date: '', tool: '', summary: '', 
+            total: 0, scanned: 0, auth: 'Yes', 
+            trends: '', conc: '', 
+            findings: [], 
+            categories: [], 
+            notableFindings: [],
+            recs: [],
+            auditor: '', reviewDate: '', classification: 'CONFIDENTIAL // CUI'
+        };
+
+        function saveData() {
+            reportData.org = document.getElementById('in-org').value;
+            reportData.location = document.getElementById('in-location').value;
+            reportData.date = document.getElementById('in-date').value;
+            
+            const toolInput = document.getElementById('in-tool');
+            if(toolInput) reportData.tool = toolInput.value;
+
+            reportData.summary = document.getElementById('in-summary').value;
+            reportData.total = parseInt(document.getElementById('in-total').value) || 0;
+            reportData.scanned = parseInt(document.getElementById('in-scanned').value) || 0;
+            reportData.auth = document.getElementById('in-auth').value;
+            reportData.trends = document.getElementById('in-trends').value;
+            reportData.conc = document.getElementById('in-conc').value;
+            
+            // New Fields
+            const auditorInput = document.getElementById('in-auditor');
+            if(auditorInput) reportData.auditor = auditorInput.value;
+            
+            const reviewDateInput = document.getElementById('in-review-date');
+            if(reviewDateInput) reportData.reviewDate = reviewDateInput.value;
+            
+            const classInput = document.getElementById('in-classification');
+            if(classInput) reportData.classification = classInput.value;
+        }
+
+        // --- FINDINGS ---
+        function addFinding() {
+            const name = document.getElementById('add-vuln').value;
+            if(!name) return;
+            reportData.findings.push({ name, sev: document.getElementById('add-sev').value, poam: document.getElementById('add-poam').value });
+            document.getElementById('add-vuln').value = ''; document.getElementById('add-poam').value = '';
+            renderFindingsList();
+        }
+        function removeFinding(index) { reportData.findings.splice(index, 1); renderFindingsList(); }
+        function renderFindingsList() {
+            document.getElementById('findings-list').innerHTML = reportData.findings.map((f, i) => `
+                <div class="flex justify-between items-center bg-white p-3 rounded border border-gray-200 text-sm">
+                    <div><span class="font-bold block text-slate-700">${f.name}</span><span class="text-xs text-gray-500 font-bold uppercase">${f.sev} ${f.poam ? '| POA&M: ' + f.poam : ''}</span></div>
+                    <button onclick="removeFinding(${i})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
+        }
+
+        // --- CATEGORIES ---
+        function addCategory() {
+            const name = document.getElementById('add-cat-name').value;
+            const count = document.getElementById('add-cat-count').value;
+            if(!name) return;
+            reportData.categories.push({ name, count });
+            document.getElementById('add-cat-name').value = ''; document.getElementById('add-cat-count').value = '';
+            renderCategoriesList();
+        }
+        function removeCategory(index) { reportData.categories.splice(index, 1); renderCategoriesList(); }
+        function renderCategoriesList() {
+            document.getElementById('categories-list').innerHTML = reportData.categories.map((c, i) => `
+                <div class="flex justify-between items-center bg-white p-3 rounded border border-gray-200 text-sm">
+                    <div><span class="font-bold block text-slate-700">${c.name}</span><span class="text-xs text-gray-500">Count: ${c.count}</span></div>
+                    <button onclick="removeCategory(${i})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
+        }
+
+        // --- NOTABLE FINDINGS ---
+        function addNotableFinding() {
+            const text = document.getElementById('add-notable-text').value;
+            if(!text) return;
+            reportData.notableFindings.push(text);
+            document.getElementById('add-notable-text').value = '';
+            renderNotableFindingsList();
+        }
+        function removeNotableFinding(index) { reportData.notableFindings.splice(index, 1); renderNotableFindingsList(); }
+        function renderNotableFindingsList() {
+            document.getElementById('notable-list').innerHTML = reportData.notableFindings.map((n, i) => `
+                <div class="flex justify-between items-center bg-white p-2 rounded border border-gray-200 text-xs">
+                    <span class="text-slate-700">${n}</span>
+                    <button onclick="removeNotableFinding(${i})" class="text-red-500 hover:text-red-700 ml-2"><i class="fas fa-times"></i></button>
+                </div>`).join('');
+        }
+
+        // --- RECOMMENDATIONS ---
+        function addRecommendation() {
+            const text = document.getElementById('add-rec-text').value;
+            if(!text) return;
+            reportData.recs.push(text);
+            document.getElementById('add-rec-text').value = '';
+            renderRecsList();
+        }
+        function removeRecommendation(index) { reportData.recs.splice(index, 1); renderRecsList(); }
+        function renderRecsList() {
+            document.getElementById('recs-list').innerHTML = reportData.recs.map((r, i) => `
+                <div class="flex justify-between items-center bg-white p-2 rounded border border-gray-200 text-xs">
+                    <span class="text-slate-700">${r}</span>
+                    <button onclick="removeRecommendation(${i})" class="text-red-500 hover:text-red-700 ml-2"><i class="fas fa-times"></i></button>
+                </div>`).join('');
+        }
+
+        // --- RENDER FINAL REPORT ---
+        function renderFinalReport() {
+            document.getElementById('out-org').innerText = reportData.org || '[Organization Name]';
+            document.getElementById('out-location').innerText = reportData.location || '';
+            document.getElementById('out-date').innerText = reportData.date || '---';
+            document.getElementById('out-tool').innerText = reportData.tool || '---';
+            document.getElementById('out-summary').innerText = reportData.summary || 'No summary provided.';
+            document.getElementById('out-trends').innerText = reportData.trends || '---';
+            document.getElementById('out-conc').innerText = reportData.conc || '---';
+            document.getElementById('out-total').innerText = reportData.total;
+            document.getElementById('out-scanned').innerText = reportData.scanned;
+            document.getElementById('out-auth').innerText = reportData.auth;
+            
+            // New Fields
+            document.getElementById('out-auditor').innerText = reportData.auditor || '---';
+            document.getElementById('out-review-date').innerText = reportData.reviewDate || '---';
+            document.getElementById('out-classification').innerText = reportData.classification;
+            
+            // Findings
+            const fTable = document.getElementById('out-findings-table');
+            if (reportData.findings.length > 0) {
+                fTable.innerHTML = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="border-b-2 border-slate-800"><th class="py-2">Finding</th><th class="py-2">Severity</th><th class="py-2 text-right">Status</th></tr></thead><tbody>${reportData.findings.map(f => `<tr class="border-b border-gray-200"><td class="py-2 font-bold text-slate-700">${f.name}</td><td class="py-2"><span class="px-2 py-0.5 rounded text-xs font-bold text-white ${getSevColor(f.sev)}">${f.sev}</span></td><td class="py-2 text-right font-mono text-xs">${f.poam ? 'POA&M: ' + f.poam : '<span class="text-green-600">Remediated</span>'}</td></tr>`).join('')}</tbody></table>`;
+            } else { fTable.innerHTML = '<p class="italic text-slate-400 text-sm">None.</p>'; }
+
+            // Categories
+            const cTable = document.getElementById('out-categories-table');
+            if (reportData.categories.length > 0) {
+                cTable.innerHTML = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="border-b border-gray-200 text-xs text-slate-500 uppercase"><th class="py-1">Category</th><th class="py-1 text-right">Count</th></tr></thead><tbody>${reportData.categories.map(c => `<tr><td class="py-1 font-medium text-slate-700">${c.name}</td><td class="py-1 text-right font-mono">${c.count}</td></tr>`).join('')}</tbody></table>`;
+            } else { cTable.innerHTML = '<p class="italic text-slate-400 text-sm">None.</p>'; }
+
+            // Notable Findings
+            const nList = document.getElementById('out-notable-list');
+            if (reportData.notableFindings.length > 0) {
+                nList.innerHTML = reportData.notableFindings.map(n => `<li class="mb-1">${n}</li>`).join('');
+            } else { nList.innerHTML = '<li>None.</li>'; }
+
+            // Recommendations
+            const rList = document.getElementById('out-recs');
+            if (reportData.recs.length > 0) {
+                rList.innerHTML = reportData.recs.map(r => `<li class="mb-1">${r}</li>`).join('');
+            } else { rList.innerHTML = '<li>None.</li>'; }
+        }
+
+        function getSevColor(sev) { if(sev === 'Critical') return 'bg-red-700'; if(sev === 'High') return 'bg-orange-500'; if(sev === 'Medium') return 'bg-yellow-500'; return 'bg-green-600'; }
+
+        // Audit Logic
+        let foundErrors = new Set();
+        function checkError(element, type) { inspect(element, type, true); } // Bridge to inspect
+        function inspect(element, type, isError) {
+            const panel = document.getElementById('feedback-panel');
+            const msg = document.getElementById('feedback-msg');
+            const icon = document.getElementById('feedback-icon');
+            panel.classList.remove('hidden');
+            
+            if(isError) {
+                element.classList.add('status-error');
+                icon.innerHTML = '<i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>';
+                msg.innerText = "Deficiency Identified: Non-compliant with RA.L2-3.11.2";
+                msg.className = "text-sm font-bold text-red-800";
+                if (!foundErrors.has(type)) { foundErrors.add(type); document.getElementById('score-counter').innerText = foundErrors.size; }
+            } else {
+                element.classList.add('status-valid');
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-600 mr-2"></i>';
+                msg.innerText = "Verified: This element meets CMMC standards.";
+                msg.className = "text-sm font-bold text-green-800";
+            }
+        }
+    </script>
+</body>
+</html>
