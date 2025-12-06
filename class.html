@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC 2.0 Audit Simulation | AeroTech Dynamics</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #2563eb;
+            --bg: #f1f5f9;
+            --paper: #ffffff;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--secondary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 280px;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--secondary);
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 20px;
+            background-color: #020617;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .brand p {
+            margin: 5px 0 0;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .nav-section {
+            padding: 10px 20px 5px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        nav button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+
+        nav button:hover {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        nav button.active {
+            background-color: #1e293b;
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Tabs/Panels */
+        .panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Document Styling */
+        .document-view {
+            background: var(--paper);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .doc-header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .doc-meta {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: right;
+        }
+
+        .classification {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: bold;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #fcd34d;
+            margin-bottom: 5px;
+        }
+
+        /* Chat/Interview Styling */
+        .chat-bubble {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .chat-bubble.interviewer {
+            border-left: 4px solid var(--accent);
+        }
+        .chat-bubble.subject {
+            border-left: 4px solid var(--success);
+            background: #fff;
+        }
+        .speaker-name {
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            display: block;
+            color: var(--secondary);
+        }
+
+        /* SAR Form Styling */
+        .sar-form-section {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .sar-form-section h3 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .help-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .finding-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 150px;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: white;
+        }
+        .badge.met { background: var(--success); }
+        .badge.not-met { background: var(--danger); }
+
+        /* Print Styles */
+        @media print {
+            aside { display: none; }
+            main { padding: 0; }
+            .container { max-width: 100%; }
+            .panel { display: block !important; page-break-after: always; }
+            .document-view, .sar-form-section { box-shadow: none; border: 1px solid #ccc; }
+            /* Only show SAR when printing if user is on SAR tab, or show all? 
+               For this tool, let's hide everything except the active tab for printing. */
+            body > *:not(main) { display: none; }
+            .panel:not(.active) { display: none !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<aside>
+    <div class="brand">
+        <h1>CMMC Auditor Workbench</h1>
+        <p>Student Case Study: AeroTech</p>
+    </div>
+    <nav>
+        <div class="nav-section">Mission Brief</div>
+        <button onclick="showPanel('brief')" class="active">Instructions</button>
+        
+        <div class="nav-section">Evidence Repository</div>
+        <button onclick="showPanel('company')">1. Company Profile (SSP)</button>
+        <button onclick="showPanel('interview-it')">2. Transcript: IT Admin</button>
+        <button onclick="showPanel('interview-hr')">3. Transcript: HR Director</button>
+        <button onclick="showPanel('configs')">4. System Configs & Logs</button>
+        <button onclick="showPanel('policies')">5. Policy Documents</button>
+
+        <div class="nav-section">Work Product</div>
+        <button onclick="showPanel('sar-builder')">📝 Edit SAR Report</button>
+    </nav>
+</aside>
+
+<main>
+    <div class="container">
+
+        <!-- INSTRUCTIONS -->
+        <div id="brief" class="panel active">
+            <div class="document-view">
+                <div class="doc-header">
+                    <h2>Case Study Instructions</h2>
+                    <div class="doc-meta">Module: CMMC-AUD-101</div>
+                </div>
+                <h3>Your Role</h3>
+                <p>You are a provisional CMMC Assessor. You have been hired to perform a Mock CMMC Level 2 Assessment for <strong>AeroTech Dynamics</strong>, a small manufacturer of drone guidance fins for the DoD.</p>
+                
+                <h3>The Objective</h3>
+                <p>AeroTech believes they are ready for certification. Your job is to review the evidence provided in the "Evidence Repository" tabs and verify if they actually meet the NIST 800-171 requirements.</p>
+                
+                <h3>The Deliverable</h3>
+                <p>You must complete the <strong>Security Assessment Report (SAR)</strong> located in the bottom tab. You need to:</p>
+                <ol>
+                    <li>Review the evidence.</li>
+                    <li>Hunt for inconsistencies between what they <em>say</em> (Policy) and what they <em>do</em> (Logs/Interviews).</li>
+                    <li>Determine if controls are MET or NOT MET.</li>
+                    <li>Write the Remediation Recommendations for the CEO.</li>
+                </ol>
+                <p><em>Note: This tool runs entirely in your browser. If you refresh the page, your entered data will be lost unless you print/save to PDF.</em></p>
+            </div>
+        </div>
+
+        <!-- EVIDENCE 1: COMPANY PROFILE -->
+        <div id="company" class="panel">
+            <div class="document-view">
+                <div class="classification">CUI // SP-SSEL</div>
+                <div class="doc-header">
+                    <h2>System Security Plan (SSP) - Excerpt</h2>
+                    <div class="doc-meta">Doc ID: AT-SSP-001<br>Rev: 2.4<br>Updated: Oct 10, 2024</div>
+                </div>
+                
+                <h3>1. Organizational Overview</h3>
+                <p><strong>Organization Name:</strong> AeroTech Dynamics</p>
+                <p><strong>Headquarters:</strong> 101 Innovation Dr, Dayton, OH 45433 (CAGE: 1A2B3)</p>
+                <p><strong>Satellite Locations:</strong> None. Remote workforce presence in Huntsville, AL.</p>
+                <p><strong>Total Personnel:</strong> 45 Employees</p>
+                <ul>
+                    <li>Cleared Personnel (Secret): 5 (Executive Leadership & Lead Engineers)</li>
+                    <li>Uncleared Personnel: 40 (All US Citizens)</li>
+                </ul>
+
+                <h3>2. Key Personnel & Roles (Contact List)</h3>
+                <table style="width:100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 20px;">
+                    <tr style="background:#cbd5e1; text-align: left;">
+                        <th style="padding:8px; border:1px solid #94a3b8;">Name</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Role</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Email</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Clearance</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Responsibilities</th>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Alice V.</td>
+                        <td style="border:1px solid #cbd5e1;">CEO</td>
+                        <td style="border:1px solid #cbd5e1;">alice.v@aerotech.local</td>
+                        <td style="border:1px solid #cbd5e1;">Secret</td>
+                        <td style="border:1px solid #cbd5e1;">Authorizing Official</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Bob R.</td>
+                        <td style="border:1px solid #cbd5e1;">Chief Engineer</td>
+                        <td style="border:1px solid #cbd5e1;">bob.r@aerotech.local</td>
+                        <td style="border:1px solid #cbd5e1;">Secret</td>
+                        <td style="border:1px solid #cbd5e1;">Data Owner (CUI)</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Marcus T.</td>
+                        <td style="border:1px solid #cbd5e1;">IT Lead</td>
+                        <td style="border:1px solid #cbd5e1;">marcus.t@aerotech.local</td>
+                        <td style="border:1px solid #cbd5e1;">None</td>
+                        <td style="border:1px solid #cbd5e1;">System Admin, ISSO</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Sarah J.</td>
+                        <td style="border:1px solid #cbd5e1;">Jr. SysAdmin</td>
+                        <td style="border:1px solid #cbd5e1;">sarah.j@aerotech.local</td>
+                        <td style="border:1px solid #cbd5e1;">None</td>
+                        <td style="border:1px solid #cbd5e1;">Helpdesk, Patching</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Linda K.</td>
+                        <td style="border:1px solid #cbd5e1;">HR Director</td>
+                        <td style="border:1px solid #cbd5e1;">linda.k@aerotech.local</td>
+                        <td style="border:1px solid #cbd5e1;">None</td>
+                        <td style="border:1px solid #cbd5e1;">Personnel Security</td>
+                    </tr>
+                </table>
+                
+                <h3>3. System Environment & Network Topology</h3>
+                <p><strong>System Name:</strong> Engineering Network (ENet)</p>
+                <p>The CMMC Assessment Boundary encompasses the hybrid environment supporting DoD contracts.</p>
+                
+                <div style="background: #f8fafc; border: 1px dashed #94a3b8; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 0.85rem; margin-bottom: 20px;">
+                    <strong>[CLOUD: Microsoft 365 GCC High]</strong><br>
+                    |-- Exchange Online (Email CUI)<br>
+                    |-- SharePoint Online (Project Docs CUI)<br>
+                    |-- Teams (Communication)<br>
+                    |<br>
+                    <strong>[BOUNDARY: FortiGate 60F Firewall]</strong><br>
+                    |  (Filter: North/South Traffic, VPN Gateway)<br>
+                    |<br>
+                    <strong>[ON-PREMISE: Dayton HQ LAN (192.168.10.x)]</strong><br>
+                    |-- <strong>Server_01 (Physical):</strong> Win Svr 2019 DC, File Share (CUI Repo), Print<br>
+                    |-- <strong>Workstations:</strong> 12x Dell Precision Laptops (Win 11 Pro)<br>
+                    |-- <strong>Networking:</strong> Cisco Catalyst 2960X Switch<br>
+                    |<br>
+                    <strong>[REMOTE USERS]</strong><br>
+                    |-- FortiClient VPN (Tunnel to HQ)<br>
+                    |-- MFA via Microsoft Authenticator
+                </div>
+
+                <h3>4. Data Asset Inventory</h3>
+                <p><strong>CUI Types Handled:</strong></p>
+                <ul>
+                    <li><strong>CUI-SP-SSEL:</strong> Space Systems Export Licenses (ITAR).</li>
+                    <li><strong>CUI-TECH:</strong> Technical Data Packages (Drawings, Specs).</li>
+                </ul>
+                
+                <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <tr style="background:#cbd5e1; text-align: left;">
+                        <th style="padding:8px; border:1px solid #94a3b8;">Asset Type</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Location</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Format</th>
+                        <th style="padding:8px; border:1px solid #94a3b8;">Volume</th>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Engineering Drawings (TDP)</td>
+                        <td style="border:1px solid #cbd5e1;">Server_01 (S:\Drive)</td>
+                        <td style="border:1px solid #cbd5e1;">.SLDPRT, .DWG</td>
+                        <td style="border:1px solid #cbd5e1;">~2.4 TB</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Project Proposals</td>
+                        <td style="border:1px solid #cbd5e1;">SharePoint Online</td>
+                        <td style="border:1px solid #cbd5e1;">.DOCX, .PDF</td>
+                        <td style="border:1px solid #cbd5e1;">~500 GB</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">Email Comm.</td>
+                        <td style="border:1px solid #cbd5e1;">Exchange Online</td>
+                        <td style="border:1px solid #cbd5e1;">.MSG, .PST</td>
+                        <td style="border:1px solid #cbd5e1;">N/A</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- EVIDENCE 2: INTERVIEW IT -->
+        <div id="interview-it" class="panel">
+            <div class="document-view">
+                <div class="doc-header">
+                    <h2>Interview Transcript: IT Administrator</h2>
+                    <div class="doc-meta">Subject: Marcus T. (IT Lead)<br>Date: Oct 12, 2024</div>
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    Let's talk about Access Control (AC.L2-3.1.1). How do you manage administrative accounts?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Marcus (IT):</span>
+                    Well, we have a 'Domain Admin' account. Since it's just me and the junior tech, Sarah, we usually just share the password for that account to keep things moving fast. It's stored in a KeePass vault we both can open.
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    I see. And what about Multi-Factor Authentication (IA.L2-3.5.3)?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Marcus (IT):</span>
+                    We definitely have MFA enabled for the VPN. If you work from home, you have to use the app on your phone.
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    What about when you log into the Server locally in the server room? Or when you RDP internally?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Marcus (IT):</span>
+                    Internally? No, that would slow us down too much. If we are in the building, the physical door lock is the security. We don't use MFA for local logins.
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    Moving on to Maintenance (MA.L2-3.7.3). How do you handle equipment sanitization before disposal?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Marcus (IT):</span>
+                    Oh, we have a pile of old laptops in the closet. We plan to drill the hard drives eventually, but right now they are just sitting there. The door is locked though.
+                </div>
+            </div>
+        </div>
+
+        <!-- EVIDENCE 3: INTERVIEW HR -->
+        <div id="interview-hr" class="panel">
+            <div class="document-view">
+                <div class="doc-header">
+                    <h2>Interview Transcript: HR Director</h2>
+                    <div class="doc-meta">Subject: Linda K. (HR)<br>Date: Oct 12, 2024</div>
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    Can you describe the onboarding process regarding security screening (PS.L2-3.9.1)?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Linda (HR):</span>
+                    Absolutely. Every employee undergoes a background check before they are hired. We check criminal history and references.
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    Great. What happens when an employee is terminated or leaves voluntarily? specifically regarding asset return and account disabling (PS.L2-3.9.2)?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Linda (HR):</span>
+                    We do an exit interview on their last day. They hand in their badge. I send an email to IT usually by the end of the week to let them know the person is gone so they can close the account.
+                </div>
+
+                <div class="chat-bubble interviewer">
+                    <span class="speaker-name">Assessor:</span>
+                    Wait, you notify IT "by the end of the week"? So if someone is fired on Monday, IT might not know until Friday?
+                </div>
+                <div class="chat-bubble subject">
+                    <span class="speaker-name">Linda (HR):</span>
+                    Usually, yes. Marcus is busy, and I assume if they don't have a badge, they can't get in anyway, right?
+                </div>
+            </div>
+        </div>
+
+        <!-- EVIDENCE 4: CONFIGS -->
+        <div id="configs" class="panel">
+            <div class="document-view">
+                <div class="doc-header">
+                    <h2>Technical Configurations & Logs</h2>
+                    <div class="doc-meta">Source: Automated Export</div>
+                </div>
+
+                <h3>1. Active Directory Password Policy</h3>
+                <pre style="background: #e2e8f0; padding: 10px; border-radius: 4px; overflow-x: auto;">
+> Get-ADDefaultDomainPasswordPolicy
+ComplexityEnabled           : True
+DistinguishedName           : DC=aerotech,DC=local
+LockoutDuration             : 00:30:00
+LockoutObservationWindow    : 00:30:00
+LockoutThreshold            : 0   <span style="color:red;">/* ALERT: 0 means account never locks out */</span>
+MaxPasswordAge              : 90.00:00:00
+MinPasswordAge              : 1.00:00:00
+MinPasswordLength           : 8
+PasswordHistoryCount        : 5
+                </pre>
+
+                <h3>2. Firewall Rules (Export)</h3>
+                <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <tr style="background:#cbd5e1;">
+                        <th style="padding:5px; border:1px solid #94a3b8;">ID</th>
+                        <th style="padding:5px; border:1px solid #94a3b8;">Source</th>
+                        <th style="padding:5px; border:1px solid #94a3b8;">Dest</th>
+                        <th style="padding:5px; border:1px solid #94a3b8;">Service</th>
+                        <th style="padding:5px; border:1px solid #94a3b8;">Action</th>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">1</td>
+                        <td style="border:1px solid #cbd5e1;">WAN</td>
+                        <td style="border:1px solid #cbd5e1;">DMZ_Web</td>
+                        <td style="border:1px solid #cbd5e1;">HTTPS</td>
+                        <td style="border:1px solid #cbd5e1; color:green;">ALLOW</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">2</td>
+                        <td style="border:1px solid #cbd5e1;">LAN_Eng</td>
+                        <td style="border:1px solid #cbd5e1;">WAN</td>
+                        <td style="border:1px solid #cbd5e1;">ALL</td>
+                        <td style="border:1px solid #cbd5e1; color:green;">ALLOW</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #cbd5e1;">3</td>
+                        <td style="border:1px solid #cbd5e1;">WAN</td>
+                        <td style="border:1px solid #cbd5e1;">Server_01</td>
+                        <td style="border:1px solid #cbd5e1;">RDP (3389)</td>
+                        <td style="border:1px solid #cbd5e1; color:red;">ALLOW <span style="font-size:0.7em">(Legacy Vendor Access)</span></td>
+                    </tr>
+                </table>
+
+                <h3>3. Physical Access Log (Front Desk)</h3>
+                <ul>
+                    <li>08:00 AM - Cleaning Crew (Badge #04) In</li>
+                    <li>09:15 AM - HVAC Repair (Guest) In - Escort: None recorded.</li>
+                    <li>09:30 AM - HVAC Repair (Guest) Out.</li>
+                    <li>10:00 AM - FedEx Delivery - Drop off only.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- EVIDENCE 5: POLICIES -->
+        <div id="policies" class="panel">
+            <div class="document-view">
+                <div class="doc-header">
+                    <h2>Corporate Policy: AC-01</h2>
+                    <div class="doc-meta">Access Control Policy</div>
+                </div>
+                <p><strong>Section 4.1:</strong> Each user must be identified by a unique identifier. Account sharing is strictly prohibited.</p>
+                <p><strong>Section 4.5:</strong> Failed login attempts must be limited to 3 attempts within 15 minutes, after which the account is locked.</p>
+                <p><strong>Section 5.0:</strong> Remote access must be performed over VPN using MFA.</p>
+                
+                <hr style="margin: 20px 0;">
+
+                <div class="doc-header">
+                    <h2>Corporate Policy: MP-02</h2>
+                    <div class="doc-meta">Media Protection Policy</div>
+                </div>
+                <p><strong>Section 2.1:</strong> The use of portable storage devices (USB drives) is permitted only if the device is encrypted using BitLocker.</p>
+                <p><strong>Section 2.2:</strong> Unknown portable storage devices found on premises must be turned in to IT immediately.</p>
+            </div>
+        </div>
+
+        <!-- WORK PRODUCT: SAR FORM -->
+        <div id="sar-builder" class="panel">
+            <div class="doc-header" style="background: white; padding: 20px; border-radius: 8px;">
+                <h2 style="color: var(--primary);">Security Assessment Report (SAR)</h2>
+                <p><strong>Instructions:</strong> Based on the evidence in the other tabs, complete this report. Look for conflicts between Policies (what they say) and Configs/Interviews (what they do).</p>
+            </div>
+
+            <form onsubmit="return false;">
+                
+                <!-- SECTION 1: EXEC SUMMARY -->
+                <div class="sar-form-section">
+                    <h3>1. Executive Summary</h3>
+                    <div class="form-group">
+                        <label>Assessment Outcome Narrative:</label>
+                        <div class="help-text">Summarize the overall risk posture. Is AeroTech ready for certification? What are the critical blockers?</div>
+                        <textarea placeholder="e.g., AeroTech Dynamics has a strong policy foundation but significant gaps in implementation..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Target CMMC Level:</label>
+                        <input type="text" value="Level 2 (Advanced)" readonly>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: SCOPE -->
+                <div class="sar-form-section">
+                    <h3>2. Scope & Environment</h3>
+                    <div class="form-group">
+                        <label>Scope Description:</label>
+                        <div class="help-text">Define the boundary. What is IN scope and what is OUT? Refer to the SSP.</div>
+                        <textarea placeholder="The assessment boundary includes..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: DETAILED RESULTS -->
+                <div class="sar-form-section">
+                    <h3>3. Detailed Findings (The Hunt)</h3>
+                    <div class="help-text">Analyze the specific controls below based on the evidence found.</div>
+
+                    <!-- Finding 1 -->
+                    <div class="finding-row">
+                        <div>
+                            <strong>AC.L2-3.1.1 (Account Management)</strong>
+                            <p style="font-size:0.8rem; margin:5px 0;">Limit system access to authorized users/processes acting on their behalf.</p>
+                        </div>
+                        <div>
+                            <label>Evidence Reviewed:</label>
+                            <input type="text" placeholder="e.g., Interview with IT, Policy AC-01">
+                            <label style="margin-top:5px;">Observation:</label>
+                            <textarea rows="2" placeholder="Describe the gap (hint: check the IT interview)"></textarea>
+                        </div>
+                        <div>
+                            <label>Status:</label>
+                            <select>
+                                <option>Select...</option>
+                                <option>MET</option>
+                                <option>NOT MET</option>
+                                <option>N/A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Finding 2 -->
+                    <div class="finding-row">
+                        <div>
+                            <strong>AC.L2-3.1.8 (Unsuccessful Login Attempts)</strong>
+                            <p style="font-size:0.8rem; margin:5px 0;">Limit unsuccessful login attempts (Lockout).</p>
+                        </div>
+                        <div>
+                            <label>Evidence Reviewed:</label>
+                            <input type="text" placeholder="e.g., AD Config vs Policy">
+                            <label style="margin-top:5px;">Observation:</label>
+                            <textarea rows="2" placeholder="Compare Policy AC-01 with the AD PowerShell Output"></textarea>
+                        </div>
+                        <div>
+                            <label>Status:</label>
+                            <select>
+                                <option>Select...</option>
+                                <option>MET</option>
+                                <option>NOT MET</option>
+                                <option>N/A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Finding 3 -->
+                    <div class="finding-row">
+                        <div>
+                            <strong>SC.L2-3.13.1 (Boundary Protection)</strong>
+                            <p style="font-size:0.8rem; margin:5px 0;">Monitor, control, and protect organizational communications (Firewalls).</p>
+                        </div>
+                        <div>
+                            <label>Evidence Reviewed:</label>
+                            <input type="text" placeholder="e.g., Firewall Config">
+                            <label style="margin-top:5px;">Observation:</label>
+                            <textarea rows="2" placeholder="Look at Rule #3 in the firewall config. Is this safe?"></textarea>
+                        </div>
+                        <div>
+                            <label>Status:</label>
+                            <select>
+                                <option>Select...</option>
+                                <option>MET</option>
+                                <option>NOT MET</option>
+                                <option>N/A</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Finding 4 -->
+                     <div class="finding-row">
+                        <div>
+                            <strong>PS.L2-3.9.2 (Personnel Termination)</strong>
+                            <p style="font-size:0.8rem; margin:5px 0;">Ensure systems access is removed upon termination.</p>
+                        </div>
+                        <div>
+                            <label>Evidence Reviewed:</label>
+                            <input type="text" placeholder="e.g., HR Interview">
+                            <label style="margin-top:5px;">Observation:</label>
+                            <textarea rows="2" placeholder="Is the timing compliant?"></textarea>
+                        </div>
+                        <div>
+                            <label>Status:</label>
+                            <select>
+                                <option>Select...</option>
+                                <option>MET</option>
+                                <option>NOT MET</option>
+                                <option>N/A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SECTION 4: RISK & RECOMENDATIONS -->
+                <div class="sar-form-section">
+                    <h3>4. Risk Analysis & Recommendations</h3>
+                    <div class="form-group">
+                        <label>High Priority Risks:</label>
+                        <div class="help-text">Which "NOT MET" finding poses the greatest immediate threat to CUI?</div>
+                        <textarea placeholder="e.g., The open RDP port allows immediate attacker access..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Recommended Remediation (POA&M Inputs):</label>
+                        <div class="help-text">What specifically must AeroTech do to fix the issues identified above?</div>
+                        <textarea placeholder="1. Configure Active Directory Group Policy to lock accounts after 3 failed attempts. 2. Close Port 3389..."></textarea>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: CONCLUSION -->
+                <div class="sar-form-section">
+                    <h3>5. Conclusion & Attestation</h3>
+                    <div class="form-group">
+                        <label>Final Determination:</label>
+                        <select style="max-width: 200px;">
+                            <option>Select...</option>
+                            <option>Recommended for Certification</option>
+                            <option>NOT Recommended (POA&M Required)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Assessor Signature (Type Name):</label>
+                        <input type="text">
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="window.print()">Print / Save to PDF</button>
+
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    function showPanel(panelId) {
+        // Hide all panels
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        // Remove active class from nav buttons
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        
+        // Show specific panel
+        document.getElementById(panelId).classList.add('active');
+        // Highlight button
+        event.target.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
