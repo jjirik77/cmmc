@@ -319,6 +319,67 @@
             font-size: 0.85rem;
             margin-top: 5px;
         }
+
+        /* Policy Document Styles */
+        .policy-doc {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            padding: 30px;
+            margin-bottom: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .policy-doc::before {
+            content: "INTERNAL USE ONLY";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+        }
+
+        .policy-header {
+            border-bottom: 2px solid #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .policy-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .policy-meta {
+            font-size: 0.9rem;
+            color: #333;
+            display: flex;
+            gap: 20px;
+        }
+
+        .policy-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+
+        .policy-clause {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .policy-clause strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -340,10 +401,10 @@
             <button onclick="showSection('cui')" id="nav-cui">CUI Data Flows</button>
             <button onclick="showSection('manufacturing')" id="nav-manufacturing">Manufacturing Ops</button>
             <button onclick="showSection('directory')" id="nav-directory">Employee Directory</button>
-            <button onclick="showSection('gaps')" id="nav-gaps" style="color: #fca5a5;">Audit Findings / Gaps</button>
+            <button onclick="showSection('policies')" id="nav-policies" style="color: #4f46e5;">Policies & Governance</button>
         </nav>
         <div style="padding: 20px; font-size: 0.8rem; color: var(--text-gray); margin-top: auto;">
-            Doc Ver: 1.3<br>
+            Doc Ver: 1.4<br>
             Class: Company Confidential
         </div>
     </aside>
@@ -748,78 +809,85 @@
             </div>
         </div>
 
-        <!-- SECTION: GAPS (AUDIT SUMMARY) -->
-        <div id="gaps" class="section">
+        <!-- SECTION: POLICIES & GOVERNANCE -->
+        <div id="policies" class="section">
             <header>
-                <h1 style="color: #be123c;">Audit Findings / Gap Analysis</h1>
+                <h1 style="color: #4f46e5;">Policies & Governance</h1>
             </header>
 
-            <p>Summary of non-compliance issues identified in the documentation. Use this for the Plan of Action and Milestones (POAM).</p>
-            <br>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Finding / Deficiency</th>
-                            <th>Severity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Access Control</td>
-                            <td>17% of VPN users do not have MFA enabled (Legacy exemptions).</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                        <tr>
-                            <td>Network Security</td>
-                            <td>Split tunneling enabled on VPN (Risk to CUI).</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                        <tr>
-                            <td>Network Security</td>
-                            <td>FTP allowed outbound from Engineering VLAN.</td>
-                            <td><span class="badge badge-warning">Medium</span></td>
-                        </tr>
-                        <tr>
-                            <td>Network Security</td>
-                            <td>Stale Firewall rule for decommissioned DMZ Web Server (10.50.10.50).</td>
-                            <td><span class="badge badge-warning">Medium</span></td>
-                        </tr>
-                        <tr>
-                            <td>Logging</td>
-                            <td>AWS S3 Access Logging disabled on CUI and Log buckets.</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                        <tr>
-                            <td>Logging</td>
-                            <td>Alert fatigue (200+ alerts/day) & No workstation logs collected.</td>
-                            <td><span class="badge badge-warning">Medium</span></td>
-                        </tr>
-                        <tr>
-                            <td>System Integrity</td>
-                            <td>Windows 7 embedded used on CNC machines (EOL).</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                        <tr>
-                            <td>System Integrity</td>
-                            <td>Vendor "Always-on" TeamViewer access to shop floor.</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                        <tr>
-                            <td>Physical/Media</td>
-                            <td>USB ports not disabled on CUI machines.</td>
-                            <td><span class="badge badge-warning">Medium</span></td>
-                        </tr>
-                        <tr>
-                            <td>Availability</td>
-                            <td>No Disaster Recovery (DR) site; Backups only on-prem; No AWS failover plan.</td>
-                            <td><span class="badge badge-danger">High</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="alert-box" style="border-color: #4f46e5; background-color: #eef2ff;">
+                <span class="alert-title" style="color: #3730a3;">Auditor Instructions</span>
+                Review the official corporate policies below. Compare these requirements against the configurations found in the Infrastructure, Security, and Manufacturing tabs to identify compliance gaps.
             </div>
+
+            <!-- Policy 1 -->
+            <div class="policy-doc">
+                <div class="policy-header">
+                    <div class="policy-title">Access Control Policy (AC-1)</div>
+                    <div class="policy-meta">
+                        <span><strong>Ref:</strong> POL-AC-2024-01</span>
+                        <span><strong>Effective:</strong> Jan 1, 2024</span>
+                        <span><strong>Owner:</strong> CISO</span>
+                    </div>
+                </div>
+                <div class="policy-content">
+                    <p><strong>3.1 Purpose:</strong> To establish requirements for granting, monitoring, and revoking access to Stratum Defense Systems information assets.</p>
+                    <br>
+                    <div class="policy-clause">
+                        <strong>3.4.2 Multi-Factor Authentication (MFA)</strong>
+                        MFA is mandatory for all network access originating from outside the corporate physical network. This applies to all employees, contractors, and third-party vendors without exception. No legacy exemptions are permitted after Dec 31, 2023.
+                    </div>
+                    <div class="policy-clause">
+                        <strong>3.4.5 Remote Access Logic</strong>
+                        Split tunneling is strictly prohibited on all corporate VPN connections. All traffic from remote assets must tunnel through the corporate security stack for inspection.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policy 2 -->
+            <div class="policy-doc">
+                <div class="policy-header">
+                    <div class="policy-title">System & Communications Protection (SC-1)</div>
+                    <div class="policy-meta">
+                        <span><strong>Ref:</strong> POL-SC-2024-03</span>
+                        <span><strong>Effective:</strong> Mar 15, 2024</span>
+                        <span><strong>Owner:</strong> IT Director</span>
+                    </div>
+                </div>
+                <div class="policy-content">
+                    <div class="policy-clause">
+                        <strong>5.1.2 Unsupported Software</strong>
+                        The use of unsupported or End-of-Life (EOL) operating systems (e.g., Windows 7, Server 2008) is prohibited on any network segment connected to the corporate WAN. Isolated "air-gapped" systems are the only exception and require written CISO approval.
+                    </div>
+                    <div class="policy-clause">
+                        <strong>5.2.1 Data Loss Prevention (DLP)</strong>
+                        All egress points, including email, web gateways, and USB interfaces, must have active DLP monitoring configured to detect and block the unauthorized transmission of CUI.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policy 3 -->
+            <div class="policy-doc">
+                <div class="policy-header">
+                    <div class="policy-title">Audit & Accountability Policy (AU-1)</div>
+                    <div class="policy-meta">
+                        <span><strong>Ref:</strong> POL-AU-2024-02</span>
+                        <span><strong>Effective:</strong> Feb 1, 2024</span>
+                        <span><strong>Owner:</strong> Compliance Officer</span>
+                    </div>
+                </div>
+                <div class="policy-content">
+                    <div class="policy-clause">
+                        <strong>4.1.3 Cloud Storage Logging</strong>
+                        Access logging must be enabled for all cloud storage containers (e.g., AWS S3, Azure Blob) that house CUI or system backups. Logs must be retained for a minimum of 365 days.
+                    </div>
+                    <div class="policy-clause">
+                        <strong>4.2.1 Third-Party Access</strong>
+                        All vendor remote access sessions must be attended (supervised) by internal IT staff. "Always-on" or unattended vendor access is strictly forbidden.
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </main>
