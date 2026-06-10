@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMMC Applicability Lesson — Clauses, Decisions, Scope &amp; Flowdown | CMMC 2.0 Training Portal</title>
+  <meta name="description" content="A self-paced lesson teaching the DFARS/FAR trigger clauses, the CMMC applicability decision tree, assessment scope &amp; boundary, and subcontract flowdown — so you can complete the FFSI Applicability case study." />
+  <style>
+    /* ===== CSS VARIABLES — LIGHT (default) & DARK ===== */
+    :root {
+      --bg:#f4f6f9; --bg-card:#ffffff; --bg-banner:#0a1628; --bg-nav:#0d1f3c;
+      --text:#1a2340; --text-muted:#4a5568; --text-inv:#e8eaf0; --text-inv-m:#a0aec0;
+      --border:#d1d9e6; --accent:#1a56db; --accent-h:#1341b0; --tag-bg:#e8f0fe; --tag-text:#1a56db;
+      --card-shadow:0 2px 12px rgba(0,0,0,.08); --section-head:#0d1f3c; --btn-bg:#1a56db; --btn-text:#ffffff;
+      --ok-bg:#e6f4ea; --ok-tx:#1e7d34; --ok-bd:#abdcb8;
+      --warn-bg:#fdf1dc; --warn-tx:#9a6700; --warn-bd:#f0d49a;
+      --bad-bg:#fde7e5; --bad-tx:#b4261b; --bad-bd:#f1b6b0;
+      --info-bg:#e8f0fe; --info-tx:#1a56db; --info-bd:#bcd2fb;
+      --l1:#2f855a; --l2:#1a56db; --l3:#9a3412;
+    }
+    [data-theme="dark"] {
+      --bg:#0a0f1e; --bg-card:#111827; --bg-banner:#060c18; --bg-nav:#0a0f1e;
+      --text:#e2e8f0; --text-muted:#94a3b8; --text-inv:#e8eaf0; --text-inv-m:#94a3b8;
+      --border:#1e2d45; --accent:#4b8bff; --accent-h:#3470e0; --tag-bg:#1a2545; --tag-text:#7aacff;
+      --card-shadow:0 2px 16px rgba(0,0,0,.4); --section-head:#e2e8f0; --btn-bg:#4b8bff; --btn-text:#ffffff;
+      --ok-bg:#10261a; --ok-tx:#6fce86; --ok-bd:#1f5132;
+      --warn-bg:#2a2110; --warn-tx:#e0b65c; --warn-bd:#5a4621;
+      --bad-bg:#2a1413; --bad-tx:#f08e85; --bad-bd:#5a2723;
+      --info-bg:#15203f; --info-tx:#7aacff; --info-bd:#27375f;
+      --l1:#6fce86; --l2:#7aacff; --l3:#f0a472;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family:'Segoe UI', system-ui, sans-serif; background:var(--bg); color:var(--text); transition:background .3s, color .3s; min-height:100vh; }
+    a { color:inherit; text-decoration:none; }
+
+    /* ===== TOP BANNER ===== */
+    #top-banner { background:var(--bg-banner); color:var(--text-inv); padding:0 1.25rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; min-height:44px; font-size:.82rem; border-bottom:1px solid rgba(255,255,255,.07); }
+    #top-banner .banner-left { display:flex; align-items:center; gap:.6rem; font-weight:500; letter-spacing:.01em; }
+    #top-banner .banner-left .shield { font-size:1.1rem; }
+    #top-banner .banner-left .separator { color:rgba(255,255,255,.3); margin:0 .15rem; }
+    #top-banner .banner-right { display:flex; align-items:center; gap:.65rem; }
+    #btn-assignments { display:inline-flex; align-items:center; gap:.4rem; background:#c8372d; color:#fff; border:none; border-radius:5px; padding:.3rem .85rem; font-size:.8rem; font-weight:600; letter-spacing:.03em; cursor:pointer; transition:background .2s, transform .1s; white-space:nowrap; }
+    #btn-assignments:hover { background:#a32820; transform:translateY(-1px); }
+    #theme-toggle { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); color:var(--text-inv); border-radius:5px; padding:.28rem .75rem; font-size:.78rem; cursor:pointer; display:flex; align-items:center; gap:.4rem; transition:background .2s; white-space:nowrap; }
+    #theme-toggle:hover { background:rgba(255,255,255,.2); }
+
+    /* ===== HERO ===== */
+    header { background:linear-gradient(135deg, #0d1f3c 0%, #1a3a6e 60%, #0f2d5a 100%); color:#e8eaf0; text-align:center; padding:3rem 1.5rem 2.5rem; position:relative; overflow:hidden; }
+    header::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); pointer-events:none; }
+    header .shield-hero { font-size:2.8rem; margin-bottom:.6rem; display:block; }
+    header .eyebrow { position:relative; z-index:1; display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#9ab0d0; margin-bottom:.7rem; }
+    header h1 { font-size:clamp(1.6rem, 4vw, 2.5rem); font-weight:800; letter-spacing:-.02em; margin-bottom:.5rem; position:relative; z-index:1; }
+    header .subtitle { font-size:.95rem; color:#9ab0d0; max-width:640px; margin:0 auto 1.4rem; position:relative; z-index:1; }
+    .stats-row { display:flex; flex-wrap:wrap; justify-content:center; gap:.75rem; margin-top:1.4rem; position:relative; z-index:1; }
+    .stat-chip { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:999px; padding:.35rem 1rem; font-size:.8rem; font-weight:600; color:#c8d8f0; display:flex; align-items:center; gap:.4rem; }
+
+    /* ===== PAGE NAV ===== */
+    #domain-nav { background:var(--bg-nav); border-bottom:1px solid rgba(255,255,255,.06); padding:.6rem 1rem; position:sticky; top:0; z-index:20; }
+    .domain-scroll { display:flex; flex-wrap:wrap; gap:.4rem; justify-content:center; max-width:1200px; margin:0 auto; }
+    .domain-tag { background:rgba(255,255,255,.07); color:#9ab0d0; border:1px solid rgba(255,255,255,.1); border-radius:4px; padding:.28rem .65rem; font-size:.75rem; font-weight:600; cursor:pointer; transition:background .15s, color .15s; white-space:nowrap; }
+    .domain-tag:hover { background:rgba(74,139,255,.25); color:#7aacff; border-color:#4b8bff; }
+
+    /* ===== MAIN ===== */
+    main { max-width:1060px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+    .section-head { font-size:1.25rem; font-weight:700; color:var(--section-head); margin:2.6rem 0 1.1rem; display:flex; align-items:center; gap:.55rem; scroll-margin-top:70px; }
+    .section-head::after { content:''; flex:1; height:2px; background:linear-gradient(90deg, var(--border), transparent); border-radius:1px; margin-left:.5rem; }
+    .module-tag { font-size:.68rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--accent); border-radius:4px; padding:.12rem .5rem; }
+
+    /* ===== PROSE ===== */
+    .prose { color:var(--text); font-size:.95rem; line-height:1.7; }
+    .prose p { margin:0 0 1rem; max-width:82ch; }
+    .lead { font-size:1.05rem; line-height:1.7; max-width:82ch; }
+    .prose strong { color:var(--text); font-weight:700; }
+    .prose em { color:var(--text); }
+
+    /* ===== CARDS / GRID ===== */
+    .card { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.35rem 1.4rem; box-shadow:var(--card-shadow); }
+    .card-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); }
+    .card-grid.two-col { grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); }
+
+    /* ===== CALLOUT ===== */
+    .callout { background:var(--bg-card); border:1px solid var(--border); border-left:4px solid var(--accent); border-radius:8px; padding:1.1rem 1.25rem; box-shadow:var(--card-shadow); margin:0 0 1.2rem; }
+    .callout.q { border-left-color:#c8372d; }
+    .callout.tip { border-left-color:var(--ok-tx); }
+    .callout .callout-label { font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:.35rem; }
+    .callout.q .callout-label { color:#c8372d; }
+    .callout.tip .callout-label { color:var(--ok-tx); }
+    .callout p { margin:0; font-size:.95rem; line-height:1.65; }
+    .callout .big-q { font-size:1.05rem; font-weight:700; color:var(--text); }
+
+    /* ===== OBJECTIVES ===== */
+    ul.clean { list-style:none; display:grid; gap:.55rem; }
+    ul.clean li { position:relative; padding-left:1.6rem; font-size:.93rem; line-height:1.6; color:var(--text-muted); }
+    ul.clean li::before { content:'▸'; position:absolute; left:.25rem; top:0; color:var(--accent); font-weight:700; }
+    ul.clean li strong { color:var(--text); }
+    ol.obj { list-style:none; counter-reset:o; display:grid; gap:.6rem; }
+    ol.obj li { counter-increment:o; position:relative; padding-left:2.3rem; font-size:.93rem; line-height:1.6; color:var(--text-muted); }
+    ol.obj li::before { content:counter(o); position:absolute; left:0; top:-.1rem; width:1.6rem; height:1.6rem; background:var(--tag-bg); color:var(--tag-text); border-radius:6px; font-weight:800; font-size:.8rem; display:flex; align-items:center; justify-content:center; }
+    ol.obj li strong { color:var(--text); }
+
+    /* ===== CLAUSE TABLE ===== */
+    .tbl-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:10px; box-shadow:var(--card-shadow); }
+    table.ktable { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--bg-card); min-width:640px; }
+    table.ktable th, table.ktable td { text-align:left; padding:.7rem .85rem; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+    table.ktable thead th { background:var(--bg-nav); color:var(--text-inv); font-size:.74rem; letter-spacing:.04em; text-transform:uppercase; }
+    table.ktable tbody tr:last-child td { border-bottom:none; }
+    table.ktable code { font-family:'Consolas','Courier New',monospace; font-weight:700; color:var(--accent); }
+    table.ktable .sig { font-weight:700; }
+
+    /* ===== CLAUSE CARDS ===== */
+    .mini-card { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem 1.1rem; box-shadow:var(--card-shadow); }
+    .mini-card .mc-code { font-family:'Consolas','Courier New',monospace; font-size:.95rem; font-weight:800; color:var(--accent); margin-bottom:.15rem; }
+    .mini-card .mc-name { font-size:.9rem; font-weight:700; color:var(--text); margin-bottom:.45rem; }
+    .mini-card .mc-desc { font-size:.84rem; color:var(--text-muted); line-height:1.55; }
+    .mini-card .mc-desc b { color:var(--text); }
+
+    /* ===== DECISION TREE ===== */
+    .tree { display:grid; gap:.55rem; }
+    .tnode { background:var(--bg-card); border:1px solid var(--border); border-radius:9px; box-shadow:var(--card-shadow); padding:.85rem 1rem; }
+    .tnode .tq { font-weight:700; font-size:.92rem; color:var(--text); display:flex; gap:.5rem; align-items:flex-start; }
+    .tnode .tq .qd { width:1.5rem; height:1.5rem; flex:none; border-radius:50%; background:var(--accent); color:#fff; font-size:.78rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
+    .branches { display:grid; gap:.45rem; margin:.6rem 0 0 2rem; }
+    .branch { display:flex; gap:.55rem; align-items:flex-start; font-size:.86rem; line-height:1.5; color:var(--text-muted); }
+    .branch .arm { font-weight:800; white-space:nowrap; }
+    .branch .arm.no { color:var(--bad-tx); }
+    .branch .arm.yes { color:var(--ok-tx); }
+    .outcome { display:inline-flex; align-items:center; gap:.35rem; font-weight:800; font-size:.78rem; padding:.18rem .55rem; border-radius:999px; border:1px solid; }
+    .outcome.l1 { color:var(--l1); border-color:var(--l1); background:var(--ok-bg); }
+    .outcome.l2 { color:var(--l2); border-color:var(--l2); background:var(--info-bg); }
+    .outcome.l3 { color:var(--l3); border-color:var(--l3); background:var(--warn-bg); }
+    .outcome.na { color:var(--bad-tx); border-color:var(--bad-bd); background:var(--bad-bg); }
+    .outcome.rev { color:var(--warn-tx); border-color:var(--warn-bd); background:var(--warn-bg); }
+
+    /* ===== PILLS ===== */
+    .pill-row { display:flex; flex-wrap:wrap; gap:.4rem; margin:.7rem 0 0; }
+    .pill { font-size:.72rem; font-weight:700; padding:.2rem .6rem; border-radius:999px; border:1px solid var(--info-bd); background:var(--info-bg); color:var(--info-tx); }
+    .pill.ok { background:var(--ok-bg); color:var(--ok-tx); border-color:var(--ok-bd); }
+    .pill.warn { background:var(--warn-bg); color:var(--warn-tx); border-color:var(--warn-bd); }
+    .pill.bad { background:var(--bad-bg); color:var(--bad-tx); border-color:var(--bad-bd); }
+
+    /* ===== ASSET CATEGORY CARDS ===== */
+    .asset { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem 1.1rem; box-shadow:var(--card-shadow); border-top:3px solid var(--accent); }
+    .asset.cui { border-top-color:var(--l2); }
+    .asset.spa { border-top-color:#7c3aed; }
+    .asset.crma { border-top-color:var(--warn-tx); }
+    .asset.spec { border-top-color:#0891b2; }
+    .asset.oos { border-top-color:var(--text-muted); }
+    .asset .a-name { font-size:.95rem; font-weight:800; color:var(--text); margin-bottom:.1rem; }
+    .asset .a-sub { font-size:.74rem; font-weight:700; color:var(--text-muted); margin-bottom:.5rem; }
+    .asset .a-desc { font-size:.83rem; color:var(--text-muted); line-height:1.55; }
+    .asset .a-assess { margin-top:.55rem; font-size:.78rem; font-weight:700; }
+    .asset .a-assess.in { color:var(--ok-tx); }
+    .asset .a-assess.spot { color:var(--warn-tx); }
+    .asset .a-assess.out { color:var(--bad-tx); }
+
+    /* ===== WORKED EXAMPLE ===== */
+    .we { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; box-shadow:var(--card-shadow); padding:1.25rem 1.35rem; }
+    .we h4 { font-size:1rem; color:var(--text); margin-bottom:.5rem; }
+    .we .scenario { font-size:.9rem; color:var(--text-muted); line-height:1.6; border-left:3px solid var(--accent); padding-left:.85rem; margin-bottom:1rem; }
+    .we ol.steps { margin:0; padding-left:1.1rem; display:grid; gap:.5rem; }
+    .we ol.steps li { font-size:.88rem; line-height:1.6; color:var(--text-muted); }
+    .we ol.steps li strong { color:var(--text); }
+
+    /* ===== KNOWLEDGE CHECK ===== */
+    details.kc { background:var(--bg-card); border:1px solid var(--border); border-radius:9px; box-shadow:var(--card-shadow); padding:.2rem .25rem; margin-bottom:.7rem; }
+    details.kc > summary { cursor:pointer; list-style:none; padding:.8rem 1rem; font-weight:700; font-size:.9rem; color:var(--text); display:flex; gap:.55rem; align-items:flex-start; }
+    details.kc > summary::-webkit-details-marker { display:none; }
+    details.kc > summary .qicon { color:var(--accent); font-weight:800; }
+    details.kc > summary::after { content:'＋ Show answer'; margin-left:auto; font-size:.74rem; font-weight:700; color:var(--accent); white-space:nowrap; }
+    details.kc[open] > summary::after { content:'－ Hide answer'; }
+    details.kc .ans { padding:0 1rem 1rem 2.05rem; font-size:.87rem; line-height:1.6; color:var(--text-muted); }
+    details.kc .ans b { color:var(--text); }
+
+    /* ===== CHECKLIST + CTA ===== */
+    ul.check { list-style:none; display:grid; gap:.5rem; }
+    ul.check li { position:relative; padding-left:1.7rem; font-size:.9rem; line-height:1.55; color:var(--text-muted); }
+    ul.check li::before { content:'✅'; position:absolute; left:0; top:0; font-size:.9rem; }
+    .launch-wrap { margin-top:1.4rem; display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+    .btn-launch { display:inline-flex; align-items:center; gap:.5rem; background:#c8372d; color:#fff; font-size:.95rem; font-weight:700; padding:.7rem 1.4rem; border-radius:7px; transition:background .2s, transform .1s; box-shadow:0 4px 14px rgba(200,55,45,.28); }
+    .btn-launch:hover { background:#a32820; transform:translateY(-1px); }
+    .btn-ghost { display:inline-flex; align-items:center; gap:.45rem; background:var(--bg-card); color:var(--accent); border:1px solid var(--border); font-size:.88rem; font-weight:600; padding:.68rem 1.1rem; border-radius:7px; transition:border-color .2s; }
+    .btn-ghost:hover { border-color:var(--accent); }
+
+    /* ===== FOOTER ===== */
+    footer { background:var(--bg-banner); color:var(--text-inv-m); text-align:center; padding:1.5rem 1rem; font-size:.8rem; }
+    footer strong { color:var(--text-inv); }
+    footer .footer-line { margin:.25rem 0; }
+  </style>
+</head>
+
+<body data-theme="light">
+
+<!-- ═══ TOP BANNER ═══ -->
+<div id="top-banner">
+  <div class="banner-left">
+    <span class="shield">🛡</span>
+    <strong>U.S. Department of Defense</strong>
+    <span class="separator">|</span>
+    Defense Industrial Base
+  </div>
+  <div class="banner-right">
+    <a id="btn-assignments" href="https://sands-mvcc.github.io/CMMC/assignments.html" target="_blank" rel="noopener noreferrer">📋 Assignments</a>
+    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+      <span id="theme-icon">🌙</span><span id="theme-label">Dark Mode</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<header>
+  <span class="shield-hero">🧭</span>
+  <span class="eyebrow">Lesson · Applicability Foundations</span>
+  <h1>CMMC Applicability: Clauses, Decisions, Scope &amp; Flowdown</h1>
+  <p class="subtitle">Learn how to read the contract clauses that trigger CMMC, decide <em>whether</em> and <em>at what level</em> it applies, define <em>what</em> gets assessed, and trace obligations <em>down the supply chain</em> — everything you need before the FFSI case study.</p>
+  <div class="stats-row">
+    <span class="stat-chip">📘 4 Modules</span>
+    <span class="stat-chip">🧭 Decision Tree</span>
+    <span class="stat-chip">⏱ ~30 Minutes</span>
+    <span class="stat-chip">🎯 Preps Assignment 6</span>
+    <span class="stat-chip">🏛 Level 2 Focus</span>
+  </div>
+</header>
+
+<!-- ═══ PAGE NAV ═══ -->
+<nav id="domain-nav" aria-label="On this page">
+  <div class="domain-scroll">
+    <a class="domain-tag" href="#objectives">🎯 Objectives</a>
+    <a class="domain-tag" href="#m1">1 · DFARS &amp; FAR Clauses</a>
+    <a class="domain-tag" href="#m2">2 · Decision Tree</a>
+    <a class="domain-tag" href="#m3">3 · Scope &amp; Boundary</a>
+    <a class="domain-tag" href="#m4">4 · Flowdown</a>
+    <a class="domain-tag" href="#example">🧪 Worked Example</a>
+    <a class="domain-tag" href="#recap">✅ Recap</a>
+    <a class="domain-tag" href="#next">🚀 Next</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- INTRO + OBJECTIVES -->
+  <h2 class="section-head" id="objectives">🎯 What This Lesson Covers</h2>
+  <div class="prose">
+    <p class="lead">An <strong>applicability study</strong> answers one question before a contractor spends a dollar on compliance: <em>“Does CMMC apply to us — and if so, why, where, and at what level?”</em> This lesson teaches the four moving parts that answer it.</p>
+    <div class="callout tip">
+      <div class="callout-label">Before you start</div>
+      <p>You've already covered <strong>FCI vs. CUI</strong> and <strong>personnel applicability</strong> in earlier lessons. Here we focus on the other four pieces — the <strong>clauses</strong>, the <strong>decision logic</strong>, the <strong>scope/boundary</strong>, and <strong>flowdown</strong> — and use your FCI/CUI knowledge as an input.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p style="font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.7rem;">By the end, you will be able to:</p>
+    <ol class="obj">
+      <li><strong>Identify</strong> the FAR/DFARS clauses that trigger safeguarding and CMMC obligations, and state what each requires.</li>
+      <li><strong>Apply</strong> a decision tree to determine whether CMMC applies and at what level (1, 2, or 3).</li>
+      <li><strong>Define</strong> the CMMC assessment scope and sort assets into the five categories to set the assessment boundary.</li>
+      <li><strong>Explain</strong> how CMMC obligations flow down to subcontractors who handle covered information.</li>
+    </ol>
+  </div>
+
+  <!-- ===================== MODULE 1 ===================== -->
+  <h2 class="section-head" id="m1"><span class="module-tag">Module 1</span> The Clauses That Trigger CMMC</h2>
+  <div class="prose">
+    <p>CMMC never appears out of nowhere — it is triggered by <strong>contract language</strong>. A handful of clauses in a federal contract tell you whether the work touches protected information and what you must do about it. Think of the clauses as the <em>“ignition switch”</em>: if they're in the contract, obligations turn on. Your first job in any applicability study is to read the contract and find them.</p>
+    <p>Two regulation families matter: <strong>FAR</strong> (the Federal Acquisition Regulation — applies to nearly all federal contracts) and <strong>DFARS</strong> (the Defense FAR Supplement — adds DoD-specific cybersecurity rules).</p>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:1.1rem;">
+    <div class="mini-card">
+      <div class="mc-code">FAR 52.204-21</div>
+      <div class="mc-name">Basic Safeguarding of Covered Contractor Information Systems</div>
+      <div class="mc-desc">Applies when a contractor handles <b>FCI</b> (Federal Contract Information). Requires <b>15 basic safeguarding requirements</b>. This is the floor for almost every federal contract → maps to <b>CMMC Level 1</b>.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-code">DFARS 252.204-7012</div>
+      <div class="mc-name">Safeguarding CDI &amp; Cyber Incident Reporting</div>
+      <div class="mc-desc">Applies when the contract involves <b>CUI / Covered Defense Information</b>. Requires implementing <b>NIST SP 800-171</b>, reporting cyber incidents within <b>72 hours</b>, using <b>FedRAMP-Moderate</b> cloud for CUI, and <b>flowing the clause down</b> to subs.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-code">DFARS 252.204-7019</div>
+      <div class="mc-name">Notice of NIST SP 800-171 DoD Assessment Requirements</div>
+      <div class="mc-desc">A contractor must have a <b>current self-assessment score</b> (within the last 3 years) posted in <b>SPRS</b> to be <b>eligible for award</b>. No score, no contract.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-code">DFARS 252.204-7020</div>
+      <div class="mc-name">NIST SP 800-171 DoD Assessment Requirements</div>
+      <div class="mc-desc">Requires giving DoD <b>access to verify</b> a higher-level (Medium/High) assessment, keeping the score current in SPRS, and ensuring <b>subcontractors</b> also have scores on file.</div>
+    </div>
+    <div class="mini-card">
+      <div class="mc-code">DFARS 252.204-7021</div>
+      <div class="mc-name">Contractor Compliance with the CMMC Level Requirement</div>
+      <div class="mc-desc">The clause that makes <b>CMMC itself contractual</b>: the contractor must <b>achieve and maintain</b> the CMMC level named in the contract, <b>affirm</b> compliance, and <b>flow it down</b> to subs at the appropriate level.</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-bottom:1.1rem;">
+    <table class="ktable">
+      <thead><tr><th>Clause</th><th>Triggered when…</th><th>Key requirement</th><th>Applicability signal</th></tr></thead>
+      <tbody>
+        <tr><td><code>FAR 52.204-21</code></td><td>You handle <strong>FCI</strong></td><td>15 basic safeguarding requirements</td><td class="sig" style="color:var(--l1)">→ Level 1</td></tr>
+        <tr><td><code>DFARS 252.204-7012</code></td><td>Contract involves <strong>CUI</strong></td><td>NIST SP 800-171; 72-hr incident report; FedRAMP-Mod cloud; flowdown</td><td class="sig" style="color:var(--l2)">→ Level 2 territory</td></tr>
+        <tr><td><code>DFARS 252.204-7019</code></td><td>Paired with 7012</td><td>Current self-assessment score in SPRS (eligibility)</td><td class="sig">Self-score gate</td></tr>
+        <tr><td><code>DFARS 252.204-7020</code></td><td>Paired with 7012</td><td>DoD assessment access; SPRS scores; sub scores</td><td class="sig">Verification + subs</td></tr>
+        <tr><td><code>DFARS 252.204-7021</code></td><td>CMMC level named in contract</td><td>Achieve/maintain required level; affirm; flow down</td><td class="sig" style="color:var(--l2)">CMMC is required</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Currency note</div>
+    <p>The <strong>48 CFR CMMC Acquisition rule</strong> took effect <strong>November 10, 2025</strong>, adding <code>DFARS 252.204-7021</code> to DoD contracts over a <strong>four-phase, ~3-year rollout</strong> (Phase 1: L1 &amp; L2 self-assessments → Phase 2: L2 C3PAO certifications → Phase 3: L3 → Phase 4: all). So whether 7021 appears in a given solicitation depends on the phase and program — always read the actual contract.</p>
+  </div>
+
+  <details class="kc">
+    <summary><span class="qicon">Q</span> A contract contains FAR 52.204-21 but none of the DFARS 7012/7021 clauses, and the work involves no CUI. What does this tell you?</summary>
+    <div class="ans">The organization handles <b>FCI only</b>, so the obligation is <b>basic safeguarding (the 15 FAR requirements)</b> → <b>CMMC Level 1</b>. Without 7012/7021 or any CUI, Level 2 is <b>not</b> triggered by this contract.</div>
+  </details>
+  <details class="kc">
+    <summary><span class="qicon">Q</span> Which single clause makes a specific CMMC <em>level</em> a contractual requirement (not just a self-score)?</summary>
+    <div class="ans"><b>DFARS 252.204-7021.</b> 7012 requires implementing NIST SP 800-171 and 7019/7020 deal with posting/verifying the self-assessment score, but <b>7021</b> is what obligates the contractor to <b>achieve and maintain the named CMMC level</b> and flow it down.</div>
+  </details>
+
+  <!-- ===================== MODULE 2 ===================== -->
+  <h2 class="section-head" id="m2"><span class="module-tag">Module 2</span> The Applicability Decision Tree</h2>
+  <div class="prose">
+    <p>Once you know the clauses and the data, applicability becomes a short series of questions. Work them <strong>top to bottom</strong> — the first one that fits gives you the answer. The two inputs you bring from your earlier lessons are <strong>“Is there FCI?”</strong> and <strong>“Is there CUI?”</strong></p>
+  </div>
+
+  <div class="tree">
+    <div class="tnode">
+      <div class="tq"><span class="qd">1</span><span>Does the organization perform (or subcontract on) a federal/DoD contract, or otherwise handle FCI or CUI for one?</span></div>
+      <div class="branches">
+        <div class="branch"><span class="arm no">NO →</span><span>CMMC does not apply. <span class="outcome na">Not Applicable</span> &nbsp;<em>Verify there is truly no FCI/CUI first.</em></span></div>
+        <div class="branch"><span class="arm yes">YES ↓</span><span>Continue to question 2.</span></div>
+      </div>
+    </div>
+    <div class="tnode">
+      <div class="tq"><span class="qd">2</span><span>Does the work involve <strong>CUI</strong> (per the CUI Registry and your FCI/CUI lesson)?</span></div>
+      <div class="branches">
+        <div class="branch"><span class="arm no">NO (FCI only) →</span><span>Basic safeguarding under FAR 52.204-21. <span class="outcome l1">CMMC Level 1</span> &nbsp;<em>15 requirements; annual self-assessment + affirmation.</em></span></div>
+        <div class="branch"><span class="arm yes">YES ↓</span><span>Continue to question 3.</span></div>
+      </div>
+    </div>
+    <div class="tnode">
+      <div class="tq"><span class="qd">3</span><span>Has DoD designated this as a <strong>highest-priority / critical-program</strong> effort requiring enhanced protection?</span></div>
+      <div class="branches">
+        <div class="branch"><span class="arm no">NO →</span><span>Standard CUI protection. <span class="outcome l2">CMMC Level 2</span> &nbsp;<em>110 NIST SP 800-171 controls; self-assessment <strong>or</strong> C3PAO per the contract/phase.</em></span></div>
+        <div class="branch"><span class="arm yes">YES →</span><span>Enhanced protection. <span class="outcome l3">CMMC Level 3</span> &nbsp;<em>Adds NIST SP 800-172; government (DIBCAC)-led assessment.</em></span></div>
+      </div>
+    </div>
+    <div class="tnode" style="border-style:dashed;">
+      <div class="tq"><span class="qd">?</span><span>Can't confirm a clause is present or whether the data is CUI?</span></div>
+      <div class="branches">
+        <div class="branch"><span class="arm" style="color:var(--warn-tx)">EITHER →</span><span>Don't guess. <span class="outcome rev">Needs Review</span> &nbsp;<em>Flag it, note what you'd verify (the clause, the CUI marking, the data flow), and confirm before deciding.</em></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1.1rem;">
+    <div class="callout-label">The one rule to remember</div>
+    <p><strong>Data drives the level.</strong> FCI-only work points to <strong>Level 1</strong>; the presence of <strong>CUI</strong> points to <strong>Level 2</strong>; a DoD-designated critical program points to <strong>Level 3</strong>. The clauses confirm and formalize what the data already tells you.</p>
+  </div>
+
+  <details class="kc">
+    <summary><span class="qicon">Q</span> A contractor stores DoD technical drawings marked <code>CUI//SP-CTI</code> on its file server. No special "critical program" designation applies. What CMMC level is indicated, and why?</summary>
+    <div class="ans"><b>Level 2.</b> The presence of <b>CUI</b> (the marked technical drawings) moves the organization past Level 1 to the 110 NIST SP 800-171 controls. Nothing indicates a DoD critical-program designation, so Level 3 is not triggered.</div>
+  </details>
+  <details class="kc">
+    <summary><span class="qicon">Q</span> During the study you find a contract that may involve CUI, but the markings are ambiguous and no DFARS clause is visible. What's the right call?</summary>
+    <div class="ans"><b>Needs Review</b> — not a guess. Document what you'd verify (request the clause list, confirm CUI markings with the contracting officer, map the data flow), then decide once confirmed. Guessing risks both over-scoping and under-scoping.</div>
+  </details>
+
+  <!-- ===================== MODULE 3 ===================== -->
+  <h2 class="section-head" id="m3"><span class="module-tag">Module 3</span> Scope &amp; the Assessment Boundary</h2>
+  <div class="prose">
+    <p>Knowing CMMC applies is only half the answer — you also need <strong>where</strong>. The <strong>assessment scope</strong> is the set of people, processes, and technology that are evaluated; the <strong>assessment boundary</strong> is the line you draw around them. Get this wrong in either direction and you pay: <strong>over-scoping</strong> wastes money protecting things that don't need it, while <strong>under-scoping</strong> leaves CUI exposed and fails the assessment.</p>
+    <p>For <strong>Level 2</strong>, every asset is sorted into one of <strong>five categories</strong> defined in <code>32 CFR § 170.19</code>. The category decides how (and whether) the asset is assessed and documented in the <strong>System Security Plan (SSP)</strong>.</p>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:1rem;">
+    <div class="asset cui">
+      <div class="a-name">CUI Assets</div>
+      <div class="a-sub">Process, store, or transmit CUI</div>
+      <div class="a-desc">The systems that actually handle CUI — workstations, servers, apps, and storage where CUI lives or moves.</div>
+      <div class="a-assess in">Assessed against all Level 2 requirements</div>
+    </div>
+    <div class="asset spa">
+      <div class="a-name">Security Protection Assets (SPA)</div>
+      <div class="a-sub">Provide security for the CUI environment</div>
+      <div class="a-desc">Tools/services that protect the scope — SIEM, firewalls, a managed security provider — even if they never touch CUI themselves.</div>
+      <div class="a-assess in">Assessed against the requirements relevant to what they protect</div>
+    </div>
+    <div class="asset crma">
+      <div class="a-name">Contractor Risk Managed Assets (CRMA)</div>
+      <div class="a-sub">Could access CUI but are managed by policy</div>
+      <div class="a-desc">Assets capable of access but deliberately not allowed to, managed under your risk-based security policies and procedures.</div>
+      <div class="a-assess spot">Not fully assessed — but subject to a limited spot-check</div>
+    </div>
+    <div class="asset spec">
+      <div class="a-name">Specialized Assets</div>
+      <div class="a-sub">GFE, IoT, OT, test equipment, restricted systems</div>
+      <div class="a-desc">May or may not handle CUI; hard to secure conventionally. Must be documented and risk-managed in the SSP.</div>
+      <div class="a-assess spot">Documented in the SSP; managed by risk, limited review</div>
+    </div>
+    <div class="asset oos">
+      <div class="a-name">Out-of-Scope Assets</div>
+      <div class="a-sub">No interaction with CUI or its protections</div>
+      <div class="a-desc">Things with no CUI access and no security role at all — e.g., a marketing laptop on a separate network.</div>
+      <div class="a-assess out">Not assessed, not documented under CMMC</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-label">How this maps to the case study</div>
+    <p>Assignment 6 uses simpler boundary "zones." Line them up like this: <strong>Included</strong> = CUI Assets + Security Protection Assets (fully in); <strong>Shared</strong> = assets that straddle the boundary and need documented limits; <strong>Supporting</strong> = Contractor Risk Managed / Specialized (in scope but risk-managed, not fully assessed); <strong>Excluded</strong> = Out-of-Scope (with a documented basis for exclusion).</p>
+  </div>
+
+  <details class="kc">
+    <summary><span class="qicon">Q</span> A managed service provider runs the contractor's firewall and SIEM but never sees CUI. In-scope or out? Which category?</summary>
+    <div class="ans"><b>In scope — a Security Protection Asset (SPA).</b> Because it <b>provides security protection</b> for the CUI environment, it's assessed against the requirements relevant to the protection it provides, even though it doesn't process CUI itself.</div>
+  </details>
+  <details class="kc">
+    <summary><span class="qicon">Q</span> The sales team's laptops sit on a separate network, never touch CUI, and provide no security function. How are they treated?</summary>
+    <div class="ans"><b>Out-of-Scope.</b> With no CUI interaction and no security-protection role, they aren't assessed or documented under CMMC — though you should be able to show the separation that keeps them out.</div>
+  </details>
+
+  <!-- ===================== MODULE 4 ===================== -->
+  <h2 class="section-head" id="m4"><span class="module-tag">Module 4</span> Flowdown to Subcontractors</h2>
+  <div class="prose">
+    <p>CMMC obligations don't stop at the prime contractor. When a prime shares covered information with a subcontractor, the relevant clauses <strong>flow down</strong> — the sub inherits the obligations for the information it handles. This is how protection follows the data through the entire supply chain.</p>
+    <ul class="clean" style="margin:.4rem 0 1rem;">
+      <li><strong>What flows down:</strong> <code>DFARS 7012</code> (via paragraph (m)), <code>7020</code> (via (g)), and the <code>7021</code> CMMC requirement.</li>
+      <li><strong>At what level:</strong> the sub must meet the level appropriate to the information <em>it</em> handles — a sub that receives <strong>CUI</strong> needs <strong>Level 2</strong>; a sub that handles only <strong>FCI</strong> needs <strong>Level 1</strong>.</li>
+      <li><strong>Who's responsible:</strong> the <strong>prime</strong> is accountable for flowing the clauses down and for confirming subs meet the requirement before sharing covered information.</li>
+      <li><strong>The trap:</strong> a sub that handles CUI but only achieved Level 1 (or has no current SPRS score) is a <strong>flowdown gap</strong> — a common applicability-study finding.</li>
+    </ul>
+    <div class="callout q">
+      <div class="callout-label">Key idea</div>
+      <p class="big-q">Flowdown follows the data, not the org chart.</p>
+      <p style="margin-top:.4rem;color:var(--text-muted);">If you hand CUI to a partner, they must protect it to the same standard you do — regardless of their size or role.</p>
+    </div>
+  </div>
+
+  <details class="kc">
+    <summary><span class="qicon">Q</span> A prime holding CUI subcontracts heat-treating to a small shop and sends them CUI technical specs. The shop assumes "we're too small for CMMC." Correct?</summary>
+    <div class="ans"><b>No.</b> Because the shop <b>receives CUI</b>, the 7012/7021 obligations <b>flow down</b> and it must meet <b>CMMC Level 2</b> for that work. Size doesn't exempt it — handling CUI does. The prime must confirm this <b>before</b> sharing the specs.</div>
+  </details>
+
+  <!-- ===================== WORKED EXAMPLE ===================== -->
+  <h2 class="section-head" id="example">🧪 Worked Example — Putting It Together</h2>
+  <p class="prose" style="margin-bottom:1rem;">Here's the whole method on a <strong>neutral</strong> sample company (not FFSI) so you can see the reasoning end to end.</p>
+  <div class="we">
+    <h4>Apex Precision Machining — a small defense subcontractor</h4>
+    <div class="scenario">Apex holds a <strong>subcontract</strong> from a prime. The subcontract includes <code>DFARS 252.204-7012</code>, <code>-7019</code>, and <code>-7021</code>. The prime sends Apex engineering drawings marked <code>CUI//SP-CTI</code>. Apex stores them on a CAD workstation and a file server; a managed IT provider runs its firewall/SIEM; the front-office laptops handle only invoices on a separate network; a networked CNC machine receives toolpaths generated from the drawings.</div>
+    <ol class="steps">
+      <li><strong>Clauses (Module 1):</strong> 7012 + 7021 are present → CUI safeguarding and a CMMC level are <strong>contractually required</strong>; 7019 means a current SPRS score is needed to stay eligible.</li>
+      <li><strong>Decision tree (Module 2):</strong> There's a DoD subcontract ✔ → CUI is present ✔ (the marked drawings) → no critical-program designation → <span class="outcome l2">CMMC Level 2</span>.</li>
+      <li><strong>Scope &amp; boundary (Module 3):</strong> CAD workstation + file server = <strong>CUI Assets</strong>; managed IT provider = <strong>Security Protection Asset</strong>; the CNC machine = <strong>Specialized Asset</strong> (document in SSP); front-office laptops (separate network, no CUI) = <strong>Out-of-Scope</strong>.</li>
+      <li><strong>Flowdown (Module 4):</strong> If Apex sends any of that CUI to its own vendor (say, a coating shop), 7012/7021 <strong>flow down</strong> and that vendor must also meet <strong>Level 2</strong> for the CUI it receives.</li>
+      <li><strong>Recommendation:</strong> CMMC applies at <strong>Level 2</strong>; scope is the CAD/file-server/security stack plus the documented CNC; exclude the front office with evidence of separation; verify downstream vendors before sharing CUI.</li>
+    </ol>
+  </div>
+
+  <!-- ===================== RECAP ===================== -->
+  <h2 class="section-head" id="recap">✅ Recap</h2>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Clauses are the trigger</strong> — FAR 52.204-21 (FCI → L1); DFARS 7012/7019/7020/7021 (CUI → L2, with 7021 making the level contractual).</li>
+      <li><strong>Data drives the level</strong> — FCI → Level 1, CUI → Level 2, DoD critical program → Level 3; when unsure, <em>Needs Review</em>.</li>
+      <li><strong>Scope is sorted into five categories</strong> — CUI Assets &amp; SPAs are fully assessed; CRMAs &amp; Specialized Assets are risk-managed/documented; Out-of-Scope assets are neither.</li>
+      <li><strong>Flowdown follows the data</strong> — subs handling CUI must meet Level 2; the prime is responsible for flowing clauses down and confirming compliance.</li>
+    </ul>
+  </div>
+
+  <!-- ===================== NEXT ===================== -->
+  <h2 class="section-head" id="next">🚀 Apply It: The FFSI Case Study</h2>
+  <div class="card">
+    <p class="prose" style="margin-bottom:.6rem;">You now have the four tools the applicability study runs on. In <strong>Assignment 6</strong>, you'll use them on <strong>Federal Food Services Inc. (FFSI)</strong> — reading its contracts, deciding the level, scoping its environment, and tracing flowdown.</p>
+    <ul class="check">
+      <li>Read the contract first and list the clauses you find.</li>
+      <li>Let the data set the level — find the CUI, then decide.</li>
+      <li>Sort every asset into one of the five categories before drawing the boundary.</li>
+      <li>For each decision, cite specific evidence; when unsure, choose <strong>Needs Review</strong> and say what you'd verify.</li>
+    </ul>
+    <div class="launch-wrap">
+      <a class="btn-launch" href="https://sands-mvcc.github.io/CMMC/assignment6.html" target="_blank" rel="noopener noreferrer">🚀 Start the FFSI Applicability Exercise</a>
+      <a class="btn-ghost" href="https://sands-mvcc.github.io/CMMC/" target="_blank" rel="noopener noreferrer">← Back to CMMC Portal</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p class="footer-line"><strong>Cybersecurity Maturity Model Certification (CMMC) 2.0 Training Portal</strong></p>
+  <p class="footer-line">CMMC Level 2 &nbsp;|&nbsp; NIST SP 800-171 Rev 2 &nbsp;|&nbsp; DFARS 252.204-7012/7019/7020/7021 &nbsp;|&nbsp; 32 CFR § 170.19</p>
+  <p class="footer-line" style="margin-top:.6rem;font-size:.75rem;color:#5a7090;">
+    For educational and classroom use only. Examples are illustrative. Always verify against the official CMMC 2.0 model, 32 CFR Part 170, and current DFARS clauses from the Office of the Under Secretary of Defense for Acquisition &amp; Sustainment.
+  </p>
+  <p class="footer-line" style="margin-top:.5rem;">🛡 CMMC 2.0 &nbsp;|&nbsp; Applicability Lesson — Student Guide</p>
+</footer>
+
+<!-- ═══ THEME TOGGLE (same behavior as portal) ═══ -->
+<script>
+  (function() {
+    const saved = localStorage.getItem('cmmc-theme');
+    if (saved === 'dark') { document.body.setAttribute('data-theme','dark'); updateToggleLabel('dark'); }
+    else { document.body.setAttribute('data-theme','light'); updateToggleLabel('light'); }
+  })();
+  function updateToggleLabel(theme) {
+    const icon=document.getElementById('theme-icon'), label=document.getElementById('theme-label');
+    if (theme==='dark'){ icon.textContent='☀️'; label.textContent='Light Mode'; }
+    else { icon.textContent='🌙'; label.textContent='Dark Mode'; }
+  }
+  function toggleTheme() {
+    const body=document.body, next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+    body.setAttribute('data-theme',next); localStorage.setItem('cmmc-theme',next); updateToggleLabel(next);
+  }
+</script>
+</body>
+</html>
