@@ -88,7 +88,7 @@ each carries a rationale explaining *why it is attractive* rather than merely th
 **P-3 · Conditional knowledge is taught with its condition and tested without it — CONFIRMED.**
 The three highest-value conditional rules each have a knowledge-check item where the naive
 answer drops the condition: the conditional asset categories (L4 Q8, L9 Q6), the MFA
-partial-credit conjunction (L7 Q1), and POA&M threshold-plus-list (L9 Q1). The Piedmont printer
+partial-credit conjunction (L7 Q1), and POA&M threshold-plus-list (L9 Q1). The Acuitas printer
 controller — the single hardest judgment in the workshop — turns entirely on this.
 
 **P-4 · The fade is real and stated — CONFIRMED.**
@@ -179,3 +179,79 @@ fabricated citation, no guessed number.
 The highest-value next action is **L-5**: ten minutes in a browser. After that, P-6 (a findings
 key for the mock assessment) is the largest genuine gap in the learner experience for anyone
 working the material alone.
+
+---
+
+## Amendment review — 2026-09-05
+
+Three changes were made after the initial review: the dated regulatory layer was removed, the case study changed to
+Meridian Precision Defense Systems, and self-check rubrics were added. Everything below was re-verified after those
+changes.
+
+| Check | Result |
+|---|---|
+| Runtime errors across all 23 pages (jsdom) | 0 |
+| Functional assertions | **80 pass, 0 fail** (was 58; 22 new, covering rubrics and the dropdown fixes) |
+| Knowledge-check questions / option rationales | 100 / 400, one correct answer each, none short |
+| Auto-checked tool selects | 85, all answer keys present in their own option lists |
+| Tool items with model answers | 82, none empty |
+| Self-check rubrics | 69 across 9 tools, all with 3+ checks and a live tally |
+| Internal links | 0 broken |
+| Stale-reference sweep (18 terms) | 0 hits |
+
+### Defects found and fixed in this pass
+
+**A-7 · Answer-shape cues in three bespoke dropdowns — FIXED.** *Severity: high.* The user asked whether
+deliverables should become dropdowns, and working through the answer exposed the mirror-image problem in what was
+already built. Three option lists let a student score correct on shape alone:
+
+- **Transfer test, CNC controllers.** The option list contained *"Specialized Asset — but the treatment is
+  unavailable"* — which is the answer, and the pivot the whole transfer test exists to measure. Replaced with the
+  plain category; the conditional reasoning moved to a free-text basis field whose label now asks explicitly whether
+  the condition is met, and the model answer states that picking the category without addressing the condition is a
+  right-looking answer for the wrong reason.
+- **Domain worksheet, mapping disputes.** The correct option ran 59 characters against a 12-character shortest.
+  Options are now uniform requirement identifiers; the reasoning moved to free text.
+- **POA&M eligibility.** The correct option ran 62 characters against a 3-character shortest. Rebalanced to four
+  parallel options, with the correct one now the *shortest*.
+
+A length-cue audit was added to the checks. It groups selects by option signature and ignores shared taxonomies
+(where length cannot identify *which* item an answer belongs to), flagging only bespoke lists. It now reports none.
+
+**A-8 · Ethics dispositions were graded by wordiness — FIXED.** *Severity: medium.* The five disposition options
+ranged 8–37 characters, with the strongest-worded consistently correct. Rewritten as five parallel phrases of 21–23
+characters. The engagement gate was also rebalanced from three affirmative / one negative to two and two, with the
+new fourth option ("the engagement letter terms are disqualifying") a genuinely plausible near-miss — it identifies a
+real prohibited term that is nonetheless *curable*, where the firm-level bar is not. That distinction is now the
+substance of the item.
+
+**A-9 · `tools2.py` was truncated to zero bytes by a build script error — FIXED.** *Severity: high, transient.* A
+patch script opened the file for writing and then raised before writing. Caught by a file-size sweep, reconstructed
+in full, and verified: 6 conflicts, 8 scenarios, 5 dispositions, both gates, all rubrics. No other source file was
+affected.
+
+### Added
+
+**Self-check rubrics — 69 across 9 tools.** Each appears *with* the model answer, never before it, as three or four
+tickable statements with a live tally that turns amber when partially met and green when complete. Seven standard
+sets (determination, verdict, category, citation, ethics, scoring, incident) plus bespoke sets for the POA&M items.
+Each statement names a specific thing to do differently rather than a quality judgement, and the footer says so:
+*"an unticked box is worth more to you than a ticked one."*
+
+This addresses the real weakness behind the dropdown question — not that there was too much writing, but that
+free-text answers had no feedback mechanism beyond passively reading a model answer. Checkbox state persists to
+`localStorage` and travels in the progress code; it is excluded from the "items answered" counter so ticking boxes
+cannot inflate progress.
+
+### Retired
+
+Currency risk **D-4** and rows 1–2 of the Stage 1 currency table are gone with the dated regulatory layer. The
+workshop now teaches the rule as published and, separately, how to tell whether an announcement has changed it —
+which is a method rather than a fact, and does not go stale.
+
+### Still not verified
+
+**L-4 and L-5 stand.** No WCAG contrast audit has been run, and these pages have still never been rendered in a real
+browser — jsdom executes JavaScript and builds a DOM but does not lay out or paint. The rubric checkboxes are new
+visual elements and are the most likely thing to need a nudge (spacing, accent colour in dark mode). Ten minutes in a
+browser remains the highest-value next action.
