@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CMMC is not a cybersecurity test. It is a conformity regime, and you are training to be the person whose determination other people rely on without kn">
+<title>L0 — Orientation & the Assessor Mindset | CMMC Level 2 5-Day Workshop</title>
+<style>
+:root{
+  --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
+  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
+  --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
+  --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
+}
+[data-theme="dark"]{
+  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
+  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
+  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--body-bg);color:var(--text-primary);
+  line-height:1.65;transition:background .3s,color .3s}
+a{color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-seal{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.62rem;
+  color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+.nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);
+  letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
+  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
+.theme-toggle:hover{background:var(--gold);color:#fff}
+/* HERO */
+.hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.05) 40px,rgba(18,35,58,.05) 41px)}
+.hero-eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;position:relative}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--text-primary);
+  line-height:1.15;max-width:860px;margin:0 auto 1rem;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-subtitle{font-family:Arial,sans-serif;font-size:1.05rem;color:var(--text-secondary);max-width:680px;
+  margin:0 auto 2rem;line-height:1.7;position:relative}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.85rem 2rem;border-radius:2px;position:relative;transition:background .2s,transform .15s}
+.hero-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+/* STATS */
+.stats-bar{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:1rem 2rem;display:flex;
+  justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:.5rem;padding:0 2rem;border-right:2px solid rgba(200,134,42,.35)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-label{font-family:Arial,sans-serif;font-size:.7rem;font-weight:700;color:var(--text-secondary);
+  letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-alt{background:var(--section-alt)}
+.section-eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.section-desc{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);max-width:660px;
+  margin-bottom:2.5rem;line-height:1.7}
+.rule{width:48px;height:3px;background:var(--gold);margin:.75rem 0 1.5rem}
+/* NOTICE BANNER (available; unused by default) */
+.reg-banner{max-width:1200px;margin:2.5rem auto 0;padding:0 2rem}
+.reg-inner{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:3px;padding:1.1rem 1.35rem}
+.reg-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.4rem}
+.reg-head{font-family:Georgia,serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:.4rem}
+.reg-body{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);line-height:1.65}
+.reg-verify{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);margin-top:.55rem;
+  letter-spacing:.03em}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.lesson-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.lesson-badge{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.75rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.domain-weight{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:.05em;
+  text-align:right;line-height:1.3}
+.domain-weight strong{display:block;font-size:1rem;color:var(--gold);font-family:'Arial Narrow',Arial,sans-serif;font-weight:900}
+.card-day-tag{font-family:Arial,sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.card-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.card-desc{font-family:Arial,sans-serif;font-size:.83rem;color:var(--text-secondary);line-height:1.65;flex:1}
+.card-thread{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5;
+  border-top:1px dashed var(--border);padding-top:.6rem}
+.card-thread strong{color:var(--gold);font-weight:700}
+.card-footer{border-top:1px solid var(--border);padding-top:.75rem;margin-top:auto}
+.launch-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px;transition:background .2s}
+.launch-btn:hover{background:var(--gold-light)}
+.launch-btn .arrow{font-size:1rem;transition:transform .15s}
+.launch-btn:hover .arrow{transform:translateX(3px)}
+.card-special .lesson-badge{background:var(--gold);color:#fff}
+.card-special::before{background:var(--navy)}
+/* RESOURCES */
+.resource-section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;
+  border-bottom:2px solid var(--border)}
+.resource-section-heading .rsh-icon{font-size:1.4rem;line-height:1}
+.resource-section-heading h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;
+  color:var(--text-primary);letter-spacing:.08em;text-transform:uppercase}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3rem}
+.resource-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.35rem 1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.resource-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.rc-type{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.rc-icon-title{display:flex;align-items:center;gap:.5rem}
+.rc-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
+.rc-title{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.rc-desc{font-family:Arial,sans-serif;font-size:.81rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.rc-covers{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.rc-covers strong{color:var(--gold);font-weight:700}
+.resource-card .card-footer{border-top:1px solid var(--border);padding-top:.65rem;margin-top:auto}
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;grid-auto-rows:1fr}
+.day-col{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column}
+.day-header{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:center}
+.day-theme{font-family:Arial,sans-serif;font-size:.65rem;color:#a3b6c9;letter-spacing:.06em;text-transform:uppercase;
+  padding:.4rem 1rem;background:var(--navy-mid);text-align:center}
+.day-lessons{padding:.75rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.day-lesson{display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:.6rem .7rem;
+  background:var(--section-alt);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;flex:1;
+  text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.day-lesson:hover{background:var(--blue-pale);border-left-color:var(--navy-light)}
+.day-lesson:hover .day-lesson-name{color:var(--gold)}
+.day-lesson-num{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.day-lesson-name{font-family:Georgia,serif;font-size:.86rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.day-lesson-meta{font-family:Arial,sans-serif;font-size:.66rem;color:var(--text-muted)}
+.day-cap{font-family:Arial,sans-serif;font-size:.64rem;color:var(--text-muted);padding:.5rem .75rem .7rem;
+  border-top:1px dashed var(--border);line-height:1.45}
+.day-cap strong{color:var(--gold)}
+/* CAP PHASE BARS */
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.bar-label{font-family:Arial,sans-serif;font-size:.8rem;color:var(--text-secondary);width:290px;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--section-alt);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.72rem}
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem}
+.about-body p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+.about-body h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.5rem 0 .6rem}
+.facts-box{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;height:fit-content}
+.facts-box h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold)}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fact .fv{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.35rem;font-weight:900;color:var(--gold);line-height:1}
+.fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-top:.2rem}
+/* FOOTER */
+footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
+.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
+.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+/* ---------- LESSON PAGES ---------- */
+.lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
+.toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:4px;padding:1.1rem 1.2rem;max-height:calc(100vh - 110px);overflow-y:auto}
+.toc-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem}
+.toc a{display:block;font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-secondary);text-decoration:none;
+  padding:.28rem .4rem;border-radius:2px;line-height:1.4;border-left:2px solid transparent}
+.toc a::before{content:counter(toc) ". ";color:var(--gold);font-weight:700}
+.toc a:hover{background:var(--blue-pale);color:var(--gold);border-left-color:var(--gold)}
+.lhero{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:2.5rem 2rem}
+.lhero-in{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.lhero h1{font-family:Georgia,serif;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;line-height:1.2;max-width:860px}
+.lead{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-top:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.05em;color:var(--text-secondary);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:.25rem .8rem}
+.meta-chip strong{color:var(--gold)}
+h2.h{font-family:Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.25;margin-bottom:.2rem}
+.content-section{margin-bottom:3rem;scroll-margin-top:80px}
+.content-section p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem}
+.content-section h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.7rem 0 .7rem}
+.content-section ul,.content-section ol{margin:0 0 1.1rem 1.3rem}
+.content-section li{font-family:Arial,sans-serif;font-size:.88rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.4rem}
+.content-section strong{color:var(--text-primary)}
+.cs-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.4rem}
+.cs-num{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.9rem;color:var(--gold);line-height:1;flex-shrink:0}
+/* TABLES */
+.tw{overflow-x:auto;margin:1.1rem 0 1.4rem;border:1px solid var(--border);border-radius:4px;background:var(--card-bg)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{background:var(--navy);color:#fff;font-family:Arial,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:.6rem .8rem}
+td{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);padding:.6rem .8rem;
+  border-top:1px solid var(--border);line-height:1.6;vertical-align:top}
+tbody tr:nth-child(even){background:var(--section-alt)}
+td strong{color:var(--text-primary)}
+/* CALLOUTS */
+.tip,.in-practice,.warnbox{border-radius:3px;padding:1rem 1.2rem;margin:1.2rem 0}
+.tip{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold)}
+.tip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.35rem}
+.in-practice{background:var(--blue-pale);border:1px solid var(--blue-pale-border);border-left:5px solid var(--navy-light)}
+.ip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:.35rem}
+.warnbox{background:var(--card-bg);border:1px solid var(--bad);border-left:5px solid var(--bad)}
+.warn-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:.35rem}
+.tip p,.in-practice p,.warnbox p{font-family:Arial,sans-serif;font-size:.85rem;line-height:1.75;margin:0 0 .6rem}
+.tip p:last-child,.in-practice p:last-child,.warnbox p:last-child{margin-bottom:0}
+/* OBJECTIVES */
+.obj-list{list-style:none;margin:0!important}
+.obj-list li{display:flex;gap:.8rem;align-items:flex-start;background:var(--card-bg);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-bottom:.6rem}
+.obj-tag{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--navy);color:#fff;border-radius:2px;padding:.18rem .5rem;flex-shrink:0;margin-top:.15rem}
+/* VOCAB FLIP */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem;margin:1.2rem 0}
+.flip-card{background:transparent;height:170px;perspective:1000px;cursor:pointer;border:none;padding:0;font:inherit;text-align:left}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;
+  padding:.9rem 1rem;display:flex;flex-direction:column;justify-content:center;background:var(--card-bg);overflow:auto}
+.flip-back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy)}
+.vocab-term{font-family:Georgia,serif;font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.vocab-def{font-family:Arial,sans-serif;font-size:.76rem;color:#e8eef5;line-height:1.6}
+.flip-hint{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:.6rem}
+/* DIAGRAM */
+.diagram{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.3rem;margin:1.3rem 0;overflow-x:auto}
+.diagram figcaption{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-muted);margin-top:.8rem;line-height:1.6}
+/* CASE BLOCK */
+.case{background:var(--navy);border-radius:5px;padding:1.6rem 1.8rem;margin:2rem 0;border-left:6px solid var(--gold)}
+.case-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.case h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;line-height:1.3}
+.case p{font-family:Arial,sans-serif;font-size:.86rem;color:#c8d6e4;line-height:1.8;margin-bottom:.9rem}
+.case ul{margin:0 0 1rem 1.2rem}
+.case li{font-family:Arial,sans-serif;font-size:.85rem;color:#c8d6e4;line-height:1.75;margin-bottom:.35rem}
+.case strong{color:#fff}
+.case-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.18)}
+.case-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px}
+.case-btn:hover{background:var(--gold-light)}
+.case-btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.case-btn.ghost:hover{background:var(--gold);color:#fff}
+/* KNOWLEDGE CHECK */
+.kc{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.6rem 1.8rem;margin-top:1.2rem}
+.q{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem}
+.q:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.qn{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.q-stem{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-primary);line-height:1.75;margin-bottom:.8rem;font-weight:600}
+.options{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;background:var(--section-alt);border:1px solid var(--border);
+  border-radius:3px;padding:.6rem .8rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.84rem;
+  color:var(--text-secondary);line-height:1.6;text-align:left;transition:background .15s,border-color .15s;width:100%}
+.opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--navy-light)}
+.opt:disabled{cursor:default}
+.opt-letter{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.correct{background:rgba(47,111,79,.14);border-color:var(--ok)}
+.opt.correct .opt-letter{color:var(--ok)}
+.opt.wrong{background:rgba(157,52,39,.12);border-color:var(--bad)}
+.opt.wrong .opt-letter{color:var(--bad)}
+.rationale{display:none;margin-top:.7rem;background:var(--blue-pale);border-left:4px solid var(--navy-light);
+  border-radius:0 3px 3px 0;padding:.75rem .95rem;font-family:Arial,sans-serif;font-size:.82rem;
+  color:var(--text-secondary);line-height:1.75}
+.rationale.show{display:block}
+.rationale strong{color:var(--text-primary)}
+.kc-score{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-top:1.4rem;padding-top:1rem;border-top:2px solid var(--gold)}
+/* PAGER */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.pager a{display:flex;flex-direction:column;gap:.15rem;text-decoration:none;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:4px;padding:.8rem 1.2rem;flex:1;max-width:47%;transition:border-color .2s}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager-dir{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pager-name{font-family:Georgia,serif;font-size:.9rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+/* TOOL PAGES */
+.tool-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.5rem 1.7rem;margin-bottom:1.5rem}
+.panel h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.panel h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.4rem 0 .6rem}
+.panel p{font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.8rem}
+.panel ul{margin:0 0 1rem 1.3rem}
+.panel li{font-family:Arial,sans-serif;font-size:.85rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+label{display:block;font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+input[type=text],textarea,select{width:100%;font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-primary);
+  background:var(--body-bg);border:1px solid var(--border);border-radius:3px;padding:.5rem .65rem;line-height:1.6}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;border:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--gold-light)}
+.btn.secondary{background:var(--navy)}
+.btn.secondary:hover{background:var(--navy-light)}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#fff}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.verdict{display:none;margin-top:1rem;border-radius:3px;padding:1rem 1.2rem;font-family:Arial,sans-serif;
+  font-size:.85rem;line-height:1.75;border-left:5px solid var(--navy-light);background:var(--blue-pale);
+  border:1px solid var(--blue-pale-border);border-left-width:5px}
+.verdict.show{display:block}
+.verdict h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy-light);margin-bottom:.4rem}
+.verdict.good{background:rgba(47,111,79,.12);border-color:var(--ok)}
+.verdict.good h4{color:var(--ok)}
+.verdict.bad{background:rgba(157,52,39,.1);border-color:var(--bad)}
+.verdict.bad h4{color:var(--bad)}
+.pill{display:inline-block;font-family:Arial,sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;border-radius:20px;padding:.15rem .6rem;border:1px solid var(--border);color:var(--text-muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.no{color:var(--bad);border-color:var(--bad)}
+.pill.mid{color:var(--warn);border-color:var(--warn)}
+.savebar{position:sticky;bottom:0;background:var(--card-bg);border-top:2px solid var(--gold);padding:.7rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
+.savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
+@media print{
+  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  body{background:#fff}
+  .panel,.tw,.kc{break-inside:avoid}
+}
+@media (max-width:980px){
+  .lwrap{grid-template-columns:1fr;padding:2rem 1.2rem 3rem}
+  .toc{position:static;max-height:none}
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bar-label{width:150px;font-size:.72rem}
+}
+@media (max-width:560px){
+  .schedule-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  .section{padding:2.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-seal">CMMC<br>L2</div>
+    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
+    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+  </div>
+</nav>
+<header class="lhero"><div class="lhero-in"><div class="eyebrow">Day 1 &middot; Morning &middot; Orientation</div><h1>CMMC Orientation and the Assessor Mindset</h1><p class="lead">CMMC is not a cybersecurity test. It is a conformity regime, and you are training to be the person whose determination other people rely on without knowing you. Before the first requirement, understand what the program is, who governs which part of it, what the credential pathway actually requires, and the change of role that everything else in this week depends on.</p><div class="chips"><span class="meta-chip">Day 1 &mdash; AM</span><span class="meta-chip">~3 hours</span><span class="meta-chip"><strong>No prerequisites</strong></span><span class="meta-chip">Sets up all 5 days</span></div></div></header><div class="lwrap"><aside class="toc"><div class="toc-title">On this page</div><ol><li><a href="#objectives">Learning objectives</a></li><li><a href="#vocab">Key terminology</a></li><li><a href="#s1">What this workshop is, and what it is not</a></li><li><a href="#s2">Where CMMC sits among the frameworks you know</a></li><li><a href="#s3">Three levels, and what triggers each</a></li><li><a href="#s4">The ecosystem &mdash; who governs what</a></li><li><a href="#s5">The shift: consultant to assessor</a></li><li><a href="#s6">The three-part standard</a></li><li><a href="#s7">The credential pathway</a></li><li><a href="#s8">Responsible use, and what never leaves the boundary</a></li><li><a href="#thread">Meridian &mdash; your turn</a></li><li><a href="#check">Knowledge check</a></li></ol></aside><main><section class="content-section" id="objectives"><div class="cs-head"><span class="cs-num">A</span><h2 class="h">Learning objectives</h2></div><div class="rule"></div><p>By the end of this session you will be able to:</p><ul class="obj-list"><li><span class="obj-tag">Explain</span><span>State what CMMC is, what it governs, and what makes it different in kind from the frameworks you already know.</span></li><li><span class="obj-tag">Identify</span><span>Name every body in the CMMC ecosystem and say which one governs organizations and which governs individuals.</span></li><li><span class="obj-tag">Distinguish</span><span>Separate the assessor role from the consultant role, and name the moments where the line is easiest to cross.</span></li><li><span class="obj-tag">Apply</span><span>Apply the three-part standard &mdash; requirement, authority, evidence &mdash; to a claim about a contractor.</span></li><li><span class="obj-tag">Plan</span><span>Map the CCP and CCA prerequisite chains against your own position today.</span></li></ul></section><section class="content-section" id="vocab"><div class="cs-head"><span class="cs-num">B</span><h2 class="h">Key terminology</h2></div><div class="rule"></div><p>Click a card to reveal the definition. These are the terms the CCP and CCA exams use precisely, and the terms practitioners most often use loosely.</p><div class="vocab-grid"><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CMMC"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CMMC</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Cybersecurity Maturity Model Certification. The DoD program, established by 32 CFR Part 170, that makes a stated level of cybersecurity a condition of contract award.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of OSC"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">OSC</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Organization Seeking Certification &mdash; the contractor being assessed. The term of art in 32 CFR Part 170; use it rather than &ldquo;the client.&rdquo;</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of C3PAO"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">C3PAO</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">CMMC Third-Party Assessment Organization. An accredited firm authorized to conduct Level 2 certification assessments.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CAICO"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CAICO</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">CMMC Assessor and Instructor Certification Organization. ISACA holds this role since December 2025; the transition completed April 2026.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CCP / CCA"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CCP / CCA</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Certified CMMC Professional and Certified CMMC Assessor. Individual credentials issued by ISACA, not by the Cyber AB.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Affirming Official"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Affirming Official</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">The senior official of the OSC with authority to bind it, who submits the annual affirmation in SPRS. Personally exposed under the False Claims Act.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of SPRS"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">SPRS</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Supplier Performance Risk System. Where a DoD Assessment score is posted and where the annual affirmation is filed.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CUI"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CUI</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Controlled Unclassified Information. Information a law, regulation, or government-wide policy requires an agency to safeguard. Level 2 exists to protect it.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of FCI"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">FCI</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Federal Contract Information. Non-public information provided by or generated for the Government under a contract. Triggers Level 1 and the 15 FAR requirements.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CAP"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CAP</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">CMMC Assessment Process v2.0. The Cyber AB document that governs how an assessment is run: preliminary proceedings plus four numbered phases.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of CoPC"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">CoPC</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">CMMC Code of Professional Conduct v2.0. Eight guiding principles that govern assessor behaviour, including impartiality and the three-year consulting bar.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Assessment objective"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Assessment objective</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">The unit of determination. The 110 Level 2 requirements decompose into roughly 320 objectives, each of which must be MET or NOT APPLICABLE.</div></div></div></button></div></section><section class="content-section" id="s1"><div class="cs-head"><span class="cs-num">1</span><h2 class="h">What this workshop is, and what it is not</h2></div><div class="rule"></div>
+<p>Five days, ten sessions, one company. You will scope it, plan the engagement, request and triage its evidence,
+render determinations against the fourteen NIST SP 800-171 Rev 2 families, compute and defend its DoD Assessment
+score, run a two-day mock assessment against it, write the findings, and close it out with a plan of action.
+On the final afternoon you will be handed a company you have never seen and given thirty minutes.</p>
+<p>This is preparation for the ISACA <strong>CCP</strong> and <strong>CCA</strong> credentials, and it is
+preparation for the work those credentials describe. Those are not the same thing, and where they diverge this
+workshop follows the work. An exam-only course teaches you the model. This one teaches you to render a
+determination you can defend when the company that dislikes it pushes back.</p>
+<h3>What it is not</h3>
+<ul>
+<li><strong>Not a course in how to become compliant.</strong> You will spend five days finding problems in a
+company and never once being permitted to fix one. That constraint is the subject, not an inconvenience.</li>
+<li><strong>Not a technical security course.</strong> You are expected to know what a domain controller and a
+Conditional Access policy are. You are not expected to configure either.</li>
+<li><strong>Not a substitute for the primary sources.</strong> Everything here is traced to 32 CFR Part 170, the
+FAR, the DFARS, the NIST publications, the CAP, and the NARA CUI Registry. When this material and a governing
+document disagree, the governing document wins and this material is wrong.</li>
+</ul>
+<div class="tip"><div class="tip-label">Exam tip</div>
+<p>The single most common source of wrong answers in CMMC study is confidently remembered material that was true
+two years ago. Two examples arrive in this workshop within the first day: who issues the CCP and CCA, and how many
+requirements CMMC Level 1 comprises. Both are widely mis-stated in circulating training decks. Cite the rule, not
+the deck.</p></div></section><section class="content-section" id="s2"><div class="cs-head"><span class="cs-num">2</span><h2 class="h">Where CMMC sits among the frameworks you know</h2></div><div class="rule"></div>
+<p>Most people arriving at CMMC already know a security framework, and the instinct is to file CMMC alongside it.
+That instinct produces one specific, predictable error later: the assumption that partial implementation earns
+partial credit. True in a maturity model. False in CMMC.</p>
+<p>The differences that matter are not about content. CMMC Level 2 <em>is</em> NIST SP 800-171 Rev 2 &mdash; the
+requirements are borrowed wholesale. What differs is status, enforcement, and how conformity is demonstrated.</p>
+<div class="tw"><table>
+<thead><tr><th>Framework</th><th>Mandatory?</th><th>Applies to</th><th>How conformity is shown</th></tr></thead>
+<tbody>
+<tr><td><strong>NIST CSF 2.0</strong></td><td>No &mdash; voluntary</td><td>Any organization</td>
+<td>Self-declared. No external verification exists or is expected.</td></tr>
+<tr><td><strong>NIST RMF (SP 800-37)</strong></td><td>Yes, for federal systems</td><td>Federal information systems under FISMA</td>
+<td>Authorization to Operate granted by a government Authorizing Official.</td></tr>
+<tr><td><strong>NIST SP 800-53 Rev 5</strong></td><td>Yes, for federal systems</td><td>Federal systems; underpins FedRAMP</td>
+<td>Security Assessment Report feeding an authorization decision.</td></tr>
+<tr><td><strong>ISO/IEC 27001</strong></td><td>No &mdash; but certifiable</td><td>Any organization, by choice</td>
+<td>Certification by an accredited certification body.</td></tr>
+<tr><td><strong>CMMC Level 2</strong></td><td>Yes, when it is in the contract</td><td>DIB contractors handling CUI</td>
+<td>Self-assessment or C3PAO certification, posted to SPRS, affirmed annually by a named official.</td></tr>
+</tbody></table></div>
+<div class="in-practice"><div class="ip-label">The distinction to carry forward</div>
+<p>RMF and SP 800-53 are mandatory &mdash; but for federal agency systems, not for you as a contractor. CSF 2.0 and
+ISO 27001 are voluntary. CMMC is the only one of these that a contracting officer can make a condition of your
+company winning work. That is why it is assessed the way it is, and why an assessor here carries obligations an
+auditor of a voluntary framework does not.</p></div></section><section class="content-section" id="s3"><div class="cs-head"><span class="cs-num">3</span><h2 class="h">Three levels, and what triggers each</h2></div><div class="rule"></div>
+<p>The level is not chosen. It follows from the information the contractor will handle, and the contracting officer
+inserts the clause accordingly under 32 CFR Part 170.</p>
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Triggered by</th><th>Requirements</th><th>Source</th><th>How assessed</th></tr></thead>
+<tbody>
+<tr><td><strong>Level 1</strong></td><td>Federal Contract Information</td><td>15</td>
+<td>FAR 52.204-21(b)(1)(i)&ndash;(xv), incorporated by 32 CFR 170.14(c)(2)</td>
+<td>Annual self-assessment and affirmation</td></tr>
+<tr><td><strong>Level 2</strong></td><td>Controlled Unclassified Information</td><td>110</td>
+<td>NIST SP 800-171 Rev 2</td><td>Self-assessment or C3PAO certification, per the contract</td></tr>
+<tr><td><strong>Level 3</strong></td><td>CUI on the highest-priority programs</td><td>110 plus a selected subset of NIST SP 800-172</td>
+<td>32 CFR 170.14(c)(4)</td><td>Government-led, by DIBCAC</td></tr>
+</tbody></table></div>
+<div class="tip"><div class="tip-label">Exam tip &mdash; the counting trap</div>
+<p>Level 1 is <strong>15</strong> requirements. A great deal of circulating CMMC 2.0 material says 17, because
+earlier model documentation split FAR 52.204-21(b)(1)(ix) into three separate practices. That split has no basis in
+the rule. 32 CFR 170.14(c)(2) incorporates fifteen paragraphs, and there are fifteen of them. Count them yourself.</p></div>
+<p>Level 2 decomposes further, and this is the mechanic that decides most of your week. The 110 requirements break
+into roughly <strong>320 assessment objectives</strong> in NIST SP 800-171A. Every objective under a requirement
+must be MET or NOT APPLICABLE for the parent requirement to be MET. There is no partial credit at the objective
+level, and an assessor who determines at the requirement level has not done the work.</p></section><section class="content-section" id="s4"><div class="cs-head"><span class="cs-num">4</span><h2 class="h">The ecosystem &mdash; who governs what</h2></div><div class="rule"></div>
+<p>The ecosystem has more bodies than the names suggest, and their responsibilities do not overlap the way people
+assume. Roughly one in twenty CCP questions is drawn from this table, and it is the most commonly mis-stated topic
+in published CMMC material.</p>
+<div class="tw"><table>
+<thead><tr><th>Body or role</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><strong>DoW CIO / CMMC PMO</strong></td><td>Owns the program. Issues the model, the assessment guides, and the scoping guides.</td></tr>
+<tr><td><strong>DIBCAC</strong></td><td>The government assessment arm. Conducts government-led assessments, including Level 3.</td></tr>
+<tr><td><strong>The Cyber AB</strong></td><td>The accreditation body. Accredits C3PAOs under ISO/IEC 17020 and operates the CMMC Marketplace. <strong>Accredits organizations &mdash; not people.</strong></td></tr>
+<tr><td><strong>ISACA, as CAICO</strong></td><td>The certification body for individuals. Administers CCP, CCA, Lead CCA, and CCI. Took the role in December 2025; transition completed April 2026.</td></tr>
+<tr><td><strong>C3PAO</strong></td><td>An accredited firm that conducts Level 2 certification assessments.</td></tr>
+<tr><td><strong>RPO / RP</strong></td><td>Registered Provider Organizations and Registered Practitioners. Readiness consulting. They help you prepare; they may not assess you.</td></tr>
+<tr><td><strong>OSC</strong></td><td>Organization Seeking Certification &mdash; the contractor being assessed.</td></tr>
+<tr><td><strong>CCP / CCA</strong></td><td>Individually credentialed professionals. A CCA may serve on a certification assessment team; a CCP supports one.</td></tr>
+</tbody></table></div>
+<div class="warnbox"><div class="warn-label">The correction &mdash; expect this on the exam</div>
+<p>The Cyber AB accredits <strong>organizations</strong>. ISACA, as CAICO, certifies <strong>individuals</strong>.</p>
+<p>For years the Cyber AB did both, and an enormous amount of still-circulating material &mdash; training decks,
+blog posts, vendor guides, and some published course modules &mdash; says the Cyber AB issues the CCP and CCA.
+That has not been true since December 2025. If you take one fact out of this session, take this one.</p></div></section><section class="content-section" id="s5"><div class="cs-head"><span class="cs-num">5</span><h2 class="h">The shift: consultant to assessor</h2></div><div class="rule"></div>
+<p>An assessor is not a better consultant. The two roles answer different questions, serve different parties, and
+are held to different standards. Most students find this the hardest idea in the workshop, and it is not because
+it is complicated. It is because the rules prohibit things people are used to doing: helping, advising, fixing,
+recommending a vendor they trust.</p>
+<div class="tw"><table>
+<thead><tr><th></th><th>Consultant</th><th>Assessor</th></tr></thead>
+<tbody>
+<tr><td><strong>Question answered</strong></td><td>How do we get better?</td><td>What is true here?</td></tr>
+<tr><td><strong>Serves</strong></td><td>The client&rsquo;s improvement</td><td>The integrity of the determination</td></tr>
+<tr><td><strong>Success looks like</strong></td><td>The gap is closed</td><td>The finding is accurate and survives challenge</td></tr>
+<tr><td><strong>Relationship</strong></td><td>Collaborative, ongoing</td><td>Professional, bounded, documented</td></tr>
+<tr><td><strong>On finding a problem</strong></td><td>Propose a fix</td><td>Record it, evidence it, and say nothing about the remedy</td></tr>
+<tr><td><strong>Governing document</strong></td><td>The engagement contract</td><td>The CoPC, the CAP, 32 CFR Part 170, and ISO/IEC 17020</td></tr>
+</tbody></table></div>
+<p>The last row is the one that changes your working life. As an assessor you operate inside a conformity regime
+that exists precisely so that someone can rely on your determination without knowing you.</p>
+<div class="in-practice"><div class="ip-label">The line, in one sentence</div>
+<p>A consultant is paid to make an organization better. An assessor is paid to say accurately what is true about
+it. You will feel the pull constantly &mdash; a company with obvious problems, staff who want help, an easy fix you
+could name in one sentence. Noticing the pull is fine. Acting on it disqualifies you.</p></div></section><section class="content-section" id="s6"><div class="cs-head"><span class="cs-num">6</span><h2 class="h">The three-part standard</h2></div><div class="rule"></div>
+<p>From this session onward, every claim you make in this workshop is held to three questions. Write them on
+something you will still have on Friday.</p>
+<div class="tw"><table>
+<thead><tr><th></th><th>The question</th><th>What a weak answer looks like</th></tr></thead>
+<tbody>
+<tr><td><strong>Requirement</strong></td><td>What specifically is required?</td>
+<td>&ldquo;They need to protect CUI.&rdquo; Which requirement, and at which objective?</td></tr>
+<tr><td><strong>Authority</strong></td><td>What imposes it?</td>
+<td>&ldquo;CMMC requires it.&rdquo; CMMC is a program. Name the clause, the section, or the Registry category.</td></tr>
+<tr><td><strong>Evidence</strong></td><td>What would demonstrate it, and would that be enough?</td>
+<td>&ldquo;They have a policy.&rdquo; A policy is a claim about intent, not proof of practice.</td></tr>
+</tbody></table></div>
+<p>Days 1 and 2 exercise the first two properly and the third lightly. Day 3 afternoon onward is almost entirely
+the third, and it is the part that separates people who know CMMC from people who can assess against it.</p></section><section class="content-section" id="s7"><div class="cs-head"><span class="cs-num">7</span><h2 class="h">The credential pathway</h2></div><div class="rule"></div>
+<div class="tw"><table>
+<thead><tr><th></th><th>CCP</th><th>CCA</th></tr></thead>
+<tbody>
+<tr><td><strong>Prerequisites</strong></td>
+<td>Training from an Approved Training Provider; relevant experience; a DoW Tier 3 background determination</td>
+<td>An active CCP; a DoD 8140.03 Work Role 612 baseline certification at Intermediate or Advanced proficiency &mdash; CISA and CISM both qualify; ATP training; Tier 3 determination</td></tr>
+<tr><td><strong>Exam</strong></td><td>170 questions across six domains</td><td>150 questions across four domains</td></tr>
+<tr><td><strong>Domain weighting</strong></td>
+<td>Ecosystem 5% &middot; Code of Professional Conduct 5% &middot; Governance and Source Documents 15% &middot; Model Construct and Implementation Evaluation 35% &middot; Assessment Process 25% &middot; Scoping 15%</td>
+<td>Evaluating OSCs Against Level 2 15% &middot; Level 2 Assessment Scoping 20% &middot; Assessment Process 25% &middot; Assessing Level 2 Practices 40%</td></tr>
+<tr><td><strong>Continuing education</strong></td><td>20 CPE annually; 120 over three years, at least 90 CMMC-related</td><td>As CCP</td></tr>
+</tbody></table></div>
+<div class="warnbox"><div class="warn-label">Unverified &mdash; do not rely on</div>
+<p>Exam <em>duration</em> and <em>passing scores</em> for the CCP and CCA were not publicly stated by ISACA at the
+time this material was researched, and no number is published here rather than guessed. Confirm both directly with
+ISACA before you register. If you find a figure quoted in a study guide, ask where it came from.</p></div>
+<p>Map the domain weights onto this week: Day 4 feeds the 35% and 40% blocks, Day 2 afternoon and Day 5 morning
+feed the 25% Assessment Process blocks, and Day 3 morning feeds the scoping blocks. Where you find a session hard
+is where your study time goes.</p></section><section class="content-section" id="s8"><div class="cs-head"><span class="cs-num">8</span><h2 class="h">Responsible use, and what never leaves the boundary</h2></div><div class="rule"></div>
+<p>The CoPC's eighth guiding principle is <strong>Proper Use of Technology and AI</strong>, and it is not
+decorative. It exists because two things have become easy at the same time: pasting a client's system security
+plan into a chat window, and letting a tool draft a determination that is yours to make.</p>
+<h3>Two questions, every time</h3>
+<ul>
+<li><strong>Is a tool making a determination that is mine to make?</strong> A model can summarize an artifact. It
+cannot render MET or NOT MET, because it cannot be held to the CoPC, cannot be challenged at an out-brief, and
+cannot sign anything. The determination is the credentialed human's, and the reasoning has to be theirs.</li>
+<li><strong>Is customer data leaving the boundary to reach that tool?</strong> An SSP extract, a Conditional Access
+export, a network diagram, an access control matrix, personnel names, CAGE codes, incident detail &mdash; all of it
+is confidential to the engagement and much of it describes exactly how to attack the OSC. Confidentiality is a
+separate CoPC principle and it does not have a convenience exception.</li>
+</ul>
+<div class="warnbox"><div class="warn-label">A real scenario, adjudicated on Day 2</div>
+<p>To save time on a long evidence review, a team member pastes several paragraphs of the OSC's system security
+plan and a screenshot of its access-control configuration into a public web-based AI assistant, and asks it to
+draft finding language. They read the output, edit it, and enter it as their determination.</p>
+<p>Two principles are engaged, not one, and the disposition is not &ldquo;be careful next time.&rdquo; You will rule
+on this scenario, cite the practices, and say who decides.</p></div>
+<h3>What this workshop asks of you</h3>
+<ul>
+<li>Nothing from the Meridian case needs protecting &mdash; it is fictional, and you may work it in any tool you
+like. Use the week to build the habit anyway, because the habit is what transfers.</li>
+<li>Every claim you write carries its authority. If an AI tool supplied a citation, open the citation. Fabricated
+regulatory cites are common, confident, and career-ending in a findings report.</li>
+<li>Disclose tool use where an engagement requires it, and never let a tool talk to the OSC.</li>
+</ul></section><section class="content-section" id="thread"><div class="cs-head"><span class="cs-num">&#9670;</span><h2 class="h">Meridian &mdash; your turn</h2></div><div class="rule"></div><div class="case"><div class="case-tag">The thread begins &middot; Day 1 Morning</div><h3>Meet Meridian Precision Defense Systems, and read the solicitation</h3>
+<p>One company carries all five days. <strong>Meridian Precision Defense Systems, Inc.</strong> is a 147-person
+precision manufacturer and systems integrator, headquartered in Dayton, Ohio with a second site in Huntsville,
+Alabama. Founded 1998, employee-owned through an ESOP, roughly $31M in annual revenue, CAGE code 7RK42. It machines
+guidance system housings and actuator assemblies, and supports UAV subsystem integration.</p>
+<p>It holds <strong>three active DoD contracts worth $17.9M</strong>, and all three carry DFARS 252.204-7012:</p>
+<ul>
+<li><strong>W58RGZ-23-C-0174</strong> &mdash; Army AMCOM prime, firm fixed price, $11.4M. Actuator housing
+assemblies, technical data packages, qualification test reports. CUI//CTI, ITAR-controlled drawings. Also carries
+252.204-7019, -7020 and -7021.</li>
+<li><strong>RTX-SUB-2024-4489</strong> &mdash; a $4.7M cost-plus subcontract under a Raytheon prime for AFLCMC. UAV
+airframe bracket design support, FEA reports, drawings to MIL-DTL-31000C. CUI//CTI and limited CUI//PRVCY.</li>
+<li><strong>N68335-22-C-0552</strong> &mdash; NAVAIR SBIR Phase II, $1.85M, in its final reports phase. Composite
+actuator prototype. CUI//CTI and CUI//SP-EXPT.</li>
+</ul>
+<p>Three contracts, three agencies, three different CUI category mixes, and one network carrying all of it. The
+company has a CISO, ten written policies, and a System Security Plan &mdash; which makes it a more realistic
+assessment subject than a company with nothing, and a harder one. Documents exist. Whether they describe the
+environment is the question you will spend the week answering.</p>
+<p>Today the Army prime contract is up for recompete as solicitation <strong>W58RGZ-26-R-0301</strong>. Open the
+case workbench, read the Overview and Contracts tabs, and answer one question before Day 1 afternoon: what does this
+company have to be able to demonstrate in order to keep the contract that is 64% of its DoD backlog?</p>
+<p><em>You are not determining the level yet. You are noticing that the solicitation never states one in plain
+language &mdash; and that somebody has to reason it out from what the contractor will actually receive.</em></p><div class="case-actions"><a class="case-btn" href="meridian.html">Open the case workbench &rarr;</a><a class="case-btn ghost" href="index.html#thread">See the 5-day thread</a></div></div></section><section class="content-section" id="check"><div class="cs-head"><span class="cs-num">&#10003;</span><h2 class="h">Knowledge check</h2></div><div class="rule"></div><p>Ten questions in CCP style. The rationale is the point &mdash; several of the wrong answers are things you will hear stated confidently by working practitioners.</p><div class="kc"><div class="q"><div class="qn">Question 1 of 10</div><div class="q-stem">Which body certifies individuals as CCPs and CCAs?</div><div class="options"><button class="opt" data-q="1" data-ok="0" data-rat="The Cyber AB is the accreditation body. It accredits C3PAOs under ISO/IEC 17020 and operates the Marketplace &amp;mdash; organizations, not people. This was true historically, which is why so much circulating material still says it." onclick="pick(this)"><span class="opt-letter">A</span><span>The Cyber AB</span></button><button class="opt" data-q="1" data-ok="1" data-rat="ISACA took the CMMC Assessor and Instructor Certification Organization role in December 2025, and the transition completed in April 2026. It administers CCP, CCA, Lead CCA, and CCI." onclick="pick(this)"><span class="opt-letter">B</span><span>ISACA, acting as the CAICO</span></button><button class="opt" data-q="1" data-ok="0" data-rat="The PMO owns the program and issues the model, assessment guides, and scoping guides. It does not certify individuals." onclick="pick(this)"><span class="opt-letter">C</span><span>The DoW CIO / CMMC PMO</span></button><button class="opt" data-q="1" data-ok="0" data-rat="DIBCAC is the government assessment arm and conducts government-led assessments, including Level 3. It has no credentialing role." onclick="pick(this)"><span class="opt-letter">D</span><span>DIBCAC</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 2 of 10</div><div class="q-stem">A contractor holds Federal Contract Information but no CUI. What CMMC level applies?</div><div class="options"><button class="opt" data-q="2" data-ok="1" data-rat="FCI triggers FAR 52.204-21 and CMMC Level 1 &amp;mdash; 15 requirements, annual self-assessment and affirmation." onclick="pick(this)"><span class="opt-letter">A</span><span>Level 1</span></button><button class="opt" data-q="2" data-ok="0" data-rat="There is no reduced-scope Level 2. Level 2 is triggered by CUI, and its requirement set is not scaled down by how little CUI is present." onclick="pick(this)"><span class="opt-letter">B</span><span>Level 2, at reduced scope</span></button><button class="opt" data-q="2" data-ok="0" data-rat="Level 2 is triggered by CUI. FCI alone does not reach it." onclick="pick(this)"><span class="opt-letter">C</span><span>Level 2</span></button><button class="opt" data-q="2" data-ok="0" data-rat="A common and expensive misreading. FCI is squarely inside CMMC at Level 1; 32 CFR 170.14(c)(2) incorporates the fifteen FAR safeguarding requirements." onclick="pick(this)"><span class="opt-letter">D</span><span>None &mdash; FCI is outside CMMC</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 3 of 10</div><div class="q-stem">How many security requirements comprise CMMC Level 1?</div><div class="options"><button class="opt" data-q="3" data-ok="1" data-rat="32 CFR 170.14(c)(2) incorporates FAR 52.204-21(b)(1)(i) through (xv). Fifteen paragraphs, fifteen requirements." onclick="pick(this)"><span class="opt-letter">A</span><span>15</span></button><button class="opt" data-q="3" data-ok="0" data-rat="The most widely repeated wrong answer in CMMC study. Earlier CMMC 2.0 model documentation split FAR 52.204-21(b)(1)(ix) into three practices. The split has no basis in the rule. If a deck says 17, the deck is out of date." onclick="pick(this)"><span class="opt-letter">B</span><span>17</span></button><button class="opt" data-q="3" data-ok="0" data-rat="110 is Level 2, from NIST SP 800-171 Rev 2." onclick="pick(this)"><span class="opt-letter">C</span><span>110</span></button><button class="opt" data-q="3" data-ok="0" data-rat="Roughly 320 is the count of Level 2 assessment objectives in NIST SP 800-171A, not requirements, and not Level 1." onclick="pick(this)"><span class="opt-letter">D</span><span>320</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 4 of 10</div><div class="q-stem">Under Level 2, a requirement has four assessment objectives. Three are MET and one is not. What is the determination for the requirement?</div><div class="options"><button class="opt" data-q="4" data-ok="0" data-rat="There is no such determination. A noted deficiency at objective level is exactly what makes the requirement NOT MET." onclick="pick(this)"><span class="opt-letter">A</span><span>MET, with a noted deficiency</span></button><button class="opt" data-q="4" data-ok="0" data-rat="Partially MET does not exist in CMMC. This is the single most consequential import from maturity-model thinking, and it produces determinations that cannot be defended." onclick="pick(this)"><span class="opt-letter">B</span><span>Partially MET</span></button><button class="opt" data-q="4" data-ok="1" data-rat="Every assessment objective must be MET or NOT APPLICABLE for the parent requirement to be MET. One objective unmet makes the whole requirement NOT MET. There is no partial credit." onclick="pick(this)"><span class="opt-letter">C</span><span>NOT MET</span></button><button class="opt" data-q="4" data-ok="0" data-rat="Point values belong to the DoD Assessment Methodology score, which is a different instrument. They have nothing to do with the MET / NOT MET determination." onclick="pick(this)"><span class="opt-letter">D</span><span>It depends on the point value of the requirement</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 5 of 10</div><div class="q-stem">An assessor reviewing evidence notices an obvious, cheap fix for a gap and mentions it to the IT Manager during the walkthrough. What has happened?</div><div class="options"><button class="opt" data-q="5" data-ok="0" data-rat="The prohibition is not about the report. It is about the role. Advice given verbally in a corridor is still advice, and it is still consulting." onclick="pick(this)"><span class="opt-letter">A</span><span>Nothing &mdash; informal observations are not part of the report</span></button><button class="opt" data-q="5" data-ok="0" data-rat="This is the reasoning that ends careers, and it feels helpful at the time. Adding value to the OSC is the consultant&#x27;s job, and doing it inside an assessment destroys the independence the determination rests on." onclick="pick(this)"><span class="opt-letter">B</span><span>Good practice &mdash; the assessor is adding value</span></button><button class="opt" data-q="5" data-ok="1" data-rat="An assessor records a problem, evidences it, and says nothing about the remedy. Naming a risk is assessment; naming its fix is not." onclick="pick(this)"><span class="opt-letter">C</span><span>The assessor has crossed from assessment into consulting</span></button><button class="opt" data-q="5" data-ok="0" data-rat="The OSC will ask. It will ask reasonably, warmly, and repeatedly. Being asked does not change the rule &amp;mdash; and being able to decline without lecturing is a skill this workshop assesses." onclick="pick(this)"><span class="opt-letter">D</span><span>It is permitted if the OSC asked first</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 6 of 10</div><div class="q-stem">Which of these is the correct three-part standard for a claim in an assessment finding?</div><div class="options"><button class="opt" data-q="6" data-ok="0" data-rat="That is a risk-assessment triad. It is not how a conformity determination is justified." onclick="pick(this)"><span class="opt-letter">A</span><span>Risk, impact, likelihood</span></button><button class="opt" data-q="6" data-ok="1" data-rat="What specifically is required; what regulation, clause, or official document imposes it; and what would demonstrate it &amp;mdash; and whether that would be enough." onclick="pick(this)"><span class="opt-letter">B</span><span>Requirement, authority, evidence</span></button><button class="opt" data-q="6" data-ok="0" data-rat="A useful maturity heuristic, and not the standard for defending a determination. It names artifact types, not the burden of proof." onclick="pick(this)"><span class="opt-letter">C</span><span>Policy, procedure, practice</span></button><button class="opt" data-q="6" data-ok="0" data-rat="Those are the three assessment methods from NIST SP 800-171A. They are how you gather evidence, not how you justify a claim." onclick="pick(this)"><span class="opt-letter">D</span><span>Examine, interview, test</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 7 of 10</div><div class="q-stem">Who may serve as an OSC's Affirming Official?</div><div class="options"><button class="opt" data-q="7" data-ok="0" data-rat="Knowledge of the environment is not the criterion. Authority to bind the organization is." onclick="pick(this)"><span class="opt-letter">A</span><span>The IT Manager who knows the environment best</span></button><button class="opt" data-q="7" data-ok="0" data-rat="Never. The assessor does not affirm the organization&#x27;s compliance; that would collapse the independence the whole regime rests on." onclick="pick(this)"><span class="opt-letter">B</span><span>The C3PAO's Lead CCA</span></button><button class="opt" data-q="7" data-ok="1" data-rat="And the exposure attaches personally: an affirmation that is not true is a false statement in a federal system, with False Claims Act consequences for the person who signed it." onclick="pick(this)"><span class="opt-letter">C</span><span>A senior official of the OSC with authority to bind it</span></button><button class="opt" data-q="7" data-ok="0" data-rat="A consultant cannot bind the OSC and cannot affirm on its behalf." onclick="pick(this)"><span class="opt-letter">D</span><span>The consultant who prepared the organization</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 8 of 10</div><div class="q-stem">An assessment team member pastes extracts from the OSC's system security plan into a public AI assistant to draft finding language. Which CoPC principles are engaged?</div><div class="options"><button class="opt" data-q="8" data-ok="0" data-rat="It is the obvious one, and it is not the only one. Stopping here misses the more serious breach." onclick="pick(this)"><span class="opt-letter">A</span><span>Proper Use of Technology and AI only</span></button><button class="opt" data-q="8" data-ok="0" data-rat="Confidentiality is engaged, but so is the question of who is permitted to render the determination." onclick="pick(this)"><span class="opt-letter">B</span><span>Confidentiality only</span></button><button class="opt" data-q="8" data-ok="1" data-rat="Two breaches, not one: engagement-confidential information left the boundary, and a tool was used to produce reasoning that is the credentialed assessor&#x27;s to produce. Information Integrity is arguably a third." onclick="pick(this)"><span class="opt-letter">C</span><span>Proper Use of Technology and AI, and Confidentiality</span></button><button class="opt" data-q="8" data-ok="0" data-rat="Editing the output addresses neither problem. The data has already left, and the reasoning still did not originate with the assessor." onclick="pick(this)"><span class="opt-letter">D</span><span>None, provided the output was edited before use</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 9 of 10</div><div class="q-stem">What is the relationship between CMMC Level 2 and NIST SP 800-171 Rev 2?</div><div class="options"><button class="opt" data-q="9" data-ok="0" data-rat="There is no subset at Level 2. All 110 apply." onclick="pick(this)"><span class="opt-letter">A</span><span>Level 2 is a subset of the 800-171 requirements chosen by the PMO</span></button><button class="opt" data-q="9" data-ok="1" data-rat="The controls are borrowed wholesale. What CMMC adds is the assessment regime, the levels, the scoping rules, affirmation, and enforceability through a contract clause." onclick="pick(this)"><span class="opt-letter">B</span><span>Level 2 adopts all 110 requirements of Rev 2 as its security requirements</span></button><button class="opt" data-q="9" data-ok="0" data-rat="Rev 3 is not the assessment standard. CMMC Level 2 remains anchored to Rev 2; Rev 3 is horizon-scanning only until future rulemaking says otherwise." onclick="pick(this)"><span class="opt-letter">C</span><span>Level 2 is based on Rev 3, with Rev 2 retained for legacy contracts</span></button><button class="opt" data-q="9" data-ok="0" data-rat="That describes Level 3, which layers a selected subset of 800-172 on top of the 110." onclick="pick(this)"><span class="opt-letter">D</span><span>Level 2 adds requirements from NIST SP 800-172 to 800-171</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 10 of 10</div><div class="q-stem">A Registered Practitioner (RP) helped an OSC prepare for a Level 1 self-assessment two years ago. The RP is now proposed for the OSC's Level 2 certification assessment team. What applies?</div><div class="options"><button class="opt" data-q="10" data-ok="0" data-rat="The bar covers preparatory or consulting activity for &lt;em&gt;any type&lt;/em&gt; of CMMC assessment. The level of the earlier work does not create an exemption." onclick="pick(this)"><span class="opt-letter">A</span><span>Nothing &mdash; the prior work was Level 1, not Level 2</span></button><button class="opt" data-q="10" data-ok="0" data-rat="The prohibition runs three years, not two. And even outside it, other conflicts may still apply." onclick="pick(this)"><span class="opt-letter">B</span><span>Nothing &mdash; two years have passed</span></button><button class="opt" data-q="10" data-ok="1" data-rat="32 CFR 170.8(b)(17)(ii)(G), carried into CoPC 2.2(d), prohibits participating in the Level 2 certification process where the member consulted to prepare the organization for any CMMC assessment within three years." onclick="pick(this)"><span class="opt-letter">C</span><span>The three-year consulting prohibition bars participation</span></button><button class="opt" data-q="10" data-ok="0" data-rat="The OSC&#x27;s consent is irrelevant, and the individual does not decide their own eligibility. The C3PAO owns impartiality and conflict management, and that responsibility cannot be delegated." onclick="pick(this)"><span class="opt-letter">D</span><span>Participation is permitted if the RP discloses it and the OSC consents</span></button></div><div class="rationale"></div></div><div class="kc-score" id="kcs">Answered 0 of 10</div></div></section><div class="pager"><a class="next" href="lesson01.html"><span class="pager-dir">Next &rarr;</span><span class="pager-name">L1 — Compliance Landscape & Ecosystem</span></a></div></main></div><footer>
+  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
+  <p class="foot-text">
+    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
+    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
+    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
+    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
+    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
+    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
+    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
+    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
+    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
+    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
+  </p>
+</footer>
+<script>
+function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
+ document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
+(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
+ document.documentElement.setAttribute('data-theme',t);
+ window.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
+</script>
+<script>
+var _tot=10,_done={},_right=0;
+function pick(b){var q=b.dataset.q;if(_done[q])return;_done[q]=1;
+ var box=b.closest('.q'),opts=box.querySelectorAll('.opt'),rat=box.querySelector('.rationale');
+ opts.forEach(function(o){o.disabled=true;if(o.dataset.ok==='1')o.classList.add('correct');});
+ if(b.dataset.ok==='1'){_right++;}else{b.classList.add('wrong');}
+ var correct=box.querySelector('.opt[data-ok="1"] span:last-child').textContent;
+ rat.innerHTML='<strong>'+(b.dataset.ok==='1'?'Correct.':'Not this one.')+'</strong> '+b.dataset.rat+
+   (b.dataset.ok==='1'?'':' <br><br><strong>The answer is:</strong> '+correct+' \u2014 '+
+    box.querySelector('.opt[data-ok="1"]').dataset.rat);
+ rat.classList.add('show');
+ var n=Object.keys(_done).length;
+ document.getElementById('kcs').textContent='Answered '+n+' of '+_tot+' \u2014 '+_right+' correct'+
+   (n===_tot?(_right===_tot?' \u2014 clean sweep.':' \u2014 review the rationales above.'):'');}
+</script></body></html>

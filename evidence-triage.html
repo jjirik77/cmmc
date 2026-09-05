@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Five artifacts exactly as Meridian supplied them. Name the objective, render the verdict, and say what would change it &mdash; then build a request li">
+<title>Evidence Adequacy Triage | CMMC 5-Day Workshop</title>
+<style>
+:root{
+  --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
+  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
+  --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
+  --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
+}
+[data-theme="dark"]{
+  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
+  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
+  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--body-bg);color:var(--text-primary);
+  line-height:1.65;transition:background .3s,color .3s}
+a{color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-seal{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.62rem;
+  color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+.nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);
+  letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
+  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
+.theme-toggle:hover{background:var(--gold);color:#fff}
+/* HERO */
+.hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.05) 40px,rgba(18,35,58,.05) 41px)}
+.hero-eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;position:relative}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--text-primary);
+  line-height:1.15;max-width:860px;margin:0 auto 1rem;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-subtitle{font-family:Arial,sans-serif;font-size:1.05rem;color:var(--text-secondary);max-width:680px;
+  margin:0 auto 2rem;line-height:1.7;position:relative}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.85rem 2rem;border-radius:2px;position:relative;transition:background .2s,transform .15s}
+.hero-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+/* STATS */
+.stats-bar{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:1rem 2rem;display:flex;
+  justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:.5rem;padding:0 2rem;border-right:2px solid rgba(200,134,42,.35)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-label{font-family:Arial,sans-serif;font-size:.7rem;font-weight:700;color:var(--text-secondary);
+  letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-alt{background:var(--section-alt)}
+.section-eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.section-desc{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);max-width:660px;
+  margin-bottom:2.5rem;line-height:1.7}
+.rule{width:48px;height:3px;background:var(--gold);margin:.75rem 0 1.5rem}
+/* NOTICE BANNER (available; unused by default) */
+.reg-banner{max-width:1200px;margin:2.5rem auto 0;padding:0 2rem}
+.reg-inner{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:3px;padding:1.1rem 1.35rem}
+.reg-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.4rem}
+.reg-head{font-family:Georgia,serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:.4rem}
+.reg-body{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);line-height:1.65}
+.reg-verify{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);margin-top:.55rem;
+  letter-spacing:.03em}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.lesson-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.lesson-badge{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.75rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.domain-weight{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:.05em;
+  text-align:right;line-height:1.3}
+.domain-weight strong{display:block;font-size:1rem;color:var(--gold);font-family:'Arial Narrow',Arial,sans-serif;font-weight:900}
+.card-day-tag{font-family:Arial,sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.card-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.card-desc{font-family:Arial,sans-serif;font-size:.83rem;color:var(--text-secondary);line-height:1.65;flex:1}
+.card-thread{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5;
+  border-top:1px dashed var(--border);padding-top:.6rem}
+.card-thread strong{color:var(--gold);font-weight:700}
+.card-footer{border-top:1px solid var(--border);padding-top:.75rem;margin-top:auto}
+.launch-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px;transition:background .2s}
+.launch-btn:hover{background:var(--gold-light)}
+.launch-btn .arrow{font-size:1rem;transition:transform .15s}
+.launch-btn:hover .arrow{transform:translateX(3px)}
+.card-special .lesson-badge{background:var(--gold);color:#fff}
+.card-special::before{background:var(--navy)}
+/* RESOURCES */
+.resource-section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;
+  border-bottom:2px solid var(--border)}
+.resource-section-heading .rsh-icon{font-size:1.4rem;line-height:1}
+.resource-section-heading h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;
+  color:var(--text-primary);letter-spacing:.08em;text-transform:uppercase}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3rem}
+.resource-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.35rem 1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.resource-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.rc-type{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.rc-icon-title{display:flex;align-items:center;gap:.5rem}
+.rc-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
+.rc-title{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.rc-desc{font-family:Arial,sans-serif;font-size:.81rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.rc-covers{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.rc-covers strong{color:var(--gold);font-weight:700}
+.resource-card .card-footer{border-top:1px solid var(--border);padding-top:.65rem;margin-top:auto}
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;grid-auto-rows:1fr}
+.day-col{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column}
+.day-header{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:center}
+.day-theme{font-family:Arial,sans-serif;font-size:.65rem;color:#a3b6c9;letter-spacing:.06em;text-transform:uppercase;
+  padding:.4rem 1rem;background:var(--navy-mid);text-align:center}
+.day-lessons{padding:.75rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.day-lesson{display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:.6rem .7rem;
+  background:var(--section-alt);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;flex:1;
+  text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.day-lesson:hover{background:var(--blue-pale);border-left-color:var(--navy-light)}
+.day-lesson:hover .day-lesson-name{color:var(--gold)}
+.day-lesson-num{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.day-lesson-name{font-family:Georgia,serif;font-size:.86rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.day-lesson-meta{font-family:Arial,sans-serif;font-size:.66rem;color:var(--text-muted)}
+.day-cap{font-family:Arial,sans-serif;font-size:.64rem;color:var(--text-muted);padding:.5rem .75rem .7rem;
+  border-top:1px dashed var(--border);line-height:1.45}
+.day-cap strong{color:var(--gold)}
+/* CAP PHASE BARS */
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.bar-label{font-family:Arial,sans-serif;font-size:.8rem;color:var(--text-secondary);width:290px;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--section-alt);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.72rem}
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem}
+.about-body p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+.about-body h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.5rem 0 .6rem}
+.facts-box{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;height:fit-content}
+.facts-box h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold)}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fact .fv{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.35rem;font-weight:900;color:var(--gold);line-height:1}
+.fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-top:.2rem}
+/* FOOTER */
+footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
+.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
+.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+/* ---------- LESSON PAGES ---------- */
+.lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
+.toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:4px;padding:1.1rem 1.2rem;max-height:calc(100vh - 110px);overflow-y:auto}
+.toc-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem}
+.toc a{display:block;font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-secondary);text-decoration:none;
+  padding:.28rem .4rem;border-radius:2px;line-height:1.4;border-left:2px solid transparent}
+.toc a::before{content:counter(toc) ". ";color:var(--gold);font-weight:700}
+.toc a:hover{background:var(--blue-pale);color:var(--gold);border-left-color:var(--gold)}
+.lhero{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:2.5rem 2rem}
+.lhero-in{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.lhero h1{font-family:Georgia,serif;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;line-height:1.2;max-width:860px}
+.lead{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-top:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.05em;color:var(--text-secondary);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:.25rem .8rem}
+.meta-chip strong{color:var(--gold)}
+h2.h{font-family:Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.25;margin-bottom:.2rem}
+.content-section{margin-bottom:3rem;scroll-margin-top:80px}
+.content-section p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem}
+.content-section h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.7rem 0 .7rem}
+.content-section ul,.content-section ol{margin:0 0 1.1rem 1.3rem}
+.content-section li{font-family:Arial,sans-serif;font-size:.88rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.4rem}
+.content-section strong{color:var(--text-primary)}
+.cs-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.4rem}
+.cs-num{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.9rem;color:var(--gold);line-height:1;flex-shrink:0}
+/* TABLES */
+.tw{overflow-x:auto;margin:1.1rem 0 1.4rem;border:1px solid var(--border);border-radius:4px;background:var(--card-bg)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{background:var(--navy);color:#fff;font-family:Arial,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:.6rem .8rem}
+td{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);padding:.6rem .8rem;
+  border-top:1px solid var(--border);line-height:1.6;vertical-align:top}
+tbody tr:nth-child(even){background:var(--section-alt)}
+td strong{color:var(--text-primary)}
+/* CALLOUTS */
+.tip,.in-practice,.warnbox{border-radius:3px;padding:1rem 1.2rem;margin:1.2rem 0}
+.tip{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold)}
+.tip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.35rem}
+.in-practice{background:var(--blue-pale);border:1px solid var(--blue-pale-border);border-left:5px solid var(--navy-light)}
+.ip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:.35rem}
+.warnbox{background:var(--card-bg);border:1px solid var(--bad);border-left:5px solid var(--bad)}
+.warn-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:.35rem}
+.tip p,.in-practice p,.warnbox p{font-family:Arial,sans-serif;font-size:.85rem;line-height:1.75;margin:0 0 .6rem}
+.tip p:last-child,.in-practice p:last-child,.warnbox p:last-child{margin-bottom:0}
+/* OBJECTIVES */
+.obj-list{list-style:none;margin:0!important}
+.obj-list li{display:flex;gap:.8rem;align-items:flex-start;background:var(--card-bg);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-bottom:.6rem}
+.obj-tag{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--navy);color:#fff;border-radius:2px;padding:.18rem .5rem;flex-shrink:0;margin-top:.15rem}
+/* VOCAB FLIP */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem;margin:1.2rem 0}
+.flip-card{background:transparent;height:170px;perspective:1000px;cursor:pointer;border:none;padding:0;font:inherit;text-align:left}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;
+  padding:.9rem 1rem;display:flex;flex-direction:column;justify-content:center;background:var(--card-bg);overflow:auto}
+.flip-back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy)}
+.vocab-term{font-family:Georgia,serif;font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.vocab-def{font-family:Arial,sans-serif;font-size:.76rem;color:#e8eef5;line-height:1.6}
+.flip-hint{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:.6rem}
+/* DIAGRAM */
+.diagram{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.3rem;margin:1.3rem 0;overflow-x:auto}
+.diagram figcaption{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-muted);margin-top:.8rem;line-height:1.6}
+/* CASE BLOCK */
+.case{background:var(--navy);border-radius:5px;padding:1.6rem 1.8rem;margin:2rem 0;border-left:6px solid var(--gold)}
+.case-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.case h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;line-height:1.3}
+.case p{font-family:Arial,sans-serif;font-size:.86rem;color:#c8d6e4;line-height:1.8;margin-bottom:.9rem}
+.case ul{margin:0 0 1rem 1.2rem}
+.case li{font-family:Arial,sans-serif;font-size:.85rem;color:#c8d6e4;line-height:1.75;margin-bottom:.35rem}
+.case strong{color:#fff}
+.case-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.18)}
+.case-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px}
+.case-btn:hover{background:var(--gold-light)}
+.case-btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.case-btn.ghost:hover{background:var(--gold);color:#fff}
+/* KNOWLEDGE CHECK */
+.kc{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.6rem 1.8rem;margin-top:1.2rem}
+.q{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem}
+.q:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.qn{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.q-stem{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-primary);line-height:1.75;margin-bottom:.8rem;font-weight:600}
+.options{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;background:var(--section-alt);border:1px solid var(--border);
+  border-radius:3px;padding:.6rem .8rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.84rem;
+  color:var(--text-secondary);line-height:1.6;text-align:left;transition:background .15s,border-color .15s;width:100%}
+.opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--navy-light)}
+.opt:disabled{cursor:default}
+.opt-letter{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.correct{background:rgba(47,111,79,.14);border-color:var(--ok)}
+.opt.correct .opt-letter{color:var(--ok)}
+.opt.wrong{background:rgba(157,52,39,.12);border-color:var(--bad)}
+.opt.wrong .opt-letter{color:var(--bad)}
+.rationale{display:none;margin-top:.7rem;background:var(--blue-pale);border-left:4px solid var(--navy-light);
+  border-radius:0 3px 3px 0;padding:.75rem .95rem;font-family:Arial,sans-serif;font-size:.82rem;
+  color:var(--text-secondary);line-height:1.75}
+.rationale.show{display:block}
+.rationale strong{color:var(--text-primary)}
+.kc-score{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-top:1.4rem;padding-top:1rem;border-top:2px solid var(--gold)}
+/* PAGER */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.pager a{display:flex;flex-direction:column;gap:.15rem;text-decoration:none;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:4px;padding:.8rem 1.2rem;flex:1;max-width:47%;transition:border-color .2s}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager-dir{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pager-name{font-family:Georgia,serif;font-size:.9rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+/* TOOL PAGES */
+.tool-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.5rem 1.7rem;margin-bottom:1.5rem}
+.panel h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.panel h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.4rem 0 .6rem}
+.panel p{font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.8rem}
+.panel ul{margin:0 0 1rem 1.3rem}
+.panel li{font-family:Arial,sans-serif;font-size:.85rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+label{display:block;font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+input[type=text],textarea,select{width:100%;font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-primary);
+  background:var(--body-bg);border:1px solid var(--border);border-radius:3px;padding:.5rem .65rem;line-height:1.6}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;border:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--gold-light)}
+.btn.secondary{background:var(--navy)}
+.btn.secondary:hover{background:var(--navy-light)}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#fff}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.verdict{display:none;margin-top:1rem;border-radius:3px;padding:1rem 1.2rem;font-family:Arial,sans-serif;
+  font-size:.85rem;line-height:1.75;border-left:5px solid var(--navy-light);background:var(--blue-pale);
+  border:1px solid var(--blue-pale-border);border-left-width:5px}
+.verdict.show{display:block}
+.verdict h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy-light);margin-bottom:.4rem}
+.verdict.good{background:rgba(47,111,79,.12);border-color:var(--ok)}
+.verdict.good h4{color:var(--ok)}
+.verdict.bad{background:rgba(157,52,39,.1);border-color:var(--bad)}
+.verdict.bad h4{color:var(--bad)}
+.pill{display:inline-block;font-family:Arial,sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;border-radius:20px;padding:.15rem .6rem;border:1px solid var(--border);color:var(--text-muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.no{color:var(--bad);border-color:var(--bad)}
+.pill.mid{color:var(--warn);border-color:var(--warn)}
+.savebar{position:sticky;bottom:0;background:var(--card-bg);border-top:2px solid var(--gold);padding:.7rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
+.savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
+@media print{
+  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  body{background:#fff}
+  .panel,.tw,.kc{break-inside:avoid}
+}
+@media (max-width:980px){
+  .lwrap{grid-template-columns:1fr;padding:2rem 1.2rem 3rem}
+  .toc{position:static;max-height:none}
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bar-label{width:150px;font-size:.72rem}
+}
+@media (max-width:560px){
+  .schedule-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  .section{padding:2.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-seal">CMMC<br>L2</div>
+    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
+    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+  </div>
+</nav>
+<header class="lhero"><div class="lhero-in">
+  <div class="eyebrow">Tool &middot; Deliverable D5 &middot; Lesson 5</div><h1>Evidence Triage &mdash; Adequate, Sufficient, Both, or Neither</h1>
+  <p class="lead">Five artifacts exactly as Meridian supplied them. Name the objective, render the verdict, and say what would change it &mdash; then build a request list an OSC could satisfy without asking a question.</p><div class="chips"><span class="meta-chip">5 artifacts</span><span class="meta-chip">15 requirements</span><span class="meta-chip">Request list</span><span class="meta-chip">Prints as D5</span></div>
+</div></header>
+<main class="tool-main">
+<div class="panel">
+<h2>The two tests</h2><div class="rule"></div>
+<div class="tw"><table>
+<thead><tr><th></th><th>Adequacy</th><th>Sufficiency</th></tr></thead>
+<tbody>
+<tr><td><strong>The question</strong></td><td>Does this evidence exist, and does it match what the requirement intends?</td><td>Does it show the control is implemented, consistently followed, and operating?</td></tr>
+<tr><td><strong>What to ask next</strong></td><td>&ldquo;What is this a document about?&rdquo;</td><td>&ldquo;How would I know this is still true, and true everywhere?&rdquo;</td></tr>
+</tbody></table></div>
+<p><strong>Adequate</strong> evidence shows the thing exists and matches what the requirement intends.
+<strong>Sufficient</strong> evidence shows it is implemented, consistently followed, and operating. A policy
+requiring MFA is adequate. A configuration export plus a sample of enrolled accounts is sufficient. Someone telling
+you it is enforced is neither.</p>
+<div class="verdict show"><h4>Every verdict needs a fourth field</h4>
+<p>Most assessors reach similar verdicts on these five artifacts. What separates them is
+<strong>what would change it</strong>. An assessor who can say &ldquo;this is adequate but not sufficient, and here
+is precisely what would make it sufficient&rdquo; has given an organization something it can act on without ever
+telling it what to do. This tool will not let you skip that field.</p></div>
+</div>
+<div class="panel"><h2>Part B reference &mdash; the fifteen requirements</h2><div class="rule"></div>
+<p>The request list at the end of this tool covers these. The descriptors are pointers so you know which
+requirement is meant &mdash; they are <em>not</em> the authoritative text and they are not the assessment
+objectives. Work from the CMMC Assessment Guide for Level 2; decomposing the requirement into its objectives is the
+skill being assessed.</p>
+<div class="tw"><table><thead><tr><th style="width:130px">Requirement</th><th>In one line</th><th>Meridian gap it touches</th></tr></thead>
+<tbody><tr><td><strong>AC.L2-3.1.1</strong></td><td>Limit system access to authorized users, processes, and devices</td><td>Six VPN accounts belong to separated employees</td></tr><tr><td><strong>AC.L2-3.1.2</strong></td><td>Limit system access to the types of transactions and functions authorized users may execute</td><td>Shared Global Admin service account in the GCC High tenant</td></tr><tr><td><strong>AC.L2-3.1.5</strong></td><td>Employ the principle of least privilege</td><td>MSP holds standing domain admin; no privileged-account review record</td></tr><tr><td><strong>AC.L2-3.1.12</strong></td><td>Monitor and control remote access sessions</td><td>22 VPN users including MSP technicians; no session monitoring</td></tr><tr><td><strong>IA.L2-3.5.3</strong></td><td>Multifactor authentication for privileged accounts and network access</td><td>MFA at the M365 layer only; none on the SSL VPN</td></tr><tr><td><strong>AU.L2-3.3.1</strong></td><td>Create and retain system audit logs sufficient to support monitoring and investigation</td><td>30-day retention taken as a platform default; no analysis behind it</td></tr><tr><td><strong>AU.L2-3.3.5</strong></td><td>Correlate audit record review, analysis, and reporting</td><td>No SIEM; review is reactive only</td></tr><tr><td><strong>CM.L2-3.4.1</strong></td><td>Establish and maintain baseline configurations and inventories</td><td>No asset inventory exists; ENG workstations in no configuration management tool</td></tr><tr><td><strong>CM.L2-3.4.2</strong></td><td>Establish and enforce security configuration settings</td><td>About four of 14 workstations 90+ days behind on critical updates</td></tr><tr><td><strong>IR.L2-3.6.1</strong></td><td>Establish an operational incident-handling capability</td><td>IRP dated 2022; contact list names a departed employee</td></tr><tr><td><strong>IR.L2-3.6.3</strong></td><td>Test the organizational incident response capability</td><td>No tabletop or exercise since the plan was written</td></tr><tr><td><strong>MA.L2-3.7.5</strong></td><td>MFA for nonlocal maintenance sessions; terminate them on completion</td><td>MSP remote admin with no MFA and no session control</td></tr><tr><td><strong>MP.L2-3.8.3</strong></td><td>Sanitize or destroy media containing CUI before disposal or reuse</td><td>Three decommissioned drives in a cardboard box in the server room since 2022</td></tr><tr><td><strong>RA.L2-3.11.1</strong></td><td>Periodically assess risk to operations, assets, and individuals</td><td>One assessment 19 months ago; no next review scheduled</td></tr><tr><td><strong>SC.L2-3.13.1</strong></td><td>Monitor, control, and protect communications at external and key internal boundaries</td><td>CORP-LAN, ENG-LAN and MGMT-LAN route freely through the core switch</td></tr></tbody></table></div></div>
+<div class="item panel" id="ev1">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">1</span>
+    <h2 style="margin:0">Artifact 1 &mdash; Access Control Policy (POL-001 v1.2)</h2></div>
+  <p style="font-size:.82rem;color:var(--text-muted)"><em>Supplied by Diana Kowalczyk, CISO, as a PDF. Document register shows last reviewed January 2024 &mdash; one of the four policies the company classifies as current.</em></p><pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.6;
+background:var(--section-alt);border:1px solid var(--border);border-radius:3px;padding:1rem;overflow-x:auto">
+MERIDIAN PRECISION DEFENSE SYSTEMS - ACCESS CONTROL POLICY
+POL-001  v1.2   Last reviewed: January 2024   Approved: M. Ellison
+
+4.1  Access to MPDS information systems shall be granted on the basis of
+     least privilege and documented business need.
+
+4.2  Accounts shall be provisioned by IT following an approved HR ticket
+     and shall be disabled upon separation.
+
+4.3  Privileged and administrative accounts shall be restricted to
+     designated IT personnel and reviewed quarterly.
+
+4.4  Remote access shall require multifactor authentication.
+
+4.5  Third-party administrative access shall be governed by written
+     agreement and subject to the same controls as employee access.</pre>
+  <div style="margin-bottom:.8rem"><label for="ev1-obj">Which assessment objective is it offered against?</label><input type="text" id="ev1-obj" data-f="ev1-obj" class="" placeholder="Name a specific objective. If you cannot, the artifact is not evidence yet."></div><div style="margin-bottom:.8rem"><label for="ev1-v">Verdict</label><select id="ev1-v" data-f="ev1-v" class="" data-ok="Adequate, not sufficient"><option value=""></option><option value="Adequate and sufficient">Adequate and sufficient</option><option value="Adequate, not sufficient">Adequate, not sufficient</option><option value="Sufficient, not adequate">Sufficient, not adequate</option><option value="Neither">Neither</option></select></div><div style="margin-bottom:.8rem"><label for="ev1-r">Reasoning — three sentences maximum</label><textarea id="ev1-r" data-f="ev1-r" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="ev1-chg">What would change the verdict?</label><textarea id="ev1-chg" data-f="ev1-chg" class="needchange" placeholder="Be specific. This is the field that separates a Competent verdict from an Assessor-Ready one."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  <div class="nc-warn" style="display:none;margin-top:.6rem;font-family:Arial,sans-serif;font-size:.78rem;color:var(--bad)"><strong>Incomplete.</strong> A verdict without a &ldquo;what would change it&rdquo; clause is not finished. Fill that field before you move on.</div>
+  <div class="verdict"><h4>Model answer</h4><p><strong>Adequate. Not sufficient.</strong> Offered against AC.L2-3.1.1, 3.1.2, 3.1.5 and IA.L2-3.5.3.</p>
+  <p><strong>Adequate, and genuinely well drafted</strong> &mdash; it is current, approved by the CEO, and clauses
+  4.4 and 4.5 address exactly the two things Meridian gets wrong. That is worth saying out loud.</p>
+  <p><strong>Not sufficient, and the policy indicts the environment rather than defending it.</strong> Clause 4.4
+  requires MFA for remote access; the SSL VPN has none. Clause 4.5 requires third-party administrative access to be
+  governed by written agreement; ClearPath holds standing domain admin on a month-to-month arrangement with no
+  cybersecurity terms. Clause 4.2 requires disablement on separation; six VPN accounts belong to separated
+  employees. Clause 4.3 requires quarterly privileged-account review; no review record exists, and a shared service
+  account holds Global Admin in the GCC High tenant with no individual owner.</p>
+  <p><strong>What would change it:</strong> an account listing with privilege levels reconciled against a documented
+  baseline; dated quarterly review records naming the reviewer; termination records showing account disablement
+  timestamps; the executed ClearPath agreement with security terms; and MFA evidence at the network access layer.</p>
+  <p><strong>The observation that marks a strong assessor:</strong> a policy this good makes the findings
+  <em>worse</em>, not better. Meridian wrote down the right rule and did not follow it, which forecloses the
+  &ldquo;we did not know&rdquo; reading and speaks directly to whether the control is operating.</p></div>
+</div><div class="item panel" id="ev2">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">2</span>
+    <h2 style="margin:0">Artifact 2 &mdash; M365 GCC High Conditional Access export</h2></div>
+  <p style="font-size:.82rem;color:var(--text-muted)"><em>Supplied by Trevor Nakamura as a policy export from the GCC High tenant. Tenant identifier visible and matching. Exported three days before the request.</em></p><pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.6;
+background:var(--section-alt);border:1px solid var(--border);border-radius:3px;padding:1rem;overflow-x:auto">
+Microsoft 365 GCC High - Conditional Access policy export
+Policy:        MPDS-Require-MFA-AllUsers
+State:         On
+Assignments
+  Users:       All users (163)
+  Excluded:    mpds-admin@meridianpds.onmicrosoft.com  [service account]
+  Cloud apps:  All cloud apps
+  Conditions:  Any location
+Access controls
+  Grant:       Require multifactor authentication
+Modified:      7 months ago</pre>
+  <div style="margin-bottom:.8rem"><label for="ev2-obj">Which assessment objective is it offered against?</label><input type="text" id="ev2-obj" data-f="ev2-obj" class="" placeholder="Name a specific objective. If you cannot, the artifact is not evidence yet."></div><div style="margin-bottom:.8rem"><label for="ev2-v">Verdict</label><select id="ev2-v" data-f="ev2-v" class="" data-ok="Adequate, not sufficient"><option value=""></option><option value="Adequate and sufficient">Adequate and sufficient</option><option value="Adequate, not sufficient">Adequate, not sufficient</option><option value="Sufficient, not adequate">Sufficient, not adequate</option><option value="Neither">Neither</option></select></div><div style="margin-bottom:.8rem"><label for="ev2-r">Reasoning — three sentences maximum</label><textarea id="ev2-r" data-f="ev2-r" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="ev2-chg">What would change the verdict?</label><textarea id="ev2-chg" data-f="ev2-chg" class="needchange" placeholder="Be specific. This is the field that separates a Competent verdict from an Assessor-Ready one."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  <div class="nc-warn" style="display:none;margin-top:.6rem;font-family:Arial,sans-serif;font-size:.78rem;color:var(--bad)"><strong>Incomplete.</strong> A verdict without a &ldquo;what would change it&rdquo; clause is not finished. Fill that field before you move on.</div>
+  <div class="verdict"><h4>Model answer</h4><p><strong>The hardest artifact in the set, and it fails for two separate reasons.</strong> Offered against
+  IA.L2-3.5.3.</p>
+  <p><strong>Reason one &mdash; scope.</strong> This is a genuine policy export rather than a screenshot, it is
+  current, and it covers all 163 accounts. And it covers the <em>Microsoft 365 layer only</em>. IA.L2-3.5.3 requires
+  MFA for network access, and the FortiGate SSL VPN &mdash; the actual network access path, with roughly 22 users
+  including the MSP &mdash; authenticates against Active Directory with username and password alone. Evidence for
+  the cloud layer does not establish the objective for the network layer.</p>
+  <p><strong>Reason two &mdash; the exclusion.</strong> Unlike a screenshot, an export shows exclusions, and this one
+  excludes <code>mpds-admin@</code>: a shared service account holding Global Admin with no individual owner. The
+  single most privileged identity in the tenant is exempted from the MFA policy. A team that reads the first four
+  lines and stops will miss it, which is precisely why the export is the better artifact and precisely why you read
+  all of it.</p>
+  <p><strong>What would change it:</strong> MFA evidence at the VPN gateway; a sign-in test against the VPN, the
+  domain controllers and the file server with a sample account; and either removal of the exclusion or a documented,
+  assessed compensating control with an accountable owner for that account.</p>
+  <p><strong>Hold the distinction:</strong> the artifact is excellent evidence and the requirement is NOT MET. An
+  assessor who cannot praise good evidence and still find the requirement unmet will be argued out of findings.</p></div>
+</div><div class="item panel" id="ev3">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">3</span>
+    <h2 style="margin:0">Artifact 3 &mdash; Email from the IT Administrator</h2></div>
+  <p style="font-size:.82rem;color:var(--text-muted)"><em>Supplied by Trevor Nakamura by email, in response to a request for audit log review records.</em></p><pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.6;
+background:var(--section-alt);border:1px solid var(--border);border-radius:3px;padding:1rem;overflow-x:auto">
+From:    Trevor Nakamura
+To:      Assessment Team
+Subject: RE: Evidence request - audit logging
+
+Logging is on across the board - Windows event logs on the DCs and the
+file server, and the PLM box writes its own logs. Retention is 30 days,
+which is what the platform defaults to. I look at them when something
+comes up and we have not had anything unusual. Snort would catch
+anything serious anyway.
+
+Happy to pull specific logs if you tell me what you need.
+
+Trevor</pre>
+  <div style="margin-bottom:.8rem"><label for="ev3-obj">Which assessment objective is it offered against?</label><input type="text" id="ev3-obj" data-f="ev3-obj" class="" placeholder="Name a specific objective. If you cannot, the artifact is not evidence yet."></div><div style="margin-bottom:.8rem"><label for="ev3-v">Verdict</label><select id="ev3-v" data-f="ev3-v" class="" data-ok="Neither"><option value=""></option><option value="Adequate and sufficient">Adequate and sufficient</option><option value="Adequate, not sufficient">Adequate, not sufficient</option><option value="Sufficient, not adequate">Sufficient, not adequate</option><option value="Neither">Neither</option></select></div><div style="margin-bottom:.8rem"><label for="ev3-r">Reasoning — three sentences maximum</label><textarea id="ev3-r" data-f="ev3-r" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="ev3-chg">What would change the verdict?</label><textarea id="ev3-chg" data-f="ev3-chg" class="needchange" placeholder="Be specific. This is the field that separates a Competent verdict from an Assessor-Ready one."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  <div class="nc-warn" style="display:none;margin-top:.6rem;font-family:Arial,sans-serif;font-size:.78rem;color:var(--bad)"><strong>Incomplete.</strong> A verdict without a &ldquo;what would change it&rdquo; clause is not finished. Fill that field before you move on.</div>
+  <div class="verdict"><h4>Model answer</h4><p><strong>Neither.</strong> Offered against AU.L2-3.3.1 and 3.3.5.</p>
+  <p>It is an assertion that arrived by email, which does not make it a record. An interview response is a lead to
+  be corroborated, not a conclusion, and this is an interview response in written form.</p>
+  <p><strong>Three moves worth naming to students explicitly.</strong> &ldquo;I look at them when something comes
+  up&rdquo; is reactive review, which is not the review the requirement contemplates. &ldquo;We have not had anything
+  unusual&rdquo; is an appeal to the absence of evidence &mdash; with no defined review process, no correlation and
+  no SIEM, Meridian has no capability to have seen anything unusual. And &ldquo;Snort would catch anything
+  serious&rdquo; substitutes a tool&rsquo;s existence for a process: nobody has said who reads its output, or when.</p>
+  <p><strong>The detail a strong assessor pursues:</strong> 30 days is stated plainly and volunteered as a platform
+  default rather than a decision. The requirement is retention <em>sufficient to support</em> monitoring, analysis,
+  investigation and reporting &mdash; a period nobody chose cannot have been assessed against that standard. Ask
+  what analysis established 30 days as sufficient. Nothing did.</p>
+  <p><strong>What would change it:</strong> a documented log review procedure with a defined cadence; dated review
+  records naming the reviewer and the sources reviewed; a retention determination tied to the requirement; and, for
+  3.3.5, evidence that records from different sources are actually correlated.</p>
+  <p><strong>Watch for:</strong> this is the artifact most likely to be accepted, because Nakamura is competent,
+  cooperative and almost certainly telling the truth as he understands it. Competence and honesty are not evidence,
+  and the assessments that go wrong go wrong with likeable people.</p></div>
+</div><div class="item panel" id="ev4">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">4</span>
+    <h2 style="margin:0">Artifact 4 &mdash; Risk Assessment Report (POL-006)</h2></div>
+  <p style="font-size:.82rem;color:var(--text-muted)"><em>Supplied by Diana Kowalczyk. The document register records it as last performed June 2023 and flags it &ldquo;Overdue.&rdquo; Six risks are recorded.</em></p><pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.6;
+background:var(--section-alt);border:1px solid var(--border);border-radius:3px;padding:1rem;overflow-x:auto">
+MERIDIAN PRECISION DEFENSE SYSTEMS - RISK REGISTER (extract)
+Performed: June 2023          Next review: not scheduled
+
+ID       Risk                                  L    I    Level     Remediation            Owner
+RISK-01  Unpatched ENG workstations exploited  High High Critical  Planned - no date      Nakamura
+RISK-02  MSP privileged access abused          Med  High High      Not initiated          Kowalczyk
+RISK-03  Stale VPN accounts used by former     Med  High High      Partial - HR notified  Nakamura
+         employee or attacker
+RISK-04  CUI exfiltrated via removable media   Med  Med  Medium    Policy only            Kowalczyk
+RISK-05  Fire/flood in Dayton server room -    Low  High Medium    Local NAS only         Nakamura
+         no offsite backup for SYS-003
+RISK-06  Huntsville closet equipment accessed  Low  Med  Low-Med   Not addressed          Farris</pre>
+  <div style="margin-bottom:.8rem"><label for="ev4-obj">Which assessment objective is it offered against?</label><input type="text" id="ev4-obj" data-f="ev4-obj" class="" placeholder="Name a specific objective. If you cannot, the artifact is not evidence yet."></div><div style="margin-bottom:.8rem"><label for="ev4-v">Verdict</label><select id="ev4-v" data-f="ev4-v" class="" data-ok="Adequate, not sufficient"><option value=""></option><option value="Adequate and sufficient">Adequate and sufficient</option><option value="Adequate, not sufficient">Adequate, not sufficient</option><option value="Sufficient, not adequate">Sufficient, not adequate</option><option value="Neither">Neither</option></select></div><div style="margin-bottom:.8rem"><label for="ev4-r">Reasoning — three sentences maximum</label><textarea id="ev4-r" data-f="ev4-r" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="ev4-chg">What would change the verdict?</label><textarea id="ev4-chg" data-f="ev4-chg" class="needchange" placeholder="Be specific. This is the field that separates a Competent verdict from an Assessor-Ready one."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  <div class="nc-warn" style="display:none;margin-top:.6rem;font-family:Arial,sans-serif;font-size:.78rem;color:var(--bad)"><strong>Incomplete.</strong> A verdict without a &ldquo;what would change it&rdquo; clause is not finished. Fill that field before you move on.</div>
+  <div class="verdict"><h4>Model answer</h4><p><strong>Adequate. Not sufficient.</strong> Offered against RA.L2-3.11.1.</p>
+  <p><strong>Adequate:</strong> unlike most artifacts in this case it is the right kind of document, it identifies
+  real risks specific to this environment, and it assigns likelihood, impact and an owner. Meridian has genuinely
+  done a risk assessment.</p>
+  <p><strong>Not sufficient:</strong> the requirement is to assess risk <em>periodically</em>. This was performed
+  once, 19 months ago, with no next review scheduled &mdash; so there is no periodicity to evidence. Two of the six
+  risks record no remediation at all, one records &ldquo;planned&rdquo; with no date, and there is no evidence that
+  any of them were tracked, escalated or closed in the intervening period.</p>
+  <p><strong>The observation that separates Competent from Assessor-Ready:</strong> read the register against the
+  assessment findings. RISK-01, RISK-02 and RISK-03 describe, precisely and in the company&rsquo;s own words, three
+  of the failures you are about to write up as findings. Meridian identified them, rated them Critical and High,
+  assigned owners, and then did nothing for 19 months. That is not an unknown risk. It is an accepted one that
+  nobody was authorised to accept &mdash; and it goes directly to whether management is exercising the oversight the
+  CA family requires.</p>
+  <p><strong>What would change it:</strong> a defined assessment cadence with evidence of at least two cycles;
+  remediation tracking showing movement on the open items; and evidence of management review and formal risk
+  acceptance where remediation was deliberately deferred.</p></div>
+</div><div class="item panel" id="ev5">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">5</span>
+    <h2 style="margin:0">Artifact 5 &mdash; The POA&amp;M</h2></div>
+  <p style="font-size:.82rem;color:var(--text-muted)"><em>Supplied by Diana Kowalczyk as an .xlsx attachment. Asked where the master copy lives, she states it is in her OneDrive.</em></p><pre style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;line-height:1.6;
+background:var(--section-alt);border:1px solid var(--border);border-radius:3px;padding:1rem;overflow-x:auto">
+MPDS_POAM_working.xlsx
+Location:  Kowalczyk personal OneDrive (commercial tenant)
+           NOT the M365 GCC High tenant
+
+Item  Weakness                          Target    Status      Owner
+1     VPN MFA                           TBD       Open        IT
+2     Stale accounts                    TBD       In progress IT
+3     Log review process                -         Open        IT
+4     Workstation patching              Q3?       Open        IT
+5     MSP contract / SCRM               -         Open        Contracts
+6     Segmentation project              FY26      Open        IT
+
+No version history. No AO signature. Last modified 18 months ago.</pre>
+  <div style="margin-bottom:.8rem"><label for="ev5-obj">Which assessment objective is it offered against?</label><input type="text" id="ev5-obj" data-f="ev5-obj" class="" placeholder="Name a specific objective. If you cannot, the artifact is not evidence yet."></div><div style="margin-bottom:.8rem"><label for="ev5-v">Verdict</label><select id="ev5-v" data-f="ev5-v" class="" data-ok="Neither"><option value=""></option><option value="Adequate and sufficient">Adequate and sufficient</option><option value="Adequate, not sufficient">Adequate, not sufficient</option><option value="Sufficient, not adequate">Sufficient, not adequate</option><option value="Neither">Neither</option></select></div><div style="margin-bottom:.8rem"><label for="ev5-r">Reasoning — three sentences maximum</label><textarea id="ev5-r" data-f="ev5-r" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="ev5-chg">What would change the verdict?</label><textarea id="ev5-chg" data-f="ev5-chg" class="needchange" placeholder="Be specific. This is the field that separates a Competent verdict from an Assessor-Ready one."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  <div class="nc-warn" style="display:none;margin-top:.6rem;font-family:Arial,sans-serif;font-size:.78rem;color:var(--bad)"><strong>Incomplete.</strong> A verdict without a &ldquo;what would change it&rdquo; clause is not finished. Fill that field before you move on.</div>
+  <div class="verdict"><h4>Model answer</h4><p><strong>Neither &mdash; and the artifact is itself a finding.</strong> Offered against CA.L2-3.12.2 and, as
+  supporting evidence, CA.L2-3.12.4.</p>
+  <p><strong>Not adequate:</strong> a plan of action must identify the weakness, the corrective action, the resources
+  required, the milestones, and the completion dates. Four of six items carry no target date, none carries a named
+  individual owner, none records resources, and no item has ever been closed. &ldquo;IT&rdquo; is not an owner. This
+  does not match what the requirement intends.</p>
+  <p><strong>Not sufficient</strong> for the obvious reason and a much worse one: <strong>it is stored outside the
+  CUI boundary.</strong> The master copy lives in a personal OneDrive on a commercial tenant, not in the authorised
+  GCC High environment. A document enumerating every unremediated security weakness in a defense contractor is
+  precisely the kind of information an adversary would target, and it is being kept outside the accredited
+  boundary.</p>
+  <p><strong>Do not stop at the content.</strong> Where an artifact lives can be a more serious finding than what it
+  says, and this is the clearest example in the case. It also contradicts the SSP&rsquo;s own boundary statement,
+  which is a second finding.</p>
+  <p><strong>What would change it:</strong> a POA&amp;M inside the GCC High boundary, under version control, with
+  named individual owners, resource estimates, dated milestones, and evidence of AO review at a defined cadence.</p>
+  <p><strong>Consistency check:</strong> you will need this document again on Day 5, when the eligibility rules in
+  32 CFR &sect;170.21 turn on what a POA&amp;M may and may not carry. Note now that a POA&amp;M is a regulated
+  instrument with a defined content standard, not a spreadsheet of intentions.</p></div>
+</div><div class="item panel" id="reqlist">
+  <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
+    <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">6</span>
+    <h2 style="margin:0">Part B &mdash; the evidence request list</h2></div>
+  <p>Build request lines for the fifteen requirements above. Each line names four things: the <strong>artifact</strong> (specific enough to be retrieved), the <strong>method</strong> (examine, interview, or test), the <strong>objective</strong> it serves, and the <strong>custodian</strong>.</p><p style="font-size:.82rem;color:var(--text-muted)">A line that names a topic rather than an artifact is not a request. &ldquo;Access control documentation&rdquo; produces a pile of documents and a week of delay; &ldquo;the current Conditional Access policy export from the Microsoft 365 tenant, including exclusions&rdquo; does not.</p>
+  <div style="margin-bottom:.8rem"><label for="reqlist-list">Your request list — one line per row: artifact | method | objective | custodian</label><textarea id="reqlist-list" data-f="reqlist-list" class="" placeholder="1. The current Conditional Access policy export from the M365 tenant, including exclusions | Examine | IA.L2-3.5.3[a] | T. Nakamura
+2. ..."></textarea></div>
+  <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
+  
+  <div class="verdict"><h4>Model answer</h4><p><strong>What good looks like &mdash; a sample of strong lines:</strong></p>
+<ul>
+<li>FortiGate SSL VPN authentication configuration export showing the authentication method for the remote-access
+portal &middot; Examine &middot; IA.L2-3.5.3 &middot; T. Nakamura &mdash; <em>and</em> a live sign-in test to the VPN,
+a domain controller over RDP, and SYS-003 &middot; Test &middot; same objective &middot; T. Nakamura.</li>
+<li>Active Directory account listing with group memberships, last-logon dates and enabled/disabled state, exported
+during the assessment &middot; Examine &middot; AC.L2-3.1.1, 3.1.5 &middot; T. Nakamura.</li>
+<li>Separation records for the six accounts identified as belonging to former employees, with the corresponding
+disablement timestamps &middot; Examine &middot; AC.L2-3.1.1 &middot; R. Bauer and T. Nakamura &mdash; note the two
+custodians; that split is itself informative about why the gap exists.</li>
+<li>The executed ClearPath IT Solutions services agreement including any security addendum, plus the Customer
+Responsibility Matrix &middot; Examine &middot; MA.L2-3.7.5 and the ESP obligation &middot; P. Mehta.</li>
+<li>Log retention configuration for the domain controllers, SYS-003 and SYS-004, showing the configured period; and
+any documented analysis establishing that period as sufficient &middot; Examine &middot; AU.L2-3.3.1 &middot;
+T. Nakamura.</li>
+<li>Patch status report for all 14 Dayton and 6 Huntsville engineering workstations as at the assessment date
+&middot; Examine &middot; CM.L2-3.4.2 &middot; T. Nakamura.</li>
+<li>Disposition records for the three decommissioned drives held in the Dayton server room, and the destruction
+certificates for media disposed of since 2022 &middot; Examine &middot; MP.L2-3.8.3 &middot; G. Farris.</li>
+<li>Any record of an incident response exercise since 2022, and the current IR contact roster reconciled against
+active personnel &middot; Examine &middot; IR.L2-3.6.1, 3.6.3 &middot; D. Kowalczyk.</li>
+</ul>
+<p><strong>Three checks before you submit:</strong> every line names an artifact somebody could go and fetch, not a
+subject somebody could write an essay about. Every verdict names the objective. And nothing anywhere in the document
+tells Meridian what to do about any of it.</p>
+<p><strong>The habit that matters most:</strong> ask for what would <em>disconfirm</em> the company&rsquo;s position,
+not only what would confirm it. Meridian has an SSP, ten policies and a CISO &mdash; a documentation-led assessment
+here will pass a company that is not compliant.</p></div>
+</div>
+<div class="panel" style="text-align:center">
+  <div class="btnrow" style="justify-content:center">
+    <button class="btn secondary" onclick="revealAll()">Reveal every model answer</button>
+    <button class="btn ghost" onclick="window.print()">&#128424; Print / Save PDF</button>
+    <button class="btn ghost" onclick="code()">&#128273; Progress code</button>
+    <button class="btn ghost" onclick="restore()">Restore from code</button>
+    <button class="btn ghost" onclick="resetAll()">Clear</button>
+  </div>
+  <textarea id="codebox" style="display:none;margin-top:1rem;min-height:70px"
+    placeholder="Your progress code appears here. Copy it and keep it; paste it back to restore."></textarea>
+</div>
+<div class="pager"><a class="prev" href="lesson05.html"><span class="pager-dir">&larr; Back</span>
+  <span class="pager-name">Lesson 5 &mdash; Evidence: Adequacy &amp; Sufficiency</span></a></div>
+</main>
+<div class="savebar"><span class="msg" id="msg"></span>
+  <span style="font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted)">
+    Saved in this browser only &mdash; nothing is sent anywhere.</span></div>
+<footer>
+  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
+  <p class="foot-text">
+    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
+    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
+    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
+    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
+    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
+    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
+    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
+    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
+    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
+    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
+  </p>
+</footer>
+<script>
+function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
+ document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
+(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
+ document.documentElement.setAttribute('data-theme',t);
+ window.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
+</script>
+<script>
+var TOOLID='evidence-triage';
+function _k(){return 'cmmc-'+TOOLID;}
+function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=e.value;});
+ try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
+function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
+ document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)e.value=d[e.dataset.f];});}catch(e){}}
+function setMsg(t){var m=document.getElementById('msg');if(m){m.textContent=t;clearTimeout(window._mt);
+ window._mt=setTimeout(function(){m.textContent=filled()+' of '+total()+' items answered.';},2600);}}
+function total(){return document.querySelectorAll('.item').length;}
+function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it){
+ var ok=false;it.querySelectorAll('[data-f]').forEach(function(e){if(e.value&&e.value.trim())ok=true;});
+ if(ok)n++;});return n;}
+function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
+ var sel=it.querySelector('select[data-ok]');
+ if(sel){var good=sel.value===sel.dataset.ok;
+   v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
+   var h=v.querySelector('h4');if(h)h.textContent=good?'Correct \u2014 and here is the full reasoning':'Not this one \u2014 here is why';}
+ v.classList.add('show');btn.textContent='Model answer shown';btn.disabled=true;
+ var need=it.querySelector('.needchange');
+ if(need&&!need.value.trim()){var w=it.querySelector('.nc-warn');if(w)w.style.display='block';}
+ save();}
+function revealAll(){document.querySelectorAll('.rvbtn').forEach(function(b){if(!b.disabled)reveal(b);});}
+function resetAll(){if(!confirm('Clear every answer on this page?'))return;
+ try{localStorage.removeItem(_k());}catch(e){}location.reload();}
+function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=e.value;});
+ var s=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
+ var t=document.getElementById('codebox');t.style.display='block';t.value=s;t.select();
+ setMsg('Progress code generated \u2014 copy and keep it.');}
+function restore(){var t=document.getElementById('codebox');t.style.display='block';
+ if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
+ try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
+  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)e.value=d[e.dataset.f];});
+  save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}
+window.addEventListener('DOMContentLoaded',function(){load();
+ document.querySelectorAll('[data-f]').forEach(function(e){e.addEventListener('change',save);});
+ setMsg('');});
+</script></body></html>

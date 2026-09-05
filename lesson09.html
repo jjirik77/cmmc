@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="This morning you told Meridian it does not get a certificate. Now you deal with what happens next &mdash; for the company, for the regulatory environm">
+<title>L9 — POA&M, Closeout & Credential Roadmap | CMMC Level 2 5-Day Workshop</title>
+<style>
+:root{
+  --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
+  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
+  --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
+  --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
+}
+[data-theme="dark"]{
+  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
+  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
+  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--body-bg);color:var(--text-primary);
+  line-height:1.65;transition:background .3s,color .3s}
+a{color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-seal{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.62rem;
+  color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+.nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);
+  letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
+  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
+.theme-toggle:hover{background:var(--gold);color:#fff}
+/* HERO */
+.hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.05) 40px,rgba(18,35,58,.05) 41px)}
+.hero-eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;position:relative}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--text-primary);
+  line-height:1.15;max-width:860px;margin:0 auto 1rem;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-subtitle{font-family:Arial,sans-serif;font-size:1.05rem;color:var(--text-secondary);max-width:680px;
+  margin:0 auto 2rem;line-height:1.7;position:relative}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.85rem 2rem;border-radius:2px;position:relative;transition:background .2s,transform .15s}
+.hero-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+/* STATS */
+.stats-bar{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:1rem 2rem;display:flex;
+  justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:.5rem;padding:0 2rem;border-right:2px solid rgba(200,134,42,.35)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-label{font-family:Arial,sans-serif;font-size:.7rem;font-weight:700;color:var(--text-secondary);
+  letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-alt{background:var(--section-alt)}
+.section-eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.section-desc{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);max-width:660px;
+  margin-bottom:2.5rem;line-height:1.7}
+.rule{width:48px;height:3px;background:var(--gold);margin:.75rem 0 1.5rem}
+/* NOTICE BANNER (available; unused by default) */
+.reg-banner{max-width:1200px;margin:2.5rem auto 0;padding:0 2rem}
+.reg-inner{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:3px;padding:1.1rem 1.35rem}
+.reg-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.4rem}
+.reg-head{font-family:Georgia,serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:.4rem}
+.reg-body{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);line-height:1.65}
+.reg-verify{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);margin-top:.55rem;
+  letter-spacing:.03em}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.lesson-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.lesson-badge{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.75rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.domain-weight{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:.05em;
+  text-align:right;line-height:1.3}
+.domain-weight strong{display:block;font-size:1rem;color:var(--gold);font-family:'Arial Narrow',Arial,sans-serif;font-weight:900}
+.card-day-tag{font-family:Arial,sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.card-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.card-desc{font-family:Arial,sans-serif;font-size:.83rem;color:var(--text-secondary);line-height:1.65;flex:1}
+.card-thread{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5;
+  border-top:1px dashed var(--border);padding-top:.6rem}
+.card-thread strong{color:var(--gold);font-weight:700}
+.card-footer{border-top:1px solid var(--border);padding-top:.75rem;margin-top:auto}
+.launch-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px;transition:background .2s}
+.launch-btn:hover{background:var(--gold-light)}
+.launch-btn .arrow{font-size:1rem;transition:transform .15s}
+.launch-btn:hover .arrow{transform:translateX(3px)}
+.card-special .lesson-badge{background:var(--gold);color:#fff}
+.card-special::before{background:var(--navy)}
+/* RESOURCES */
+.resource-section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;
+  border-bottom:2px solid var(--border)}
+.resource-section-heading .rsh-icon{font-size:1.4rem;line-height:1}
+.resource-section-heading h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;
+  color:var(--text-primary);letter-spacing:.08em;text-transform:uppercase}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3rem}
+.resource-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.35rem 1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.resource-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.rc-type{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.rc-icon-title{display:flex;align-items:center;gap:.5rem}
+.rc-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
+.rc-title{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.rc-desc{font-family:Arial,sans-serif;font-size:.81rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.rc-covers{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.rc-covers strong{color:var(--gold);font-weight:700}
+.resource-card .card-footer{border-top:1px solid var(--border);padding-top:.65rem;margin-top:auto}
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;grid-auto-rows:1fr}
+.day-col{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column}
+.day-header{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:center}
+.day-theme{font-family:Arial,sans-serif;font-size:.65rem;color:#a3b6c9;letter-spacing:.06em;text-transform:uppercase;
+  padding:.4rem 1rem;background:var(--navy-mid);text-align:center}
+.day-lessons{padding:.75rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.day-lesson{display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:.6rem .7rem;
+  background:var(--section-alt);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;flex:1;
+  text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.day-lesson:hover{background:var(--blue-pale);border-left-color:var(--navy-light)}
+.day-lesson:hover .day-lesson-name{color:var(--gold)}
+.day-lesson-num{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.day-lesson-name{font-family:Georgia,serif;font-size:.86rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.day-lesson-meta{font-family:Arial,sans-serif;font-size:.66rem;color:var(--text-muted)}
+.day-cap{font-family:Arial,sans-serif;font-size:.64rem;color:var(--text-muted);padding:.5rem .75rem .7rem;
+  border-top:1px dashed var(--border);line-height:1.45}
+.day-cap strong{color:var(--gold)}
+/* CAP PHASE BARS */
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.bar-label{font-family:Arial,sans-serif;font-size:.8rem;color:var(--text-secondary);width:290px;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--section-alt);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.72rem}
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem}
+.about-body p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+.about-body h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.5rem 0 .6rem}
+.facts-box{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;height:fit-content}
+.facts-box h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold)}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fact .fv{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.35rem;font-weight:900;color:var(--gold);line-height:1}
+.fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-top:.2rem}
+/* FOOTER */
+footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
+.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
+.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+/* ---------- LESSON PAGES ---------- */
+.lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
+.toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:4px;padding:1.1rem 1.2rem;max-height:calc(100vh - 110px);overflow-y:auto}
+.toc-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem}
+.toc a{display:block;font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-secondary);text-decoration:none;
+  padding:.28rem .4rem;border-radius:2px;line-height:1.4;border-left:2px solid transparent}
+.toc a::before{content:counter(toc) ". ";color:var(--gold);font-weight:700}
+.toc a:hover{background:var(--blue-pale);color:var(--gold);border-left-color:var(--gold)}
+.lhero{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:2.5rem 2rem}
+.lhero-in{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.lhero h1{font-family:Georgia,serif;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;line-height:1.2;max-width:860px}
+.lead{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-top:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.05em;color:var(--text-secondary);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:.25rem .8rem}
+.meta-chip strong{color:var(--gold)}
+h2.h{font-family:Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.25;margin-bottom:.2rem}
+.content-section{margin-bottom:3rem;scroll-margin-top:80px}
+.content-section p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem}
+.content-section h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.7rem 0 .7rem}
+.content-section ul,.content-section ol{margin:0 0 1.1rem 1.3rem}
+.content-section li{font-family:Arial,sans-serif;font-size:.88rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.4rem}
+.content-section strong{color:var(--text-primary)}
+.cs-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.4rem}
+.cs-num{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.9rem;color:var(--gold);line-height:1;flex-shrink:0}
+/* TABLES */
+.tw{overflow-x:auto;margin:1.1rem 0 1.4rem;border:1px solid var(--border);border-radius:4px;background:var(--card-bg)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{background:var(--navy);color:#fff;font-family:Arial,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:.6rem .8rem}
+td{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);padding:.6rem .8rem;
+  border-top:1px solid var(--border);line-height:1.6;vertical-align:top}
+tbody tr:nth-child(even){background:var(--section-alt)}
+td strong{color:var(--text-primary)}
+/* CALLOUTS */
+.tip,.in-practice,.warnbox{border-radius:3px;padding:1rem 1.2rem;margin:1.2rem 0}
+.tip{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold)}
+.tip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.35rem}
+.in-practice{background:var(--blue-pale);border:1px solid var(--blue-pale-border);border-left:5px solid var(--navy-light)}
+.ip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:.35rem}
+.warnbox{background:var(--card-bg);border:1px solid var(--bad);border-left:5px solid var(--bad)}
+.warn-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:.35rem}
+.tip p,.in-practice p,.warnbox p{font-family:Arial,sans-serif;font-size:.85rem;line-height:1.75;margin:0 0 .6rem}
+.tip p:last-child,.in-practice p:last-child,.warnbox p:last-child{margin-bottom:0}
+/* OBJECTIVES */
+.obj-list{list-style:none;margin:0!important}
+.obj-list li{display:flex;gap:.8rem;align-items:flex-start;background:var(--card-bg);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-bottom:.6rem}
+.obj-tag{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--navy);color:#fff;border-radius:2px;padding:.18rem .5rem;flex-shrink:0;margin-top:.15rem}
+/* VOCAB FLIP */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem;margin:1.2rem 0}
+.flip-card{background:transparent;height:170px;perspective:1000px;cursor:pointer;border:none;padding:0;font:inherit;text-align:left}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;
+  padding:.9rem 1rem;display:flex;flex-direction:column;justify-content:center;background:var(--card-bg);overflow:auto}
+.flip-back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy)}
+.vocab-term{font-family:Georgia,serif;font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.vocab-def{font-family:Arial,sans-serif;font-size:.76rem;color:#e8eef5;line-height:1.6}
+.flip-hint{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:.6rem}
+/* DIAGRAM */
+.diagram{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.3rem;margin:1.3rem 0;overflow-x:auto}
+.diagram figcaption{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-muted);margin-top:.8rem;line-height:1.6}
+/* CASE BLOCK */
+.case{background:var(--navy);border-radius:5px;padding:1.6rem 1.8rem;margin:2rem 0;border-left:6px solid var(--gold)}
+.case-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.case h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;line-height:1.3}
+.case p{font-family:Arial,sans-serif;font-size:.86rem;color:#c8d6e4;line-height:1.8;margin-bottom:.9rem}
+.case ul{margin:0 0 1rem 1.2rem}
+.case li{font-family:Arial,sans-serif;font-size:.85rem;color:#c8d6e4;line-height:1.75;margin-bottom:.35rem}
+.case strong{color:#fff}
+.case-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.18)}
+.case-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px}
+.case-btn:hover{background:var(--gold-light)}
+.case-btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.case-btn.ghost:hover{background:var(--gold);color:#fff}
+/* KNOWLEDGE CHECK */
+.kc{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.6rem 1.8rem;margin-top:1.2rem}
+.q{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem}
+.q:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.qn{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.q-stem{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-primary);line-height:1.75;margin-bottom:.8rem;font-weight:600}
+.options{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;background:var(--section-alt);border:1px solid var(--border);
+  border-radius:3px;padding:.6rem .8rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.84rem;
+  color:var(--text-secondary);line-height:1.6;text-align:left;transition:background .15s,border-color .15s;width:100%}
+.opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--navy-light)}
+.opt:disabled{cursor:default}
+.opt-letter{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.correct{background:rgba(47,111,79,.14);border-color:var(--ok)}
+.opt.correct .opt-letter{color:var(--ok)}
+.opt.wrong{background:rgba(157,52,39,.12);border-color:var(--bad)}
+.opt.wrong .opt-letter{color:var(--bad)}
+.rationale{display:none;margin-top:.7rem;background:var(--blue-pale);border-left:4px solid var(--navy-light);
+  border-radius:0 3px 3px 0;padding:.75rem .95rem;font-family:Arial,sans-serif;font-size:.82rem;
+  color:var(--text-secondary);line-height:1.75}
+.rationale.show{display:block}
+.rationale strong{color:var(--text-primary)}
+.kc-score{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-top:1.4rem;padding-top:1rem;border-top:2px solid var(--gold)}
+/* PAGER */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.pager a{display:flex;flex-direction:column;gap:.15rem;text-decoration:none;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:4px;padding:.8rem 1.2rem;flex:1;max-width:47%;transition:border-color .2s}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager-dir{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pager-name{font-family:Georgia,serif;font-size:.9rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+/* TOOL PAGES */
+.tool-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.5rem 1.7rem;margin-bottom:1.5rem}
+.panel h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.panel h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.4rem 0 .6rem}
+.panel p{font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.8rem}
+.panel ul{margin:0 0 1rem 1.3rem}
+.panel li{font-family:Arial,sans-serif;font-size:.85rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+label{display:block;font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+input[type=text],textarea,select{width:100%;font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-primary);
+  background:var(--body-bg);border:1px solid var(--border);border-radius:3px;padding:.5rem .65rem;line-height:1.6}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;border:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--gold-light)}
+.btn.secondary{background:var(--navy)}
+.btn.secondary:hover{background:var(--navy-light)}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#fff}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.verdict{display:none;margin-top:1rem;border-radius:3px;padding:1rem 1.2rem;font-family:Arial,sans-serif;
+  font-size:.85rem;line-height:1.75;border-left:5px solid var(--navy-light);background:var(--blue-pale);
+  border:1px solid var(--blue-pale-border);border-left-width:5px}
+.verdict.show{display:block}
+.verdict h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy-light);margin-bottom:.4rem}
+.verdict.good{background:rgba(47,111,79,.12);border-color:var(--ok)}
+.verdict.good h4{color:var(--ok)}
+.verdict.bad{background:rgba(157,52,39,.1);border-color:var(--bad)}
+.verdict.bad h4{color:var(--bad)}
+.pill{display:inline-block;font-family:Arial,sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;border-radius:20px;padding:.15rem .6rem;border:1px solid var(--border);color:var(--text-muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.no{color:var(--bad);border-color:var(--bad)}
+.pill.mid{color:var(--warn);border-color:var(--warn)}
+.savebar{position:sticky;bottom:0;background:var(--card-bg);border-top:2px solid var(--gold);padding:.7rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
+.savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
+@media print{
+  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  body{background:#fff}
+  .panel,.tw,.kc{break-inside:avoid}
+}
+@media (max-width:980px){
+  .lwrap{grid-template-columns:1fr;padding:2rem 1.2rem 3rem}
+  .toc{position:static;max-height:none}
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bar-label{width:150px;font-size:.72rem}
+}
+@media (max-width:560px){
+  .schedule-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  .section{padding:2.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-seal">CMMC<br>L2</div>
+    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
+    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+  </div>
+</nav>
+<header class="lhero"><div class="lhero-in"><div class="eyebrow">Day 5 &middot; Afternoon &middot; CAP Phase 4 &middot; Transfer test &middot; Closes the CCP blueprint</div><h1>POA&amp;M, Closeout, the Transfer Test, and What You Do Next</h1><p class="lead">This morning you told Meridian it does not get a certificate. Now you deal with what happens next &mdash; for the company, for the regulatory environment you will work in, and for you. Then you are handed a company you have never seen and given thirty minutes, because that is the only honest measure of whether this week gave you a method or a familiarity.</p><div class="chips"><span class="meta-chip">Day 5 &mdash; PM</span><span class="meta-chip">~3 hours</span><span class="meta-chip"><strong>Cold transfer test</strong></span><span class="meta-chip">Tool: POA&amp;M Builder</span></div></div></header><div class="lwrap"><aside class="toc"><div class="toc-title">On this page</div><ol><li><a href="#objectives">Learning objectives</a></li><li><a href="#vocab">Key terminology</a></li><li><a href="#s1">What a POA&amp;M can and cannot do</a></li><li><a href="#s2">Meridian, as you assessed it</a></li><li><a href="#s3">Building a POA&amp;M that works</a></li><li><a href="#s4">Closeout and sustainment</a></li><li><a href="#s5">Reading a policy change against primary sources</a></li><li><a href="#s6">The transfer test</a></li><li><a href="#s7">The credential roadmap</a></li><li><a href="#thread">Meridian &mdash; your turn</a></li><li><a href="#check">Knowledge check</a></li></ol></aside><main><section class="content-section" id="objectives"><div class="cs-head"><span class="cs-num">A</span><h2 class="h">Learning objectives</h2></div><div class="rule"></div><p>By the end of this session you will be able to:</p><ul class="obj-list"><li><span class="obj-tag">Construct</span><span>Construct a POA&amp;M consistent with 32 CFR &sect;170.21, distinguishing what may be deferred from what may never be.</span></li><li><span class="obj-tag">Explain</span><span>Explain Conditional versus Final Level 2 status, the 180-day closeout window, and what happens when it expires.</span></li><li><span class="obj-tag">Describe</span><span>Describe the three-year certification period, the annual affirmation, and what the Affirming Official is exposed to.</span></li><li><span class="obj-tag">Evaluate</span><span>Evaluate a change in CMMC policy against primary sources, separating what is stated from what is inferred and what is advocated.</span></li><li><span class="obj-tag">Transfer</span><span>Scope a previously unseen environment under time constraint.</span></li><li><span class="obj-tag">Plan</span><span>Produce a credential roadmap with dated milestones toward CCP and CCA.</span></li></ul></section><section class="content-section" id="vocab"><div class="cs-head"><span class="cs-num">B</span><h2 class="h">Key terminology</h2></div><div class="rule"></div><p>Click a card to reveal the definition. These are the terms the CCP and CCA exams use precisely, and the terms practitioners most often use loosely.</p><div class="vocab-grid"><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of POA&amp;amp;M"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">POA&amp;M</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Plan of Action and Milestones. Under 32 CFR &sect;170.21, available only where the assessment score divided by the total number of requirements is at least 0.8, and never for six enumerated requirements.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of The six"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">The six</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">AC.L2-3.1.20, AC.L2-3.1.22, CA.L2-3.12.4, PE.L2-3.10.3, PE.L2-3.10.4, PE.L2-3.10.5. These must be MET. No score, however high, changes that.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Conditional CMMC Status"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Conditional CMMC Status</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Status issued where a POA&amp;M is permitted and in place. Becomes Final on a successful closeout assessment within the window, or expires.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Closeout window"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Closeout window</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">180 days from the Conditional CMMC Status Date, closed out by a closeout assessment. Miss it and the conditional status expires.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Closeout C3PAO"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Closeout C3PAO</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">The firm that conducts the closeout assessment. Need not be the firm that ran Phases 1&ndash;3; it assumes responsibility for the Final status determination after its own conflict-of-interest review.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Annual affirmation"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Annual affirmation</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Submitted in SPRS each year by the Affirming Official, attesting to continued compliance. A present-tense statement, not a memory of the assessment.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Flowdown, tested"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Flowdown, tested</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Acuitas Machining &mdash; the supplier inside Meridian's own supply chain, and the transfer test.</div></div></div></button></div></section><section class="content-section" id="s1"><div class="cs-head"><span class="cs-num">1</span><h2 class="h">What a POA&amp;M can and cannot do</h2></div><div class="rule"></div>
+<div class="warnbox"><div class="warn-label">The fact that governs this session</div>
+<p>A plan of action is not a way to defer anything you like. <strong>Six requirements may never be placed on a
+POA&amp;M at all</strong>, and a POA&amp;M may not be used at any level unless the assessment score is at least
+<strong>0.8</strong> of the total.</p>
+<p>Two of the six are worth one point each. The cheapest requirements on the sheet are absolute barriers, and no
+amount of score makes them go away.</p></div>
+<div class="tw"><table>
+<thead><tr><th>Rule</th><th>What it means in practice</th></tr></thead>
+<tbody>
+<tr><td><strong>The score threshold</strong></td><td>A POA&amp;M may be used only where the assessment score divided by the total number of Level 2 requirements is at least 0.8. For 110 requirements that is <strong>88</strong>. Below that there is no plan of action available at all &mdash; the answer is no issuance.</td></tr>
+<tr><td><strong>The six that may never be deferred</strong></td><td>AC.L2-3.1.20, AC.L2-3.1.22, CA.L2-3.12.4, PE.L2-3.10.3, PE.L2-3.10.4, PE.L2-3.10.5. These must be MET.</td></tr>
+<tr><td><strong>The encryption exception</strong></td><td>SC.L2-3.13.11 may be placed on a POA&amp;M only where encryption is employed but is not FIPS validated. Where no encryption is employed, it may not.</td></tr>
+<tr><td><strong>The window</strong></td><td>180 days from the Conditional CMMC Status Date, closed out by a closeout assessment. Miss it and the conditional status expires.</td></tr>
+<tr><td><strong>Who closes it out</strong></td><td>An authorized or accredited C3PAO &mdash; and it need not be the firm that ran Phases 1 through 3. A closeout C3PAO assumes responsibility for the Final status determination and issues the Final certificate, after its own conflict-of-interest review.</td></tr>
+</tbody></table></div>
+<div class="tip"><div class="tip-label">Notice what the point values do not tell you</div>
+<p><strong>CA.L2-3.12.4</strong> &mdash; the System Security Plan &mdash; is worth one point.
+<strong>PE.L2-3.10.3</strong> &mdash; escorting visitors &mdash; is worth one point. Both are on the list that may
+never be deferred.</p>
+<p>A company can be one point from a perfect score and still be unable to obtain any status at all. Scoring weight
+measures exploitability; POA&amp;M eligibility measures something else entirely, and conflating the two is the most
+expensive mistake available in this area.</p></div></section><section class="content-section" id="s2"><div class="cs-head"><span class="cs-num">2</span><h2 class="h">Meridian, as you assessed it</h2></div><div class="rule"></div>
+<p>Work Part A from your own findings, not from a supplied list. You will reach the conclusion quickly.</p>
+<p>Meridian's assessed score does not approach 88. And two of the six requirements that may never be deferred
+are already failing: the System Security Plan requirement, and PE.L2-3.10.3 &mdash; the Huntsville warehouse has no
+visitor log, no badge access, and delivery drivers come and go.</p>
+<p><strong>Meridian is not POA&amp;M-eligible. No CMMC status may issue.</strong></p>
+<div class="in-practice"><div class="ip-label">Say the consequence out loud</div>
+<p>A determination of no issuance is not the end of the sentence. Write two or three lines on what it means
+commercially: the AMCOM recompete the company must win to survive; the clause in the contract it already holds and is
+in breach of today; and the affirmation of a score of 88 that its chief executive has already signed, in a federal
+system, under penalty.</p>
+<p>Assessors do not decide what happens to companies. They do have to be able to say plainly what their
+determination means &mdash; without softening it, and without enjoying it.</p></div></section><section class="content-section" id="s3"><div class="cs-head"><span class="cs-num">3</span><h2 class="h">Building a POA&amp;M that works</h2></div><div class="rule"></div>
+<p>Building a plan is a skill you need, so Part B works a revised assessment. Nine months later Meridian engages
+a closeout-capable C3PAO for a fresh Level 2 certification assessment. This time the company has
+<em>implemented</em> rather than documented. Every requirement is MET except six.</p>
+<div class="tw"><table>
+<thead><tr><th>Requirement</th><th>Short title</th><th>Points</th><th>Deduction</th><th>Deferrable?</th></tr></thead>
+<tbody>
+<tr><td>AC.L2-3.1.5</td><td>Employ the principle of least privilege</td><td>3</td><td>3</td><td>Yes</td></tr>
+<tr><td>AU.L2-3.3.2</td><td>Ensure actions can be traced to individual users</td><td>3</td><td>3</td><td>Yes</td></tr>
+<tr><td>CM.L2-3.4.1</td><td>Establish and maintain baseline configurations and inventories</td><td>5</td><td>5</td><td>Yes</td></tr>
+<tr><td>MP.L2-3.8.7</td><td>Control the use of removable media</td><td>5</td><td>5</td><td>Yes</td></tr>
+<tr><td><strong>CA.L2-3.12.4</strong></td><td>Develop, document, and periodically update the SSP</td><td>1</td><td>1</td><td><strong>Never</strong></td></tr>
+<tr><td><strong>PE.L2-3.10.3</strong></td><td>Escort visitors and monitor visitor activity</td><td>1</td><td>1</td><td><strong>Never</strong></td></tr>
+<tr><td colspan="3"><strong>Total deductions</strong></td><td><strong>18</strong></td><td></td></tr>
+<tr><td colspan="3"><strong>Assessment score</strong></td><td><strong>92</strong></td><td>92 &divide; 110 = 0.836</td></tr>
+</tbody></table></div>
+<div class="warnbox"><div class="warn-label">The trap, and it is worth meeting here rather than in the field</div>
+<p>The score clears the threshold. 0.836 is comfortably above 0.8, and a company reading only the threshold rule
+would expect a Conditional status.</p>
+<p>It cannot have one. Two of the six NOT MET requirements are on the never-defer list, and they are the two cheapest
+items on the sheet. Both must be MET outright before any status can issue. <strong>The score alone never answers the
+question.</strong></p></div>
+<p>For each deferrable item the plan needs a milestone, a target date inside the window, and an owner. A milestone
+with no owner is a wish. Sequence them so dependencies are visible &mdash; baseline configurations before least
+privilege, for instance, because you cannot enforce what you have not defined.</p>
+<p>And no remediation design. Naming what must be remediated and by when is the plan; specifying how to remediate
+it is consulting, and it is still consulting on the last afternoon.</p></section><section class="content-section" id="s4"><div class="cs-head"><span class="cs-num">4</span><h2 class="h">Closeout and sustainment</h2></div><div class="rule"></div>
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>From what date does the closeout window run, and how long?</td><td>180 days from the Conditional CMMC Status Date.</td></tr>
+<tr><td>What does the closeout assessment cover?</td><td>The requirements on the POA&amp;M, assessed to confirm they are now MET.</td></tr>
+<tr><td>Who may conduct it?</td><td>An authorized or accredited C3PAO &mdash; and it may be a different firm from the one that ran Phases 1&ndash;3.</td></tr>
+<tr><td>What must that firm do first?</td><td>Its own conflict-of-interest review. It then assumes responsibility for the Final status determination and issues the Final certificate.</td></tr>
+<tr><td>What happens if the window expires?</td><td>The Conditional status expires.</td></tr>
+<tr><td>How long does a Level 2 certification run?</td><td>Three years from the CMMC Status Date.</td></tr>
+<tr><td>What is submitted annually, by whom, where?</td><td>An affirmation in SPRS by the Affirming Official.</td></tr>
+<tr><td>What does it attest?</td><td>That the organization continues to meet the requirements. Present tense, not a memory of the assessment.</td></tr>
+<tr><td>What is the Affirming Official exposed to?</td><td>False Claims Act consequences attaching personally, where the affirmation is not true.</td></tr>
+</tbody></table></div>
+<p>The practical answer to the sustainment problem is continuous monitoring, so that the affirmation reports
+something known rather than something assumed. Marcus Ellison affirmed a score of 88 on the basis that other
+people told her it was right. Hold that in mind when you write this section.</p></section><section class="content-section" id="s5"><div class="cs-head"><span class="cs-num">5</span><h2 class="h">Reading a policy change against primary sources</h2></div><div class="rule"></div>
+<p>This is the Day 1 exercise returning at full strength. Then you sorted statements from a single alert into fact,
+inference, and advice. Now you do it across three sources that do not agree with one another, on a subject where the
+primary sources are incomplete and moving.</p>
+<ul>
+<li>Two professional analyses of the same recent CMMC development, from firms that reach different conclusions.</li>
+<li>A government or trade-body notice on the same subject &mdash; a different kind of source with a different agenda.</li>
+</ul>
+<p>Mark every substantive sentence as <strong>stated</strong>, <strong>inferred</strong>, or
+<strong>advocated</strong>. Then the harder question: where the two firms disagree, <em>what would settle it</em>
+&mdash; and is that thing <strong>published, pending, or unknowable</strong>?</p>
+<div class="in-practice"><div class="ip-label">Why this is the last analytical exercise of the workshop</div>
+<p>Everything else you have learned has a shelf life. This is the skill that lets you notice when it expires. An
+assessor who can say what would settle a disagreement, and whether that thing exists yet, can tell a client the
+difference between a risk and a rumour.</p></div></section><section class="content-section" id="s6"><div class="cs-head"><span class="cs-num">6</span><h2 class="h">The transfer test</h2></div><div class="rule"></div>
+<p>Thirty minutes. Individual. No notes, no case study, no internet. You receive a profile of a company in
+Meridian's supply chain and produce a scope determination.</p>
+<p>It is not graded and it does not affect completion. It exists to tell you something you cannot find out any
+other way: whether this week gave you a <strong>method</strong> or a <strong>familiarity</strong>. Both feel
+identical from the inside, right up until you meet a new environment.</p>
+<div class="in-practice"><div class="ip-label">Acuitas Machining Inc.</div>
+<p>Springfield, Ohio, about 25 miles from Meridian&rsquo;s Dayton plant. Fourteen people. Precision CNC machining
+and inspection &mdash; a job shop taking overflow and short-run work. About $800K of its $3.4M revenue comes from a
+single relationship: machining overflow on Meridian&rsquo;s actuator housing line for the AMCOM contract.</p>
+<p>No server. No domain. No IT staff. No SSP, no asset inventory, no network diagram, no written security policy of
+any kind, and no record of any security decision ever having been made.</p>
+<p>The owner's position, stated plainly: <em>&ldquo;CMMC is a DoD thing &mdash; we don't have a contract with the
+government, we have a contract with Meridian.&rdquo;</em></p></div>
+<h3>What you must produce</h3>
+<ol>
+<li><strong>Level and authority</strong> (~4 min). What level applies and what makes it apply? Answer the owner's
+objection directly, in no more than four sentences, and name the instrument you rely on.</li>
+<li><strong>Asset categorization</strong> (~14 min). Eight assets into the five categories, one-line basis each.
+Where a category is unavailable to Acuitas, say so and say why.</li>
+<li><strong>The consequential unknown</strong> (~4 min). The single fact you would most want resolved before
+finalizing this scope, why it matters, and what evidence would settle it.</li>
+</ol>
+<div class="tip"><div class="tip-label">What is being measured</div>
+<p>Not recall. Whether the method you have used on one company for four days works on a company you have never
+seen &mdash; which is the only thing that would make you useful to the next OSC that hires you.</p>
+<p>A confident wrong categorization scores worse than a correctly hedged one. If a category is genuinely arguable,
+say what makes it arguable and what would settle it. That is the assessor's answer.</p></div></section><section class="content-section" id="s7"><div class="cs-head"><span class="cs-num">7</span><h2 class="h">The credential roadmap</h2></div><div class="rule"></div>
+<p>The gap between finishing a course and sitting an exam is where most people quietly stop. Close it with dates.</p>
+<div class="tw"><table>
+<thead><tr><th></th><th>CCP</th><th>CCA</th></tr></thead>
+<tbody>
+<tr><td><strong>Prerequisites</strong></td>
+<td>ATP training; relevant experience; DoW Tier 3 background determination</td>
+<td>Active CCP; DoD 8140.03 Work Role 612 baseline certification at Intermediate or Advanced &mdash; CISA and CISM both qualify; ATP training; Tier 3 determination</td></tr>
+<tr><td><strong>Exam</strong></td><td>170 questions, six domains</td><td>150 questions, four domains</td></tr>
+<tr><td><strong>Continuing education</strong></td><td>20 CPE annually; 120 over three years, at least 90 CMMC-related</td><td>As CCP</td></tr>
+</tbody></table></div>
+<p>Map the domain weights against this week. Day 4 fed the 35% and 40% blocks. Day 2 afternoon and Day 5 morning
+fed the 25% Assessment Process blocks. Day 3 morning fed the scoping blocks. <strong>Where you found a session
+hard is where your study time goes.</strong></p>
+<div class="warnbox"><div class="warn-label">Still unverified</div>
+<p>Exam duration and passing scores for the CCP and CCA are not stated anywhere in this workshop, because they were
+not publicly stated by ISACA at the time of research. Confirm both directly with ISACA before you register, and
+treat any figure you find in a third-party study guide as unverified until you have.</p></div></section><section class="content-section" id="thread"><div class="cs-head"><span class="cs-num">&#9670;</span><h2 class="h">Meridian &mdash; your turn</h2></div><div class="rule"></div><div class="case"><div class="case-tag">Meridian &middot; Day 5 Afternoon &middot; Deliverable D9 + Transfer Test</div><h3>Close it out, then prove the method transfers</h3>
+<p><strong>The POA&amp;M Builder</strong> runs Parts A to C. Part A takes your own assessed score and findings and
+walks the eligibility test &mdash; the threshold, then the never-defer list &mdash; and asks you to state the
+commercial consequence in your own words. Part B loads the revised assessment at 92 and lets you build the plan
+item by item; the tool refuses a deferral of CA.L2-3.12.4 or PE.L2-3.10.3 and tells you why. Part C is closeout and
+sustainment.</p>
+<p>Then the <strong>Acuitas transfer test</strong> opens cold, on a thirty-minute timer, with no access to the
+Meridian material. Eight assets, three questions. When the timer stops, the determination key opens &mdash;
+including the honest account of where the test is won or lost, which is the industrial printer controller.</p>
+<p><em>Nothing anywhere in D9 tells Meridian how to remediate anything. Naming what must be done and by when is
+the plan. Designing it is somebody else's job &mdash; and after this week, never yours on a company you assess.</em></p><div class="case-actions"><a class="case-btn" href="poam-builder.html">Open the POA&amp;M Builder &rarr;</a><a class="case-btn" href="transfer-test.html">Take the transfer test (30 min) &rarr;</a><a class="case-btn ghost" href="onepager.html">Exam-day one-pager</a></div></div></section><section class="content-section" id="check"><div class="cs-head"><span class="cs-num">&#10003;</span><h2 class="h">Knowledge check</h2></div><div class="rule"></div><p>Scenario-based questions in the style of the CCP and CCA exams. Pick an answer to see why it is right or wrong &mdash; the rationale matters more than the score.</p><div class="kc"><div class="q"><div class="qn">Question 1 of 10</div><div class="q-stem">An OSC scores 92 of 110 (0.836). Its NOT MET requirements include CA.L2-3.12.4 and PE.L2-3.10.3. What status may issue?</div><div class="options"><button class="opt" data-q="1" data-ok="0" data-rat="The trap this session exists to spring. Clearing the threshold is necessary and not sufficient." onclick="pick(this)"><span class="opt-letter">A</span><span>Conditional Level 2 &mdash; the score clears the 0.8 threshold</span></button><button class="opt" data-q="1" data-ok="1" data-rat="Both must be MET outright before any status can issue. They are the two cheapest items on the sheet, at one point each. The score alone never answers the question." onclick="pick(this)"><span class="opt-letter">B</span><span>None &mdash; two NOT MET requirements may never be placed on a POA&M</span></button><button class="opt" data-q="1" data-ok="0" data-rat="Final status requires all requirements MET, and these are not." onclick="pick(this)"><span class="opt-letter">C</span><span>Final Level 2, since the deductions are minor</span></button><button class="opt" data-q="1" data-ok="0" data-rat="There is no exception mechanism. The list is absolute." onclick="pick(this)"><span class="opt-letter">D</span><span>Conditional Level 2, with the two ineligible items deferred by exception</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 2 of 10</div><div class="q-stem">Which requirement may be placed on a POA&M only in a specific circumstance?</div><div class="options"><button class="opt" data-q="2" data-ok="0" data-rat="3.12.4 may never be placed on a POA&amp;M in any circumstance." onclick="pick(this)"><span class="opt-letter">A</span><span>CA.L2-3.12.4, where the SSP is in draft</span></button><button class="opt" data-q="2" data-ok="1" data-rat="Where no encryption is employed at all, it may not be deferred. Note the symmetry with the scoring exception: the same distinction drives both the 3-versus-5 deduction and POA&amp;M eligibility." onclick="pick(this)"><span class="opt-letter">B</span><span>SC.L2-3.13.11, where encryption is employed but is not FIPS validated</span></button><button class="opt" data-q="2" data-ok="0" data-rat="On the never-defer list, and tenancy is irrelevant." onclick="pick(this)"><span class="opt-letter">C</span><span>PE.L2-3.10.4, where the facility is leased</span></button><button class="opt" data-q="2" data-ok="0" data-rat="Also on the never-defer list." onclick="pick(this)"><span class="opt-letter">D</span><span>AC.L2-3.1.20, where the external system is government-owned</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 3 of 10</div><div class="q-stem">From what date does the 180-day closeout window run?</div><div class="options"><button class="opt" data-q="3" data-ok="0" data-rat="The out-brief is a Phase 3 event and does not start the clock." onclick="pick(this)"><span class="opt-letter">A</span><span>The date of the out-brief</span></button><button class="opt" data-q="3" data-ok="1" data-rat="180 days from that date, closed out by a closeout assessment. Miss it and the conditional status expires." onclick="pick(this)"><span class="opt-letter">B</span><span>The Conditional CMMC Status Date</span></button><button class="opt" data-q="3" data-ok="0" data-rat="Submission is not the trigger." onclick="pick(this)"><span class="opt-letter">C</span><span>The date the POA&M is submitted</span></button><button class="opt" data-q="3" data-ok="0" data-rat="No such acceptance step exists in the closeout mechanics." onclick="pick(this)"><span class="opt-letter">D</span><span>The date the Contracting Officer accepts the score</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 4 of 10</div><div class="q-stem">Who may conduct the closeout assessment?</div><div class="options"><button class="opt" data-q="4" data-ok="0" data-rat="A common assumption and the rule is explicitly the opposite." onclick="pick(this)"><span class="opt-letter">A</span><span>Only the C3PAO that conducted Phases 1 through 3</span></button><button class="opt" data-q="4" data-ok="1" data-rat="The closeout firm assumes responsibility for the Final status determination and issues the Final certificate. Its conflict review is its own, not inherited." onclick="pick(this)"><span class="opt-letter">B</span><span>Any authorized or accredited C3PAO, after its own conflict-of-interest review</span></button><button class="opt" data-q="4" data-ok="0" data-rat="DIBCAC conducts government-led assessments, including Level 3. Closeout of a Level 2 conditional status is C3PAO work." onclick="pick(this)"><span class="opt-letter">C</span><span>DIBCAC</span></button><button class="opt" data-q="4" data-ok="0" data-rat="A conditional status arising from a certification assessment cannot be closed out by self-assessment." onclick="pick(this)"><span class="opt-letter">D</span><span>The OSC, by self-assessment</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 5 of 10</div><div class="q-stem">Acuitas's owner says CMMC does not apply because he has no contract with the Government. What is the complete answer?</div><div class="options"><button class="opt" data-q="5" data-ok="0" data-rat="This concedes the owner&#x27;s premise. The obligation is not a commercial courtesy." onclick="pick(this)"><span class="opt-letter">A</span><span>He is right for now, but Meridian may impose requirements commercially</span></button><button class="opt" data-q="5" data-ok="1" data-rat="The obligation follows the information, not the tier. The clause is in his subcontract, flowdown is how it got there, Meridian was required to put it there, and whether he has read it is irrelevant to whether it binds him." onclick="pick(this)"><span class="opt-letter">B</span><span>Level 2 applies: he receives CTI extracted from the TDP, through a subcontract incorporating DFARS 252.204-7012, which flows down under paragraph (m)</span></button><button class="opt" data-q="5" data-ok="0" data-rat="The most serious error available on this test, and it is the owner&#x27;s own error. Tier does not determine level; information does." onclick="pick(this)"><span class="opt-letter">C</span><span>Level 1 applies, because subcontractors carry the lower tier</span></button><button class="opt" data-q="5" data-ok="0" data-rat="The right conclusion without the authority. Naming the flowdown mechanism is what makes it an answer." onclick="pick(this)"><span class="opt-letter">D</span><span>Level 2 applies because he handles CUI</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 6 of 10</div><div class="q-stem">Acuitas's three CNC machining centres have embedded Windows controllers that retain drawing-derived files for months. How are they categorized?</div><div class="options"><button class="opt" data-q="6" data-ok="0" data-rat="The weakest answer. They have not been read as information systems, and they retain CUI for months." onclick="pick(this)"><span class="opt-letter">A</span><span>Out of scope &mdash; they are machine tools</span></button><button class="opt" data-q="6" data-ok="0" data-rat="Thorough, and it misses that the Specialized Asset category exists and covers Operational Technology." onclick="pick(this)"><span class="opt-letter">B</span><span>A full CUI Asset, assessed against all 110 requirements</span></button><button class="opt" data-q="6" data-ok="1" data-rat="Where the test is won or lost. The category exists and Acuitas cannot claim it: no inventory, no SSP, no network diagram, no policy of any kind. Knowing the rule and its condition is the difference between having read the scoping guide and being able to use it." onclick="pick(this)"><span class="opt-letter">C</span><span>Specialized Asset by type &mdash; but the treatment is conditional on documentation and risk-based policies Acuitas cannot produce, so they stay in the assessment</span></button><button class="opt" data-q="6" data-ok="0" data-rat="That category carries the same documentation and policy condition, which also fails &amp;mdash; and OT is the better-fitting type in any case." onclick="pick(this)"><span class="opt-letter">D</span><span>Contractor Risk Managed, since machining is incidental to the CUI</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 7 of 10</div><div class="q-stem">Acuitas's part-time bookkeeper works from home on her own computer with access to the full shared drive. How is she treated?</div><div class="options"><button class="opt" data-q="7" data-ok="0" data-rat="The dismissal the test is designed to catch. Her access is to the full shared drive, which holds the pattern files." onclick="pick(this)"><span class="opt-letter">A</span><span>Out of scope &mdash; she handles accounting, not CUI</span></button><button class="opt" data-q="7" data-ok="1" data-rat="She holds an account with access to CUI and works from her own equipment. No CRM exists. Note the second ESP alongside her: the IT contractor with tenant administrator rights, who handles Security Protection Data." onclick="pick(this)"><span class="opt-letter">B</span><span>An External Service Provider handling CUI, assessed inside the OSC assessment, with a CRM required</span></button><button class="opt" data-q="7" data-ok="0" data-rat="Categories apply to assets. An external party is analysed under the ESP rule." onclick="pick(this)"><span class="opt-letter">C</span><span>A Contractor Risk Managed Asset</span></button><button class="opt" data-q="7" data-ok="0" data-rat="Having an account does not make an external party internal. The ESP rule exists precisely for this." onclick="pick(this)"><span class="opt-letter">D</span><span>An employee for scoping purposes, since she has an account</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 8 of 10</div><div class="q-stem">At Acuitas, what should be scoped out?</div><div class="options"><button class="opt" data-q="8" data-ok="0" data-rat="It holds inspection programs written from the Meridian drawings and generates reports referencing them. Students who scope the machine tools carefully and forget the metrology station have found the obvious OT and missed the quieter one." onclick="pick(this)"><span class="opt-letter">A</span><span>The CMM inspection station, since it only measures parts</span></button><button class="opt" data-q="8" data-ok="0" data-rat="Folders are not assets, and they sit on a shared drive every account can read." onclick="pick(this)"><span class="opt-letter">B</span><span>The commercial customers' artwork folders</span></button><button class="opt" data-q="8" data-ok="1" data-rat="Out-of-Scope requires the contractor to be prepared to justify the asset&#x27;s inability to process, store, or transmit CUI. The absence of segmentation is what makes that impossible, and saying so explicitly is the correct answer." onclick="pick(this)"><span class="opt-letter">C</span><span>Nothing &mdash; on a single flat wireless network with a shared drive every account can read, no justification of inability exists</span></button><button class="opt" data-q="8" data-ok="0" data-rat="It opens pattern files. It is a CUI Asset, and the shared login with the password on the monitor is a finding rather than a scoping question." onclick="pick(this)"><span class="opt-letter">D</span><span>The production PC, since it only sends print jobs</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 9 of 10</div><div class="q-stem">Two law firm analyses of the same CMMC development reach different conclusions. What is the assessor's most useful next question?</div><div class="options"><button class="opt" data-q="9" data-ok="0" data-rat="Authority of the author is not how a disagreement about a primary source is settled." onclick="pick(this)"><span class="opt-letter">A</span><span>Which firm has more CMMC experience?</span></button><button class="opt" data-q="9" data-ok="1" data-rat="The question that distinguishes a risk from a rumour. An assessor who can answer it can tell a client which of the two they are looking at." onclick="pick(this)"><span class="opt-letter">B</span><span>What would settle the disagreement, and is that thing published, pending, or unknowable?</span></button><button class="opt" data-q="9" data-ok="0" data-rat="Conservatism is a posture, not an analysis, and it can be wrong in either direction." onclick="pick(this)"><span class="opt-letter">C</span><span>Which conclusion is more conservative?</span></button><button class="opt" data-q="9" data-ok="0" data-rat="Useful input, and it does not resolve a disagreement about what the existing instruments mean." onclick="pick(this)"><span class="opt-letter">D</span><span>What does the CMMC PMO say publicly?</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 10 of 10</div><div class="q-stem">What does the annual affirmation attest, and who may make it?</div><div class="options"><button class="opt" data-q="10" data-ok="0" data-rat="The affirmation is the OSC&#x27;s statement about itself, not the assessor&#x27;s about the assessment." onclick="pick(this)"><span class="opt-letter">A</span><span>That the assessment was conducted correctly; the Lead CCA</span></button><button class="opt" data-q="10" data-ok="1" data-rat="A present-tense statement, not a memory of the assessment. The practical answer is continuous monitoring, so that it reports something known rather than assumed. False Claims Act exposure attaches personally to the signer." onclick="pick(this)"><span class="opt-letter">B</span><span>That the organization continues to meet the requirements; a senior official with authority to bind the OSC</span></button><button class="opt" data-q="10" data-ok="0" data-rat="Wrong on both counts. Incidents are reported under a separate clause, and the IT Manager cannot bind the organization." onclick="pick(this)"><span class="opt-letter">C</span><span>That no incidents occurred in the preceding year; the IT Manager</span></button><button class="opt" data-q="10" data-ok="0" data-rat="Closeout is a separate mechanism with its own assessment, and the C3PAO does not affirm on the OSC&#x27;s behalf." onclick="pick(this)"><span class="opt-letter">D</span><span>That the POA&M has been closed; the closeout C3PAO</span></button></div><div class="rationale"></div></div><div class="kc-score" id="kcs">Answered 0 of 10</div></div></section><div class="pager"><a class="prev" href="lesson08.html"><span class="pager-dir">&larr; Previous</span><span class="pager-name">L8 — Conducting the Assessment & Reporting</span></a><a class="next" href="lesson10.html"><span class="pager-dir">Next &rarr;</span><span class="pager-name">Bonus — Teaching CMMC (Faculty PD)</span></a></div></main></div><footer>
+  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
+  <p class="foot-text">
+    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
+    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
+    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
+    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
+    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
+    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
+    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
+    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
+    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
+    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
+  </p>
+</footer>
+<script>
+function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
+ document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
+(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
+ document.documentElement.setAttribute('data-theme',t);
+ window.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
+</script>
+<script>
+var _tot=10,_done={},_right=0;
+function pick(b){var q=b.dataset.q;if(_done[q])return;_done[q]=1;
+ var box=b.closest('.q'),opts=box.querySelectorAll('.opt'),rat=box.querySelector('.rationale');
+ opts.forEach(function(o){o.disabled=true;if(o.dataset.ok==='1')o.classList.add('correct');});
+ if(b.dataset.ok==='1'){_right++;}else{b.classList.add('wrong');}
+ var correct=box.querySelector('.opt[data-ok="1"] span:last-child').textContent;
+ rat.innerHTML='<strong>'+(b.dataset.ok==='1'?'Correct.':'Not this one.')+'</strong> '+b.dataset.rat+
+   (b.dataset.ok==='1'?'':' <br><br><strong>The answer is:</strong> '+correct+' \u2014 '+
+    box.querySelector('.opt[data-ok="1"]').dataset.rat);
+ rat.classList.add('show');
+ var n=Object.keys(_done).length;
+ document.getElementById('kcs').textContent='Answered '+n+' of '+_tot+' \u2014 '+_right+' correct'+
+   (n===_tot?(_right===_tot?' \u2014 clean sweep.':' \u2014 review the rationales above.'):'');}
+</script></body></html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The summative session. No lecture. Eight months have passed inside the case: the last C3PAO declined the engagement and &mdash; correctly &mdash; gave">
+<title>L8 — Conducting the Assessment & Reporting | CMMC Level 2 5-Day Workshop</title>
+<style>
+:root{
+  --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
+  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
+  --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
+  --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
+}
+[data-theme="dark"]{
+  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
+  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
+  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--body-bg);color:var(--text-primary);
+  line-height:1.65;transition:background .3s,color .3s}
+a{color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-seal{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.62rem;
+  color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+.nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);
+  letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
+  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
+.theme-toggle:hover{background:var(--gold);color:#fff}
+/* HERO */
+.hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.05) 40px,rgba(18,35,58,.05) 41px)}
+.hero-eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;position:relative}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--text-primary);
+  line-height:1.15;max-width:860px;margin:0 auto 1rem;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-subtitle{font-family:Arial,sans-serif;font-size:1.05rem;color:var(--text-secondary);max-width:680px;
+  margin:0 auto 2rem;line-height:1.7;position:relative}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.85rem 2rem;border-radius:2px;position:relative;transition:background .2s,transform .15s}
+.hero-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+/* STATS */
+.stats-bar{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:1rem 2rem;display:flex;
+  justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:.5rem;padding:0 2rem;border-right:2px solid rgba(200,134,42,.35)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-label{font-family:Arial,sans-serif;font-size:.7rem;font-weight:700;color:var(--text-secondary);
+  letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-alt{background:var(--section-alt)}
+.section-eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.section-desc{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);max-width:660px;
+  margin-bottom:2.5rem;line-height:1.7}
+.rule{width:48px;height:3px;background:var(--gold);margin:.75rem 0 1.5rem}
+/* NOTICE BANNER (available; unused by default) */
+.reg-banner{max-width:1200px;margin:2.5rem auto 0;padding:0 2rem}
+.reg-inner{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:3px;padding:1.1rem 1.35rem}
+.reg-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.4rem}
+.reg-head{font-family:Georgia,serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:.4rem}
+.reg-body{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);line-height:1.65}
+.reg-verify{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);margin-top:.55rem;
+  letter-spacing:.03em}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.lesson-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.lesson-badge{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.75rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.domain-weight{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:.05em;
+  text-align:right;line-height:1.3}
+.domain-weight strong{display:block;font-size:1rem;color:var(--gold);font-family:'Arial Narrow',Arial,sans-serif;font-weight:900}
+.card-day-tag{font-family:Arial,sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.card-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.card-desc{font-family:Arial,sans-serif;font-size:.83rem;color:var(--text-secondary);line-height:1.65;flex:1}
+.card-thread{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5;
+  border-top:1px dashed var(--border);padding-top:.6rem}
+.card-thread strong{color:var(--gold);font-weight:700}
+.card-footer{border-top:1px solid var(--border);padding-top:.75rem;margin-top:auto}
+.launch-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px;transition:background .2s}
+.launch-btn:hover{background:var(--gold-light)}
+.launch-btn .arrow{font-size:1rem;transition:transform .15s}
+.launch-btn:hover .arrow{transform:translateX(3px)}
+.card-special .lesson-badge{background:var(--gold);color:#fff}
+.card-special::before{background:var(--navy)}
+/* RESOURCES */
+.resource-section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;
+  border-bottom:2px solid var(--border)}
+.resource-section-heading .rsh-icon{font-size:1.4rem;line-height:1}
+.resource-section-heading h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;
+  color:var(--text-primary);letter-spacing:.08em;text-transform:uppercase}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3rem}
+.resource-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.35rem 1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.resource-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.rc-type{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.rc-icon-title{display:flex;align-items:center;gap:.5rem}
+.rc-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
+.rc-title{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.rc-desc{font-family:Arial,sans-serif;font-size:.81rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.rc-covers{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.rc-covers strong{color:var(--gold);font-weight:700}
+.resource-card .card-footer{border-top:1px solid var(--border);padding-top:.65rem;margin-top:auto}
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;grid-auto-rows:1fr}
+.day-col{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column}
+.day-header{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:center}
+.day-theme{font-family:Arial,sans-serif;font-size:.65rem;color:#a3b6c9;letter-spacing:.06em;text-transform:uppercase;
+  padding:.4rem 1rem;background:var(--navy-mid);text-align:center}
+.day-lessons{padding:.75rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.day-lesson{display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:.6rem .7rem;
+  background:var(--section-alt);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;flex:1;
+  text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.day-lesson:hover{background:var(--blue-pale);border-left-color:var(--navy-light)}
+.day-lesson:hover .day-lesson-name{color:var(--gold)}
+.day-lesson-num{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.day-lesson-name{font-family:Georgia,serif;font-size:.86rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.day-lesson-meta{font-family:Arial,sans-serif;font-size:.66rem;color:var(--text-muted)}
+.day-cap{font-family:Arial,sans-serif;font-size:.64rem;color:var(--text-muted);padding:.5rem .75rem .7rem;
+  border-top:1px dashed var(--border);line-height:1.45}
+.day-cap strong{color:var(--gold)}
+/* CAP PHASE BARS */
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.bar-label{font-family:Arial,sans-serif;font-size:.8rem;color:var(--text-secondary);width:290px;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--section-alt);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.72rem}
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem}
+.about-body p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+.about-body h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.5rem 0 .6rem}
+.facts-box{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;height:fit-content}
+.facts-box h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold)}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fact .fv{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.35rem;font-weight:900;color:var(--gold);line-height:1}
+.fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-top:.2rem}
+/* FOOTER */
+footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
+.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
+.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+/* ---------- LESSON PAGES ---------- */
+.lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
+.toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:4px;padding:1.1rem 1.2rem;max-height:calc(100vh - 110px);overflow-y:auto}
+.toc-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem}
+.toc a{display:block;font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-secondary);text-decoration:none;
+  padding:.28rem .4rem;border-radius:2px;line-height:1.4;border-left:2px solid transparent}
+.toc a::before{content:counter(toc) ". ";color:var(--gold);font-weight:700}
+.toc a:hover{background:var(--blue-pale);color:var(--gold);border-left-color:var(--gold)}
+.lhero{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:2.5rem 2rem}
+.lhero-in{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.lhero h1{font-family:Georgia,serif;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;line-height:1.2;max-width:860px}
+.lead{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-top:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.05em;color:var(--text-secondary);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:.25rem .8rem}
+.meta-chip strong{color:var(--gold)}
+h2.h{font-family:Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.25;margin-bottom:.2rem}
+.content-section{margin-bottom:3rem;scroll-margin-top:80px}
+.content-section p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem}
+.content-section h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.7rem 0 .7rem}
+.content-section ul,.content-section ol{margin:0 0 1.1rem 1.3rem}
+.content-section li{font-family:Arial,sans-serif;font-size:.88rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.4rem}
+.content-section strong{color:var(--text-primary)}
+.cs-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.4rem}
+.cs-num{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.9rem;color:var(--gold);line-height:1;flex-shrink:0}
+/* TABLES */
+.tw{overflow-x:auto;margin:1.1rem 0 1.4rem;border:1px solid var(--border);border-radius:4px;background:var(--card-bg)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{background:var(--navy);color:#fff;font-family:Arial,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:.6rem .8rem}
+td{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);padding:.6rem .8rem;
+  border-top:1px solid var(--border);line-height:1.6;vertical-align:top}
+tbody tr:nth-child(even){background:var(--section-alt)}
+td strong{color:var(--text-primary)}
+/* CALLOUTS */
+.tip,.in-practice,.warnbox{border-radius:3px;padding:1rem 1.2rem;margin:1.2rem 0}
+.tip{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold)}
+.tip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.35rem}
+.in-practice{background:var(--blue-pale);border:1px solid var(--blue-pale-border);border-left:5px solid var(--navy-light)}
+.ip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:.35rem}
+.warnbox{background:var(--card-bg);border:1px solid var(--bad);border-left:5px solid var(--bad)}
+.warn-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:.35rem}
+.tip p,.in-practice p,.warnbox p{font-family:Arial,sans-serif;font-size:.85rem;line-height:1.75;margin:0 0 .6rem}
+.tip p:last-child,.in-practice p:last-child,.warnbox p:last-child{margin-bottom:0}
+/* OBJECTIVES */
+.obj-list{list-style:none;margin:0!important}
+.obj-list li{display:flex;gap:.8rem;align-items:flex-start;background:var(--card-bg);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-bottom:.6rem}
+.obj-tag{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--navy);color:#fff;border-radius:2px;padding:.18rem .5rem;flex-shrink:0;margin-top:.15rem}
+/* VOCAB FLIP */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem;margin:1.2rem 0}
+.flip-card{background:transparent;height:170px;perspective:1000px;cursor:pointer;border:none;padding:0;font:inherit;text-align:left}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;
+  padding:.9rem 1rem;display:flex;flex-direction:column;justify-content:center;background:var(--card-bg);overflow:auto}
+.flip-back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy)}
+.vocab-term{font-family:Georgia,serif;font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.vocab-def{font-family:Arial,sans-serif;font-size:.76rem;color:#e8eef5;line-height:1.6}
+.flip-hint{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:.6rem}
+/* DIAGRAM */
+.diagram{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.3rem;margin:1.3rem 0;overflow-x:auto}
+.diagram figcaption{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-muted);margin-top:.8rem;line-height:1.6}
+/* CASE BLOCK */
+.case{background:var(--navy);border-radius:5px;padding:1.6rem 1.8rem;margin:2rem 0;border-left:6px solid var(--gold)}
+.case-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.case h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;line-height:1.3}
+.case p{font-family:Arial,sans-serif;font-size:.86rem;color:#c8d6e4;line-height:1.8;margin-bottom:.9rem}
+.case ul{margin:0 0 1rem 1.2rem}
+.case li{font-family:Arial,sans-serif;font-size:.85rem;color:#c8d6e4;line-height:1.75;margin-bottom:.35rem}
+.case strong{color:#fff}
+.case-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.18)}
+.case-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px}
+.case-btn:hover{background:var(--gold-light)}
+.case-btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.case-btn.ghost:hover{background:var(--gold);color:#fff}
+/* KNOWLEDGE CHECK */
+.kc{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.6rem 1.8rem;margin-top:1.2rem}
+.q{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem}
+.q:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.qn{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.q-stem{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-primary);line-height:1.75;margin-bottom:.8rem;font-weight:600}
+.options{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;background:var(--section-alt);border:1px solid var(--border);
+  border-radius:3px;padding:.6rem .8rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.84rem;
+  color:var(--text-secondary);line-height:1.6;text-align:left;transition:background .15s,border-color .15s;width:100%}
+.opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--navy-light)}
+.opt:disabled{cursor:default}
+.opt-letter{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.correct{background:rgba(47,111,79,.14);border-color:var(--ok)}
+.opt.correct .opt-letter{color:var(--ok)}
+.opt.wrong{background:rgba(157,52,39,.12);border-color:var(--bad)}
+.opt.wrong .opt-letter{color:var(--bad)}
+.rationale{display:none;margin-top:.7rem;background:var(--blue-pale);border-left:4px solid var(--navy-light);
+  border-radius:0 3px 3px 0;padding:.75rem .95rem;font-family:Arial,sans-serif;font-size:.82rem;
+  color:var(--text-secondary);line-height:1.75}
+.rationale.show{display:block}
+.rationale strong{color:var(--text-primary)}
+.kc-score{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-top:1.4rem;padding-top:1rem;border-top:2px solid var(--gold)}
+/* PAGER */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.pager a{display:flex;flex-direction:column;gap:.15rem;text-decoration:none;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:4px;padding:.8rem 1.2rem;flex:1;max-width:47%;transition:border-color .2s}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager-dir{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pager-name{font-family:Georgia,serif;font-size:.9rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+/* TOOL PAGES */
+.tool-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.5rem 1.7rem;margin-bottom:1.5rem}
+.panel h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.panel h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.4rem 0 .6rem}
+.panel p{font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.8rem}
+.panel ul{margin:0 0 1rem 1.3rem}
+.panel li{font-family:Arial,sans-serif;font-size:.85rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+label{display:block;font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+input[type=text],textarea,select{width:100%;font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-primary);
+  background:var(--body-bg);border:1px solid var(--border);border-radius:3px;padding:.5rem .65rem;line-height:1.6}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;border:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--gold-light)}
+.btn.secondary{background:var(--navy)}
+.btn.secondary:hover{background:var(--navy-light)}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#fff}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.verdict{display:none;margin-top:1rem;border-radius:3px;padding:1rem 1.2rem;font-family:Arial,sans-serif;
+  font-size:.85rem;line-height:1.75;border-left:5px solid var(--navy-light);background:var(--blue-pale);
+  border:1px solid var(--blue-pale-border);border-left-width:5px}
+.verdict.show{display:block}
+.verdict h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy-light);margin-bottom:.4rem}
+.verdict.good{background:rgba(47,111,79,.12);border-color:var(--ok)}
+.verdict.good h4{color:var(--ok)}
+.verdict.bad{background:rgba(157,52,39,.1);border-color:var(--bad)}
+.verdict.bad h4{color:var(--bad)}
+.pill{display:inline-block;font-family:Arial,sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;border-radius:20px;padding:.15rem .6rem;border:1px solid var(--border);color:var(--text-muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.no{color:var(--bad);border-color:var(--bad)}
+.pill.mid{color:var(--warn);border-color:var(--warn)}
+.savebar{position:sticky;bottom:0;background:var(--card-bg);border-top:2px solid var(--gold);padding:.7rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
+.savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
+@media print{
+  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  body{background:#fff}
+  .panel,.tw,.kc{break-inside:avoid}
+}
+@media (max-width:980px){
+  .lwrap{grid-template-columns:1fr;padding:2rem 1.2rem 3rem}
+  .toc{position:static;max-height:none}
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bar-label{width:150px;font-size:.72rem}
+}
+@media (max-width:560px){
+  .schedule-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  .section{padding:2.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-seal">CMMC<br>L2</div>
+    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
+    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+  </div>
+</nav>
+<header class="lhero"><div class="lhero-in"><div class="eyebrow">Day 5 &middot; Morning &middot; CAP Phases 2&ndash;3 &middot; The mock assessment</div><h1>Conducting the Assessment and Reporting Findings</h1><p class="lead">The summative session. No lecture. Eight months have passed inside the case: the last C3PAO declined the engagement and &mdash; correctly &mdash; gave Meridian no help getting ready. The company hired a consultant, worked its plan, spent about $210,000, and engaged a different firm. You are that firm. Some of what you are about to read is real. Some of it is a document produced to close a line on a plan.</p><div class="chips"><span class="meta-chip">Day 5 &mdash; AM</span><span class="meta-chip">~3 hours</span><span class="meta-chip"><strong>No scaffolding</strong></span><span class="meta-chip">9 documents &middot; 6 interviews</span></div></div></header><div class="lwrap"><aside class="toc"><div class="toc-title">On this page</div><ol><li><a href="#objectives">Learning objectives</a></li><li><a href="#vocab">Key terminology</a></li><li><a href="#s1">Two rules for the session</a></li><li><a href="#s2">Running the in-brief</a></li><li><a href="#s3">The evidence package</a></li><li><a href="#s4">Interviews that elicit rather than confirm</a></li><li><a href="#s5">The overnight evidence request</a></li><li><a href="#s6">Determinations, findings, and the out-brief</a></li><li><a href="#thread">Meridian &mdash; your turn</a></li><li><a href="#check">Knowledge check</a></li></ol></aside><main><section class="content-section" id="objectives"><div class="cs-head"><span class="cs-num">A</span><h2 class="h">Learning objectives</h2></div><div class="rule"></div><p>By the end of this session you will be able to:</p><ul class="obj-list"><li><span class="obj-tag">Execute</span><span>Execute a Level 2 assessment against a supplied evidence package under time constraint.</span></li><li><span class="obj-tag">Run</span><span>Run the in-brief, daily checkpoint, and out-brief structure that CAP Phases 2 and 3 require.</span></li><li><span class="obj-tag">Conduct</span><span>Conduct interviews that elicit evidence rather than confirmation.</span></li><li><span class="obj-tag">Write</span><span>Write an evidence request that returns what you actually need.</span></li><li><span class="obj-tag">Render</span><span>Render final determinations and identify the findings that follow from them.</span></li><li><span class="obj-tag">Produce</span><span>Produce a findings report that is defensible against the Assessment Guide when challenged.</span></li></ul></section><section class="content-section" id="vocab"><div class="cs-head"><span class="cs-num">B</span><h2 class="h">Key terminology</h2></div><div class="rule"></div><p>Click a card to reveal the definition. These are the terms the CCP and CCA exams use precisely, and the terms practitioners most often use loosely.</p><div class="vocab-grid"><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of In-brief"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">In-brief</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">The CAP-prescribed opening of Phase 2. The Lead CCA must cover a defined minimum, and minutes or a detailed summary must be kept.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Daily checkpoint"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Daily checkpoint</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Required at the end of each assessment day: progress, challenges, and what is needed next. Not a negotiation and not a preview of the result.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Out-brief"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Out-brief</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Delivery of assessment results. Results must be compiled and quality-reviewed beforehand by a CCA not on the team who has had no contact with it during the assessment.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Re-evaluation window"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Re-evaluation window</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">Ten business days, under 32 CFR &sect;170.17, in which limited deficiencies may be re-evaluated.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Finding"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Finding</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">What you write about a NOT MET: which objective failed, what evidence you examined, what was missing, and a severity.</div></div></div></button><button class="flip-card" onclick="this.classList.toggle('flipped')" aria-label="Definition of Not provided"><div class="flip-inner"><div class="flip-face flip-front"><div class="vocab-term">Not provided</div><div class="flip-hint">Click to reveal</div></div><div class="flip-face flip-back"><div class="vocab-def">One of the three outcomes for every requested item &mdash; alongside received-and-responsive and received-and-not-responsive. The third category is a finding in its own right.</div></div></div></button></div></section><section class="content-section" id="s1"><div class="cs-head"><span class="cs-num">1</span><h2 class="h">Two rules for the session</h2></div><div class="rule"></div>
+<div class="warnbox"><div class="warn-label">Non-negotiable</div>
+<p><strong>You may not tell Meridian how to fix anything.</strong> Not in the checkpoint, not in an interview,
+not in the out-brief, and not when the chief executive asks you directly and reasonably. She will.</p>
+<p><strong>You may not speculate about the outcome.</strong> Not &ldquo;this is looking good,&rdquo; not &ldquo;you
+are close.&rdquo; The CAP prohibits it in Phase 1 and the reasoning holds throughout: an assessment result is a
+determination, not a running commentary.</p></div></section><section class="content-section" id="s2"><div class="cs-head"><span class="cs-num">2</span><h2 class="h">Running the in-brief</h2></div><div class="rule"></div>
+<p>The CAP sets out what the Lead CCA must address at minimum. Your in-brief is assessed on whether you covered it.</p>
+<ol>
+<li>Introduce the assessment team and invite the OSC to introduce its people.</li>
+<li>Confirm the CMMC assessment scope.</li>
+<li>Explain the Level 2 assessment procedures under 32 CFR &sect;170.17(c).</li>
+<li>Review the assessment schedule.</li>
+<li>Reconfirm the absence of, or disclose, any organizational or individual conflicts of interest.</li>
+<li>Inform the OSC of its right to appeal and describe the C3PAO's appeals process.</li>
+<li>Invite questions.</li>
+</ol>
+<p>Minutes or a detailed summary must be kept. Nominate someone to take them before you start.</p>
+<h3>The checkpoint</h3>
+<p>A daily checkpoint with the OSC point of contact is required at the end of each assessment day: progress,
+challenges, and what you need next. It is not a negotiation and it is not a preview of the result.</p>
+<p>The OSC will push back, and pushing back is legitimate &mdash; an organization that accepts every preliminary
+finding without question is not paying attention. Your job is to distinguish <strong>new information</strong>, which
+should change your call, from <strong>pressure</strong>, which should not.</p></section><section class="content-section" id="s3"><div class="cs-head"><span class="cs-num">3</span><h2 class="h">The evidence package</h2></div><div class="rule"></div>
+<p>Nine documents, supplied in good faith. Read each one against the requirement it is offered for, and then read it
+against the other eight.</p>
+<div class="tw"><table>
+<thead><tr><th>#</th><th>Document</th><th>What it says</th><th>What to notice</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>System Security Plan v3.0, three months ago</td>
+<td>Rewritten with consultant support. Boundary section now names systems SYS-001 through SYS-014 and both sites. Control implementation described for all 110 requirements.</td>
+<td>It describes the environment as it was <em>designed</em>. Cross-check the boundary against the asset inventory (Doc 3) and against what interviews reveal about the AWS upload path, which still appears nowhere.</td></tr>
+<tr><td>2</td><td>POA&amp;M, exported this week from the GCC High tenant</td>
+<td>Now inside the boundary, version-controlled, eleven items with owners and target dates. Seven marked Complete.</td>
+<td>The storage problem is genuinely fixed &mdash; say so. <strong>No closure evidence is attached to any item marked Complete</strong>, and two target dates have been revised twice without comment.</td></tr>
+<tr><td>3</td><td>Asset Inventory v1.0, four months ago</td>
+<td>The artifact whose absence blocked Phase 1 last time. 164 line items across both sites.</td>
+<td>Compare the count against the SSP and against what you observe. The three decommissioned drives in the server room are not on it, and neither are the CNC-side systems at Acuitas &mdash; which is correct, and worth confirming they thought about it rather than missed it.</td></tr>
+<tr><td>4</td><td>MFA Status Report, exported this week</td>
+<td>M365 GCC High: yes. FortiGate SSL VPN: <strong>yes &mdash; added five months ago</strong>. Domain controller RDP: no. SYS-003 file server: no. AWS GovCloud: root yes, IAM users partial.</td>
+<td>Honest, current, and the VPN gap is genuinely closed. Now work the requirement again: does <em>network access to privileged accounts</em> have MFA? Domain controller RDP is the answer, and it is still no.</td></tr>
+<tr><td>5</td><td>Audit Log Review Records &mdash; five monthly records</td>
+<td>Each one page. Reviewer named, date, sources listed, and a short note of what was examined. Retention now set to 180 days.</td>
+<td>Materially better than anything the company had before. Nothing exists prior to five months ago, and the records begin one month after the consultant arrived. Ask what happens when the consultant leaves.</td></tr>
+<tr><td>6</td><td>Patch Compliance Report, two weeks ago</td>
+<td>All 14 Dayton and 6 Huntsville engineering workstations enrolled in a configuration management tool. 19 of 20 fully current.</td>
+<td>Strong evidence. Which machine is the twentieth, why, and is there a documented exception? The report does not say, and the answer is on the shop floor.</td></tr>
+<tr><td>7</td><td>Incident Response Plan v2.0, four months ago, plus a tabletop record</td>
+<td>Rewritten. DFARS 72-hour reporting language now present with the DIBNet process. Contact roster refreshed. One tabletop exercise recorded, three months ago.</td>
+<td>Read the tabletop scenario. It exercises ransomware on a workstation. Neither of the company&rsquo;s two actual historical incidents &mdash; nor the stale-account authentication &mdash; resembles it.</td></tr>
+<tr><td>8</td><td>ClearPath Master Services Agreement, Addendum One, signed two months ago, with a Customer Responsibility Matrix</td>
+<td>DFARS 252.204-7012 incorporated and flowed down. A CRM now exists, allocating responsibilities across 110 requirements.</td>
+<td>Read the CRM against Doc 4. It assigns MFA enforcement for administrative access to <em>Meridian</em>, and ClearPath technicians still reach domain admin over a VPN using a shared account. The document allocates a responsibility the company has not discharged.</td></tr>
+<tr><td>9</td><td>SPRS Score Worksheet &mdash; 94, submitted six weeks ago</td>
+<td>Working attached. Partial credit claimed on 3.5.3. Nine requirements marked closed per POA&amp;M items. Two N/A claims.</td>
+<td>Every one of those moves is arguable and several are wrong. This is the document to work last and hardest &mdash; and note who signed it.</td></tr>
+</tbody></table></div>
+<div class="tip"><div class="tip-label">The pattern to look for</div>
+<p>This is a company that has genuinely improved, which makes it a harder assessment than the one you scoped on
+Wednesday. Most of these documents are real work. The failures are now in the <em>joins</em>: a CRM that allocates a
+duty nobody performed, a POA&amp;M whose completions are unevidenced, an SSP that describes a designed environment
+rather than the operating one, and a tabletop that exercises a scenario the company has never faced while ignoring
+two it has.</p>
+<p>A documentation-led assessment will pass Meridian. Only reading the documents against each other, and against
+what people tell you, will not.</p></div></section><section class="content-section" id="s4"><div class="cs-head"><span class="cs-num">4</span><h2 class="h">Interviews that elicit rather than confirm</h2></div><div class="rule"></div>
+<p>Six people are available and you will not reach all of them. <strong>Choosing who to interview is an assessment
+decision and it is assessed as one.</strong> Ask yourself who can tell you something no document can.</p>
+<p>Everyone is cooperative and nobody is lying. They will answer the question you asked. Ask a question that invites
+agreement and you will get agreement, and you will have learned nothing while believing you learned something.</p>
+<div class="tw"><table>
+<thead><tr><th>Instead of</th><th>Ask</th></tr></thead>
+<tbody>
+<tr><td>&ldquo;You review the audit logs monthly, correct?&rdquo;</td><td>&ldquo;Walk me through the last review you did. What did you open?&rdquo;</td></tr>
+<tr><td>&ldquo;Is MFA enabled?&rdquo;</td><td>&ldquo;Take me system by system. What happens when you sign in to the PLM?&rdquo;</td></tr>
+<tr><td>&ldquo;Do you have an offboarding process?&rdquo;</td><td>&ldquo;The last person who left &mdash; tell me what happened to their accounts, and how you know.&rdquo;</td></tr>
+<tr><td>&ldquo;Is the MSP access controlled?&rdquo;</td><td>&ldquo;Walk me through what happens when a ClearPath technician needs to log in. Who approves it, what account do they use, and where would I see a record of it afterwards?&rdquo;</td></tr>
+</tbody></table></div>
+<h3>Who is in the building</h3>
+<ul>
+<li><strong>Diana Kowalczyk</strong>, CISO &mdash; owns the SSP, the policies and the POA&amp;M. Competent, candid,
+and has been asking for budget for two years. She will tell you what is not fixed if you ask her plainly, and she is
+the reason anything improved at all.</li>
+<li><strong>Trevor Nakamura</strong>, IT Administrator &mdash; built and runs the environment. Cooperative and
+quietly proud. Believes that having a document means the control is implemented, and will say &ldquo;it is in the
+SSP&rdquo; as though that settles a question.</li>
+<li><strong>Priya Mehta</strong>, Contract Manager &mdash; precise, tracks DFARS clauses on the three prime and
+subcontract vehicles rigorously. Has never applied the same discipline downward to suppliers, and does not know what
+a Customer Responsibility Matrix commits the company to.</li>
+<li><strong>Renata Bauer</strong>, HR Director &mdash; organized about the things anyone has asked her to keep
+records of. The offboarding process is email-based and she has never been told that VPN deprovisioning is missing
+from it.</li>
+<li><strong>Gregory Farris</strong>, FSO and Physical Security Manager &mdash; runs badge access, visitor logs and
+media destruction at Dayton, and does it well. Has never visited Huntsville.</li>
+<li><strong>Marcus Ellison</strong>, President and CEO, Authorizing Official &mdash; warm, direct, commercially
+focused, genuinely likeable. He has spent real money on this. He will apply pressure without meaning it as pressure,
+which is what makes him the hardest interview in the room.</li>
+</ul>
+<div class="in-practice"><div class="ip-label">The choice that separates teams</div>
+<p>Six people, forty minutes, and you will not reach them all. <strong>Choosing who to interview is an assessment
+decision and it is assessed as one.</strong></p>
+<p>Most teams pick Nakamura and Kowalczyk, because they own the systems and the documents. The higher-yield choices
+are usually <strong>Bauer</strong> &mdash; who can tell you exactly what the offboarding process does and does not
+include, which is the root cause of the finding that started this whole engagement &mdash; and <strong>Farris</strong>,
+who will tell you without prompting that he has never seen the Huntsville site, and that the escort policy for MSP
+technicians is something he does rather than something written down.</p></div>
+<div class="warnbox"><div class="warn-label">Ellison is the ethics test</div>
+<p>At some point he will ask, warmly and reasonably: &ldquo;Just tell me what you need to see and we will go and do
+it.&rdquo; He may ask what a passing score looks like, or whether you think the company will make it. He has spent
+$210,000 and he employs 147 people, and he will mention both.</p>
+<p>You must decline, and decline without lecturing her. A team that answers the question has failed the exercise
+regardless of how good their determinations are &mdash; and that failure is worth more to them than the finding.</p></div></section><section class="content-section" id="s5"><div class="cs-head"><span class="cs-num">5</span><h2 class="h">The overnight evidence request</h2></div><div class="rule"></div>
+<p>You have one written request and limited time. Everything you fail to ask for, you will not have.</p>
+<ul>
+<li><strong>Name artifacts, not topics.</strong> Day 3 applies here exactly.</li>
+<li><strong>Say which objective each item serves</strong> &mdash; it forces you to check that you need it.</li>
+<li><strong>Name the custodian.</strong> At Meridian this is often the same person, which is itself worth noting.</li>
+<li><strong>Ask for what would disconfirm the OSC's position</strong>, not only what would confirm it.</li>
+</ul>
+<div class="in-practice"><div class="ip-label">Read what comes back, not what you hoped would come back</div>
+<p>Some of the supplemental material will be responsive. Some will not be. Some of what you asked for will not
+exist. For every item you requested, record one of three outcomes: <strong>received and responsive</strong>,
+<strong>received and not responsive</strong>, or <strong>not provided</strong>.</p>
+<p>A partly responsive answer is the normal case in a real assessment, and it is where assessments quietly fail. A
+document arrives, it is roughly on the subject, the schedule is tight, and it gets accepted. The third category is
+a finding in its own right.</p></div></section><section class="content-section" id="s6"><div class="cs-head"><span class="cs-num">6</span><h2 class="h">Determinations, findings, and the out-brief</h2></div><div class="rule"></div>
+<p>A <strong>determination</strong> is MET, NOT MET, or NOT APPLICABLE at the objective level. A
+<strong>finding</strong> is what you write about a NOT MET: which objective failed, what evidence you examined, and
+what was missing. Severity follows from the requirement and the exposure, not from how annoyed you are about it.</p>
+<p>Rule on both incidents in Meridian's history &mdash; the October 2023 spearphishing that CrowdStrike blocked,
+and the February 2024 lost unencrypted USB drive &mdash; and on anything the interviews surface. <em>One of the two
+triggers the DFARS 252.204-7012 obligation and one is genuinely arguable. If you rule the same way on both without
+distinguishing them, read them again.</em> Note also that the company filed nothing on either, and that the
+non-reporting decisions were made informally with no documented analysis against the clause.</p>
+<h3>Quality assurance before the out-brief</h3>
+<p>The CAP requires assessment results to be compiled and quality-reviewed before the out-brief, and requires the
+quality reviewer to be a CCA who is <strong>not on the assessment team</strong> and who has had <strong>no contact
+with it</strong> during the assessment.</p>
+<p>Deliver the results. Do not deliver advice. Expect at least one challenge, and be ready to concede &mdash; a team
+that never concedes anything has stopped assessing and started defending.</p>
+<div class="tip"><div class="tip-label">What the report is really for</div>
+<p>Whether a stranger could act on it. A contracting officer, an appeals panel, or the next assessment team should
+be able to read it and know exactly what you looked at, what you concluded, and why &mdash; without you in the room
+to explain.</p></div></section><section class="content-section" id="thread"><div class="cs-head"><span class="cs-num">&#9670;</span><h2 class="h">Meridian &mdash; your turn</h2></div><div class="rule"></div><div class="case"><div class="case-tag">Meridian &middot; Day 5 Morning &middot; Deliverable D8</div><h3>Run the assessment, write the findings</h3>
+<p>The case workbench holds the full evidence package, the interview personas, the incident records, and the
+findings workspace. Work the two-day sequence in one session:</p>
+<ul>
+<li><strong>In-brief</strong> &mdash; cover the CAP minimum. Nominate a minute-taker first.</li>
+<li><strong>Evidence review</strong> &mdash; nine documents, logged as you go. Do not leave determinations to memory.</li>
+<li><strong>Checkpoint</strong> &mdash; brief preliminary findings. Expect pushback on at least one call.</li>
+<li><strong>Evidence request</strong> &mdash; one page, artifacts not topics, with the objective and custodian named.</li>
+<li><strong>Interviews</strong> &mdash; choose who, and be able to say why. Open questions only.</li>
+<li><strong>Determinations and incident rulings</strong> &mdash; objective level, evidence cited.</li>
+<li><strong>Out-brief</strong> &mdash; results, not advice. Concede where the evidence moves you.</li>
+</ul>
+<p>Then write the <strong>Assessment Findings Report</strong>: scope statement, methodology including sampling
+values, determinations with evidence cited, findings with severity, incident analysis with clause reasoning, and a
+preliminary score with the outcome you would recommend.</p>
+<p><strong>Every finding traceable to evidence you actually examined.</strong> If you did not see it, you cannot cite
+it. Where evidence was requested and not provided, say so &mdash; absence of evidence is a result and belongs in the
+report. And no remediation advice anywhere, including in the recommendation section.</p><div class="case-actions"><a class="case-btn" href="meridian.html">Open the case workbench &rarr;</a><a class="case-btn ghost" href="sprs-calculator.html">SPRS Calculator</a><a class="case-btn ghost" href="domain-worksheet.html">Domain Worksheet</a></div></div></section><section class="content-section" id="check"><div class="cs-head"><span class="cs-num">&#10003;</span><h2 class="h">Knowledge check</h2></div><div class="rule"></div><p>Scenario-based questions in the style of the CCP and CCA exams. Pick an answer to see why it is right or wrong &mdash; the rationale matters more than the score.</p><div class="kc"><div class="q"><div class="qn">Question 1 of 10</div><div class="q-stem">A POA&M item is marked "Complete" with no closure evidence attached, while the MFA Status Report shows the underlying gap still open. What is the determination on the affected requirement?</div><div class="options"><button class="opt" data-q="1" data-ok="0" data-rat="A POA&amp;M is the organization&#x27;s record of its own intentions. Marking an item complete is a claim, not evidence." onclick="pick(this)"><span class="opt-letter">A</span><span>MET &mdash; the POA&M records the item as closed</span></button><button class="opt" data-q="1" data-ok="1" data-rat="Three documents disagree about one fact: the SSP claims implementation, the POA&amp;M claims closure, and the status report shows the gap open. The status report is the artifact with the most direct evidentiary value, and the inconsistency belongs in the findings." onclick="pick(this)"><span class="opt-letter">B</span><span>NOT MET, and the POA&M discrepancy is itself worth recording</span></button><button class="opt" data-q="1" data-ok="0" data-rat="There is no deferred determination, and the OSC&#x27;s confirmation would be another assertion." onclick="pick(this)"><span class="opt-letter">C</span><span>Deferred pending confirmation from the OSC</span></button><button class="opt" data-q="1" data-ok="0" data-rat="That treatment requires a temporary deficiency covered by an operational plan of action documented in the SSP. An unevidenced &quot;Complete&quot; is not that." onclick="pick(this)"><span class="opt-letter">D</span><span>MET with a documented deficiency</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 2 of 10</div><div class="q-stem">Who may perform the quality assurance review of assessment results before the out-brief?</div><div class="options"><button class="opt" data-q="2" data-ok="0" data-rat="The reviewer must be independent of the assessment team, which the Lead CCA plainly is not." onclick="pick(this)"><span class="opt-letter">A</span><span>The Lead CCA who ran the assessment</span></button><button class="opt" data-q="2" data-ok="0" data-rat="The role requires a CCA, not a CCP." onclick="pick(this)"><span class="opt-letter">B</span><span>Any CCP employed by the C3PAO</span></button><button class="opt" data-q="2" data-ok="1" data-rat="Both conditions matter. Independence of composition and independence of contact are separate requirements, and the second is the one people forget." onclick="pick(this)"><span class="opt-letter">C</span><span>A CCA not on the assessment team who has had no contact with it during the assessment</span></button><button class="opt" data-q="2" data-ok="0" data-rat="The OSC does not quality-review the assessment of itself." onclick="pick(this)"><span class="opt-letter">D</span><span>The OSC's Affirming Official</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 3 of 10</div><div class="q-stem">Meridian's Incident Response Plan names three response team members, two of whom left the company more than a year ago, and records no exercise. Against IR.L2-3.6.1, what follows?</div><div class="options"><button class="opt" data-q="3" data-ok="0" data-rat="Documented is not the test. The requirement is a capability, and a plan naming people who do not work there does not establish one." onclick="pick(this)"><span class="opt-letter">A</span><span>MET &mdash; an operational incident-handling capability is documented</span></button><button class="opt" data-q="3" data-ok="1" data-rat="A plan that has never been exercised and assigns roles to departed staff is adequate as a document and insufficient as evidence of capability. The contradiction between the plan and the personnel records is the assessable content." onclick="pick(this)"><span class="opt-letter">B</span><span>NOT MET &mdash; the plan does not evidence an operational capability</span></button><button class="opt" data-q="3" data-ok="0" data-rat="It has had two, and in any event the requirement does not turn on whether incidents have occurred." onclick="pick(this)"><span class="opt-letter">C</span><span>NOT APPLICABLE &mdash; the company has had no reportable incidents</span></button><button class="opt" data-q="3" data-ok="0" data-rat="An observation does not repair a NOT MET, and the failure here is the absence of a capability rather than a staffing detail." onclick="pick(this)"><span class="opt-letter">D</span><span>MET, with the staffing gap recorded as an observation</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 4 of 10</div><div class="q-stem">The ClearPath addendum incorporates DFARS 252.204-7012 in full, but no Customer Responsibility Matrix accompanies it and remote access remains via a shared VPN account with no logging. What is the assessor's analysis?</div><div class="options"><button class="opt" data-q="4" data-ok="0" data-rat="Two-thirds right, and it misses that Meridian believes signing the addendum discharged the obligation. The CRM is part of the ESP treatment, not an optional extra." onclick="pick(this)"><span class="opt-letter">A</span><span>Flowdown is complete; the access arrangement is a separate finding</span></button><button class="opt" data-q="4" data-ok="1" data-rat="Three threads: the clause is flowed down; the ESP documentation is incomplete; and nonlocal maintenance without MFA, session control, or records is a distinct requirement failure. Mehta believes signing the addendum completed the obligation, and that belief is itself worth recording." onclick="pick(this)"><span class="opt-letter">B</span><span>Flowdown is satisfied, but the ESP treatment is incomplete without a CRM, and shared unlogged access implicates MA.L2-3.7.5</span></button><button class="opt" data-q="4" data-ok="0" data-rat="Nothing makes it void. It is a late but effective flowdown." onclick="pick(this)"><span class="opt-letter">C</span><span>The addendum is void because it postdates the CUI handling</span></button><button class="opt" data-q="4" data-ok="0" data-rat="An ESP handling CUI is evaluated inside the OSC&#x27;s assessment. It is squarely in scope." onclick="pick(this)"><span class="opt-letter">D</span><span>No finding &mdash; ClearPath is out of scope as an external party</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 5 of 10</div><div class="q-stem">For an item you requested and received something roughly on the subject but not addressing the objective, what should the evidence log record?</div><div class="options"><button class="opt" data-q="5" data-ok="0" data-rat="Insufficiently precise, and it is how partly responsive material quietly becomes accepted material." onclick="pick(this)"><span class="opt-letter">A</span><span>Received</span></button><button class="opt" data-q="5" data-ok="1" data-rat="One of the three outcomes, alongside received-and-responsive and not-provided. This is where assessments quietly fail: a document arrives, it is roughly on the subject, the schedule is tight, and the standard lowers itself." onclick="pick(this)"><span class="opt-letter">B</span><span>Received and not responsive</span></button><button class="opt" data-q="5" data-ok="0" data-rat="Something was provided, and recording otherwise misstates what happened." onclick="pick(this)"><span class="opt-letter">C</span><span>Not provided</span></button><button class="opt" data-q="5" data-ok="0" data-rat="Pending is a status during the assessment, not an outcome in the log." onclick="pick(this)"><span class="opt-letter">D</span><span>Pending</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 6 of 10</div><div class="q-stem">Marcus Ellison asks the team: "Just tell me what you need to see and we will go and do it." What is the correct response?</div><div class="options"><button class="opt" data-q="6" data-ok="0" data-rat="It is the most tempting wrong answer in the exercise, because it sounds like process rather than remediation. Telling the OSC what to produce is directing its remediation." onclick="pick(this)"><span class="opt-letter">A</span><span>Explain what evidence would satisfy the outstanding objectives &mdash; it is a request for clarity, not advice</span></button><button class="opt" data-q="6" data-ok="1" data-rat="A team that answers has failed regardless of how good its determinations are. Declining gracefully &amp;mdash; no speech about independence, no implied criticism &amp;mdash; is the skill being assessed." onclick="pick(this)"><span class="opt-letter">B</span><span>Decline, without lecturing, and continue the assessment</span></button><button class="opt" data-q="6" data-ok="0" data-rat="The declining is right and the lecture is not. She is being reasonable, and a sermon damages the engagement without improving the determination." onclick="pick(this)"><span class="opt-letter">C</span><span>Decline and explain at length why the CoPC prohibits it</span></button><button class="opt" data-q="6" data-ok="0" data-rat="Passing the request along does not answer it and implies someone at the firm might say yes." onclick="pick(this)"><span class="opt-letter">D</span><span>Refer her to the C3PAO's project manager</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 7 of 10</div><div class="q-stem">Which interview question is most likely to produce evidence rather than confirmation?</div><div class="options"><button class="opt" data-q="7" data-ok="0" data-rat="A yes-or-no invitation to agree. He will say yes, it will be true as he understands it, and you will have learned nothing." onclick="pick(this)"><span class="opt-letter">A</span><span>"You review the audit logs monthly, correct?"</span></button><button class="opt" data-q="7" data-ok="1" data-rat="Open, specific, and anchored to an actual event. This is the question that reveals the &quot;monthly review&quot; is five or ten minutes on a firewall dashboard with the Windows event logs never opened." onclick="pick(this)"><span class="opt-letter">B</span><span>"Walk me through the last review you did. What did you open?"</span></button><button class="opt" data-q="7" data-ok="0" data-rat="Invites an opinion about adequacy, which is the assessor&#x27;s determination to make, not the interviewee&#x27;s." onclick="pick(this)"><span class="opt-letter">C</span><span>"Are you satisfied that logging is adequate?"</span></button><button class="opt" data-q="7" data-ok="0" data-rat="Answerable yes or no, and it tells you nothing about what is retained or for how long." onclick="pick(this)"><span class="opt-letter">D</span><span>"Do you have a log retention policy?"</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 8 of 10</div><div class="q-stem">Why is interviewing Diana Kowalczyk at the Huntsville warehouse often the better assessment decision?</div><div class="options"><button class="opt" data-q="8" data-ok="0" data-rat="Seniority is not the criterion, and he is a warehouse supervisor." onclick="pick(this)"><span class="opt-letter">A</span><span>He is the most senior person available at the second site</span></button><button class="opt" data-q="8" data-ok="1" data-rat="An unchanged door code given verbally to seasonal staff, no visitor log, shared warehouse logins, an unaccounted-for spare laptop in a drawer. Almost no team chooses him, which is exactly why the material is still there." onclick="pick(this)"><span class="opt-letter">B</span><span>He can tell you things no document records and nobody else thinks matter</span></button><button class="opt" data-q="8" data-ok="0" data-rat="There is no Huntsville asset inventory, which is part of the problem." onclick="pick(this)"><span class="opt-letter">C</span><span>He is the custodian of the Huntsville asset inventory</span></button><button class="opt" data-q="8" data-ok="0" data-rat="It will contradict it, which is the point &amp;mdash; but corroboration is not why you would choose him." onclick="pick(this)"><span class="opt-letter">D</span><span>His account will corroborate the SSP boundary statement</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 9 of 10</div><div class="q-stem">A team's findings report cites an artifact the team requested but never received. What is wrong?</div><div class="options"><button class="opt" data-q="9" data-ok="0" data-rat="Confirmation that something exists is not examination of it." onclick="pick(this)"><span class="opt-letter">A</span><span>Nothing, provided the OSC confirmed the artifact exists</span></button><button class="opt" data-q="9" data-ok="1" data-rat="If you did not see it, you cannot cite it. Absence of evidence is a legitimate result and belongs in the report as such." onclick="pick(this)"><span class="opt-letter">B</span><span>Every finding must be traceable to evidence actually examined; not-provided is recorded as a result, not cited as evidence</span></button><button class="opt" data-q="9" data-ok="0" data-rat="Citing an unexamined artifact, however annotated, misrepresents the basis of the determination." onclick="pick(this)"><span class="opt-letter">C</span><span>The artifact should be cited with a note that it was unavailable</span></button><button class="opt" data-q="9" data-ok="0" data-rat="The finding may be perfectly sound on other evidence. What must change is the citation." onclick="pick(this)"><span class="opt-letter">D</span><span>The finding should be withdrawn</span></button></div><div class="rationale"></div></div><div class="q"><div class="qn">Question 10 of 10</div><div class="q-stem">Which section of a CAP Phase 3 findings report is most often written badly, and what does good look like?</div><div class="options"><button class="opt" data-q="10" data-ok="0" data-rat="Exhaustive asset listing belongs in the matrix. The scope statement names the entity, the CAGE code, the validated scope, and what falls outside." onclick="pick(this)"><span class="opt-letter">A</span><span>The scope statement &mdash; it should list every asset individually</span></button><button class="opt" data-q="10" data-ok="1" data-rat="The common failure is a finding that states a conclusion. A reader should be able to verify or overturn each finding without redoing the assessment." onclick="pick(this)"><span class="opt-letter">B</span><span>The findings &mdash; each should name the failing objective, the evidence examined, what was missing, and a severity</span></button><button class="opt" data-q="10" data-ok="0" data-rat="General description is padding. Methodology should state the methods used, the sampling approach and the depth and coverage values applied, and what was examined, tested, or established by interview." onclick="pick(this)"><span class="opt-letter">C</span><span>The methodology &mdash; it should describe the CAP in general terms</span></button><button class="opt" data-q="10" data-ok="0" data-rat="It should contain no remediation at all. The recommendation names which of the outcomes the CAP provides for you would recommend." onclick="pick(this)"><span class="opt-letter">D</span><span>The recommendation &mdash; it should set out a remediation roadmap</span></button></div><div class="rationale"></div></div><div class="kc-score" id="kcs">Answered 0 of 10</div></div></section><div class="pager"><a class="prev" href="lesson07.html"><span class="pager-dir">&larr; Previous</span><span class="pager-name">L7 — Scoring, SPRS & the Incident Clock</span></a><a class="next" href="lesson09.html"><span class="pager-dir">Next &rarr;</span><span class="pager-name">L9 — POA&M, Closeout & Credential Roadmap</span></a></div></main></div><footer>
+  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
+  <p class="foot-text">
+    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
+    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
+    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
+    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
+    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
+    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
+    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
+    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
+    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
+    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
+  </p>
+</footer>
+<script>
+function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
+ document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
+(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
+ document.documentElement.setAttribute('data-theme',t);
+ window.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
+</script>
+<script>
+var _tot=10,_done={},_right=0;
+function pick(b){var q=b.dataset.q;if(_done[q])return;_done[q]=1;
+ var box=b.closest('.q'),opts=box.querySelectorAll('.opt'),rat=box.querySelector('.rationale');
+ opts.forEach(function(o){o.disabled=true;if(o.dataset.ok==='1')o.classList.add('correct');});
+ if(b.dataset.ok==='1'){_right++;}else{b.classList.add('wrong');}
+ var correct=box.querySelector('.opt[data-ok="1"] span:last-child').textContent;
+ rat.innerHTML='<strong>'+(b.dataset.ok==='1'?'Correct.':'Not this one.')+'</strong> '+b.dataset.rat+
+   (b.dataset.ok==='1'?'':' <br><br><strong>The answer is:</strong> '+correct+' \u2014 '+
+    box.querySelector('.opt[data-ok="1"]').dataset.rat);
+ rat.classList.add('show');
+ var n=Object.keys(_done).length;
+ document.getElementById('kcs').textContent='Answered '+n+' of '+_tot+' \u2014 '+_right+' correct'+
+   (n===_tot?(_right===_tot?' \u2014 clean sweep.':' \u2014 review the rationales above.'):'');}
+</script></body></html>

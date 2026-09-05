@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A five-day, ten-session workshop preparing CCP and CCA candidates to scope, assess, score, report, and close out a CMMC Level 2 assessment on one threaded case study.">
+<title>CMMC Level 2 Assessor Preparation | 5-Day Workshop</title>
+<style>
+:root{
+  --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
+  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
+  --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
+  --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
+}
+[data-theme="dark"]{
+  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
+  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
+  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--body-bg);color:var(--text-primary);
+  line-height:1.65;transition:background .3s,color .3s}
+a{color:inherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+.nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.nav-seal{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.62rem;
+  color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+.nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:var(--text-primary);
+  letter-spacing:.08em;text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
+  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
+.theme-toggle:hover{background:var(--gold);color:#fff}
+/* HERO */
+.hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.05) 40px,rgba(18,35,58,.05) 41px)}
+.hero-eyebrow{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;position:relative}
+.hero h1{font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--text-primary);
+  line-height:1.15;max-width:860px;margin:0 auto 1rem;position:relative}
+.hero h1 span{color:var(--gold)}
+.hero-subtitle{font-family:Arial,sans-serif;font-size:1.05rem;color:var(--text-secondary);max-width:680px;
+  margin:0 auto 2rem;line-height:1.7;position:relative}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.85rem 2rem;border-radius:2px;position:relative;transition:background .2s,transform .15s}
+.hero-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+/* STATS */
+.stats-bar{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:1rem 2rem;display:flex;
+  justify-content:center;gap:0;flex-wrap:wrap}
+.stat-item{display:flex;align-items:center;gap:.5rem;padding:0 2rem;border-right:2px solid rgba(200,134,42,.35)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);line-height:1}
+.stat-label{font-family:Arial,sans-serif;font-size:.7rem;font-weight:700;color:var(--text-secondary);
+  letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+/* SECTIONS */
+.section{padding:4rem 2rem;max-width:1200px;margin:0 auto}
+.section-alt{background:var(--section-alt)}
+.section-eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.section-title{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  color:var(--text-primary);margin-bottom:.5rem;line-height:1.2}
+.section-desc{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);max-width:660px;
+  margin-bottom:2.5rem;line-height:1.7}
+.rule{width:48px;height:3px;background:var(--gold);margin:.75rem 0 1.5rem}
+/* NOTICE BANNER (available; unused by default) */
+.reg-banner{max-width:1200px;margin:2.5rem auto 0;padding:0 2rem}
+.reg-inner{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:3px;padding:1.1rem 1.35rem}
+.reg-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.4rem}
+.reg-head{font-family:Georgia,serif;font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:.4rem}
+.reg-body{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);line-height:1.65}
+.reg-verify{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);margin-top:.55rem;
+  letter-spacing:.03em}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
+.lesson-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.lesson-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.lesson-badge{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.75rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.domain-weight{font-family:Arial,sans-serif;font-size:.7rem;color:var(--text-muted);letter-spacing:.05em;
+  text-align:right;line-height:1.3}
+.domain-weight strong{display:block;font-size:1rem;color:var(--gold);font-family:'Arial Narrow',Arial,sans-serif;font-weight:900}
+.card-day-tag{font-family:Arial,sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.card-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.card-desc{font-family:Arial,sans-serif;font-size:.83rem;color:var(--text-secondary);line-height:1.65;flex:1}
+.card-thread{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5;
+  border-top:1px dashed var(--border);padding-top:.6rem}
+.card-thread strong{color:var(--gold);font-weight:700}
+.card-footer{border-top:1px solid var(--border);padding-top:.75rem;margin-top:auto}
+.launch-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px;transition:background .2s}
+.launch-btn:hover{background:var(--gold-light)}
+.launch-btn .arrow{font-size:1rem;transition:transform .15s}
+.launch-btn:hover .arrow{transform:translateX(3px)}
+.card-special .lesson-badge{background:var(--gold);color:#fff}
+.card-special::before{background:var(--navy)}
+/* RESOURCES */
+.resource-section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;
+  border-bottom:2px solid var(--border)}
+.resource-section-heading .rsh-icon{font-size:1.4rem;line-height:1}
+.resource-section-heading h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;
+  color:var(--text-primary);letter-spacing:.08em;text-transform:uppercase}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem;margin-bottom:3rem}
+.resource-card{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.35rem 1.4rem;
+  display:flex;flex-direction:column;gap:.6rem;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.resource-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.14);transform:translateY(-2px)}
+.rc-type{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:20px;padding:.15rem .6rem;width:fit-content}
+.rc-icon-title{display:flex;align-items:center;gap:.5rem}
+.rc-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
+.rc-title{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.rc-desc{font-family:Arial,sans-serif;font-size:.81rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.rc-covers{font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted);line-height:1.5}
+.rc-covers strong{color:var(--gold);font-weight:700}
+.resource-card .card-footer{border-top:1px solid var(--border);padding-top:.65rem;margin-top:auto}
+/* SCHEDULE */
+.schedule-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;grid-auto-rows:1fr}
+.day-col{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column}
+.day-header{background:var(--navy);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;
+  font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1rem;text-align:center}
+.day-theme{font-family:Arial,sans-serif;font-size:.65rem;color:#a3b6c9;letter-spacing:.06em;text-transform:uppercase;
+  padding:.4rem 1rem;background:var(--navy-mid);text-align:center}
+.day-lessons{padding:.75rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.day-lesson{display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:.6rem .7rem;
+  background:var(--section-alt);border-left:3px solid var(--gold);border-radius:0 2px 2px 0;flex:1;
+  text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.day-lesson:hover{background:var(--blue-pale);border-left-color:var(--navy-light)}
+.day-lesson:hover .day-lesson-name{color:var(--gold)}
+.day-lesson-num{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.day-lesson-name{font-family:Georgia,serif;font-size:.86rem;font-weight:700;color:var(--text-primary);line-height:1.25}
+.day-lesson-meta{font-family:Arial,sans-serif;font-size:.66rem;color:var(--text-muted)}
+.day-cap{font-family:Arial,sans-serif;font-size:.64rem;color:var(--text-muted);padding:.5rem .75rem .7rem;
+  border-top:1px dashed var(--border);line-height:1.45}
+.day-cap strong{color:var(--gold)}
+/* CAP PHASE BARS */
+.bar-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.bar-label{font-family:Arial,sans-serif;font-size:.8rem;color:var(--text-secondary);width:290px;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--section-alt);border:1px solid var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--gold);display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.72rem}
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem}
+.about-body p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+.about-body h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.5rem 0 .6rem}
+.facts-box{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;height:fit-content}
+.facts-box h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold)}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fact .fv{font-family:'Arial Narrow',Arial,sans-serif;font-size:1.35rem;font-weight:900;color:var(--gold);line-height:1}
+.fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-top:.2rem}
+/* FOOTER */
+footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
+.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
+.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+/* ---------- LESSON PAGES ---------- */
+.lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
+.toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
+  border-radius:4px;padding:1.1rem 1.2rem;max-height:calc(100vh - 110px);overflow-y:auto}
+.toc-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-primary);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold)}
+.toc ol{list-style:none;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem}
+.toc a{display:block;font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-secondary);text-decoration:none;
+  padding:.28rem .4rem;border-radius:2px;line-height:1.4;border-left:2px solid transparent}
+.toc a::before{content:counter(toc) ". ";color:var(--gold);font-weight:700}
+.toc a:hover{background:var(--blue-pale);color:var(--gold);border-left-color:var(--gold)}
+.lhero{background:var(--blue-pale);border-bottom:3px solid var(--gold);padding:2.5rem 2rem}
+.lhero-in{max-width:1200px;margin:0 auto}
+.eyebrow{font-family:Arial,sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.lhero h1{font-family:Georgia,serif;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;line-height:1.2;max-width:860px}
+.lead{font-family:Arial,sans-serif;font-size:.95rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-top:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.7rem;letter-spacing:.05em;color:var(--text-secondary);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:.25rem .8rem}
+.meta-chip strong{color:var(--gold)}
+h2.h{font-family:Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--text-primary);line-height:1.25;margin-bottom:.2rem}
+.content-section{margin-bottom:3rem;scroll-margin-top:80px}
+.content-section p{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-secondary);line-height:1.85;margin-bottom:1rem}
+.content-section h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.7rem 0 .7rem}
+.content-section ul,.content-section ol{margin:0 0 1.1rem 1.3rem}
+.content-section li{font-family:Arial,sans-serif;font-size:.88rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.4rem}
+.content-section strong{color:var(--text-primary)}
+.cs-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:.4rem}
+.cs-num{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.9rem;color:var(--gold);line-height:1;flex-shrink:0}
+/* TABLES */
+.tw{overflow-x:auto;margin:1.1rem 0 1.4rem;border:1px solid var(--border);border-radius:4px;background:var(--card-bg)}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th{background:var(--navy);color:#fff;font-family:Arial,sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:.6rem .8rem}
+td{font-family:Arial,sans-serif;font-size:.82rem;color:var(--text-secondary);padding:.6rem .8rem;
+  border-top:1px solid var(--border);line-height:1.6;vertical-align:top}
+tbody tr:nth-child(even){background:var(--section-alt)}
+td strong{color:var(--text-primary)}
+/* CALLOUTS */
+.tip,.in-practice,.warnbox{border-radius:3px;padding:1rem 1.2rem;margin:1.2rem 0}
+.tip{background:var(--gold-pale);border:1px solid var(--gold);border-left:5px solid var(--gold)}
+.tip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);margin-bottom:.35rem}
+.in-practice{background:var(--blue-pale);border:1px solid var(--blue-pale-border);border-left:5px solid var(--navy-light)}
+.ip-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--navy-light);margin-bottom:.35rem}
+.warnbox{background:var(--card-bg);border:1px solid var(--bad);border-left:5px solid var(--bad)}
+.warn-label{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:.35rem}
+.tip p,.in-practice p,.warnbox p{font-family:Arial,sans-serif;font-size:.85rem;line-height:1.75;margin:0 0 .6rem}
+.tip p:last-child,.in-practice p:last-child,.warnbox p:last-child{margin-bottom:0}
+/* OBJECTIVES */
+.obj-list{list-style:none;margin:0!important}
+.obj-list li{display:flex;gap:.8rem;align-items:flex-start;background:var(--card-bg);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem .95rem;margin-bottom:.6rem}
+.obj-tag{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--navy);color:#fff;border-radius:2px;padding:.18rem .5rem;flex-shrink:0;margin-top:.15rem}
+/* VOCAB FLIP */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.9rem;margin:1.2rem 0}
+.flip-card{background:transparent;height:170px;perspective:1000px;cursor:pointer;border:none;padding:0;font:inherit;text-align:left}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;
+  padding:.9rem 1rem;display:flex;flex-direction:column;justify-content:center;background:var(--card-bg);overflow:auto}
+.flip-back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy)}
+.vocab-term{font-family:Georgia,serif;font-size:.95rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.vocab-def{font-family:Arial,sans-serif;font-size:.76rem;color:#e8eef5;line-height:1.6}
+.flip-hint{font-family:Arial,sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-muted);margin-top:.6rem}
+/* DIAGRAM */
+.diagram{background:var(--card-bg);border:1px solid var(--border);border-radius:4px;padding:1.3rem;margin:1.3rem 0;overflow-x:auto}
+.diagram figcaption{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-muted);margin-top:.8rem;line-height:1.6}
+/* CASE BLOCK */
+.case{background:var(--navy);border-radius:5px;padding:1.6rem 1.8rem;margin:2rem 0;border-left:6px solid var(--gold)}
+.case-tag{font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem}
+.case h3{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.7rem;line-height:1.3}
+.case p{font-family:Arial,sans-serif;font-size:.86rem;color:#c8d6e4;line-height:1.8;margin-bottom:.9rem}
+.case ul{margin:0 0 1rem 1.2rem}
+.case li{font-family:Arial,sans-serif;font-size:.85rem;color:#c8d6e4;line-height:1.75;margin-bottom:.35rem}
+.case strong{color:#fff}
+.case-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.18)}
+.case-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;text-decoration:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.55rem 1.1rem;border-radius:2px}
+.case-btn:hover{background:var(--gold-light)}
+.case-btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.case-btn.ghost:hover{background:var(--gold);color:#fff}
+/* KNOWLEDGE CHECK */
+.kc{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.6rem 1.8rem;margin-top:1.2rem}
+.q{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem}
+.q:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.qn{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.q-stem{font-family:Arial,sans-serif;font-size:.9rem;color:var(--text-primary);line-height:1.75;margin-bottom:.8rem;font-weight:600}
+.options{display:flex;flex-direction:column;gap:.45rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;background:var(--section-alt);border:1px solid var(--border);
+  border-radius:3px;padding:.6rem .8rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.84rem;
+  color:var(--text-secondary);line-height:1.6;text-align:left;transition:background .15s,border-color .15s;width:100%}
+.opt:hover:not(:disabled){background:var(--blue-pale);border-color:var(--navy-light)}
+.opt:disabled{cursor:default}
+.opt-letter{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;color:var(--gold);flex-shrink:0}
+.opt.correct{background:rgba(47,111,79,.14);border-color:var(--ok)}
+.opt.correct .opt-letter{color:var(--ok)}
+.opt.wrong{background:rgba(157,52,39,.12);border-color:var(--bad)}
+.opt.wrong .opt-letter{color:var(--bad)}
+.rationale{display:none;margin-top:.7rem;background:var(--blue-pale);border-left:4px solid var(--navy-light);
+  border-radius:0 3px 3px 0;padding:.75rem .95rem;font-family:Arial,sans-serif;font-size:.82rem;
+  color:var(--text-secondary);line-height:1.75}
+.rationale.show{display:block}
+.rationale strong{color:var(--text-primary)}
+.kc-score{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.9rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-top:1.4rem;padding-top:1rem;border-top:2px solid var(--gold)}
+/* PAGER */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.pager a{display:flex;flex-direction:column;gap:.15rem;text-decoration:none;background:var(--card-bg);
+  border:1px solid var(--border);border-radius:4px;padding:.8rem 1.2rem;flex:1;max-width:47%;transition:border-color .2s}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager-dir{font-family:Arial,sans-serif;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pager-name{font-family:Georgia,serif;font-size:.9rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+/* TOOL PAGES */
+.tool-main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.panel{background:var(--card-bg);border:1px solid var(--border);border-radius:5px;padding:1.5rem 1.7rem;margin-bottom:1.5rem}
+.panel h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+.panel h3{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.95rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-primary);margin:1.4rem 0 .6rem}
+.panel p{font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary);line-height:1.8;margin-bottom:.8rem}
+.panel ul{margin:0 0 1rem 1.3rem}
+.panel li{font-family:Arial,sans-serif;font-size:.85rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.35rem}
+label{display:block;font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.3rem}
+input[type=text],textarea,select{width:100%;font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-primary);
+  background:var(--body-bg);border:1px solid var(--border);border-radius:3px;padding:.5rem .65rem;line-height:1.6}
+textarea{min-height:74px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:#fff;border:none;
+  font-family:Arial,sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--gold-light)}
+.btn.secondary{background:var(--navy)}
+.btn.secondary:hover{background:var(--navy-light)}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#fff}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.verdict{display:none;margin-top:1rem;border-radius:3px;padding:1rem 1.2rem;font-family:Arial,sans-serif;
+  font-size:.85rem;line-height:1.75;border-left:5px solid var(--navy-light);background:var(--blue-pale);
+  border:1px solid var(--blue-pale-border);border-left-width:5px}
+.verdict.show{display:block}
+.verdict h4{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.8rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy-light);margin-bottom:.4rem}
+.verdict.good{background:rgba(47,111,79,.12);border-color:var(--ok)}
+.verdict.good h4{color:var(--ok)}
+.verdict.bad{background:rgba(157,52,39,.1);border-color:var(--bad)}
+.verdict.bad h4{color:var(--bad)}
+.pill{display:inline-block;font-family:Arial,sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;border-radius:20px;padding:.15rem .6rem;border:1px solid var(--border);color:var(--text-muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.no{color:var(--bad);border-color:var(--bad)}
+.pill.mid{color:var(--warn);border-color:var(--warn)}
+.savebar{position:sticky;bottom:0;background:var(--card-bg);border-top:2px solid var(--gold);padding:.7rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
+.savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
+@media print{
+  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  body{background:#fff}
+  .panel,.tw,.kc{break-inside:avoid}
+}
+@media (max-width:980px){
+  .lwrap{grid-template-columns:1fr;padding:2rem 1.2rem 3rem}
+  .toc{position:static;max-height:none}
+  .schedule-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .bar-label{width:150px;font-size:.72rem}
+}
+@media (max-width:560px){
+  .schedule-grid{grid-template-columns:1fr}
+  nav{padding:0 1rem}
+  .section{padding:2.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-seal">CMMC<br>L2</div>
+    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
+    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">&#9670; CMMC Level 2 &middot; CCP and CCA Preparation &#9670;</div>
+  <h1>Assess a Real Company in <span>Five Days</span></h1>
+  <p class="hero-subtitle">Ten sessions, fourteen domains, one defense contractor carried end to end &mdash;
+    scoped, evidenced, determined, scored, assessed, reported, and closed out. Then thirty minutes on a company
+    you have never seen.</p>
+  <a class="hero-cta" href="#lessons">Begin the Workshop &#9660;</a>
+</header>
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">5</span><span class="stat-label">Days</span></div>
+  <div class="stat-item"><span class="stat-num">10</span><span class="stat-label">Sessions</span></div>
+  <div class="stat-item"><span class="stat-num">110</span><span class="stat-label">Requirements</span></div>
+  <div class="stat-item"><span class="stat-num">320</span><span class="stat-label">Objectives</span></div>
+  <div class="stat-item"><span class="stat-num">14</span><span class="stat-label">Domains</span></div>
+  <div class="stat-item"><span class="stat-num">9</span><span class="stat-label">Case Tools</span></div>
+</div>
+<section class="section" id="lessons">
+  <div class="section-eyebrow">Workshop Content</div>
+  <h2 class="section-title">Ten Sessions. One Company. Four CAP Phases.</h2>
+  <div class="rule"></div>
+  <p class="section-desc">Each session carries learning objectives, key terminology, a full content outline with
+    exam-tip callouts, a Meridian segment executed in a purpose-built tool, and a scored knowledge check with
+    per-option rationale. Begin at Lesson 0 for the orientation and the assessor mindset.</p>
+  <div class="card-grid"><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 0</span></div>
+  <span class="card-day-tag">Day 1 &mdash; Morning</span>
+  <h3 class="card-title">CMMC Orientation and the Assessor Mindset</h3>
+  <p class="card-desc">CMMC is not a cybersecurity test &mdash; it is a conformity regime. The ecosystem, the three levels, the credential pathway, and the change of role everything else depends on.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Meet Meridian; read the solicitation</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson00.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 1</span><div class="domain-weight"><strong>CCP 5% + 15%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 1 &mdash; Afternoon</span>
+  <h3 class="card-title">The Compliance Landscape and the CMMC Ecosystem</h3>
+  <p class="card-desc">How a NIST publication became something that can cost a company a contract. Nine links from EO 13556 to a clause in a live solicitation &mdash; and how to tell a policy announcement from an instrument that actually
+  changes what a contractor owes.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Clause Trace tool &middot; D1</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson01.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 2</span><div class="domain-weight"><strong>CCP 15%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 2 &mdash; Morning</span>
+  <h3 class="card-title">FCI, CUI, and the Regulatory Stack</h3>
+  <p class="card-desc">The determination everything downstream depends on. Two definitions, the NARA Registry used properly, DFARS 252.204-7012 clause by clause, and a contractor's own inventory audited against the authorities.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> CUI Determination tool &middot; D2</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson02.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 3</span><div class="domain-weight"><strong>CCP 5% + 25%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 2 &mdash; Afternoon</span>
+  <h3 class="card-title">Ethics, Independence, and Assessment Planning</h3>
+  <p class="card-desc">Where you stop being a practitioner. Eight principles as decision rules, the three-year bar stated precisely, and a CAP Phase 1 that may correctly conclude the engagement cannot proceed.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Engagement &amp; Ethics Gate &middot; D3</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson03.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 4</span><div class="domain-weight"><strong>CCA 20%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 3 &mdash; Morning</span>
+  <h3 class="card-title">Scoping and Asset Categorization</h3>
+  <p class="card-desc">The highest-leverage decision an assessor makes. Five categories, two of them conditional and both earned rather than claimed &mdash; which decides almost every contested call in the environment.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Scope &amp; Asset Matrix &middot; D4</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson04.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 5</span><div class="domain-weight"><strong>CCP 35% / CCA 40%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 3 &mdash; Afternoon</span>
+  <h3 class="card-title">Evidence: Adequacy, Sufficiency, and Collection</h3>
+  <p class="card-desc">The conceptual hinge. The gap between having a document and doing the thing &mdash; five real artifacts evaluated, including one that is excellent evidence and still does not carry the requirement.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Evidence Triage tool &middot; D5</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson05.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 6</span><div class="domain-weight"><strong>CCP 35% / CCA 40%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 4 &mdash; Morning</span>
+  <h3 class="card-title">Assessing the Fourteen Domains</h3>
+  <p class="card-desc">Determinations at the objective level across fourteen families, each with its characteristic small-contractor failure &mdash; and two gaps the company has mapped to the wrong requirement.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Domain Determination Worksheet &middot; D6</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson06.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 7</span><div class="domain-weight"><strong>110 to &minus;203</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 4 &mdash; Afternoon</span>
+  <h3 class="card-title">Scoring, SPRS, and the Incident Clock</h3>
+  <p class="card-desc">Determinations become a number that a named official affirms under penalty. The weighting, the two partial-credit exceptions, and an account that should not exist authenticating four times.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> SPRS Calculator &middot; D7</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson07.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 8</span><div class="domain-weight"><strong>CCP 25% / CCA 25%+15%</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 5 &mdash; Morning</span>
+  <h3 class="card-title">Conducting the Assessment and Reporting Findings</h3>
+  <p class="card-desc">The summative session. Nine documents, six interview personas, two incidents, and a chief executive who will ask you, warmly and reasonably, to tell her what she needs to do.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> Full mock assessment &middot; D8</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson08.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card">
+  <div class="card-header"><span class="lesson-badge">L 9</span><div class="domain-weight"><strong>Closes CCP blueprint</strong>exam weight</div></div>
+  <span class="card-day-tag">Day 5 &mdash; Afternoon</span>
+  <h3 class="card-title">POA&amp;M, Closeout, and What You Do Next</h3>
+  <p class="card-desc">CAP Phase 4, a POA&amp;M whose cheapest items are absolute barriers, a cold thirty-minute transfer test on a company you have never seen, and a credential roadmap with dates on it.</p>
+  <p class="card-thread"><strong>Thread &rarr;</strong> POA&amp;M Builder + transfer test &middot; D9</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson09.html">Launch Lesson <span class="arrow">&rarr;</span></a></div>
+</article><article class="lesson-card card-special">
+  <div class="card-header"><span class="lesson-badge">Bonus</span>
+  <div class="domain-weight"><strong>Faculty PD</strong>Not part of the 5-day sequence</div></div>
+  <h3 class="card-title">Teaching CMMC &mdash; Faculty and Facilitator Guide</h3>
+  <p class="card-desc">You have worked the material; this is how to deploy it. Three delivery models, the facilitation moments that make or break each session, the competency rubric, the instruments that must be issued cold, and the maintenance obligation that comes with teaching a subject in active regulatory flux.</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson10.html">Open Guide <span class="arrow">&rarr;</span></a></div>
+</article></div>
+</section>
+<div class="section-alt"><section class="section" id="thread">
+  <div class="section-eyebrow">The Threaded Case Study</div>
+  <h2 class="section-title">Meridian Precision Defense Systems, Carried End to End</h2>
+  <div class="rule"></div>
+  <p class="section-desc">One fictional 147-person precision manufacturer in Dayton, Ohio, with a second site in
+    Huntsville, Alabama, holding three DoD contracts worth $17.9M &mdash; an Army AMCOM prime, a Raytheon
+    subcontract, and a NAVAIR SBIR. All three carry DFARS 252.204-7012. It has a CISO, ten written policies, a
+    System Security Plan, an accurate network diagram, and cloud done properly in GCC High and AWS GovCloud. It also
+    has three subnets routing freely through one switch, an MSP holding standing domain admin under a month-to-month
+    agreement, six VPN accounts belonging to people who left, and no asset inventory at all. Every session closes
+    with a segment of its assessment, executed in a tool rather than on paper. By Friday afternoon you have run a
+    complete Level 2 assessment on it.</p>
+  <div class="tw"><table>
+    <thead><tr><th style="width:70px">Session</th><th>What you do to Meridian</th><th style="width:34%">Where you do it</th></tr></thead>
+    <tbody><tr><td><strong>L0</strong></td><td>Meet the company; read the solicitation</td><td><a href="meridian.html" style="color:var(--gold);font-weight:700">Case workbench &mdash; Overview &rarr;</a></td></tr><tr><td><strong>L1</strong></td><td>Trace the clause chain to the contract</td><td><a href="clause-trace.html" style="color:var(--gold);font-weight:700">Clause Trace tool &rarr;</a></td></tr><tr><td><strong>L2</strong></td><td>Sort the data inventory: FCI / CUI / neither</td><td><a href="cui-determination.html" style="color:var(--gold);font-weight:700">CUI Determination tool &rarr;</a></td></tr><tr><td><strong>L3</strong></td><td>Rule on the engagement; declare every conflict</td><td><a href="ethics-gate.html" style="color:var(--gold);font-weight:700">Engagement &amp; Ethics Gate &rarr;</a></td></tr><tr><td><strong>L4</strong></td><td>Categorize every asset; draw the boundary</td><td><a href="scope-matrix.html" style="color:var(--gold);font-weight:700">Scope &amp; Asset Matrix &rarr;</a></td></tr><tr><td><strong>L5</strong></td><td>Triage five artifacts; build the request list</td><td><a href="evidence-triage.html" style="color:var(--gold);font-weight:700">Evidence Adequacy Triage &rarr;</a></td></tr><tr><td><strong>L6</strong></td><td>Render objective-level determinations</td><td><a href="domain-worksheet.html" style="color:var(--gold);font-weight:700">Domain Determination Worksheet &rarr;</a></td></tr><tr><td><strong>L7</strong></td><td>Compute the score; rule on the incident</td><td><a href="sprs-calculator.html" style="color:var(--gold);font-weight:700">SPRS Score Calculator &rarr;</a></td></tr><tr><td><strong>L8</strong></td><td>Two-day mock assessment; interviews; findings</td><td><a href="meridian.html" style="color:var(--gold);font-weight:700">Case workbench &mdash; full package &rarr;</a></td></tr><tr><td><strong>L9</strong></td><td>POA&amp;M and closeout, then the cold transfer test</td><td><a href="poam-builder.html" style="color:var(--gold);font-weight:700">POA&amp;M Builder &middot; Acuitas &rarr;</a></td></tr></tbody></table></div>
+  <div class="in-practice" style="margin-top:1.5rem"><div class="ip-label">And then the honest test</div>
+    <p>Day 5 afternoon closes with <strong>Acuitas Machining</strong> &mdash; fourteen people, no server, no domain,
+    a commercial cloud tenant that fails the FedRAMP question outright, and three CNC controllers that retain CUI
+    for months. It is a sub-tier supplier inside Meridian's own supply chain, it is issued cold, and you get thirty
+    minutes. Four days inside one company produces a real risk: learning Meridian rather than learning a method.
+    This is the only instrument that tells the two apart.</p></div>
+</section></div>
+<section class="section" id="schedule">
+  <div class="section-eyebrow">Workshop Schedule</div>
+  <h2 class="section-title">Five Days, Morning and Afternoon</h2>
+  <div class="rule"></div>
+  <p class="section-desc">Two sessions per day, roughly three hours each, with built-in knowledge checks and a
+    case-study segment in every one. Thirty contact hours in total.</p>
+  <div class="schedule-grid"><div class="day-col"><div class="day-header">Day 1</div>
+  <div class="day-theme">Foundations</div>
+  <div style="padding:.7rem .85rem 0"><ul style="margin:0 0 0 1rem;padding:0"><li>Understand what CMMC is and who governs which part of it</li><li>Trace the chain from a 2010 executive order to a clause in a live solicitation</li></ul></div>
+  <div class="day-lessons"><a class="day-lesson" href="lesson00.html"><span class="day-lesson-num">Lesson 0 &mdash; AM</span><span class="day-lesson-name">Orientation &amp; the Assessor Mindset</span><span class="day-lesson-meta">&#128340; ~3 hrs</span></a><a class="day-lesson" href="lesson01.html"><span class="day-lesson-num">Lesson 1 &mdash; PM</span><span class="day-lesson-name">Compliance Landscape &amp; Ecosystem</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCP 5%+15%</span></a></div>
+  <div class="day-cap">Thread: <strong>meet Meridian</strong>, then trace the clause</div></div><div class="day-col"><div class="day-header">Day 2</div>
+  <div class="day-theme">Information &amp; Independence</div>
+  <div style="padding:.7rem .85rem 0"><ul style="margin:0 0 0 1rem;padding:0"><li>Determine what is FCI, what is CUI, and what is neither &mdash; cited to the Registry</li><li>Apply the CoPC and run CAP Phase 1, including deciding the engagement cannot proceed</li></ul></div>
+  <div class="day-lessons"><a class="day-lesson" href="lesson02.html"><span class="day-lesson-num">Lesson 2 &mdash; AM</span><span class="day-lesson-name">FCI, CUI &amp; the Regulatory Stack</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCP 15%</span></a><a class="day-lesson" href="lesson03.html"><span class="day-lesson-num">Lesson 3 &mdash; PM</span><span class="day-lesson-name">Ethics, Independence &amp; Planning</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCP 5%+25%</span></a></div>
+  <div class="day-cap">Thread: <strong>CUI determination</strong>, then the ethics gate</div></div><div class="day-col"><div class="day-header">Day 3</div>
+  <div class="day-theme">Scope &amp; Proof</div>
+  <div style="padding:.7rem .85rem 0"><ul style="margin:0 0 0 1rem;padding:0"><li>Categorize every asset and draw a boundary that survives a hostile reader</li><li>Separate adequacy from sufficiency on artifacts that arrive exactly as they are</li></ul></div>
+  <div class="day-lessons"><a class="day-lesson" href="lesson04.html"><span class="day-lesson-num">Lesson 4 &mdash; AM</span><span class="day-lesson-name">Scoping &amp; Asset Categorization</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCA 20%</span></a><a class="day-lesson" href="lesson05.html"><span class="day-lesson-num">Lesson 5 &mdash; PM</span><span class="day-lesson-name">Evidence: Adequacy &amp; Sufficiency</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCP 35%</span></a></div>
+  <div class="day-cap">Thread: <strong>asset matrix</strong>, then evidence triage</div></div><div class="day-col"><div class="day-header">Day 4</div>
+  <div class="day-theme">Determination &amp; Score</div>
+  <div style="padding:.7rem .85rem 0"><ul style="margin:0 0 0 1rem;padding:0"><li>Render objective-level determinations across the fourteen domains</li><li>Compute a DoD Assessment score and rule on a live incident</li></ul></div>
+  <div class="day-lessons"><a class="day-lesson" href="lesson06.html"><span class="day-lesson-num">Lesson 6 &mdash; AM</span><span class="day-lesson-name">Assessing the Fourteen Domains</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; CCA 40%</span></a><a class="day-lesson" href="lesson07.html"><span class="day-lesson-num">Lesson 7 &mdash; PM</span><span class="day-lesson-name">Scoring, SPRS &amp; the Incident Clock</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; 110 to &minus;203</span></a></div>
+  <div class="day-cap">Thread: <strong>domain worksheet</strong>, then the SPRS calculator</div></div><div class="day-col"><div class="day-header">Day 5</div>
+  <div class="day-theme">Assess, Report, Close</div>
+  <div style="padding:.7rem .85rem 0"><ul style="margin:0 0 0 1rem;padding:0"><li>Run a full Level 2 assessment under time pressure and write defensible findings</li><li>Close it out &mdash; then scope a company you have never seen, in thirty minutes</li></ul></div>
+  <div class="day-lessons"><a class="day-lesson" href="lesson08.html"><span class="day-lesson-num">Lesson 8 &mdash; AM</span><span class="day-lesson-name">Conducting the Assessment &amp; Reporting</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; mock assessment</span></a><a class="day-lesson" href="lesson09.html"><span class="day-lesson-num">Lesson 9 &mdash; PM</span><span class="day-lesson-name">POA&amp;M, Closeout &amp; Roadmap</span><span class="day-lesson-meta">&#128340; ~3 hrs &middot; transfer test</span></a></div>
+  <div class="day-cap">Thread: <strong>the mock assessment</strong>, then Acuitas cold</div></div></div>
+</section>
+<div class="section-alt"><section class="section" id="cap">
+  <div class="section-eyebrow">Assessment Process</div>
+  <h2 class="section-title">The Week Follows the CAP</h2>
+  <div class="rule"></div>
+  <p class="section-desc">The workshop sequence and the assessment sequence are the same sequence. Bars show the
+    approximate share of workshop time given to each stage of the CMMC Assessment Process v2.0 &mdash; Phase 2,
+    where conformity is actually assessed, carries the most, which matches its weight on both exams.</p>
+  <div class="bar-row"><div class="bar-label">Preliminary proceedings &mdash; conflicts, contract<br><span style="color:var(--text-muted);font-size:.72rem">Day 2 PM</span></div><div class="bar-track"><div class="bar-fill" style="width:30.800000000000004%">14%</div></div></div><div class="bar-row"><div class="bar-label">Phase 1 &mdash; Conduct the Pre-Assessment<br><span style="color:var(--text-muted);font-size:.72rem">Day 2 PM &ndash; Day 3 AM</span></div><div class="bar-track"><div class="bar-fill" style="width:48.400000000000006%">22%</div></div></div><div class="bar-row"><div class="bar-label">Phase 2 &mdash; Assess Conformity to Requirements<br><span style="color:var(--text-muted);font-size:.72rem">Day 3 PM &ndash; Day 5 AM</span></div><div class="bar-track"><div class="bar-fill" style="width:88.0%">40%</div></div></div><div class="bar-row"><div class="bar-label">Phase 3 &mdash; Complete and Report Results<br><span style="color:var(--text-muted);font-size:.72rem">Day 5 AM</span></div><div class="bar-track"><div class="bar-fill" style="width:26.400000000000002%">12%</div></div></div><div class="bar-row"><div class="bar-label">Phase 4 &mdash; Certificate and Closeout POA&amp;M<br><span style="color:var(--text-muted);font-size:.72rem">Day 5 PM</span></div><div class="bar-track"><div class="bar-fill" style="width:26.400000000000002%">12%</div></div></div>
+</section></div>
+<section class="section" id="resources">
+  <div class="section-eyebrow">Workshop Tools</div>
+  <h2 class="section-title">Nine Tools, One Case, Every Deliverable</h2>
+  <div class="rule"></div>
+  <p class="section-desc">Each tool executes one segment of the Meridian assessment, checks your work against
+    the governing authority with the reasoning exposed, saves in your browser, and prints to PDF. Facilitators
+    teaching this material should start with the Faculty PD guide.</p>
+  <div class="resource-section-heading"><span class="rsh-icon">&#9881;&#65039;</span><h3>Threaded Case Tools</h3></div><div class="resource-grid"><article class="resource-card">
+  <span class="rc-type">Tool &middot; D1</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128279;</span><span class="rc-title">Clause Trace</span></div>
+  <p class="rc-desc">Build the nine-link chain from EO 13556 to the clause in Meridian's solicitation, then answer the three questions D1 asks. Checks your citations against the authorities and prints as a regulatory trace memo.</p>
+  <p class="rc-covers"><strong>Covers:</strong> 9 links &middot; Primary sources &middot; Level determination &middot; Print to PDF</p>
+  <div class="card-footer"><a class="launch-btn" href="clause-trace.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D2</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128269;</span><span class="rc-title">CUI Determination</span></div>
+  <p class="rc-desc">Six information types, six company classifications, and your determination on each &mdash; category, marking, Basic or Specified, and the authority. Names the kind of error where the company is wrong.</p>
+  <p class="rc-covers"><strong>Covers:</strong> NARA Registry &middot; FCI vs CUI &middot; Error typing &middot; Open items</p>
+  <div class="card-footer"><a class="launch-btn" href="cui-determination.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D3</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#9878;&#65039;</span><span class="rc-title">Engagement &amp; Ethics Gate</span></div>
+  <p class="rc-desc">Every conflict in the engagement packet, dispositioned as disclose, mitigate, or avoid with the deciding party named &mdash; plus the eight CoPC scenarios and the Phase 1 readiness call.</p>
+  <p class="rc-covers"><strong>Covers:</strong> CoPC &middot; Three-year bar &middot; CAP Phase 1 &middot; Readiness</p>
+  <div class="card-footer"><a class="launch-btn" href="ethics-gate.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D4</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128506;&#65039;</span><span class="rc-title">Scope &amp; Asset Matrix</span></div>
+  <p class="rc-desc">Every asset categorized against the defining test, with the boundary, the ESP and CSP analysis, flowdown, and the open items. Checks the five contested calls and the conditional-category trap.</p>
+  <p class="rc-covers"><strong>Covers:</strong> 5 categories &middot; ESP vs CSP &middot; CRM &middot; Flowdown</p>
+  <div class="card-footer"><a class="launch-btn" href="scope-matrix.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D5</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128300;</span><span class="rc-title">Evidence Adequacy Triage</span></div>
+  <p class="rc-desc">Five artifacts exactly as supplied. Name the objective, render adequate / sufficient / both / neither, and say what would change the verdict &mdash; the clause the tool will not let you skip.</p>
+  <p class="rc-covers"><strong>Covers:</strong> Adequacy &middot; Sufficiency &middot; Methods &middot; Request list</p>
+  <div class="card-footer"><a class="launch-btn" href="evidence-triage.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D6</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#9989;</span><span class="rc-title">Domain Determination Worksheet</span></div>
+  <p class="rc-desc">Fifteen requirements decomposed into assessment objectives, with the evidence attached. Determine each objective, cite the evidence, and argue the two gaps mapped to the wrong requirement.</p>
+  <p class="rc-covers"><strong>Covers:</strong> Objective level &middot; MET / NOT MET / N/A &middot; Mapping disputes</p>
+  <div class="card-footer"><a class="launch-btn" href="domain-worksheet.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D7</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128290;</span><span class="rc-title">SPRS Score Calculator</span></div>
+  <p class="rc-desc">Fourteen gap lines, live running total, and the eligibility threshold moving against you. Flags the 3.5.3 trap, the three mapping disputes, and the practice that does not exist in Rev 2 at all.</p>
+  <p class="rc-covers"><strong>Covers:</strong> 5/3/1 weighting &middot; Partial credit &middot; 0.8 threshold &middot; Floor at &minus;203</p>
+  <div class="card-footer"><a class="launch-btn" href="sprs-calculator.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Tool &middot; D9</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128203;</span><span class="rc-title">POA&amp;M Builder</span></div>
+  <p class="rc-desc">Eligibility first: the threshold, then the six that may never be deferred. Refuses an ineligible deferral and says why. Then milestones, owners, dates, closeout, and sustainment.</p>
+  <p class="rc-covers"><strong>Covers:</strong> &sect;170.21 &middot; The six &middot; 180-day window &middot; Affirmation</p>
+  <div class="card-footer"><a class="launch-btn" href="poam-builder.html">Open <span class="arrow">&rarr;</span></a></div>
+</article></div><div class="resource-section-heading"><span class="rsh-icon">&#129514;</span><h3>Case Study &amp; Assessment</h3></div><div class="resource-grid"><article class="resource-card">
+  <span class="rc-type">Case Study</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#127981;</span><span class="rc-title">Meridian Precision Defense Systems &mdash; Case Workbench</span></div>
+  <p class="rc-desc">The company that carries all five days. Environment briefing, eleven practitioner documents, six interview personas, two incidents, and a save-and-restore workspace. The Day 5 mock assessment runs here.</p>
+  <p class="rc-covers"><strong>Covers:</strong> 147 people &middot; 2 sites &middot; 2 contracts &middot; 11 documents &middot; 6 interviews</p>
+  <div class="card-footer"><a class="launch-btn" href="meridian.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Transfer Test</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#9201;&#65039;</span><span class="rc-title">Acuitas Machining &mdash; Cold Scope</span></div>
+  <p class="rc-desc">Thirty minutes, timed, on a company you have never seen &mdash; a supplier inside Meridian's own supply chain. Eight assets, three questions. The determination key opens when the timer stops.</p>
+  <p class="rc-covers"><strong>Covers:</strong> Timed &middot; Cold &middot; Flowdown &middot; OT asset &middot; Two ESPs</p>
+  <div class="card-footer"><a class="launch-btn" href="transfer-test.html">Open <span class="arrow">&rarr;</span></a></div>
+</article><article class="resource-card">
+  <span class="rc-type">Reference</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128424;&#65039;</span><span class="rc-title">Exam-Day One-Pager</span></div>
+  <p class="rc-desc">One printable page of the highest-yield material: the three-part standard, adequacy versus sufficiency, the five categories with their conditions, the scoring weights and both exceptions, and the six that may never be deferred.</p>
+  <p class="rc-covers"><strong>Covers:</strong> Printable &middot; Cram sheet &middot; Thresholds &middot; Trap patterns</p>
+  <div class="card-footer"><a class="launch-btn" href="onepager.html">Open <span class="arrow">&rarr;</span></a></div>
+</article></div><div class="resource-section-heading"><span class="rsh-icon">&#127891;</span><h3>For Facilitators</h3></div><div class="resource-grid"><article class="resource-card">
+  <span class="rc-type">Faculty PD</span>
+  <div class="rc-icon-title"><span class="rc-icon">&#128218;</span><span class="rc-title">Teaching CMMC &mdash; Facilitator Guide</span></div>
+  <p class="rc-desc">Three delivery models, the facilitation moments that make or break each session, the competency rubric, the three instruments that must be issued cold, and the standing obligation to re-verify the regulatory position within seven days of any run.</p>
+  <p class="rc-covers"><strong>Covers:</strong> Delivery models &middot; Facilitation &middot; Rubric &middot; Maintenance</p>
+  <div class="card-footer"><a class="launch-btn" href="lesson10.html">Open <span class="arrow">&rarr;</span></a></div>
+</article></div>
+</section>
+<div class="section-alt"><section class="section" id="about">
+  <div class="section-eyebrow">About This Workshop</div>
+  <h2 class="section-title">Built for the Work, Not Only the Exam</h2>
+  <div class="rule"></div>
+  <div class="about-grid">
+    <div class="about-body">
+      <h4>Who this is for</h4>
+      <p>Compliance officers, IT and security leads at defense industrial base contractors, Registered
+        Practitioners and RPO staff, and candidates for the ISACA <strong>CCP</strong> and <strong>CCA</strong>
+        credentials. It assumes three or more years of IT or security experience and basic familiarity with the
+        DFARS. It does not assume you have ever conducted an assessment.</p>
+      <h4>How it differs from exam-only training</h4>
+      <p>An exam-only course teaches you the model. This one teaches you to render a determination you can defend
+        when the company that dislikes it pushes back. You will spend five days finding problems in a company and
+        never once being permitted to fix one &mdash; that constraint is the subject, not an inconvenience.</p>
+      <h4>How to use it</h4>
+      <p>Work the sessions in order; each depends on the one before it, and the tools carry state forward. Complete
+        the Meridian segment before moving on &mdash; the Day 5 mock assessment assumes you have. Do not read
+        ahead to the Acuitas transfer test; a student who has seen it beforehand has taken a different test.</p>
+      <h4>On sources</h4>
+      <p>Requirements are stated from primary sources and cited to part, section, or clause: 32 CFR Part 170,
+        32 CFR Part 2002, FAR 52.204-21, the DFARS 252.204 clause family, NIST SP 800-171 Rev 2 and SP 800-171A,
+        the CMMC Assessment Process v2.0, the Code of Professional Conduct v2.0, and the NARA CUI Registry. Where a
+        fact could not be verified &mdash; the CCP and CCA exam duration and passing scores &mdash; it is marked
+        unverified rather than guessed.</p>
+    </div>
+    <div class="facts-box">
+      <h4>At a glance</h4>
+      <div class="facts-grid">
+        <div class="fact"><div class="fv">30</div><div class="fl">Contact hours</div></div>
+        <div class="fact"><div class="fv">110</div><div class="fl">Level 2 requirements</div></div>
+        <div class="fact"><div class="fv">~320</div><div class="fl">Assessment objectives</div></div>
+        <div class="fact"><div class="fv">88</div><div class="fl">POA&amp;M threshold</div></div>
+        <div class="fact"><div class="fv">&minus;203</div><div class="fl">Score floor</div></div>
+        <div class="fact"><div class="fv">72 hrs</div><div class="fl">Incident report clock</div></div>
+        <div class="fact"><div class="fv">180</div><div class="fl">Days to closeout</div></div>
+        <div class="fact"><div class="fv">6</div><div class="fl">Never POA&amp;M-able</div></div>
+      </div>
+      <p style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--text-muted);line-height:1.65;margin-top:1.1rem;
+        padding-top:.9rem;border-top:1px solid var(--border)">
+        <strong style="color:var(--gold)">No lab, no licence, no clearance.</strong> Every artifact is fictional and
+        unclassified, every primary source is free and publicly available, and every tool runs entirely in your
+        browser with nothing sent anywhere.</p>
+    </div>
+  </div>
+</section></div>
+<footer>
+  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
+  <p class="foot-text">
+    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
+    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
+    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
+    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
+    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
+    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
+    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
+    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
+    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
+    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
+  </p>
+</footer>
+<script>
+function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
+ document.documentElement.setAttribute('data-theme',d?'light':'dark');
+ try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
+ document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
+(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
+ document.documentElement.setAttribute('data-theme',t);
+ window.addEventListener('DOMContentLoaded',function(){
+   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
+</script>
+</body></html>
