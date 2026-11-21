@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A8 Scoring and POA&amp;M Rules: The Number and the Gate | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A8',
+  title: 'Scoring and POA&M Rules: The Number and the Gate',
+  accent: 'The Number and the Gate',
+  domain: 'CCP Domains 4 and 5',
+  time: '45 min',
+  level: 'Intermediate to Advanced',
+  lessonHref: 'lesson07.html#s2',
+  lessonLabel: 'Lesson 7, The weighting',
+  lede: 'The DoD Assessment Methodology turns determinations into a number: start at 110 and subtract 5, 3, or 1 for each requirement NOT MET. Then the POA&M rules decide whether any status can issue. Compute two scores, then see why a score that clears the threshold can still be stopped at the gate.',
+  concepts: [
+    { key: 'points', name: 'Point values and the arithmetic', review: 'Lesson 7, The weighting, and why it is what it is' },
+    { key: 'partial', name: 'The two partial-credit exceptions', review: 'Lesson 7, The 3.5.3 trap, worked' },
+    { key: 'gate', name: 'The 0.8 threshold and the never-defer list', review: 'Lesson 9, What a POA&M can and cannot do' },
+    { key: 'closeout', name: 'Conditional status and closeout', review: 'Lesson 9, Closeout and sustainment' }
+  ],
+  stations: [
+    {
+      type: 'calc', short: 'Compute the scores', title: 'Compute the scores',
+      instr: 'Two fictional OSCs have finished Level 2 certification assessments. For each, every requirement not listed is MET. Use the point values in the table: start at <b>110</b> and subtract the value of each NOT MET requirement. Partial credit exists for only two requirements, <b>3.5.3</b> and <b>3.13.11</b>. Enter whole numbers, and enter ratios to three decimal places.<br><br><b>Harbor Point Avionics</b> (fictional), NOT MET: AC.L2-3.1.1; AU.L2-3.3.2; IA.L2-3.5.3 (MFA is in place for remote and privileged users, but not for general users); SC.L2-3.13.11 (encryption is employed but not FIPS validated); IA.L2-3.5.5.<br><b>Lakeview Composites</b> (fictional), NOT MET: IA.L2-3.5.3 (MFA on cloud email only; none for VPN remote access or privileged accounts); SC.L2-3.13.11 (no encryption is employed for CUI); IR.L2-3.6.1; MP.L2-3.8.7; PE.L2-3.10.3; CA.L2-3.12.4.',
+      hint: 'The 3.5.3 exception is a conjunction: MFA for remote <b>and</b> privileged users, with only general users missing, is a 3. If either remote or privileged users lack MFA, it is a 5. For 3.13.11, encryption that is used but not FIPS validated is a 3; no encryption is a 5. Add the deductions, then subtract from 110.',
+      table: {
+        caption: 'Point values used in this station (DoD Assessment Methodology, as taught in Lesson 7)',
+        head: ['Requirement', 'Short title', 'Deduction if NOT MET'],
+        rows: [
+          ['AC.L2-3.1.1', 'Limit system access to authorized users, processes, and devices', '5'],
+          ['AU.L2-3.3.2', 'Ensure actions can be traced to individual users', '3'],
+          ['IA.L2-3.5.3', 'Multifactor authentication', '5, or 3 if MFA covers remote and privileged users but not general users'],
+          ['IA.L2-3.5.5', 'Prevent reuse of identifiers for a defined period', '1'],
+          ['IR.L2-3.6.1', 'Establish an operational incident-handling capability', '5'],
+          ['MP.L2-3.8.7', 'Control the use of removable media', '5'],
+          ['PE.L2-3.10.3', 'Escort visitors and monitor visitor activity', '1'],
+          ['CA.L2-3.12.4', 'Develop, document, and periodically update the SSP', '1'],
+          ['SC.L2-3.13.11', 'FIPS-validated cryptography for CUI', '5, or 3 if encryption is employed but not FIPS validated']
+        ]
+      },
+      review: { href: 'lesson07.html#s2', label: 'Lesson 7, The weighting' },
+      items: [
+        { title: 'Harbor Point Avionics', label: 'Deduction for IA.L2-3.5.3', answer: 3, unit: 'points', concept: 'partial', why: 'MFA is in place for both remote and privileged users, and only general users are missing it. That is exactly the partial-credit condition, so deduct 3, not 5.' },
+        { title: 'Harbor Point Avionics', label: 'Assessment score', answer: 95, unit: 'points', concept: 'points', why: 'Deductions: 3.1.1 = 5, 3.3.2 = 3, 3.5.3 = 3 (partial), 3.13.11 = 3 (encrypted but not FIPS validated), 3.5.5 = 1. Total 15. 110 − 15 = 95.' },
+        { title: 'Harbor Point Avionics', label: 'Score ÷ 110, to three decimal places', answer: 0.864, tol: 0.001, concept: 'gate', why: '95 ÷ 110 = 0.8636, which rounds to 0.864. That is above the 0.8 POA&M threshold.' },
+        { title: 'Lakeview Composites', label: 'Deduction for IA.L2-3.5.3', answer: 5, unit: 'points', concept: 'partial', why: 'MFA on cloud email alone earns nothing under the exception. Neither remote (VPN) nor privileged users have MFA, so deduct the full 5. This is the 3.5.3 trap.' },
+        { title: 'Lakeview Composites', label: 'Deduction for SC.L2-3.13.11', answer: 5, unit: 'points', concept: 'partial', why: 'No encryption is employed for CUI, so the partial-credit value of 3 does not apply. Deduct 5.' },
+        { title: 'Lakeview Composites', label: 'Assessment score', answer: 88, unit: 'points', concept: 'points', why: 'Deductions: 3.5.3 = 5, 3.13.11 = 5, 3.6.1 = 5, 3.8.7 = 5, 3.10.3 = 1, 3.12.4 = 1. Total 22. 110 − 22 = 88, which is exactly 0.8 of 110.' },
+        { title: 'The floor', label: 'Score an OSC would post if it implemented none of the 110 requirements', answer: -203, unit: 'points', concept: 'points', why: 'The weighted deductions total far more than 110, so the scale runs from 110 down to −203. A negative score is not a computing error, and contractors do post them.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Apply the gate', title: 'Apply the gate',
+      instr: 'A score answers only part of the question. Under 32 CFR 170.21, a POA&M may be used only when the score is at least 0.8 of the total (88 for 110 requirements), and six requirements may never be placed on one: AC.L2-3.1.20, AC.L2-3.1.22, CA.L2-3.12.4, PE.L2-3.10.3, PE.L2-3.10.4, and PE.L2-3.10.5. SC.L2-3.13.11 may be placed on a POA&M only where encryption is employed but not FIPS validated.',
+      hint: 'Check three things in order: Is the score at least 88? Is any NOT MET requirement on the never-defer list? Is 3.13.11 failing because there is no encryption at all? Only if the answers are yes, no, and no can Conditional status issue.',
+      review: { href: 'lesson09.html#s1', label: 'Lesson 9, What a POA&M can and cannot do' },
+      items: [
+        {
+          title: 'Harbor Point Avionics (score 95)', text: 'Use your results for Harbor Point from the previous station.',
+          parts: [
+            { q: 'Which status may Harbor Point receive after this assessment?', concept: 'gate', options: ['Final Level 2, because a score of 95 is comfortably above the 88-point threshold', 'Conditional Level 2, with a POA&M for the five NOT MET items', 'None, because 3.13.11 may never be placed on a POA&M', 'None, because any NOT MET requirement blocks every status'], answer: 1, why: '95 ÷ 110 = 0.864, above 0.8, and none of the five is on the never-defer list. 3.13.11 may be deferred here because encryption is employed but not FIPS validated (C). Final status needs every requirement MET (A). D ignores the POA&M rules that create Conditional status.' }
+          ]
+        },
+        {
+          title: 'Lakeview Composites (score 88)', text: 'Use your results for Lakeview from the previous station.',
+          parts: [
+            { q: 'Lakeview scores exactly 88 (0.800). What status may issue?', concept: 'gate', options: ['Conditional Level 2, because 0.800 meets the threshold exactly', 'Conditional Level 2, once 3.12.4 and 3.10.3 are moved onto the POA&M', 'Final Level 2, because the deductions are spread across several families', 'None; 3.12.4, 3.10.3, and 3.13.11 without encryption may never be deferred'], answer: 3, why: 'The threshold is met, but 3.12.4 and 3.10.3 are on the never-defer list, and 3.13.11 cannot be deferred when no encryption is employed. All three must be MET before any status can issue. A and B ignore those rules. C confuses Final with Conditional status.' }
+          ]
+        },
+        {
+          title: 'After Conditional status', text: 'Harbor Point receives Conditional Level 2 status with a POA&M for its five items.',
+          parts: [
+            { q: 'From when does Harbor Point’s closeout window run, and for how long?', concept: 'closeout', options: ['180 days from the Phase 3 out-brief meeting with the OSC', '90 days from the date the POA&M is submitted to the C3PAO', '180 days from the Conditional CMMC Status Date, ended by a closeout assessment', 'One year from the status date, until the next annual affirmation is due'], answer: 2, why: 'The window is 180 days from the Conditional CMMC Status Date, closed by a closeout assessment. The out-brief does not start it (A). There is no 90-day rule (B). The annual affirmation is a separate obligation (D).' },
+            { q: 'Harbor Point wants a different C3PAO to do its closeout assessment. What applies?', concept: 'closeout', options: ['It may, after the new C3PAO completes its own conflict-of-interest review', 'It may not; only the C3PAO that ran Phases 1 to 3 may close out', 'It may not; closeout of a Level 2 conditional status is done by DIBCAC', 'It may, and the new C3PAO adopts the first firm’s conflict review as its own'], answer: 0, why: 'Any authorized or accredited C3PAO may close out, after its own conflict review, and it then issues the Final certificate. The rule is the opposite of B. DIBCAC conducts government-led assessments, not this (C). The conflict review is the new firm’s own, not inherited (D).' },
+            { q: 'What happens if Harbor Point misses the closeout window?', concept: 'closeout', options: ['The status converts to a Level 2 self-assessment status', 'The C3PAO may grant a 90-day extension on request', 'Only the items still open are removed from the certificate', 'Its Conditional status expires'], answer: 3, why: 'Miss the window and the Conditional status expires. The rules taught in Lesson 9 include no conversion to another status (A), no extension (B), and no partial certificate (C).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'gate', label: 'In your own words, why can a company with a score of 109 still receive no status at all?' },
+        { key: 'teach', label: 'Faculty: how would you turn this calculation into a graded assignment that also requires students to explain what the score does not show?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

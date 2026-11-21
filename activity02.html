@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A2 The Regulatory Chain: From Standard to Contract Term | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A2',
+  title: 'The Regulatory Chain: From Standard to Contract Term',
+  accent: 'From Standard to Contract Term',
+  domain: 'CCP Domains 1 and 3',
+  time: '35 min',
+  level: 'Foundational',
+  lessonHref: 'lesson01.html#s2',
+  lessonLabel: 'Lesson 1, The chain, link by link',
+  lede: 'A standard binds no one until a clause puts it in a contract. Match each obligation to the instrument that imposes it. Then read the 2026 Phase 2 suspension the way an assessor must: which instrument issued, and what does its text now say?',
+  concepts: [
+    { key: 'chain', name: 'Links in the chain', review: 'Lesson 1, The chain, link by link' },
+    { key: 'clauses', name: 'Which clause does what', review: 'Lesson 1, The DFARS clause family' },
+    { key: 'instruments', name: 'Announcement vs. instrument', review: 'Lesson 1, Policy announcement versus regulation' },
+    { key: 'status', name: 'Status as of 16 November 2026', review: 'the dated regulatory status notice on the workshop home page' }
+  ],
+  stations: [
+    {
+      type: 'sort', short: 'Which instrument?', title: 'Which instrument imposes it?', concept: 'clauses',
+      instr: 'Each line is an obligation or rule a contractor may face. Choose the instrument that actually imposes it. Four instruments are offered; each is used at least once. Then select <b>Check answers</b>.',
+      hint: 'FAR 52.204-21 is the FCI floor. DFARS 252.204-7012 is the safeguarding and incident-reporting clause, in force since 2017. DFARS 252.204-7021 is the CMMC clause in a contract. 32 CFR Part 170 is the CMMC Program rule itself.',
+      buckets: ['FAR 52.204-21', 'DFARS 252.204-7012', 'DFARS 252.204-7021', '32 CFR Part 170'],
+      review: { href: 'lesson01.html#s3', label: 'Lesson 1, The DFARS clause family' },
+      items: [
+        { text: 'Fifteen basic safeguarding requirements where a contractor handles Federal Contract Information', answer: 0, why: 'FAR 52.204-21 sets the fifteen basic safeguarding requirements. 32 CFR 170.14(c)(2) incorporates them as Level 1, but the requirements come from the FAR clause.' },
+        { text: 'Report a cyber incident to DoD within 72 hours of discovery', answer: 1, why: 'Rapid reporting is DFARS 252.204-7012(c)(1). It has applied since 2017, with or without a CMMC clause in the contract.' },
+        { text: 'A specific CMMC level and status as a condition of award and of continued performance', answer: 2, why: '7021 is the clause CMMC actually rides on. The level it calls for follows from the information the contract involves, determined under 32 CFR Part 170.' },
+        { text: 'Three CMMC levels, the assessment types, scoping rules, and the annual affirmation', answer: 3, concept: 'chain', why: '32 CFR Part 170, in force since 16 December 2024, establishes the CMMC Program itself: levels, assessment types, scoping, affirmation, and the ecosystem.' },
+        { text: 'An external cloud provider holding covered defense information must meet the FedRAMP Moderate baseline or equivalent', answer: 1, why: 'This is 7012(b)(2)(ii)(D). It is a 7012 obligation, not a CMMC one, and it would remain if the CMMC clause were struck from the contract.' },
+        { text: 'A POA&M may be used only when the assessment score is at least 0.8 of the total', answer: 3, concept: 'chain', why: '32 CFR 170.21 sets the POA&M rules, including the 0.8 threshold and the requirements that may never be placed on a POA&M.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Read the 2026 change', title: 'Read the 2026 change like an assessor',
+      instr: 'Use this dated status notice. <b>Regulatory status as of 16 November 2026; check again before you teach.</b> 32 CFR Part 170 has been in force since 16 December 2024 and has not been amended. The DFARS CMMC rule took effect 10 November 2025, beginning Phase 1 (Level 1 and Level 2 self-assessments). Phase 2 (Level 2 C3PAO certification, due 10 November 2026) was suspended by the Department of War (DoW, the Department of Defense’s secondary title) on 13 July 2026. DFARS Class Deviation 2026-O0025 (Rev. 3, 3 September 2026) applies the suspension, and no restart date has been announced.',
+      hint: 'Three instruments can change what a contractor owes: a class deviation, a FAR or DFARS rule change, or an amendment to 32 CFR Part 170. Everything else is an announcement or commentary. And the duty to implement NIST SP 800-171 lives in DFARS 252.204-7012, not in the CMMC clause.',
+      review: { href: 'lesson01.html#s5', label: 'Lesson 1, Policy announcement versus regulation' },
+      items: [
+        {
+          title: 'Case 1: A supplier’s argument', text: 'A small supplier to Meridian Precision Defense Systems (fictional) emails you in November 2026: “CMMC Phase 2 is suspended, so we can stop implementing NIST SP 800-171 until it restarts.”',
+          parts: [
+            { q: 'Where does the supplier’s reasoning fail?', concept: 'chain', options: ['It does not fail; CMMC is the instrument that makes 800-171 mandatory for contractors', 'The 800-171 duty comes from DFARS 252.204-7012, which the Phase 2 suspension did not change at all', 'It fails only if the supplier’s contract already contains DFARS 252.204-7021', 'It fails because the suspension covers only Level 3 government-led assessments, not Level 2 work'], answer: 1, why: '7012 made 800-171 contractual in 2017, years before the CMMC rule. The suspension changes how conformity is verified, not the obligation being verified. A reverses the chain. C is backwards, since 7012 applies with no CMMC clause at all. D misstates what was suspended: program Phase 2, the Level 2 C3PAO requirement.' },
+            { q: 'Which statement of the program’s position on 16 November 2026 is accurate?', concept: 'status', options: ['Phase 2 began on 10 November 2026, so Level 2 C3PAO certification is now a condition of award', 'Phase 2 is suspended and will restart in November 2028, the date set by the class deviation', '32 CFR Part 170 was amended in July 2026 to remove Phase 2 and the C3PAO requirement', 'Phase 2 was suspended on 13 July 2026 through memoranda and a class deviation, and no restart date has been announced'], answer: 3, why: 'DoW suspended Phase 2 on 13 July 2026, and no restart date has been announced. A is the original schedule, not what happened. B is a common misreading: November 2028 is the original Phase 4 date in the 2025 rule, not a new Phase 2 date. C is wrong because 32 CFR Part 170 has not been amended.' }
+          ]
+        },
+        {
+          title: 'Case 2: Announcement or instrument?', text: 'The July 2026 suspension was announced by press release and memoranda. DFARS Class Deviation 2026-O0025 (Rev. 3, 3 September 2026) then told contracting officers how to apply it. The codified text of 32 CFR Part 170 and the DFARS clauses did not change.',
+          parts: [
+            { q: 'Which of these is the instrument that binds contracting officers to the suspension?', concept: 'instruments', options: ['The press release announcing the suspension', 'The class deviation, 2026-O0025', 'A law firm alert summarizing the memoranda', 'An amendment to 32 CFR Part 170'], answer: 1, why: 'A class deviation is one of the three instruments that can change what is required, for the class of contracts it names. A press release announces intent (A). A law firm alert is current awareness, never authority (C). Part 170 was not amended (D).' },
+            { q: 'Later, a new memorandum announces another intended change to CMMC. Nothing else has issued. What has changed for a contractor performing today?', concept: 'instruments', options: ['Everything the memorandum describes, from the date it was signed', 'Nothing, and nothing can, because only Congress can change CMMC requirements', 'Nothing yet; the instrument that would implement it has not issued', 'Whatever the contracting officer agrees applies to that contract'], answer: 2, why: 'Until a class deviation, a FAR or DFARS rule change, or a Part 170 amendment issues, the published text governs. A treats an announcement as an instrument. B overcorrects, since agencies amend regulations routinely. D confuses a contract modification, which affects one contract, with a change to the rule.' },
+            { q: 'Which obligations still apply during the Phase 2 suspension?', concept: 'status', options: ['NIST SP 800-171 Rev. 2, DFARS 252.204-7012, SPRS self-assessments, and annual affirmations', 'Only the 7012 incident-reporting duty; Phase 1 self-assessments and affirmations are paused along with Phase 2', 'None, until the Department announces a restart date for the program', 'Level 1 self-assessments only, because Level 2 now requires a C3PAO'], answer: 0, why: 'Only program Phase 2 is suspended. Rev. 2, 7012, Phase 1 self-assessments posted in SPRS, and annual affirmations continue. B wrongly pauses Phase 1. C treats “CMMC is paused” as “nothing applies.” D is backwards: Level 2 self-assessments continue, and the suspension removed the default C3PAO requirement rather than adding one.' },
+            { q: 'What did the 48 CFR acquisition rule, effective 10 November 2025, do?', concept: 'chain', options: ['Created the CMMC Program and defined its three levels', 'Established the government-wide CUI Program and named NARA as its Executive Agent', 'Replaced DFARS 252.204-7012 with a new CMMC-specific clause', 'Let contracting officers insert the CMMC clause, which began Phase 1'], answer: 3, why: 'The 48 CFR rule amended the DFARS so the CMMC clause could appear in solicitations and contracts, and Phase 1 began on its effective date. 32 CFR Part 170 created the program (A). EO 13556 created the CUI Program in 2010 (B). Nothing replaced 7012 (C).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'headline', label: 'Think of a recent CMMC headline you read. Which instrument, if any, had actually issued? How would you check?' },
+        { key: 'teach', label: 'Faculty: regulations will change after you teach this. How will you keep this unit current, and what will you tell students to check before they rely on it?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

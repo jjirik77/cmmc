@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A6 Evidence That Holds Up: Adequate, Sufficient, or Neither? | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A6',
+  title: 'Evidence That Holds Up: Adequate, Sufficient, or Neither?',
+  accent: 'Adequate, Sufficient, or Neither?',
+  domain: 'CCP Domains 4 and 5',
+  time: '40 min',
+  level: 'Intermediate',
+  lessonHref: 'lesson05.html#s2',
+  lessonLabel: 'Lesson 5, Adequacy and sufficiency',
+  lede: 'Adequate evidence shows the thing exists and matches what the requirement intends. Sufficient evidence shows it is implemented, consistently followed, and operating. Pick the right method, rate real artifacts, and write a request an organization could act on without a phone call.',
+  concepts: [
+    { key: 'methods', name: 'Examine, interview, test', review: 'Lesson 5, Methods and objects' },
+    { key: 'adeq', name: 'Adequacy vs. sufficiency', review: 'Lesson 5, Adequacy and sufficiency' },
+    { key: 'quality', name: 'Requests and where evidence lives', review: 'Lesson 5, Building the request list' }
+  ],
+  stations: [
+    {
+      type: 'sort', short: 'Which method?', title: 'Which assessment method is it?', concept: 'methods',
+      instr: 'NIST SP 800-171A names three methods. <b>Examine</b>: review, inspect, or analyze an object. <b>Interview</b>: discuss with people. <b>Test</b>: exercise an object under set conditions and compare actual to expected behavior. Choose the method each planned step uses. Meridian is fictional.',
+      hint: 'If you are reading something, it is examine. If you are talking with someone, it is interview. If you are making a system do something and watching the result, it is test.',
+      buckets: ['Examine', 'Interview', 'Test'],
+      review: { href: 'lesson05.html#s3', label: 'Lesson 5, Methods and objects' },
+      items: [
+        { text: 'Sign in to the PLM with a sample account and see whether a second factor is required', answer: 2, why: 'Exercising a mechanism and comparing actual to expected behavior is a test. It shows the control works now, on what you tested, not last quarter.' },
+        { text: 'Read the full Conditional Access policy export, including the exclusions list', answer: 0, why: 'Reviewing a configuration is examine. It shows what is configured, not that anyone follows it. The exclusions list is where these policies usually leak.' },
+        { text: 'Ask the HR Director to walk you through what happened to the last departing employee’s accounts', answer: 1, why: 'A discussion with a person is an interview. On its own it generates leads to corroborate, not conclusions.' },
+        { text: 'Try to open the CUI file share from a workstation on the corporate segment', answer: 2, why: 'Attempting access under set conditions tests whether the boundary actually blocks it.' }
+      ]
+    },
+    {
+      type: 'sort', short: 'Rate the artifact', title: 'Rate the artifact', concept: 'adeq',
+      instr: 'Rate each artifact Meridian (fictional) supplied. <b>Adequate</b>: it exists and matches what the requirement intends. <b>Sufficient</b>: it shows the control is implemented, consistently followed, and operating, across the scope and currently. Adequacy is a property of the artifact, not of the organization.',
+      hint: 'A good policy in a company that ignores it is still adequate. An assertion, even in writing, is neither. A document that does not address the objective is not adequate, however official it looks.',
+      buckets: ['Adequate and sufficient', 'Adequate, not sufficient', 'Neither'],
+      review: { href: 'lesson05.html#s4', label: 'Lesson 5, Five artifacts, evaluated' },
+      items: [
+        { text: 'A CEO-approved access control policy that matches the requirement’s intent; no access matrix or review records exist', answer: 1, why: 'It exists and matches the intent, so it is adequate. Nothing shows it is followed, so it is not sufficient.' },
+        { text: 'An email from the IT Manager: “Logging is on everywhere. I check regularly. I have done this for nine years.”', answer: 2, why: 'An assertion in writing is still an assertion: an interview response, not a record. It leans on an appeal to authority and on absence of evidence when nothing is looking.' },
+        { text: 'A current MFA configuration export covering every in-scope system, plus a sample of enrolled accounts', answer: 0, why: 'It addresses the objective, covers the scope, is current, and the sample shows the control operating. That is the lesson’s example of sufficient MFA evidence.' },
+        { text: 'An “asset inventory” that reads “Laptops / desktops 41; Service accounts 3”', answer: 2, why: 'A count is not an inventory of system components, and it omits every CUI-bearing asset. It does not match the intent, so it is not even adequate.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Harder calls', title: 'Harder calls',
+      instr: 'These cases separate a competent evidence review from an assessor-ready one. Meridian Precision Defense Systems is fictional.',
+      hint: 'You can praise an artifact and still find the requirement NOT MET. A request line names the artifact, the method, the objective, and the custodian. Ask where evidence lives, not only what it says.',
+      review: { href: 'lesson05.html#s5', label: 'Lesson 5, Building the request list' },
+      items: [
+        {
+          title: 'Case 1: A good screenshot', text: 'Meridian supplies a three-day-old Conditional Access export: MFA required for all 163 users on all cloud apps, with one shared admin account excluded. The SSL VPN, the PLM, the file server, and domain controller RDP use single-factor sign-in.',
+          parts: [
+            { q: 'How do you evaluate this artifact against IA.L2-3.5.3?', concept: 'adeq', options: ['Adequate and sufficient, because it is current, scoped, and attributable', 'Neither, because the requirement is NOT MET for the environment', 'Adequate and sufficient, with the other systems written up as separate findings', 'Adequate, sufficient only for Microsoft 365; the requirement is NOT MET'], answer: 3, why: 'Evidence for one system out of seven establishes the objective for one system. You can praise the artifact and still find the requirement unmet. A ignores the scope. B rejects good evidence because the requirement fails. C splits one requirement into separate findings when the other systems are within its scope.' }
+          ]
+        },
+        {
+          title: 'Case 2: The request list', text: 'You are drafting the evidence request list for Meridian. Each line should let the OSC respond without asking a question.',
+          parts: [
+            { q: 'Which request line would you accept?', concept: 'quality', options: ['“Access control documentation, as available”', '“Conditional Access policy export with exclusions; Examine; IA.L2-3.5.3; T. Nakamura”', '“Any evidence showing that multifactor authentication is enforced across the organization and all of its systems”', '“Anything you have on vulnerability management from the past year or so”'], answer: 1, why: 'A request line names the artifact, the method, the objective it serves, and the custodian. A and D name topics and invite a pile of documents and a week of delay. C names an objective, not a retrievable artifact.' }
+          ]
+        },
+        {
+          title: 'Case 3: Where it lives', text: 'Meridian’s POA&M is a spreadsheet kept in the CISO’s personal OneDrive on a commercial tenant, not in the GCC High environment the SSP names as the CUI boundary.',
+          parts: [
+            { q: 'Beyond its content, what does the assessor record?', concept: 'quality', options: ['Nothing; where a document is stored is an IT preference, not a compliance question', 'That the CISO should move it into GCC High right away', 'That it sits outside the authorized boundary and contradicts the SSP', 'That the POA&M is invalid and should not be reviewed'], answer: 2, why: 'A list of every unremediated weakness, kept outside the authorized boundary, is a finding, and it contradicts the SSP’s own boundary statement. Location is not just a preference (A). Telling the CISO to move it is remediation advice (B). The POA&M must still be considered as evidence about the company (D).' }
+          ]
+        },
+        {
+          title: 'Case 4: Sampling', text: 'You are planning sampling for Meridian’s Level 2 assessment, which covers two sites: Dayton and Huntsville.',
+          parts: [
+            { q: 'What sampling does the CAP require?', concept: 'methods', options: ['A nonstatistical approach at the FOCUSED value for depth and coverage', 'A random sample sized to give 95 percent statistical confidence at each of the two sites', 'Full coverage of every in-scope asset at both sites', 'Whatever depth the Lead CCA judges proportionate to the risk'], answer: 0, why: 'The CAP requires a nonstatistical approach with the FOCUSED value for depth and coverage, increased where evidence is questionable, and the sampling should consider whether the two sites use different physical controls. Statistical sampling is borrowed from financial audit (B). Full coverage is not the standard (C). The values are set by the CAP, not by the Lead CCA (D).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'change', label: 'Pick one artifact from this activity rated “adequate, not sufficient.” Write the “what would change the verdict” clause without telling the OSC how to fix anything.' },
+        { key: 'teach', label: 'Faculty: what artifacts from your own course (syllabi, lab logs, grading records) could students rate as adequate or sufficient to practice this distinction?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

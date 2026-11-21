@@ -2,22 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Build the chain that binds Meridian to solicitation W58RGZ-26-R-0301, then answer the three questions the Regulatory Trace Memo asks. Primary sources ">
 <title>Clause Trace | CMMC 5-Day Workshop</title>
 <style>
 :root{
   --navy:#12233a; --navy-mid:#0d1a2b; --navy-light:#24425f;
-  --gold:#c8862a; --gold-light:#e0a244; --gold-pale:#fbf1e0;
-  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#5c7086;
+  --gold:#9a5b0b; --gold-light:#7c4708; --gold-pale:#fdf3e3; --amber:#c8862a;
+  --cream:#f4f6f9; --text-primary:#10202f; --text-secondary:#2b4258; --text-muted:#55697e;
   --white:#ffffff; --border:#c2ccd8; --card-bg:#ffffff; --body-bg:#eef1f5;
   --section-alt:#e3e8ee; --blue-pale:#e9eef4; --blue-pale-border:#bfcedd;
   --ok:#2f6f4f; --warn:#9a5b12; --bad:#9d3427;
-}
-[data-theme="dark"]{
-  --cream:#071320; --text-primary:#e8eef5; --text-secondary:#a3b6c9; --text-muted:#748a9e; --card-bg:#0f2537; --body-bg:#071320; --section-alt:#0b1d2c;
-  --blue-pale:#0d2436; --blue-pale-border:#1e405c; --border:#1e3a52; --gold-pale:#2b1d09; --white:#ffffff;
-  --ok:#6fbf90; --warn:#e0a244; --bad:#e0796a;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
@@ -38,9 +34,6 @@ nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3p
 .nav-links a{color:var(--text-secondary);text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;
   letter-spacing:.06em;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
-.theme-toggle{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.3rem .75rem;
-  border-radius:20px;cursor:pointer;font-size:.75rem;font-family:Arial,sans-serif;letter-spacing:.04em}
-.theme-toggle:hover{background:var(--gold);color:#fff}
 /* HERO */
 .hero{background:var(--blue-pale);position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center}
 .hero::before{content:'';position:absolute;inset:0;
@@ -171,10 +164,9 @@ nav{position:sticky;top:0;z-index:100;background:var(--card-bg);border-bottom:3p
 .fact .fl{font-family:Arial,sans-serif;font-size:.68rem;color:var(--text-muted);letter-spacing:.06em;
   text-transform:uppercase;margin-top:.2rem}
 /* FOOTER */
-footer{background:var(--navy);color:#a3b6c9;padding:2.5rem 2rem;text-align:center}
-.foot-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.14em;
-  text-transform:uppercase;color:#fff;margin-bottom:.9rem}
-.foot-text{font-family:Arial,sans-serif;font-size:.76rem;line-height:1.75;max-width:900px;margin:0 auto}
+footer{background:var(--blue-pale);border-top:3px solid var(--gold);padding:2rem;text-align:center}
+.footer-logo{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;color:var(--gold);letter-spacing:.12em;margin-bottom:.5rem}
+.footer-disclaimer{font-family:Arial,sans-serif;font-size:.74rem;color:var(--text-secondary);max-width:620px;margin:0 auto;line-height:1.6}
 /* ---------- LESSON PAGES ---------- */
 .lwrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px 1fr;gap:2.5rem;padding:2.5rem 2rem 4rem}
 .toc{position:sticky;top:80px;align-self:start;background:var(--card-bg);border:1px solid var(--border);
@@ -341,7 +333,7 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
   display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;z-index:60}
 .savebar .msg{font-family:Arial,sans-serif;font-size:.76rem;color:var(--text-muted)}
 @media print{
-  nav,.savebar,.theme-toggle,.pager,.btnrow,.toc{display:none!important}
+  nav,.savebar,.pager,.btnrow,.toc{display:none!important}
   body{background:#fff}
   .panel,.tw,.kc{break-inside:avoid}
 }
@@ -358,20 +350,41 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
   nav{padding:0 1rem}
   .section{padding:2.5rem 1.2rem}
 }
+/* TEMPLATE CHROME (workshop layout, CMMC palette, light only) */
+.lhero{position:relative;overflow:hidden;padding:3rem 2rem 2.6rem}
+.lhero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(18,35,58,.04) 40px,rgba(18,35,58,.04) 41px)}
+.lhero-in{position:relative}
+.breadcrumb{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+.breadcrumb a{color:var(--text-muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--gold);text-decoration:underline}
+.breadcrumb span{color:var(--gold)}
+@media (max-width:1180px){.nav-links{gap:1rem}}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media print{footer{display:none}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<nav>
-  <a class="nav-brand" href="index.html">
-    <div class="nav-seal">CMMC<br>L2</div>
-    <div class="nav-title">CMMC Level&nbsp;2 &middot; 5-Day</div>
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-seal">CMMC<br>PREP</div>
+    <span class="nav-title">5-Day Faculty Workshop</span>
   </a>
   <div class="nav-right">
-    <ul class="nav-links"><li><a href="index.html#lessons">Lessons</a></li><li><a href="index.html#schedule">Schedule</a></li><li><a href="index.html#thread">Case Thread</a></li><li><a href="index.html#resources">Tools</a></li><li><a href="index.html#about">About</a></li></ul>
-    <button class="theme-toggle" onclick="tt()" id="ttb">&#9790; Dark</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#lessons">Lessons</a></li>
+      <li><a href="index.html#practice">Practice</a></li>
+      <li><a href="index.html#schedule">Schedule</a></li>
+      <li><a href="index.html#domains">Domains</a></li>
+      <li><a href="index.html#exam-prep">Exam Prep</a></li>
+      <li><a href="index.html#faculty-tools">Faculty Tools</a></li>
+    </ul>
   </div>
 </nav>
 <header class="lhero"><div class="lhero-in">
+  <p class="breadcrumb"><a href="index.html">Workshop</a> &nbsp;&rsaquo;&nbsp; <a href="labs.html">CMMC Assessment Lab</a> &nbsp;&rsaquo;&nbsp; <span>B1 &middot; Clause Trace</span></p>
   <div class="eyebrow">Tool &middot; Deliverable D1 &middot; Lesson 1</div><h1>Clause Trace &mdash; From Executive Order to Contract</h1>
   <p class="lead">Build the chain that binds Meridian to solicitation W58RGZ-26-R-0301, then answer the three questions the Regulatory Trace Memo asks. Primary sources only, cited to part, section, or clause.</p><div class="chips"><span class="meta-chip">3 questions</span><span class="meta-chip">Primary sources only</span><span class="meta-chip">Prints as D1</span></div>
 </div></header>
@@ -439,7 +452,7 @@ SPRS assessment of record that Section L.5 says will be verified; and <strong>FA
 </ul>
 <p><strong>Assessor-Ready adds:</strong> where the chain differs for a subcontractor. C.4.1 and DFARS
 252.204-7012(m) put the obligation on any subcontractor receiving the TDP &mdash; the obligation follows the
-information, not the tier.</p></div>
+information, not the tier.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="q1-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q1-r0" data-f="q1-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Every claim carries an authority, cited to the part, section, or clause.</span></label></li><li><label for="q1-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q1-r1" data-f="q1-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I used primary sources only &mdash; no vendor guide, blog, or law firm alert appears in my answer.</span></label></li><li><label for="q1-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q1-r2" data-f="q1-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Where the answer is not settled, I said so rather than forcing one.</span></label></li><li><label for="q1-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q1-r3" data-f="q1-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>A reader who disagreed with me could find and check every source I named.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="q2">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">2</span>
@@ -459,7 +472,7 @@ definition of covered defense information captures exactly that.</p>
 <p><strong>Evidence at award:</strong> Section L.5 requires a <em>current assessment of record posted in SPRS</em>
 covering all systems that will process, store, or transmit the C.3.2 information, verified by the Contracting
 Officer before award. An offeror without one is ineligible. Meridian has never calculated or submitted a
-score.</p></div>
+score.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="q2-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q2-r0" data-f="q2-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Every claim carries an authority, cited to the part, section, or clause.</span></label></li><li><label for="q2-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q2-r1" data-f="q2-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I used primary sources only &mdash; no vendor guide, blog, or law firm alert appears in my answer.</span></label></li><li><label for="q2-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q2-r2" data-f="q2-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Where the answer is not settled, I said so rather than forcing one.</span></label></li><li><label for="q2-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q2-r3" data-f="q2-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>A reader who disagreed with me could find and check every source I named.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="q3">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">3</span>
@@ -482,7 +495,7 @@ future exposure contingent on an assessment &mdash; it is present non-conformity
 <div class="tw"><table><thead><tr><th>The distinction to hold</th></tr></thead><tbody>
 <tr><td>CMMC changes <em>how conformity is demonstrated</em>. It does not change what must be true. An assessor who
 cannot state that cleanly will be talked into treating programme changes as relief from the underlying
-obligation.</td></tr></tbody></table></div></div>
+obligation.</td></tr></tbody></table></div><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="q3-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q3-r0" data-f="q3-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Every claim carries an authority, cited to the part, section, or clause.</span></label></li><li><label for="q3-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q3-r1" data-f="q3-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I used primary sources only &mdash; no vendor guide, blog, or law firm alert appears in my answer.</span></label></li><li><label for="q3-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q3-r2" data-f="q3-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>Where the answer is not settled, I said so rather than forcing one.</span></label></li><li><label for="q3-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="q3-r3" data-f="q3-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>A reader who disagreed with me could find and check every source I named.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div>
 <div class="panel" style="text-align:center">
   <div class="btnrow" style="justify-content:center">
@@ -492,52 +505,42 @@ obligation.</td></tr></tbody></table></div></div>
     <button class="btn ghost" onclick="restore()">Restore from code</button>
     <button class="btn ghost" onclick="resetAll()">Clear</button>
   </div>
-  <textarea id="codebox" style="display:none;margin-top:1rem;min-height:70px"
+  <textarea id="codebox" aria-label="Progress code" style="display:none;margin-top:1rem;min-height:70px"
     placeholder="Your progress code appears here. Copy it and keep it; paste it back to restore."></textarea>
 </div>
 <div class="pager"><a class="prev" href="lesson01.html"><span class="pager-dir">&larr; Back</span>
-  <span class="pager-name">Lesson 1 &mdash; Compliance Landscape</span></a></div>
+  <span class="pager-name">Lesson 1 &mdash; Compliance Landscape</span></a><a class="next" href="labs.html"><span class="pager-dir">All labs &rarr;</span>
+  <span class="pager-name">CMMC Assessment Lab</span></a></div>
 </main>
-<div class="savebar"><span class="msg" id="msg"></span>
+<div class="savebar"><span class="msg" id="msg" role="status" aria-live="polite"></span>
   <span style="font-family:Arial,sans-serif;font-size:.72rem;color:var(--text-muted)">
     Saved in this browser only &mdash; nothing is sent anywhere.</span></div>
 <footer>
-  <div class="foot-title">CMMC Level 2 Assessor Preparation &middot; 5-Day Workshop</div>
-  <p class="foot-text">
-    An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of
-    War, the Department of Defense, the Cyber AB, or ISACA. CMMC&reg; is a mark of the U.S. Department of Defense;
-    CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification
-    Organization. Meridian Precision Defense Systems, Inc., Acuitas Machining Inc., ClearPath IT Solutions,
-    Tidewater Assurance Group, LLC, Ridgeline Compliance Group, and all personnel, CAGE codes, contract numbers,
-    and incidents depicted are fictional and created for instruction. The Meridian scenario is adapted from the
-    CMMC 2.0 Training Portal case study library. Nothing here is legal, compliance, or cybersecurity advice.
-    Requirements are stated from primary sources &mdash; 32 CFR Part 170, 32 CFR Part 2002, the FAR, the DFARS,
-    NIST SP 800-171 Rev 2 and 800-171A, the CMMC Assessment Process v2.0 and Code of Professional Conduct v2.0,
-    and the NARA CUI Registry. Verify the live regulatory position before teaching or relying on this material.
-  </p>
+  <div class="footer-logo">CMMC 5-DAY FACULTY WORKSHOP</div>
+  <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
 </footer>
-<script>
-function tt(){var d=document.documentElement.getAttribute('data-theme')==='dark';
- document.documentElement.setAttribute('data-theme',d?'light':'dark');
- try{localStorage.setItem('cmmc-theme',d?'light':'dark')}catch(e){}
- document.getElementById('ttb').innerHTML=d?'\u263E Dark':'\u2600 Light';}
-(function(){var t='light';try{t=localStorage.getItem('cmmc-theme')||'light'}catch(e){}
- document.documentElement.setAttribute('data-theme',t);
- window.addEventListener('DOMContentLoaded',function(){
-   var b=document.getElementById('ttb');if(b)b.innerHTML=(t==='dark')?'\u2600 Light':'\u263E Dark';});})();
-</script>
 <script>
 var TOOLID='clause-trace';
 function _k(){return 'cmmc-'+TOOLID;}
-function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=e.value;});
+function _val(e){return e.type==='checkbox' ? (e.checked?'1':'0') : e.value;}
+function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}else{e.value=v;}}
+function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
 function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
- document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)e.value=d[e.dataset.f];});}catch(e){}}
+ document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});}catch(e){}
+ document.querySelectorAll('.rubric').forEach(rtally);}
+function rtally(r){var b=r.querySelectorAll('input[type=checkbox]'),n=0;
+ b.forEach(function(c){if(c.checked)n++;});
+ var o=r.querySelector('.rtally');
+ if(o){o.textContent=n+' of '+b.length+' met';
+  o.style.color = (n===b.length)?'var(--ok)':(n===0?'var(--text-muted)':'var(--warn)');}}
+function rcheck(c){rtally(c.closest('.rubric'));save();}
 function setMsg(t){var m=document.getElementById('msg');if(m){m.textContent=t;clearTimeout(window._mt);
  window._mt=setTimeout(function(){m.textContent=filled()+' of '+total()+' items answered.';},2600);}}
 function total(){return document.querySelectorAll('.item').length;}
 function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it){
- var ok=false;it.querySelectorAll('[data-f]').forEach(function(e){if(e.value&&e.value.trim())ok=true;});
+ var ok=false;it.querySelectorAll('[data-f]').forEach(function(e){
+  if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;});
  if(ok)n++;});return n;}
 function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
  var sel=it.querySelector('select[data-ok]');
@@ -551,16 +554,18 @@ function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
 function revealAll(){document.querySelectorAll('.rvbtn').forEach(function(b){if(!b.disabled)reveal(b);});}
 function resetAll(){if(!confirm('Clear every answer on this page?'))return;
  try{localStorage.removeItem(_k());}catch(e){}location.reload();}
-function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=e.value;});
+function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  var s=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
  var t=document.getElementById('codebox');t.style.display='block';t.value=s;t.select();
  setMsg('Progress code generated \u2014 copy and keep it.');}
 function restore(){var t=document.getElementById('codebox');t.style.display='block';
  if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
  try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
-  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)e.value=d[e.dataset.f];});
+  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
+  document.querySelectorAll('.rubric').forEach(rtally);
   save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}
 window.addEventListener('DOMContentLoaded',function(){load();
  document.querySelectorAll('[data-f]').forEach(function(e){e.addEventListener('change',save);});
  setMsg('');});
-</script></body></html>
+</script><script src="case-window.js" data-tab="contracts"></script>
+</body></html>

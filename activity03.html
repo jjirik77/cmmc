@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A3 FCI or CUI? Origin, Not Sensitivity | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A3',
+  title: 'FCI or CUI? Origin, Not Sensitivity',
+  accent: 'Origin, Not Sensitivity',
+  domain: 'CCP Domain 3',
+  time: '30 min',
+  level: 'Foundational to Intermediate',
+  lessonHref: 'lesson02.html#s1',
+  lessonLabel: 'Lesson 2, Two definitions',
+  lede: 'Both definitions turn on who the information was created for, not how sensitive it feels. Sort Meridian’s information types, then work the questions practitioners get wrong most often: who designates CUI, what an unmarked file means, and what a data-rights claim does and does not change.',
+  concepts: [
+    { key: 'defs', name: 'FCI vs. CUI definitions', review: 'Lesson 2, Two definitions, and what follows from each' },
+    { key: 'designate', name: 'Who designates and marks', review: 'Lesson 2, Who decides' },
+    { key: 'registry', name: 'Registry categories and markings', review: 'Lesson 2, The Registry, used properly' },
+    { key: 'generated', name: 'Contractor-generated information', review: 'Lesson 2, Auditing a contractor’s own inventory' }
+  ],
+  stations: [
+    {
+      type: 'sort', short: 'FCI, CUI, or neither?', title: 'FCI, CUI, or neither?', concept: 'defs',
+      instr: 'Decide how each information type is best classified. <b>FCI</b>: not intended for public release, provided by or generated for the Government under a contract (FAR 52.204-21(a)). <b>CUI</b>: information a law, regulation, or government-wide policy requires an agency to control, including information an entity creates for or on behalf of the Government (32 CFR 2002.4). CUI is also FCI when it arises under a contract, so choose <b>CUI</b> whenever CUI applies. Meridian Precision Defense Systems is fictional.',
+      hint: 'Start with origin. Was it created by or for the Government under a contract? If not, it is neither, however sensitive it is. If so, does a CUI category apply (for example, Controlled Technical Information or a category the contract names)? Watch for the two FCI exclusions: public information and simple transactional information.',
+      buckets: ['FCI only', 'CUI', 'Neither'],
+      review: { href: 'lesson02.html#s1', label: 'Lesson 2, Two definitions' },
+      items: [
+        { text: 'Engineering drawings for actuator housings, furnished by the Army under Meridian’s contract and marked Distribution Statement D', answer: 1, concept: 'registry', why: 'Technical information with military application under controls on access and release is Controlled Technical Information, a CUI category. Distribution Statement D and the export-control references confirm it.' },
+        { text: 'FEA reports and drawings that Meridian produced itself under its Raytheon subcontract and delivered to the prime', answer: 1, concept: 'generated', why: 'Contractor-generated information is still CUI when it is created for the Government under the contract. Covered defense information reaches what the contractor develops in performance, not only what it is handed.' },
+        { text: 'Meridian’s payroll, ESOP participant records, and invoices from its commercial raw-material suppliers', answer: 2, why: 'Meridian created these as an employer and a business, at its own expense, for its own purposes. They fail both definitions. They are sensitive, but sensitivity is not the test.' },
+        { text: 'SF-86 data that Meridian’s security officer collects for staff who need a background determination', answer: 1, why: 'This is collected on the Government’s behalf under a personnel security process. Who the information was created for is the distinction between this and ordinary payroll.' },
+        { text: 'A non-public delivery schedule the Government sends a contractor under a contract, with no CUI category identified for it', answer: 0, why: 'Not public, provided by the Government under a contract, and no law or regulation requires CUI controls on it. That is FCI, which triggers FAR 52.204-21 and Level 1.' },
+        { text: 'Contract award information already posted on a public government website', answer: 2, why: 'FCI excludes information the Government provides to the public, such as anything on a public website, and no CUI category applies to it.' },
+        { text: 'Meridian’s SBIR final technical report, which the NAVAIR contract identifies as CUI//SP-EXPT', answer: 1, concept: 'generated', why: 'The contract names the category, and CUI reaches information an entity creates for or on behalf of the Government. Meridian’s data rights do not change its CUI status.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Who decides?', title: 'Who decides, and what the marking says',
+      instr: 'Work each case from the definitions and from 32 CFR Part 2002, not from what the contractor would prefer. Meridian Precision Defense Systems is fictional.',
+      hint: 'A contractor identifies and protects CUI; it never designates or decontrols it. The obligation attaches to the information, not to the marking. The SP- prefix means CUI Specified. Data rights govern what the Government may do with information; CUI status governs how it must be protected.',
+      review: { href: 'lesson02.html#s2', label: 'Lesson 2, Who decides' },
+      items: [
+        {
+          title: 'Case 1: An unmarked library', text: 'During scoping, an assessor finds Army drawings in a Meridian (fictional) SharePoint library. They were extracted from a marked technical data package, but the copies carry no CUI marking at all.',
+          parts: [
+            { q: 'What follows?', concept: 'designate', options: ['They are not CUI, because the obligation attaches to the marking on each copy', 'They are still CUI, and the missing marking may itself be a finding', 'Meridian should decide on its own authority whether to mark them now', 'The assessor should ask Meridian to decontrol them so the scope is smaller'], answer: 1, why: 'The obligation attaches to the information, not the sticker, so unmarked CUI is still CUI (A reverses this). A contractor applies required markings but does not designate on its own authority (C). Only the designating agency can decontrol CUI, and an assessor who asks for anything to change has stopped assessing (D).' },
+            { q: 'Who may designate information as CUI?', concept: 'designate', options: ['The contractor that holds the information and applies the markings', 'Any authorized holder that handles the information under 32 CFR Part 2002', 'The prime contractor, acting for every subcontractor in its supply chain', 'An agency, acting under a law, regulation, or government-wide policy that requires or permits the control'], answer: 3, why: 'Designation sits with the Government under EO 13556 and 32 CFR Part 2002, and it must rest on an authority. Contractors identify and protect CUI but never designate it (A). Handling authority is not designation authority (B). A prime flows down obligations; it does not gain designation power (C).' }
+          ]
+        },
+        {
+          title: 'Case 2: A banner marking', text: 'A drawing package arrives at Meridian with the banner marking CUI//SP-CTI.',
+          parts: [
+            { q: 'What does the SP- prefix tell you?', concept: 'registry', options: ['The information is classified at the lowest level and needs a clearance', 'It is a special DoD-only control that civil agencies do not recognize', 'Its authority sets handling controls beyond the CUI Basic baseline', 'Special permission from the contracting officer is needed to open it'], answer: 2, why: 'SP- marks a CUI Specified category, whose authorizing law, regulation, or policy sets controls beyond the Basic baseline. CUI is unclassified by definition (A). Specified is a government-wide construct, not a DoD one (B). No special-permission regime attaches to CUI as such (D).' }
+          ]
+        },
+        {
+          title: 'Case 3: A data-rights claim', text: 'Meridian (fictional) labels its SBIR research report “proprietary R&D, company confidential.” The NAVAIR contract identifies the report as CUI//SP-EXPT. The company says its SBIR data rights settle the question.',
+          parts: [
+            { q: 'Which response is correct?', concept: 'generated', options: ['It is CUI; data rights govern what the Government may do with it, not how it is protected', 'It is not CUI, because research performed by the contractor is outside the CUI definition entirely', 'It is CUI only if a government office marked the deliverable before it was submitted', 'It is company confidential, because SBIR data rights override any CUI category'], answer: 0, why: 'Rights govern use; CUI status governs protection, and the two can coexist. The contract names the category, and CUI reaches information created for the Government, so B fails. Marking is evidence, not the test (C). Data rights do not override a CUI category (D).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'origin', label: 'Which item in the sort did you want to classify by sensitivity instead of origin? What made it tempting?' },
+        { key: 'teach', label: 'Faculty: what information types from your students’ own workplaces or internships could you add to this sort, and how would you keep the examples fictional?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

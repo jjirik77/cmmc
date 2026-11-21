@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A4 Code of Professional Conduct: Independence Under Pressure | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A4',
+  title: 'Code of Professional Conduct: Independence Under Pressure',
+  accent: 'Independence Under Pressure',
+  domain: 'CCP Domain 2 (with Domain 5)',
+  time: '35 min',
+  level: 'Intermediate',
+  lessonHref: 'lesson03.html#s2',
+  lessonLabel: 'Lesson 3, The eight principles',
+  lede: 'Ethics questions are about 5% of the CCP exam and cause a large share of the misses, because candidates treat ethics as intuition. Work each case against the CMMC Code of Professional Conduct (CoPC) as a set of decision rules: what is the threat, who must act, and who decides?',
+  concepts: [
+    { key: 'impartial', name: 'Impartiality and the three-year bar', review: 'Lesson 3, Impartiality and the three-year bar' },
+    { key: 'conflicts', name: 'Disclose, mitigate, or avoid', review: 'Lesson 3, Impartiality and the three-year bar (who decides)' },
+    { key: 'contract', name: 'Engagement terms', review: 'Lesson 3, What happens before Phase 1' },
+    { key: 'ai', name: 'Proper use of technology and AI', review: 'Lesson 0, Responsible use, and what never leaves the boundary' }
+  ],
+  stations: [
+    {
+      type: 'scenario', short: 'Conflicts in the team', title: 'Conflicts in the team file',
+      instr: 'Northgate Assurance, a fictional C3PAO, is planning a Level 2 certification assessment of Meridian Precision Defense Systems (also fictional). Read each person’s file and choose the correct disposition. Every person named here is fictional.',
+      hint: 'The assessor’s duty is to disclose, in writing, as soon as a conflict is known or reasonably should be known. The C3PAO owns impartiality and conflict management and cannot delegate it. The three-year bar covers consulting to prepare an organization for any type of CMMC assessment, and it binds the C3PAO as an organization, not only individuals.',
+      review: { href: 'lesson03.html#s3', label: 'Lesson 3, Impartiality and the three-year bar' },
+      items: [
+        {
+          title: 'Case 1: A former consultant', text: 'Northgate proposes Lena Ortiz as a CCP on the team. Two years ago, while working for a different firm, she helped Meridian prepare for a Level 1 self-assessment.',
+          parts: [
+            { q: 'What applies to Lena?', concept: 'impartial', options: ['Nothing, because the earlier work was for Level 1, not Level 2', 'Nothing, because more than eighteen months have passed since the work ended', 'The three-year consulting bar prevents her from taking part in this certification assessment', 'She may take part if Meridian gives written consent after disclosure'], answer: 2, why: '32 CFR 170.8(b)(17)(ii)(G), carried into CoPC 2.2(d), bars taking part in the Level 2 certification process after consulting to prepare the organization for any type of CMMC assessment within three years. The level of the earlier work does not matter (A), the bar runs three years (B), and the OSC’s consent does not cure it (D).' }
+          ]
+        },
+        {
+          title: 'Case 2: A monthly meeting', text: 'Sam Whitley, a CCA, has served for three years on a professional association board with Meridian’s IT Administrator. They meet monthly. There is no financial or family tie.',
+          parts: [
+            { q: 'What should Sam do?', concept: 'conflicts', options: ['Nothing; association service is not a relationship of interest', 'Disclose it in writing and let the C3PAO decide on mitigation', 'Withdraw at once, since any social tie is disqualifying', 'Stay on the team but avoid interviewing the IT Administrator'], answer: 1, why: 'The test is whether a relationship could compromise the determination or reasonably appear to. The assessor discloses in writing; the C3PAO decides. A ignores a live appearance problem. C overcorrects, since some conflicts can be mitigated. D is a mitigation Sam may not choose for himself.' },
+            { q: 'Who decides whether an identified conflict can be sufficiently mitigated?', concept: 'conflicts', options: ['The assessor concerned, who knows the facts best', 'The OSC, since it bears the commercial consequence', 'The Cyber AB, which accredits the C3PAO', 'The C3PAO, which cannot delegate the decision'], answer: 3, why: 'The CAP assigns impartiality and conflict management to the C3PAO and says it cannot be delegated to the team or the OSC. No one decides their own eligibility (A). The OSC’s commercial interest is why it cannot decide (B). The Cyber AB accredits C3PAOs but does not rule on engagement conflicts in advance (C).' }
+          ]
+        },
+        {
+          title: 'Case 3: Shares in a vendor', text: 'Ravi Desai, a CCA, owns shares in the parent company of ClearPath IT Solutions, Meridian’s managed service provider. ClearPath is an External Service Provider that will be evaluated inside this assessment. Ravi listed the shares on a general disclosure form when he joined Northgate.',
+          parts: [
+            { q: 'What happens now?', concept: 'conflicts', options: ['Nothing more; the general form he filed on joining is enough', 'Nothing; his shares are in the parent, not in ClearPath itself', 'He may serve if he leaves every requirement that involves ClearPath to a teammate', 'He discloses it for this engagement, and the C3PAO decides'], answer: 3, why: 'A general disclosure on joining is not disclosure of a conflict in this engagement (A). An interest in the parent is an interest in the subsidiary’s performance (B). Carving out part of the scope is not a disposition the assessor may choose (C). He discloses now, and the C3PAO decides.' }
+          ]
+        },
+        {
+          title: 'Case 4: The firm’s own history', text: 'Eighteen months ago, Northgate’s advisory practice gave Meridian a gap report with an appendix titled “Recommended Remediation Sequence,” including suggested tools and cost estimates. None of the proposed assessors worked on it.',
+          parts: [
+            { q: 'What is the consequence for this engagement?', concept: 'impartial', options: ['The three-year bar applies to Northgate as an organization', 'None, because a gap assessment is not a CMMC assessment', 'None, because none of the proposed assessors worked on the report', 'It is cured if Northgate discloses the report on the Pre-Assessment Form'], answer: 0, why: 'The bar binds the C3PAO as an organization, and a remediation sequence with tooling is advisory work to prepare the organization. The label “gap assessment” does not change the activity (B). Swapping people addresses only individual conflicts (C). Disclosure is necessary but not sufficient where a conflict cannot be mitigated (D).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Terms, data, and AI', title: 'Engagement terms, confidentiality, and AI',
+      instr: 'These cases test the commercial terms of an engagement and the CoPC principles of Confidentiality and Proper Use of Technology and AI. Northgate Assurance and Meridian are fictional.',
+      hint: 'A contract may not include guarantees, promises of outcome, or any incentive contingent on a certificate being issued. A tool may summarize, but it cannot render MET or NOT MET. After an adverse readiness determination, no one affiliated with the C3PAO may help the OSC get ready.',
+      review: { href: 'lesson03.html#s4', label: 'Lesson 3, What happens before Phase 1' },
+      items: [
+        {
+          title: 'Case 5: The engagement letter', text: 'Northgate’s draft engagement letter says: “If a Certificate of CMMC Status is not issued, 25 percent of the fee will be credited toward a later assessment.”',
+          parts: [
+            { q: 'How should the C3PAO treat this term?', concept: 'contract', options: ['As a normal risk-sharing term that many service contracts include', 'As prohibited, since it gives the C3PAO a financial stake in the outcome', 'As acceptable, because it penalizes rather than rewards certification', 'As acceptable, provided Meridian has read and agreed to the term'], answer: 1, why: 'The contract may not include guarantees, promises of outcome, or any incentive contingent on a certificate being issued. A treats a prohibited term as ordinary commerce. C misreads it: the firm keeps the full fee only if the certificate issues. D fails because consent does not cure a financial stake in the outcome.' }
+          ]
+        },
+        {
+          title: 'Case 6: A public AI assistant', text: 'To save time, a team member pastes paragraphs of Meridian’s System Security Plan and a screenshot of its access-control settings into a public AI assistant. The assistant drafts finding language, the team member edits it, and enters it as the determination.',
+          parts: [
+            { q: 'Which CoPC principles are engaged?', concept: 'ai', options: ['Proper Use of Technology and AI, and Confidentiality', 'Proper Use of Technology and AI only, since the data was not sold', 'Confidentiality only, because the assessor still wrote the final edit', 'None, because the assessor reviewed and edited the output'], answer: 0, why: 'Two breaches: engagement-confidential data left the boundary, and a tool produced reasoning that is the credentialed assessor’s to produce. Information Integrity is arguably a third. Picking only one principle misses the other (B, C), and editing the output fixes neither problem (D).' },
+            { q: 'What should happen next?', concept: 'ai', options: ['The team member deletes the chat history and carries on with the assessment', 'The breach is disclosed to the C3PAO, which decides the disposition', 'The Lead CCA rewrites the finding by hand so the issue is resolved', 'The team asks the AI provider to confirm the data was not used for training'], answer: 1, why: 'Disclose to the C3PAO; the disposition is not the assessor’s to decide. Deleting the history (A) or rewriting the text (C) hides the breach without addressing it. A provider’s data terms do not make the disclosure authorized by the OSC, and they say nothing about who made the determination (D).' }
+          ]
+        },
+        {
+          title: 'Case 7: Not ready', text: 'In Phase 1, the Lead CCA determines that Meridian is not ready: no asset inventory exists, so scope cannot be validated. Meridian’s CEO asks whether Northgate could “take a pass at the inventory and tidy up the SSP first.”',
+          parts: [
+            { q: 'What is the right answer?', concept: 'impartial', options: ['Yes, if a team member who will not assess Meridian does the work', 'Yes, but only for the inventory, since it is a factual list, not advice', 'Yes, if the work is billed under a separate consulting contract', 'No; after an adverse readiness determination, no one affiliated with the C3PAO may help Meridian get ready'], answer: 3, why: 'An adverse readiness determination is a legitimate Phase 1 outcome, and under no circumstances does the C3PAO, the team, or anyone affiliated with it then help the OSC get ready. A different person (A), a narrower task (B), or a separate contract (C) does not change who is helping.' }
+          ]
+        },
+        {
+          title: 'Case 8: A summary tool', text: 'Assume the engagement permits a particular tool and no customer data leaves the boundary. A team member uses the tool to summarize a 40-page policy, and the tool also suggests “MET” for three requirements.',
+          parts: [
+            { q: 'What may the assessor do with the suggested MET calls?', concept: 'ai', options: ['Accept them, since the tool use was allowed and the data stayed in the boundary', 'Accept them, but only after a second credentialed team member has reviewed and agreed with the tool', 'Treat them as unsupported; the determination and its reasoning must be the assessor’s', 'Record them as provisional determinations until the results are compiled'], answer: 2, why: 'A model can summarize; it cannot render MET or NOT MET, because it cannot be held to the CoPC or challenged at an out-brief. Permission to use the tool (A) or a second opinion on its output (B) does not make the reasoning the assessor’s. There is no provisional determination category (D).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'pressure', label: 'Which pressure in these cases would be hardest for you to resist: a warm request, a commercial term, or a time-saving tool? Write the sentence you would actually say.' },
+        { key: 'teach', label: 'Faculty: which case would you turn into a role-play for your students? What would the observer check for?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

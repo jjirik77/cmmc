@@ -2,21 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CMMC Level 2 Audit Training — Meridian Precision Defense Systems</title>
+<title>Meridian Case Workbench | CMMC 5-Day Faculty Workshop</title>
 <style>
   :root {
-    --navy:    #0d1b2a;
-    --navy2:   #1b2d42;
-    --steel:   #2e4a6b;
-    --accent:  #1e90ff;
-    --gold:    #f0a500;
+    --navy:    #12233a;
+    --navy2:   #24425f;
+    --steel:   #2b4258;
+    --accent:  #9a5b0b;   /* CMMC text/accent amber, 5.4:1 on white */
+    --gold:    #c8862a;   /* decorative amber only, never body text */
+    --gold-pale: #fdf3e3;
+    --blue-pale: #e9eef4;
     --red:     #d9363e;
     --green:   #2ecc71;
     --yellow:  #f1c40f;
     --gray1:   #f4f6f9;
     --gray2:   #e2e8f0;
-    --gray3:   #94a3b8;
+    --gray3:   #55697e;
     --text:    #1e293b;
     --white:   #ffffff;
     --font:    'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -252,7 +255,7 @@
   .net-zone.corp  { border-color: var(--accent); }
   .net-zone.corp .net-zone-label  { color: var(--accent); }
   .net-zone.eng   { border-color: var(--gold); }
-  .net-zone.eng   .net-zone-label { color: #b07700; }
+  .net-zone.eng   .net-zone-label { color: #8a5410; }
   .net-zone.mgmt  { border-color: var(--green); }
   .net-zone.mgmt  .net-zone-label { color: #1a7a45; }
   .net-zone.gap-zone { border-color: var(--red); border-style: solid; }
@@ -445,9 +448,9 @@
     #hero::before { display: none; }
     #hero .tag { background: none; border: 1pt solid #999; color: #333 !important; }
     #hero h1 { font-size: 16pt; color: black !important; }
-    #hero h1 span { color: #1e90ff !important; }
+    #hero h1 span { color: #7c4708 !important; }
     #hero p { color: #333 !important; font-size: 10pt; }
-    .hero-meta .stat .num { color: #1e90ff !important; font-size: 13pt; }
+    .hero-meta .stat .num { color: #7c4708 !important; font-size: 13pt; }
     .hero-meta .stat .lbl { color: #666 !important; }
 
     /* Panels: show only the active one UNLESS print-all */
@@ -549,80 +552,111 @@
     body.edit-active .doc-card-body { border-left: none !important; }
     body.edit-active [data-edit-id] { outline: none !important; }
   }
+<style id="template-chrome">
+/* TEMPLATE CHROME: workshop layout, CMMC palette, light only */
+.card-header .ch-toggle,.net-device .dev-id{color:#c2ccd8}
+.pill-blue{background:var(--gold-pale);color:var(--accent)}
+.tab-btn .tb-num{color:#2b4258}
+footer.site-footer{background:var(--blue-pale);border-top:3px solid var(--accent);padding:2rem;text-align:center}
+footer.site-footer .footer-logo{font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.1rem;color:var(--accent);letter-spacing:.12em;margin-bottom:.5rem}
+footer.site-footer .footer-disclaimer{font-family:Arial,sans-serif;font-size:.74rem;color:#2b4258;max-width:620px;margin:0 auto;line-height:1.6}
+.back-labs{max-width:1200px;margin:0 auto 2rem;padding:0 1.5rem;font-family:Arial,sans-serif;font-size:.85rem}
+.back-labs a{color:var(--navy2);font-weight:700}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media print{nav.topnav,footer.site-footer,.back-labs{display:none !important}}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+/* ---- Course header: same values as cmmc-lesson.css (nav + lesson hero) ---- */
+nav.topnav{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:3px solid #9a5b0b;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px}
+nav.topnav .nav-brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+nav.topnav .nav-seal{width:38px;height:38px;border-radius:50%;background:#9a5b0b;display:flex;align-items:center;justify-content:center;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.65rem;color:#fff;letter-spacing:.02em;text-align:center;line-height:1.1;flex-shrink:0}
+nav.topnav .nav-title{font-family:'Arial Narrow',Arial,sans-serif;font-weight:700;font-size:1rem;color:#10202f;letter-spacing:.08em;text-transform:uppercase}
+nav.topnav .nav-right{display:flex;align-items:center;gap:1rem}
+nav.topnav .nav-links{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0}
+nav.topnav .nav-links a{color:#2b4258;text-decoration:none;font-family:Arial,sans-serif;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase}
+nav.topnav .nav-links a:hover{color:#9a5b0b}
+.lesson-hero{background:#e9eef4;border-bottom:3px solid #9a5b0b;position:relative;overflow:hidden;padding:3.5rem 2rem 3rem}
+.lesson-hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-55deg,transparent,transparent 40px,rgba(15,59,76,.04) 40px,rgba(15,59,76,.04) 41px);pointer-events:none}
+.lesson-hero-inner{max-width:1000px;margin:0 auto;position:relative}
+.lesson-hero .breadcrumb{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+.lesson-hero .breadcrumb a{color:#55697e;text-decoration:none}
+.lesson-hero .breadcrumb a:hover{color:#9a5b0b}
+.lesson-hero .breadcrumb span{color:#9a5b0b}
+.lesson-badge-lg{display:inline-block;background:#9a5b0b;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.12em;padding:.3rem .8rem;border-radius:2px;margin-bottom:1rem}
+.lesson-hero h1{font-family:Georgia,serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:#10202f;line-height:1.18;max-width:820px;margin-bottom:1rem}
+.lesson-hero h1 span{color:#9a5b0b}
+.lesson-lede{font-family:Arial,sans-serif;font-size:1.02rem;color:#2b4258;max-width:760px;line-height:1.7;margin-bottom:1.5rem}
+.meta-chips{display:flex;flex-wrap:wrap;gap:.6rem}
+.meta-chip{font-family:Arial,sans-serif;font-size:.72rem;letter-spacing:.04em;color:#2b4258;border:1px solid #bfcedd;border-radius:20px;padding:.35rem .9rem;background:#fff}
+.meta-chip strong{color:#9a5b0b;font-family:'Arial Narrow',Arial,sans-serif}
+.lesson-hero .banner-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
+.wb-btn{display:inline-flex;align-items:center;gap:.35rem;min-height:38px;background:#fff;color:#9a5b0b;border:1px solid #9a5b0b;border-radius:3px;padding:.45rem .95rem;font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;cursor:pointer}
+.wb-btn:hover{background:#9a5b0b;color:#fff}
+.wb-btn.btn-active{background:#9a5b0b;color:#fff}
+.wb-btn.wb-reset{color:#9d3427;border-color:#9d3427}
+.wb-btn.wb-reset:hover{background:#9d3427;color:#fff}
+.lesson-hero .print-menu{left:0;right:auto}
+/* ---- Case tabs: sticky directly under the course nav ---- */
+#tab-nav{top:60px;font-family:Arial,sans-serif;border-bottom:1px solid #c2ccd8;box-shadow:0 2px 6px rgba(18,35,58,.06)}
+#tab-nav .tab-btn{font-family:Arial,sans-serif;color:#2b4258}
+#tab-nav .tab-btn:hover,#tab-nav .tab-btn.active{color:#9a5b0b;border-bottom-color:#9a5b0b}
+#tab-nav .tab-btn.active .tb-num{background:#fdf3e3;color:#9a5b0b}
+#tab-nav::-webkit-scrollbar-thumb{background:#c8862a}
+#edit-toolbar{top:108px;background:#12233a;border-bottom:2px solid #c8862a;font-family:Arial,sans-serif}
+@media (max-width:980px){nav.topnav .nav-links{gap:1rem}}
+@media (max-width:760px){nav.topnav .nav-links{display:none}.lesson-hero{padding:2.5rem 1.25rem 2rem}}
+@media print{.lesson-hero .banner-actions,#tab-nav,#edit-toolbar{display:none !important}.lesson-hero{padding:1rem 0;border:0;background:#fff}.lesson-hero::before{display:none}}
 </style>
 </head>
 <body>
 
-<!-- TOP BANNER -->
-<header id="banner">
-  <div class="logo">
-    <div class="logo-icon">M</div>
-    <div class="logo-text">
-      Meridian Precision Defense Systems, Inc.
-      <span>CMMC Level 2 Audit Training Case Study</span>
-    </div>
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-seal">CMMC<br>PREP</div>
+    <span class="nav-title">5-Day Faculty Workshop</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#lessons">Lessons</a></li>
+      <li><a href="index.html#practice">Practice</a></li>
+      <li><a href="index.html#schedule">Schedule</a></li>
+      <li><a href="index.html#domains">Domains</a></li>
+      <li><a href="index.html#exam-prep">Exam Prep</a></li>
+      <li><a href="index.html#faculty-tools">Faculty Tools</a></li>
+    </ul>
   </div>
-  <div class="banner-actions">
-    <span class="badge">CMMC 2.0 · NIST 800-171</span>
-    <button id="edit-btn" class="btn-banner" onclick="toggleEditMode()">✏ Edit Mode</button>
-    <div class="print-menu-wrap">
-      <button class="btn-banner btn-print" onclick="togglePrintMenu(event)">🖨 Print ▾</button>
-      <div id="print-menu" class="print-menu" style="display:none">
-        <button onclick="printCurrentTab(); closePrintMenu()">🖨 Print Current Tab</button>
-        <button onclick="printAll(); closePrintMenu()">📄 Print All Sections</button>
-      </div>
+</nav>
+
+<!-- PAGE HEADER (course lesson style) -->
+<header class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <p class="breadcrumb"><a href="index.html">Workshop</a> &nbsp;&rsaquo;&nbsp; <a href="labs.html">CMMC Assessment Lab</a> &nbsp;&rsaquo;&nbsp; <span>Meridian Case Workbench</span></p>
+    <span class="lesson-badge-lg">Fictional Case &middot; CMMC Level 2 &middot; NIST SP 800-171 Rev. 2</span>
+    <h1>Meridian Precision <span>Defense Systems</span></h1>
+    <p class="lesson-lede">The case you assess all week: a complete CMMC Level 2 audit training scenario. Explore the company, its contracts, people, systems, and records, find the gaps, and build your findings. Meridian and everyone in it are fictional, created for instruction; any resemblance to real organizations, contracts, or people is coincidental.</p>
+    <div class="meta-chips">
+      <span class="meta-chip"><strong>147</strong> Employees</span>
+      <span class="meta-chip"><strong>3</strong> Active contracts</span>
+      <span class="meta-chip"><strong>$17.9M</strong> Contract value</span>
+      <span class="meta-chip"><strong>8</strong> Seeded gaps</span>
+      <span class="meta-chip"><strong>9</strong> Audit documents</span>
     </div>
-    <button class="btn-banner btn-reset" onclick="resetEdits()" title="Reset all edits to original">↺ Reset</button>
+    <div class="banner-actions" role="group" aria-label="Workbench tools">
+      <button id="edit-btn" type="button" class="wb-btn" onclick="toggleEditMode()">&#9998; Edit Mode</button>
+      <div class="print-menu-wrap">
+        <button type="button" class="wb-btn" onclick="togglePrintMenu(event)" aria-haspopup="true">&#128424; Print &#9662;</button>
+        <div id="print-menu" class="print-menu" style="display:none">
+          <button type="button" onclick="printCurrentTab(); closePrintMenu()">Print current tab</button>
+          <button type="button" onclick="printAll(); closePrintMenu()">Print all sections</button>
+        </div>
+      </div>
+      <button type="button" class="wb-btn wb-reset" onclick="resetEdits()" title="Reset all edits to the original text">&#8634; Reset edits</button>
+    </div>
   </div>
 </header>
 
-<div class="disclaimer-bar">
-  ⚠ This case study is entirely fictitious and created for educational purposes only. Any resemblance to real organizations, contracts, or individuals is coincidental.
-</div>
-
-<!-- FLOATING IMAGE PANELS -->
-<div id="img-meridian" class="img-panel img-panel-left">
-  <div class="img-panel-header" onmousedown="startDrag(event,'img-meridian')">
-    <span>🏢 Meridian Precision Defense Systems</span>
-    <button class="img-panel-close" onclick="closeImg('img-meridian')" title="Close">✕</button>
-  </div>
-  <img src="Meridian.jpg" alt="Meridian Precision Defense Systems">
-</div>
-
-<div id="img-network" class="img-panel img-panel-right">
-  <div class="img-panel-header" onmousedown="startDrag(event,'img-network')">
-    <span>🌐 MPDS Network Diagram</span>
-    <button class="img-panel-close" onclick="closeImg('img-network')" title="Close">✕</button>
-  </div>
-  <img src="Network.jpg" alt="MPDS Network Diagram">
-</div>
-
-<!-- EDIT TOOLBAR (visible only in edit mode) -->
-<div id="edit-toolbar">
-  <span class="et-icon">✏</span>
-  <span>Edit Mode Active — click any text to modify it</span>
-  <span id="save-status"></span>
-  <button class="et-save" onclick="saveEdits()">💾 Save Now</button>
-  <button class="et-done" onclick="toggleEditMode()">✓ Done Editing</button>
-</div>
-
 <!-- TOAST -->
 <div id="toast"></div>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="tag">DoD Subcontractor · Audit Training Scenario</div>
-  <h1>Meridian Precision <span>Defense Systems</span></h1>
-  <p>A complete, self-contained CMMC Level 2 audit training scenario supporting nine student document groups. Explore organizational data, find the gaps, and build your findings.</p>
-  <div class="hero-meta">
-    <div class="stat"><div class="num">147</div><div class="lbl">Employees</div></div>
-    <div class="stat"><div class="num">3</div><div class="lbl">Active Contracts</div></div>
-    <div class="stat"><div class="num">8</div><div class="lbl">Seeded Gaps</div></div>
-    <div class="stat"><div class="num">9</div><div class="lbl">Audit Documents</div></div>
-    <div class="stat"><div class="num">$17.9M</div><div class="lbl">Contract Value</div></div>
-  </div>
-</section>
-
 <!-- TAB NAV -->
 <nav id="tab-nav">
   <button class="tab-btn active" onclick="showTab('overview')">🏢 Overview</button>
@@ -638,13 +672,20 @@
   <button class="tab-btn" onclick="showTab('instructor')">🎓 Instructor Guide</button>
 </nav>
 
+<!-- EDIT TOOLBAR (visible only in edit mode) -->
+<div id="edit-toolbar">
+  <span class="et-icon">✏</span>
+  <span>Edit Mode Active — click any text to modify it</span>
+  <span id="save-status"></span>
+  <button class="et-save" onclick="saveEdits()">💾 Save Now</button>
+  <button class="et-done" onclick="toggleEditMode()">✓ Done Editing</button>
+</div>
+
+
 <main id="main">
 
 <!-- ═══════════════════════════════════════════ OVERVIEW ═══ -->
 <div id="tab-overview" class="tab-panel active">
-  <button class="img-btn" onclick="toggleImg('img-meridian')">
-    <span class="ib-icon">🏢</span> View Company Image
-  </button>
   <div class="card">
     <div class="card-header open" onclick="toggleCard(this)">
       <div class="ch-icon">🏢</div>
@@ -889,11 +930,6 @@
 
 <!-- ═══════════════════════════════════════════ IT ═══ -->
 <div id="tab-it" class="tab-panel">
-  <div style="display:flex; justify-content:flex-end; margin-bottom:.25rem">
-    <button class="img-btn" onclick="toggleImg('img-network')">
-      <span class="ib-icon">🌐</span> View Network Diagram
-    </button>
-  </div>
   <div class="card">
     <div class="card-header open" onclick="toggleCard(this)">
       <div class="ch-icon">🖥</div>
@@ -1544,14 +1580,31 @@
 
 </main>
 
+<p class="back-labs"><a href="labs.html">&larr; Back to the CMMC Assessment Lab</a> &nbsp;&middot;&nbsp; <a href="lesson08.html">Lesson 8: Conducting the Assessment</a> &nbsp;&middot;&nbsp; <a href="lesson00.html">Lesson 0: Orientation</a></p>
+<footer class="site-footer">
+  <div class="footer-logo">CMMC 5-DAY FACULTY WORKSHOP</div>
+  <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
+</footer>
+
 <script>
 // ── Tab switching ──────────────────────────────────────────
-function showTab(id) {
+function showTab(id, btn) {
+  var panel = document.getElementById('tab-' + id);
+  if (!panel) return;
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  panel.classList.add('active');
+  var b = btn || (window.event && window.event.currentTarget && window.event.currentTarget.classList && window.event.currentTarget.classList.contains('tab-btn') ? window.event.currentTarget : null)
+          || document.querySelector('.tab-btn[onclick*="\'' + id + '\'"]');
+  if (b) b.classList.add('active');
 }
+// Open a tab from the address, e.g. meridian.html#contracts (used by the lab tools' "Keep the case in view" bar).
+function showTabFromHash() {
+  var id = (location.hash || '').replace(/^#(tab-)?/, '');
+  if (id && id !== 'instructor' && document.getElementById('tab-' + id)) { showTab(id); window.scrollTo(0, 0); }
+}
+window.addEventListener('hashchange', showTabFromHash);
+document.addEventListener('DOMContentLoaded', showTabFromHash);
 
 // ── Card toggle ────────────────────────────────────────────
 function toggleCard(header) {
@@ -1572,7 +1625,7 @@ const docs = [
     domains:'All 14 domains — system boundary, CUI scope, control implementation',
     finding:'SSP not updated to reflect Huntsville expansion; MSP not documented as external service provider per scoping guidance',
     questions:[
-      'The SSP was last updated Oct 2023. DFARS 252.204-7019 requires annual affirmation. What environmental changes since that date trigger an SSP update, and how does this relate to practice 3.12.4?',
+      'The SSP was last updated Oct 2023. 32 CFR 170.22 requires an annual affirmation of continuing compliance. What environmental changes since that date trigger an SSP update, and how does this relate to practice 3.12.4?',
       'Huntsville shares an AD domain and authenticates over VPN to Dayton DCs. Should Huntsville be a separate authorization boundary or included in the same SSP? Justify using CMMC scoping guidance.',
       'ClearPath MSP has domain admin access. How should an external service provider with privileged access be represented in an SSP, and what additional artifacts (FIPS 140-2, background checks) should be documented?'
     ]
@@ -1928,24 +1981,6 @@ setTimeout(() => {
 }, 150);
 </script>
 
-<style id="cmmc5day-reskin">
-/* CMMC 5-Day Workshop palette overlay - navy #12233a + defense amber #c8862a.
-   Appended by build; remove this block to restore the original portal colours. */
-:root{
-  --primary:#12233a; --secondary:#c8862a; --accent:#c8862a;
-  --navy:#12233a; --gold:#c8862a; --brand:#12233a; --brand-accent:#c8862a;
-}
-</style>
-<div style="position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#12233a;color:#fff;
-  font-family:Arial,Helvetica,sans-serif;font-size:.74rem;padding:.5rem 1rem;display:flex;
-  align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-  border-top:3px solid #c8862a">
-  <span><strong style="color:#c8862a">Meridian case workbench</strong> &mdash; the threaded case study for the
-    CMMC Level 2 five-day workshop. Fictional and for instruction only.</span>
-  <a href="index.html" style="color:#c8862a;font-weight:700;text-decoration:none;white-space:nowrap">
-    &larr; Back to the workshop</a>
-</div>
-<style>body{padding-bottom:56px!important}@media print{body{padding-bottom:0!important}}</style>
 
 </body>
 </html>

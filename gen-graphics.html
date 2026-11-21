@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphic Prompt Builder | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<style>
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+  .builder { display: grid; gap: 1.1rem; }
+  .group-label { font-family: 'Arial Narrow', Arial, sans-serif; font-weight: 900; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; margin-top: 0.4rem; }
+  .field { display: grid; gap: 0.4rem; }
+  .field label { font-family: 'Arial Narrow', Arial, sans-serif; font-weight: 900; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-primary); }
+  .field .hint { font-family: Arial, sans-serif; font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+  .field select, .field input[type=text], .field textarea {
+    width: 100%; font-family: Arial, sans-serif; font-size: 0.92rem; color: var(--text-primary);
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.6rem 0.7rem;
+    transition: border-color 0.15s;
+  }
+  .field select:focus, .field input[type=text]:focus, .field textarea:focus { outline: none; border-color: var(--gold); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .field-check { display: flex; align-items: flex-start; gap: 0.6rem; background: var(--blue-pale); border: 1px solid var(--blue-pale-border); border-radius: 6px; padding: 0.7rem 0.9rem; }
+  .field-check input { margin-top: 0.15rem; accent-color: var(--gold); flex-shrink: 0; }
+  .field-check span { font-family: Arial, sans-serif; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.45; }
+  .field-check b { color: var(--text-primary); }
+
+  .preview-wrap { position: sticky; top: 78px; display: grid; gap: 0.9rem; }
+  .preview-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .preview-head .ph-title { font-family: 'Arial Narrow', Arial, sans-serif; font-weight: 900; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); }
+  #promptOut {
+    width: 100%; min-height: 520px; resize: vertical; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.8rem; line-height: 1.55; color: var(--text-primary); background: var(--blue-pale);
+    border: 1px solid var(--blue-pale-border); border-radius: 6px; padding: 1rem 1.1rem;
+  }
+  .copy-note { font-family: Arial, sans-serif; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; background: var(--card-bg); border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 0 4px 4px 0; padding: 0.85rem 1.05rem; }
+  .copy-note b { color: var(--text-primary); }
+  #copyMsg { font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--correct); }
+  @media (max-width: 880px) {
+    .tool-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    .preview-wrap { position: static; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 1180px) { .nav-links { gap: 1rem; } }
+  @media (max-width: 980px) { nav.topnav .nav-links { display: none; } }
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-seal">CMMC<br>PREP</div>
+    <span class="nav-title">5-Day Faculty Workshop</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#lessons">Lessons</a></li>
+      <li><a href="index.html#practice">Practice</a></li>
+      <li><a href="index.html#schedule">Schedule</a></li>
+      <li><a href="index.html#domains">Domains</a></li>
+      <li><a href="index.html#exam-prep">Exam Prep</a></li>
+      <li><a href="index.html#faculty-tools">Faculty Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <p class="breadcrumb"><a href="index.html">Workshop</a> &nbsp;&rsaquo;&nbsp; <a href="index.html#faculty-tools">Faculty Tools</a> &nbsp;&rsaquo;&nbsp; <span>Graphic Builder</span></p>
+    <span class="lesson-badge-lg">Content Development Tool</span>
+    <h1>Graphic <span>Prompt Builder</span></h1>
+    <p class="lesson-lede">Compose a precise prompt for a classroom-ready CMMC graphic &mdash; a process flow, a regulatory chain, a comparison matrix, or a scoping diagram. Set the subject, the visual style, and the output specs; the prompt builds as you go. Paste it into an image-capable AI to draft the asset.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="block">
+    <p class="eyebrow">Build Your Prompt</p>
+    <h2 class="h2">Compose the graphic</h2>
+    <div class="rule"></div>
+
+    <div class="tool-grid">
+
+      <form class="builder" id="builder" oninput="buildPrompt()" onchange="buildPrompt()" onsubmit="return false">
+
+        <div class="group-label">1 &middot; Subject</div>
+
+        <div class="field">
+          <label for="platform">Target Model</label>
+          <select id="platform">
+            <option value="an image-capable AI" data-url="https://claude.ai" selected>Any image-capable AI</option>
+            <option value="ChatGPT / DALL&middot;E 3" data-url="https://chatgpt.com">ChatGPT / DALL&middot;E 3</option>
+            <option value="Google Gemini" data-url="https://gemini.google.com">Google Gemini</option>
+            <option value="Claude" data-url="https://claude.ai">Claude</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="domain">CCP Exam Domain</label>
+          <select id="domain" onchange="fillTopics()">
+            <option data-key="D1" value="CCP Domain 1 &mdash; CMMC Ecosystem (5% of the CCP exam)">D1 &mdash; CMMC Ecosystem</option>
+            <option data-key="D2" value="CCP Domain 2 &mdash; CMMC Code of Professional Conduct (5% of the CCP exam)">D2 &mdash; Code of Professional Conduct</option>
+            <option data-key="D3" value="CCP Domain 3 &mdash; CMMC Governance and Source Documents (15% of the CCP exam)" selected>D3 &mdash; Governance &amp; Source Documents</option>
+            <option data-key="D4" value="CCP Domain 4 &mdash; CMMC Model Construct and Implementation Evaluation (35% of the CCP exam)">D4 &mdash; Model Construct &amp; Implementation Evaluation</option>
+            <option data-key="D5" value="CCP Domain 5 &mdash; CMMC Assessment Process (25% of the CCP exam)">D5 &mdash; Assessment Process</option>
+            <option data-key="D6" value="CCP Domain 6 &mdash; Scoping (15% of the CCP exam)">D6 &mdash; Scoping</option>
+            <option data-key="MIX" value="Mixed &mdash; a cross-domain scenario spanning several CCP domains">Mixed / Cross-Domain</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="topic">Topic / Concept</label>
+          <select id="topic"></select>
+          <span class="hint">Updates with the domain. The graphic will illustrate this concept.</span>
+        </div>
+
+        <div class="field">
+          <label for="gtype">Graphic Type</label>
+          <select id="gtype">
+            <option value="a process flow / lifecycle diagram with clearly ordered, arrow-connected stages" selected>Process flow / lifecycle</option>
+            <option value="a concept map showing entities and their relationships">Concept / relationship map</option>
+            <option value="a comparison table or 2&times;2 matrix">Comparison table / matrix</option>
+            <option value="a hierarchy or framework diagram (nested or tiered)">Framework / hierarchy</option>
+            <option value="a horizontal timeline">Timeline</option>
+            <option value="a scoping / boundary diagram showing which assets sit inside the assessment boundary">Scoping / boundary diagram</option>
+            <option value="a single-page infographic summary">Infographic summary</option>
+            <option value="an annotated, labeled illustration">Annotated illustration</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="elements">Key Elements / Labels <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted)">(optional)</span></label>
+          <input type="text" id="elements" placeholder="e.g., CAP Phase 1 &rarr; Phase 2 &rarr; Phase 3 &rarr; Phase 4; or the five asset categories">
+          <span class="hint">Name the specific boxes, stages, or labels to include. Leave blank to let the model choose.</span>
+        </div>
+
+        <div class="group-label">2 &middot; Visual Style</div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="style">Style</label>
+            <select id="style">
+              <option value="clean flat vector" selected>Flat vector</option>
+              <option value="minimal line-art">Line-art</option>
+              <option value="editorial infographic">Editorial / infographic</option>
+              <option value="isometric">Isometric</option>
+              <option value="technical schematic">Technical schematic</option>
+              <option value="minimal, lots of white space">Minimal</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="color">Color Scheme</label>
+            <select id="color">
+              <option value="the CMMC workshop palette &mdash; charcoal navy (#12233a) with an amber (#9a5b0b) accent on a light background (#eef1f5)" selected>CMMC Navy &amp; Amber</option>
+              <option value="an academic palette &mdash; navy and gold on white">Academic (navy + gold)</option>
+              <option value="neutral grayscale with a single accent">Neutral / grayscale</option>
+              <option value="a high-contrast, accessible palette">High-contrast / accessible</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="density">Density</label>
+            <select id="density">
+              <option value="minimal &mdash; a few core elements">Minimal</option>
+              <option value="moderate detail" selected>Moderate</option>
+              <option value="rich, information-dense">Rich</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="textamt">Amount of Text</label>
+            <select id="textamt">
+              <option value="title and key terms only">Title + key terms</option>
+              <option value="moderate labels and short captions" selected>Moderate labels</option>
+              <option value="full text so the graphic is a self-contained reference">Full / self-contained</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="group-label">3 &middot; Output</div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="size">Size / Aspect</label>
+            <select id="size">
+              <option value="16:9 slide" selected>16:9 slide</option>
+              <option value="4:3 slide">4:3 slide</option>
+              <option value="1080&times;1080 square">Square (1080)</option>
+              <option value="US Letter, portrait">Letter portrait</option>
+              <option value="US Letter, landscape">Letter landscape</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="format">File Format</label>
+            <select id="format">
+              <option value="PNG">PNG</option>
+              <option value="SVG (vector)">SVG</option>
+              <option value="PDF">PDF</option>
+              <option value="the model's recommended format" selected>Model's choice</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="field-check"><input type="checkbox" id="transparent"><span><b>Transparent background.</b> For overlaying on slides.</span></label>
+        <label class="field-check"><input type="checkbox" id="cvd" checked><span><b>Color-blind-safe palette.</b> Distinguish elements by more than color alone.</span></label>
+        <label class="field-check"><input type="checkbox" id="caption" checked><span><b>Caption + source.</b> Add a one-line caption naming the CCP domain and the primary source the graphic draws on.</span></label>
+        <label class="field-check"><input type="checkbox" id="alt" checked><span><b>Alt-text.</b> Also return descriptive alt-text for accessibility.</span></label>
+
+        <div class="field">
+          <label for="extra">Additional Instructions <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted)">(optional)</span></label>
+          <input type="text" id="extra" placeholder="e.g., leave space bottom-right for our logo; number the stages 1&ndash;4">
+        </div>
+      </form>
+
+      <div class="preview-wrap">
+        <div class="preview-head">
+          <span class="ph-title">&#128221; Generated prompt</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+            <span id="copyMsg" role="status" aria-live="polite"></span>
+            <button type="button" class="btn secondary" onclick="resetForm()">Reset</button>
+            <button type="button" class="btn secondary" onclick="openPlatform()">&#8599; Open</button>
+            <button type="button" class="btn" onclick="copyPrompt()">&#128203; Copy</button>
+          </div>
+        </div>
+        <textarea id="promptOut" readonly aria-label="Generated prompt"></textarea>
+        <div class="copy-note"><b>Verify before use.</b> AI tools make mistakes. Check every requirement, citation, number, and date against the primary sources (32 CFR Part 170, the DFARS, NIST SP 800-171 Rev. 2 and 800-171A, the CAP, the CoPC, and the NARA CUI Registry) before classroom use. <b>Do not paste student data, CUI, or nonpublic contract information into AI tools.</b> Image models often misspell technical terms, so proofread every label.</div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo">CMMC 5-DAY FACULTY WORKSHOP</div>
+  <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
+</footer>
+
+<script>
+  const TOPICS = {
+    D1: ["L0 · The assessor mindset: consultant vs. assessor","L0 · Who certifies whom: DoD, the Cyber AB, ISACA (CAICO), C3PAOs, CCPs, and CCAs","L1 · Roles in the ecosystem: OSA, OSC, C3PAO, RPO, and ESP","L1 · CMMC levels and assessment types (self vs. C3PAO)","L9 · The credential pathway from CCP to CCA"],
+    D2: ["L3 · Independence and the three-year consulting bar","L3 · Conflicts of interest: disclosure and who decides","L3 · Confidentiality and handling OSC information","L3 · Outcome-contingent fees and professional conduct","L3 · Responsible AI use in assessment work"],
+    D3: ["L1 · The regulatory chain: FAR 52.204-21, DFARS 252.204-7012 and -7021, 32 CFR Part 170","L1 · Announcement vs. instrument: memos, class deviations, and rules","L1 · Phase-in and the current regulatory status","L2 · FCI vs. CUI","L2 · CUI categories and the NARA CUI Registry","L2 · Marking and contractor-generated CUI"],
+    D4: ["L6 · The 14 families of NIST SP 800-171 Rev. 2","L6 · Assessment objectives in NIST SP 800-171A","L6 · MET / NOT MET / NOT APPLICABLE determinations","L6 · Inherited controls and shared responsibility","L7 · DoD Assessment Methodology scoring (start at 110; deduct 5 / 3 / 1)","L7 · The two partial-credit exceptions: MFA (3.5.3) and FIPS encryption (3.13.11)"],
+    D5: ["L3 · CAP Phase 1: planning and readiness","L5 · Examine, interview, and test","L5 · Evidence adequacy and sufficiency","L7 · Incident reporting under DFARS 252.204-7012 (72 hours)","L8 · CAP Phase 2: conducting the assessment","L8 · CAP Phase 3: reporting, out-brief, and QA review","L9 · POA&M rules and closeout (32 CFR 170.21)","L9 · Annual affirmations and sustainment"],
+    D6: ["L4 · The five asset categories","L4 · Drawing the assessment boundary","L4 · ESPs, CSPs, and FedRAMP Moderate equivalency","L4 · Enclaves and flow-down to subcontractors"],
+    MIX: ["L8 · A full Meridian assessment, from scoping to POA&M","A cross-domain scenario spanning ecosystem, governance, scoping, evidence, and scoring"]
+  };
+
+  const MERIDIAN = "Set examples in the workshop's fictional case company: Meridian Precision Defense Systems, Inc. (fictional), a 147-person defense manufacturer with three active DoD contracts (an Army prime contract, a subcontract under a larger prime, and an SBIR Phase II research contract). It uses a managed service provider for IT, has a satellite site in Huntsville, and has seeded gaps such as no MFA on the VPN, stale user accounts, and an out-of-date System Security Plan. Label Meridian and every person in it as fictional.";
+  const GUARD = "\n\n## ACCURACY AND SAFETY RULES (apply to everything above)\n" +
+    "- All organizations, people, contracts, and incidents must be fictional, and label them as fictional. Do not use real company or real person names.\n" +
+    "- Base every requirement on primary sources and cite them by part, section, or clause: 32 CFR Part 170 (the CMMC Program rule); the DFARS (252.204-7012 and the CMMC clause 252.204-7021); FAR 52.204-21; NIST SP 800-171 Rev. 2 and NIST SP 800-171A; the CMMC Assessment Process (CAP); the CMMC Code of Professional Conduct (CoPC); and the NARA CUI Registry. Do not cite blogs or vendor pages as authority. If you are not sure a source says something, say so instead of guessing.\n" +
+    "- CMMC Level 2 is assessed against NIST SP 800-171 Rev. 2, not Rev. 3.\n" +
+    "- Do not state CCP or CCA exam duration, passing score, or fees, and do not claim to reproduce real exam questions. Use only exam facts ISACA has published (for the CCP: 170 questions across six domains).\n" +
+    "- Regulatory status changes. As of 16 November 2026, program Phase 2 (Level 2 C3PAO certification) is suspended and no restart date has been announced. Do not present phase-in dates as current fact; tell readers to verify the current status.\n" +
+    "- Keep 'program Phase 2' (a rollout milestone) separate from 'CAP Phase 2' (conducting an assessment).\n" +
+    "- Do not ask for, include, or invent real CUI, student data, or nonpublic contract information.\n" +
+    "- Use plain American English at about a grade-10 reading level unless the audience needs otherwise.";
+
+  function val(id){ return document.getElementById(id).value; }
+  function checked(id){ return document.getElementById(id).checked; }
+
+  function fillTopics(){
+    const key = document.getElementById('domain').selectedOptions[0].dataset.key;
+    const sel = document.getElementById('topic');
+    sel.innerHTML = TOPICS[key].map(t => '<option>'+t+'</option>').join('');
+    buildPrompt();
+  }
+
+  function buildPrompt(){
+    const platform = val('platform');
+    const domain = document.getElementById('domain').selectedOptions[0].value;
+    const topic = val('topic');
+    const gtype = val('gtype');
+    const elementsRaw = val('elements').trim();
+    const style = val('style');
+    const color = val('color');
+    const density = val('density');
+    const textamt = val('textamt');
+    const size = val('size');
+    const format = val('format');
+    const extra = val('extra').trim();
+
+    let p = "";
+    p += "You are an expert instructional graphic designer. Create a classroom-ready instructional graphic about CMMC (Cybersecurity Maturity Model Certification) for college cybersecurity and IT courses, for " + platform + ".\n\n";
+    p += "## SUBJECT\n";
+    p += "- Illustrate: " + topic + "\n";
+    p += "- Context: " + domain + "\n";
+    p += "- Graphic type: " + gtype + "\n";
+    if (elementsRaw) p += "- Must include these elements/labels, spelled exactly: " + elementsRaw + "\n";
+    p += "\n## VISUAL STYLE\n";
+    p += "- Style: " + style + ".\n";
+    p += "- Color scheme: " + color + ".\n";
+    p += "- Density: " + density + "; text: " + textamt + ".\n";
+    p += "- Clear visual hierarchy, generous spacing, and legible type readable at a distance (e.g., projected on a screen).\n";
+    p += "\n## OUTPUT\n";
+    p += "- Size / aspect: " + size + "; file format: " + format + ".\n";
+    if (checked('transparent')) p += "- Use a transparent background.\n";
+    if (checked('cvd'))         p += "- Use a color-blind-safe palette and distinguish elements by shape/label, not color alone.\n";
+    if (checked('caption'))     p += "- Include a one-line caption noting this supports " + domain + " and naming the primary source it draws on.\n";
+    if (checked('alt'))         p += "- Also return descriptive ALT-TEXT for the graphic.\n";
+    if (extra)                  p += "- Additional instructions: " + extra + "\n";
+    p += "\n## ACCURACY\n";
+    p += "- All terminology must match the primary sources (32 CFR Part 170, NIST SP 800-171 Rev. 2 and 800-171A, the CAP) and keep the assessor's framing. Spell every technical label, requirement number, and clause number exactly. Do not use DoD, Department of War, or Cyber AB seals or logos.\n";
+
+    p += GUARD;
+    document.getElementById('promptOut').value = p;
+  }
+
+  function copyPrompt(){
+    const ta = document.getElementById('promptOut');
+    ta.select(); ta.setSelectionRange(0, ta.value.length);
+    const done = (ok) => {
+      const msg = document.getElementById('copyMsg');
+      msg.textContent = ok ? "✓ Copied!" : "Press Ctrl/Cmd+C to copy";
+      setTimeout(()=>{ msg.textContent=""; }, 2500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(()=>done(true)).catch(()=>done(false));
+    } else {
+      try { document.execCommand('copy'); done(true); } catch(e){ done(false); }
+    }
+  }
+
+  function openPlatform(){
+    copyPrompt();
+    window.open(document.getElementById('platform').selectedOptions[0].dataset.url, '_blank', 'noopener');
+  }
+
+  function resetForm(){
+    document.getElementById('builder').reset();
+    fillTopics();
+    document.getElementById('copyMsg').textContent = "";
+  }
+
+  fillTopics();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A9 Running the Assessment: Phases, Briefs, and Reports | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A9',
+  title: 'Running the Assessment: Phases, Briefs, and Reports',
+  accent: 'Phases, Briefs, and Reports',
+  domain: 'CCP Domain 5 (25%)',
+  time: '35 min',
+  level: 'Intermediate',
+  lessonHref: 'lesson08.html#s2',
+  lessonLabel: 'Lesson 8, Running the in-brief',
+  lede: 'An assessment has a set sequence, and several steps are assigned to specific people. Put the engagement in order from request to closeout, then handle the moments in the room where teams most often slip: the in-brief, the evidence log, the quality review, and the CEO’s reasonable request.',
+  concepts: [
+    { key: 'phases', name: 'The CAP sequence', review: 'Lesson 3, What happens before Phase 1, and Phase 1' },
+    { key: 'inbrief', name: 'In-brief and checkpoints', review: 'Lesson 8, Running the in-brief' },
+    { key: 'qa', name: 'Quality review and out-brief', review: 'Lesson 8, Determinations, findings, and the out-brief' },
+    { key: 'reporting', name: 'Evidence logs and findings', review: 'Lesson 8, The overnight evidence request' }
+  ],
+  stations: [
+    {
+      type: 'order', short: 'Put it in order', title: 'Put the engagement in order', concept: 'phases',
+      instr: 'Arrange the steps of a Level 2 certification engagement from first to last, from the OSC’s request through closeout. Use the arrow buttons to move each step. Then select <b>Check answers</b>.',
+      hint: 'Preliminary proceedings come before Phase 1, and conflicts are managed there. Phase 1 ends on an upload, not a meeting. The in-brief opens the evidence work. Results are quality-reviewed before the out-brief. Closeout of any POA&M comes last.',
+      topLabel: 'First',
+      bottomLabel: 'Last',
+      review: { href: 'lesson03.html#s4', label: 'Lesson 3, What happens before Phase 1' },
+      items: [
+        { text: 'The Lead CCA runs the in-brief: scope, procedures, schedule, conflicts, and appeal rights', rank: 4, concept: 'inbrief', why: 'The in-brief opens Phase 2, after Phase 1 has concluded.' },
+        { text: 'A C3PAO conducts a closeout assessment of POA&M items within 180 days of the Conditional CMMC Status Date', rank: 7, why: 'Closeout (CAP Phase 4) comes only after Conditional status has issued.' },
+        { text: 'The C3PAO identifies and manages conflicts, then signs a contract and NDA with no outcome-contingent terms', rank: 1, why: 'Conflicts are managed in the preliminary proceedings, before Phase 1, and the contract comes before the work.' },
+        { text: 'A CCA who is not on the team and had no contact with it quality-reviews the compiled results', rank: 5, concept: 'qa', why: 'Results must be compiled and quality-reviewed before the out-brief.' },
+        { text: 'The OSC asks an authorized C3PAO listed in the CMMC Marketplace for a Level 2 assessment', rank: 0, why: 'Preliminary proceedings begin with the request. Neither the Cyber AB, the CAICO, nor DoD may recommend a C3PAO.' },
+        { text: 'A C3PAO quality assurance individual reviews the Pre-Assessment Form and uploads it to CMMC eMASS', rank: 3, why: 'Phase 1 concludes on this successful upload, not on a meeting.' },
+        { text: 'The team delivers the results at the out-brief, without advice', rank: 6, concept: 'qa', why: 'The out-brief follows the independent quality review.' },
+        { text: 'The Lead CCA validates scope and makes the readiness determination', rank: 2, why: 'These are Phase 1 activities. Scope disagreements must be resolved before Phase 2 may begin.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'In the room', title: 'In the room',
+      instr: 'You are the Lead CCA for a Level 2 assessment of Meridian Precision Defense Systems, a fictional company. Choose the response the CAP supports.',
+      hint: 'The in-brief has a CAP minimum, including conflicts and appeal rights. Every requested item gets one of three outcomes. The quality reviewer must be independent in two ways. Declining a request for remediation help is right; a lecture is not.',
+      review: { href: 'lesson08.html#s2', label: 'Lesson 8, Running the in-brief' },
+      items: [
+        {
+          title: 'Case 1: The in-brief', text: 'Your in-brief outline covers team introductions, the assessment scope, the Level 2 procedures under 32 CFR 170.17(c), the schedule, and time for questions.',
+          parts: [
+            { q: 'Which required element is missing from your outline?', concept: 'inbrief', options: ['A preview of the likely result, so the OSC can plan ahead', 'Reconfirming conflicts and informing the OSC of its right to appeal', 'A summary of the fixes the team expects the OSC to need', 'A full walkthrough of both sites before the team reviews any documents at all'], answer: 1, why: 'The CAP minimum includes reconfirming the absence of, or disclosing, conflicts of interest, and informing the OSC of its right to appeal and the C3PAO’s appeals process. Previewing outcomes (A) and listing fixes (C) are prohibited. A walkthrough is not an in-brief requirement (D).' },
+            { q: 'At the end of the first day, what is the daily checkpoint for?', concept: 'inbrief', options: ['Negotiating which preliminary findings the OSC will accept', 'Telling the OSC whether it is on track to pass', 'Reporting progress, challenges, and what the team needs next', 'Reviewing the draft findings report line by line with the CEO'], answer: 2, why: 'The checkpoint covers progress, challenges, and what is needed next. It is not a negotiation (A), not a preview of the result (B), and not a review of the report (D).' }
+          ]
+        },
+        {
+          title: 'Case 2: The evidence log', text: 'You asked Meridian for its incident response tabletop record. You received the Incident Response Plan instead. It is on the subject, but it does not address the objective you named.',
+          parts: [
+            { q: 'What does the evidence log record for this item?', concept: 'reporting', options: ['Received and not responsive', 'Received', 'Not provided', 'Pending until the next request'], answer: 0, why: 'Every requested item gets one of three outcomes: received and responsive, received and not responsive, or not provided. “Received” alone is how partly responsive material quietly becomes accepted (B). Something was provided (C). Pending is a status, not an outcome (D).' }
+          ]
+        },
+        {
+          title: 'Case 3: Before and at the out-brief', text: 'The results are compiled. The out-brief is tomorrow morning.',
+          parts: [
+            { q: 'Who may quality-review the results?', concept: 'qa', options: ['The Lead CCA, who knows the evidence best', 'Any CCP employed by the C3PAO who is free that day', 'A CCA not on the team who had no contact with it during the assessment', 'The OSC’s Affirming Official, since that person must later sign the annual affirmation'], answer: 2, why: 'The CAP requires a CCA who is not on the team and has had no contact with it during the assessment: two separate conditions. The Lead CCA is not independent (A). The role needs a CCA, not a CCP (B). The OSC never reviews its own assessment (D).' },
+            { q: 'At the out-brief, the CEO asks, “Just tell me what you need to see and we will go and do it.” What do you do?', concept: 'qa', options: ['Explain which evidence would satisfy each open objective, since that is clarity, not advice', 'Decline at length, explaining why the CoPC forbids it', 'Refer the question to the C3PAO’s project manager', 'Decline politely and briefly, then deliver the results'], answer: 3, why: 'Telling the OSC what to produce directs its remediation, even when it sounds like process (A). Declining is right, but a lecture is not (B). Passing the request along implies someone might say yes (C).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'room', label: 'Which moment in the room would be hardest for you: the in-brief, the checkpoint pushback, or the CEO’s request? What will you practice before you face it?' },
+        { key: 'teach', label: 'Faculty: how could students run a mock in-brief in your course? What checklist would the observers use?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A5 Scoping the Boundary: Five Categories, Two Conditions | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A5',
+  title: 'Scoping the Boundary: Five Categories, Two Conditions',
+  accent: 'Five Categories, Two Conditions',
+  domain: 'CCP Domain 6 (Scoping)',
+  time: '40 min',
+  level: 'Intermediate',
+  lessonHref: 'lesson04.html#s2',
+  lessonLabel: 'Lesson 4, The five categories',
+  lede: 'Scope is the one part of an assessment an organization has a financial interest in shrinking. Categorize assets against the defining test, see how the two conditional categories are earned rather than claimed, and separate External Service Providers from cloud providers.',
+  concepts: [
+    { key: 'cats', name: 'The five asset categories', review: 'Lesson 4, The five categories' },
+    { key: 'cond', name: 'Conditional categories are earned', review: 'Lesson 4, The five categories (the condition)' },
+    { key: 'esp', name: 'ESPs and cloud providers', review: 'Lesson 4, External Service Providers and Cloud Service Providers' },
+    { key: 'boundary', name: 'Drawing and defending the boundary', review: 'Lesson 4, Where scope errors go' }
+  ],
+  stations: [
+    {
+      type: 'sort', short: 'Categorize assets', title: 'Categorize the assets', concept: 'cats',
+      instr: 'Harbor Point Avionics is a fictional 60-person OSC. Unlike Meridian, it has a current <b>asset inventory</b>, an SSP, a network diagram, and written scoping policies, and its CUI sits in a segmented enclave. Assign each asset to one of the five Level 2 categories by asking what the asset does with CUI.',
+      hint: 'CUI Asset: processes, stores, or transmits CUI. Security Protection Asset: provides security functions to the scope. Contractor Risk Managed: can, but is not intended to, handle CUI because policies, procedures, and practices keep it off, and it is documented. Specialized: on the closed list (IoT, IIoT, OT, GFE, Restricted Information Systems, Test Equipment) and unable to be fully secured. Out-of-Scope: cannot handle CUI and protects nothing in scope.',
+      buckets: ['CUI Asset', 'Security Protection Asset', 'Contractor Risk Managed', 'Specialized Asset', 'Out-of-Scope'],
+      review: { href: 'lesson04.html#s2', label: 'Lesson 4, The five categories' },
+      items: [
+        { text: 'File server that holds the CUI project folders inside the enclave', answer: 0, why: 'It stores CUI, so it is a CUI Asset, assessed against all Level 2 requirements.' },
+        { text: 'Domain controllers that provide authentication and group policy to the enclave but hold no CUI', answer: 1, why: 'They provide security functions to the scope whether or not they touch CUI. They are assessed against the requirements for the functions they provide.' },
+        { text: 'Sales laptops that could reach the CUI file share, but documented policy and enforced procedures keep CUI off them; they appear in the inventory, SSP, and network diagram', answer: 2, concept: 'cond', why: 'They can, but are not intended to, handle CUI because of policy, procedures, and practices in place, and the required documentation exists. That earns the Contractor Risk Managed treatment.' },
+        { text: 'A CNC machine controller that stores drawing-derived files and cannot be fully secured; documented and managed under risk-based security policies', answer: 3, concept: 'cond', why: 'Operational technology is on the closed Specialized list, it cannot be fully secured, and the documentation and risk-based management the category depends on exist.' },
+        { text: 'A guest Wi-Fi access point on a physically separate circuit with no route to the company network', answer: 4, why: 'It cannot process, store, or transmit CUI and provides no protection to CUI Assets. Harbor Point must still be ready to justify that inability.' },
+        { text: 'An enterprise multifunction printer inside the enclave that prints CUI drawings and has a management interface', answer: 0, concept: 'cond', why: 'It processes CUI. The Specialized argument fails because an enterprise printer with a management interface generally can be secured. Being a device is not enough to join the closed list.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Meridian’s boundary', title: 'Meridian’s boundary and providers',
+      instr: 'Now return to Meridian Precision Defense Systems (fictional) as it stood before its remediation year: no network segmentation between subnets and no asset inventory.',
+      hint: 'One missing artifact closes both conditional categories. Categorizing a provider and naming its obligation are separate steps: a non-cloud ESP needs a Customer Responsibility Matrix and is evaluated inside the assessment; a cloud provider handling CUI needs FedRAMP Moderate or documented equivalency. When unsure, the safe error is to scope in.',
+      review: { href: 'lesson04.html#s3', label: 'Lesson 4, External Service Providers and Cloud Service Providers' },
+      items: [
+        {
+          title: 'Case 1: The corporate workstations', text: 'Meridian has an SSP, ten policies, and an accurate network diagram, but no asset inventory. Its CORP-LAN workstations store no CUI by design but route freely to the CUI file server on ENG-LAN.',
+          parts: [
+            { q: 'How are the CORP-LAN workstations categorized?', concept: 'cond', options: ['Contractor Risk Managed, because two of the three required documents exist', 'Out-of-Scope, because the company says they never hold CUI', 'CUI Assets; with no inventory, the conditional category is closed', 'Security Protection Assets, because they sit on the corporate segment'], answer: 2, why: 'The conditional treatment needs the inventory, the SSP, and the network diagram. One missing artifact closes it, and the workstations fall back to what they can reach. “Mostly met” is not the test (A). The company’s statement is not a justification of inability (B). Being on a subnet is not a security function (D).' }
+          ]
+        },
+        {
+          title: 'Case 2: Three providers', text: 'ClearPath IT Solutions administers Meridian’s network remotely with standing domain admin. Microsoft 365 GCC High stores CUI. Secure Shred AL collects paper CUI from the Huntsville site for offsite destruction.',
+          parts: [
+            { q: 'What does ClearPath’s role require?', concept: 'esp', options: ['A Customer Responsibility Matrix; ClearPath is evaluated in the assessment', 'FedRAMP Moderate authorization or documented equivalency for ClearPath', 'Nothing, because a managed service provider is a vendor, not a subcontractor', 'Nothing more, provided Meridian monitors every remote session ClearPath opens'], answer: 0, why: 'ClearPath is a non-cloud ESP handling CUI and Security Protection Data. The relationship belongs in the SSP with a Customer Responsibility Matrix, and ClearPath is evaluated inside Meridian’s assessment. FedRAMP is the cloud rule (B). Calling it a vendor does not remove it (C). Monitoring addresses a different requirement (D).' },
+            { q: 'What does classifying Microsoft 365 GCC High as a cloud service provider oblige Meridian to produce?', concept: 'esp', options: ['A Customer Responsibility Matrix covering all 110 requirements', 'A Level 2 certificate issued to Microsoft by a C3PAO', 'Nothing, since the tenant is Microsoft’s responsibility', 'FedRAMP Moderate authorization or documented equivalency'], answer: 3, why: 'Under DFARS 252.204-7012(b)(2)(ii)(D), a cloud provider handling CUI needs FedRAMP Moderate or documented equivalency, which the OSC produces as evidence. The CRM belongs to the non-cloud ESP rule (A). The assessment does not evaluate the cloud service itself (B). Producing the evidence stays with Meridian (C).' },
+            { q: 'How should Secure Shred AL be treated?', concept: 'esp', options: ['Out of scope, because paper is not an information system', 'As an ESP handling CUI, because it takes physical custody of hard-copy CUI', 'As a cloud service provider, because it stores records offsite', 'Outside the ESP rule, because media protection rules cover shredding'], answer: 1, why: 'Hard-copy CUI is still CUI, and taking custody of it is handling it; paper is the provider teams most often miss (A). No cloud service is involved (C). Media protection rules govern how destruction is done; they do not remove a CUI-handling provider from the ESP rule (D).' }
+          ]
+        },
+        {
+          title: 'Case 3: The second site', text: 'Your team cannot tell whether the always-on tunnel is the only path between Meridian’s Dayton and Huntsville sites, or whether the Huntsville workstations store CUI locally.',
+          parts: [
+            { q: 'What is the best treatment?', concept: 'boundary', options: ['Assume the sites are separate and scope Huntsville out for now', 'Ask the IT Administrator and record his answer as the determination', 'Keep it inside and log an open item naming the deciding evidence', 'Assume no separation, keep Huntsville in, and leave the question out of the report'], answer: 2, why: 'Absent evidence of separation, the flat-network facts govern, and naming what would settle the question is the stronger work. Scoping out on an assumption gives a wrong result (A). One person’s memory is not evidence (B). D reaches the right scope but hides that it rests on missing evidence.' },
+            { q: 'Why should an uncertain assessor lean toward scoping an asset in?', concept: 'boundary', options: ['Scoping in wrongly costs time; scoping out wrongly makes the result wrong', 'Assessment fees are set by asset count, so a larger scope is better for the C3PAO', 'The CAP requires every asset at every site to be placed in scope', 'Out-of-Scope assets must be listed in the SSP, which OSCs rarely do'], answer: 0, why: 'The errors are not equal: an extra asset costs the organization time, while a missing one produces a wrong assessment result. B is an improper motive. C overstates the rule, since Out-of-Scope is a real category. D misstates the rule: for an Out-of-Scope asset, the contractor must be ready to justify its inability to handle CUI.' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'contested', label: 'Which categorization would an OSC most likely push back on, and what one-line basis would you write so the call survives challenge?' },
+        { key: 'teach', label: 'Faculty: what lab network or campus system could your students scope with these five categories? What would they need documented first?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

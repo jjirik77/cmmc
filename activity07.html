@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A7 Objective-Level Determinations: MET, NOT MET, or N/A | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A7',
+  title: 'Objective-Level Determinations: MET, NOT MET, or N/A',
+  accent: 'MET, NOT MET, or N/A',
+  domain: 'CCP Domain 4 (35%)',
+  time: '40 min',
+  level: 'Intermediate to Advanced',
+  lessonHref: 'lesson06.html#s1',
+  lessonLabel: 'Lesson 6, The three determinations',
+  lede: 'You do not assess 110 requirements; you assess the roughly 320 objectives they break into, and every objective must be MET or NOT APPLICABLE. Render determinations, resist invited N/A claims, place responsibility where a provider is involved, and write findings a stranger could check.',
+  concepts: [
+    { key: 'objective', name: 'Every objective must be met', review: 'Lesson 6, Working a requirement objective by objective' },
+    { key: 'exceptions', name: 'Exceptions and plans of action', review: 'Lesson 6, The three determinations' },
+    { key: 'na', name: 'N/A discipline', review: 'Lesson 6, N/A discipline' },
+    { key: 'shared', name: 'Responsibility with providers', review: 'Lesson 4, External Service Providers and Cloud Service Providers' },
+    { key: 'finding', name: 'Defensible findings', review: 'Lesson 6, Defending a determination' }
+  ],
+  stations: [
+    {
+      type: 'scenario', short: 'Render the call', title: 'Render the determination',
+      instr: 'Choose the determination the evidence supports. Remember the rule: a requirement is MET only when every one of its assessment objectives is MET or NOT APPLICABLE. Harbor Point Avionics and Meridian Precision Defense Systems are fictional.',
+      hint: 'There is no partial credit, no “MET with a weakness,” and no deferred determination. A temporary deficiency covered by an operational plan of action in the SSP, or an enduring exception with a documented mitigation, can still be MET. N/A scores as MET, so it must be justified.',
+      review: { href: 'lesson06.html#s3', label: 'Lesson 6, Working a requirement objective by objective' },
+      items: [
+        {
+          title: 'Case 1: AC.L2-3.1.1', text: 'AC.L2-3.1.1 limits system access to authorized users, processes acting for authorized users, and devices. At Harbor Point Avionics (fictional), evidence shows users, processes, and devices are all identified and documented. A test from an unregistered laptop reaches the CUI file share.',
+          parts: [
+            { q: 'What is the requirement determination?', concept: 'objective', options: ['MET, with the device gap noted as a weakness in the report', 'NOT MET, because the objective limiting access to authorized devices is not satisfied', 'MET, because most of the objectives are satisfied by evidence', 'Deferred until the OSC shows that the laptop was an exception'], answer: 1, why: 'Every objective must be MET or N/A for the requirement to be MET; the objective limiting access to authorized devices fails. There is no MET-with-weakness (A), no majority rule (C), and deferral is not a determination (D).' }
+          ]
+        },
+        {
+          title: 'Case 2: A pending patch', text: 'Harbor Point documents in its SSP that one CUI workstation is temporarily missing a configuration setting while a vendor patch is pending. The SSP includes an operational plan of action with dates. Every other objective for the requirement is met.',
+          parts: [
+            { q: 'Can the requirement be MET?', concept: 'exceptions', options: ['No; any deficiency at all makes the requirement NOT MET', 'Only if the requirement is worth 1 point in the scoring methodology', 'Yes; a temporary deficiency under an operational plan of action can be MET', 'Only if the contracting officer gives written concurrence before the out-brief is held'], answer: 2, why: 'A temporary deficiency covered by an operational plan of action documented in the SSP, or an enduring exception with a documented mitigation, can still be MET. A is too absolute. Point values belong to the score, not the determination (B). No contracting officer concurrence is part of the process (D).' },
+            { q: 'How does this operational plan of action differ from the POA&M used for Conditional status?', concept: 'exceptions', options: ['They are the same instrument; it simply gets a new name once the assessment has ended', 'It is the OSC’s own plan in the SSP, not the POA&M behind Conditional status', 'It must meet the 0.8 score threshold, just like the POA&M', 'It must be approved by the C3PAO before the assessment begins'], answer: 1, why: 'The operational plan of action is an OSC-managed plan in the SSP for a temporary deficiency. The POA&M under 32 CFR 170.21 supports Conditional status and has its own rules, including the 0.8 threshold (C). Treating the two as one instrument is the common error (A), and nothing in the lesson requires C3PAO preapproval (D).' }
+          ]
+        },
+        {
+          title: 'Case 3: Three N/A claims', text: 'Meridian’s (fictional) SPRS submission claims three requirements are NOT APPLICABLE: 3.13.3 because it is a “single site network”; 3.2.2 because “training is delivered by a third party”; and 3.10.3 because “no visitors access the server room.” Meridian has two sites in different states on one flat network.',
+          parts: [
+            { q: 'Why should an assessor be slow to grant N/A?', concept: 'na', options: ['N/A is scored as MET, so the OSC has a strong incentive to invite it', 'N/A is scored as a deduction, so it lowers the OSC’s score unfairly', 'N/A is not available at Level 2, only at Level 1', 'N/A can be granted only if the OSC documented it in the SSP first'], answer: 0, why: 'N/A scores as MET, which is why it attracts pressure, and it must be justified. It is not a deduction (B). It is available at Level 2 (C). SSP documentation can support a justification, but the determination is the assessor’s (D).' },
+            { q: 'Which claim is defeated by Meridian’s own description of its network?', concept: 'na', options: ['3.2.2, because training vendors must hold their own CMMC certificate', '3.10.3, because PE requirements can never be marked N/A under any rule', '3.13.3, because Meridian has two sites, not one', 'None of them; each states a plausible reason and should be accepted'], answer: 2, why: 'The 3.13.3 premise is false on the company’s own facts: two sites, one flat network. The 3.2.2 claim fails too, but because who delivers training does not decide whether the requirement applies; no vendor-certificate rule exists (A). No rule bars N/A for every PE requirement; 3.10.3 is on the never-POA&M list, which is a different rule (B). D lets the OSC score itself.' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Defend the call', title: 'Place responsibility and defend the call',
+      instr: 'A determination is only as good as the reasoning a stranger could check. These cases involve providers, finding language, and challenge. Meridian Precision Defense Systems and its providers are fictional.',
+      hint: 'A Customer Responsibility Matrix allocates duties; it does not perform them. A FedRAMP authorization covers the platform, not how the customer configured its tenant. A NOT MET names the failing objective and what was missing. New evidence should change a call; pressure should not.',
+      review: { href: 'lesson06.html#s6', label: 'Lesson 6, Defending a determination' },
+      items: [
+        {
+          title: 'Case 4: A new responsibility matrix', text: 'Meridian’s new Customer Responsibility Matrix with ClearPath, its managed service provider, assigns MFA for administrative access to Meridian. ClearPath technicians still reach domain admin over a VPN using a shared account without MFA.',
+          parts: [
+            { q: 'What does the assessor conclude?', concept: 'shared', options: ['The CRM gives Meridian a duty it has not performed', 'MFA for admin access is now ClearPath’s problem, since it is the provider', 'The requirement is MET, because a signed CRM exists and allocates the duty', 'The CRM is invalid, so the assessor should ignore it and assess ClearPath directly'], answer: 0, why: 'A CRM allocates responsibility; it does not perform the control. It assigns MFA to Meridian, and shared, MFA-free admin access shows the duty is not discharged. B contradicts the CRM. C treats a document as evidence of practice. D is wrong because the CRM is valid evidence of who is responsible.' }
+          ]
+        },
+        {
+          title: 'Case 5: An authorized platform', text: 'Meridian keeps CUI in Microsoft 365 GCC High, which holds a FedRAMP High authorization. Conditional Access is only partly configured, and a shared Global Admin account is excluded from MFA.',
+          parts: [
+            { q: 'Whose finding is the configuration gap?', concept: 'shared', options: ['Microsoft’s, because it operates the platform', 'Nobody’s, because FedRAMP High exceeds the Moderate baseline', 'Meridian’s; the tenant’s configuration is the customer’s job', 'The C3PAO’s, because it should have checked the FedRAMP package'], answer: 2, why: 'The authorization is met, but an authorized platform that is misconfigured is not a compliant environment, and tenant configuration belongs to the customer. A misplaces that responsibility. B confuses the platform’s authorization with the tenant’s setup. D gives the assessor a duty that belongs to the OSC.' }
+          ]
+        },
+        {
+          title: 'Case 6: Draft finding language', text: 'A teammate drafts: “AC.L2-3.1.5 NOT MET: least privilege is not implemented.”',
+          parts: [
+            { q: 'What is missing from this finding?', concept: 'finding', options: ['A recommended fix, so the OSC knows what to do next', 'A severity rating of Critical for every access control gap', 'Nothing; it names the requirement and the determination', 'The objectives that failed and what evidence was missing'], answer: 3, why: 'A NOT MET must name the failing objective and what was missing, so a reader can verify or overturn it without redoing the assessment. A fix is consulting (A). Severity follows from the requirement and the exposure and does not replace detail (B). C states only a conclusion.' },
+            { q: 'Which citation would support a MET determination?', concept: 'finding', options: ['“Interview with T. Nakamura, 14 March, on privileged accounts; access matrix v1.2 §3”', '“Discussion with IT about access”', '“The control is in place per the SSP”', '“Observed during the walkthrough of both sites, which the whole team attended over two days”'], answer: 0, why: 'A names the method, person, date, subject, and a corroborating artifact, so a reader could check it. B names no person, date, or subject. C treats the SSP, a claim about the environment, as evidence of it. D says nothing about what was observed.' }
+          ]
+        },
+        {
+          title: 'Case 7: A peer challenge', text: 'In a peer challenge, the opposing team shows you a dated access review record you had not seen. It satisfies the objective you marked NOT MET.',
+          parts: [
+            { q: 'What should happen?', concept: 'objective', options: ['Hold the call, since changing it would hurt the team’s credibility', 'Record both views and let the report note the disagreement', 'Ask the instructor to decide which team’s reading is right', 'Change the determination, because new evidence should move it'], answer: 3, why: 'New information should change a call; pressure should not. A team that never concedes has stopped assessing (A). A report carries a determination, not a disagreement (B). There is nothing to arbitrate once new evidence appears (C).' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'na', label: 'Write the one sentence you would use to decline an N/A claim that has no real justification, without lecturing the OSC.' },
+        { key: 'teach', label: 'Faculty: how would you run a peer-challenge round in your class so that students concede to evidence but not to pressure? What rule would you post on the screen?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

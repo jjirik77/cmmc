@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>A1 The Assessor Mindset: Consultant or Assessor? | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div id="app"><noscript><p style="padding:2rem;font-family:Arial">This activity needs JavaScript enabled.</p></noscript></div>
+
+<script>
+window.ACTIVITY = {
+  id: 'A1',
+  title: 'The Assessor Mindset: Consultant or Assessor?',
+  accent: 'Consultant or Assessor?',
+  domain: 'CCP Domains 1 and 2',
+  time: '30 min',
+  level: 'Foundational',
+  lessonHref: 'lesson00.html#s5',
+  lessonLabel: 'Lesson 0, Consultant to Assessor',
+  lede: 'An assessor is not a better consultant. The two roles answer different questions and serve different parties. Practice telling them apart, holding every claim to the three-part standard, and naming who certifies whom. Then decide how you would use this with your own students.',
+  concepts: [
+    { key: 'role', name: 'Consultant vs. assessor', review: 'Lesson 0, The shift: consultant to assessor' },
+    { key: 'standard', name: 'The three-part standard', review: 'Lesson 0, The three-part standard' },
+    { key: 'eco', name: 'Who certifies whom', review: 'Lesson 0, The ecosystem: who governs what' }
+  ],
+  stations: [
+    {
+      type: 'sort', short: 'Consultant or assessor?', title: 'Consultant or assessor?', concept: 'role',
+      instr: 'Each statement is something a capable professional might say. Decide whose job it describes: the <b>consultant</b>, who is paid to make an organization better, or the <b>assessor</b>, who is paid to say accurately what is true about it. Then select <b>Check answers</b>.',
+      hint: 'Ask what the speaker is trying to produce. A closed gap, a fix, or a longer relationship points to the consultant. An accurate, evidenced finding that survives challenge points to the assessor.',
+      buckets: ['Consultant', 'Assessor'],
+      review: { href: 'lesson00.html#s5', label: 'Lesson 0, The shift: consultant to assessor' },
+      items: [
+        { text: 'I found the gap. Let me sketch a fix you could have in place by Friday.', answer: 0, why: 'Proposing a fix is the consultant’s job. An assessor records the problem, evidences it, and says nothing about the remedy.' },
+        { text: 'This requirement is NOT MET. Objective [b] has no evidence, and here is what I examined.', answer: 1, why: 'A determination tied to an objective and to the evidence examined is the assessor’s product. It says what is true, not how to change it.' },
+        { text: 'My success is measured by whether the gap gets closed.', answer: 0, why: 'A closed gap is consulting success. Assessor success is a finding that is accurate and survives challenge.' },
+        { text: 'Which vendor would I recommend? That is not something I can answer during this engagement.', answer: 1, why: 'Declining to recommend a product protects independence. Recommending a vendor you trust is a consulting habit the rules prohibit for assessors.' },
+        { text: 'My work answers to the CoPC, the CAP, 32 CFR Part 170, and ISO/IEC 17020.', answer: 1, why: 'These are the assessor’s governing documents. A consultant’s work is governed mainly by the engagement contract.' },
+        { text: 'We will work together over the long term to raise your maturity.', answer: 0, why: 'An ongoing, collaborative relationship aimed at improvement is consulting. The assessor relationship is professional, bounded, and documented.' }
+      ]
+    },
+    {
+      type: 'scenario', short: 'Hold the claim', title: 'Hold the claim to the standard',
+      instr: 'Every claim in an assessment is held to three questions: <b>Requirement</b> (what specifically is required?), <b>Authority</b> (what imposes it?), and <b>Evidence</b> (what would show it, and would that be enough?). Meridian Precision Defense Systems is a fictional company used throughout the workshop.',
+      hint: 'A program name is not an authority; name the clause or section. A policy is a claim about intent, not proof of practice. For the ecosystem, remember the split: the Cyber AB accredits organizations, and ISACA, as CAICO, certifies individuals.',
+      review: { href: 'lesson00.html#s6', label: 'Lesson 0, The three-part standard' },
+      items: [
+        {
+          title: 'Case 1: A confident claim', text: 'Meridian Precision Defense Systems (fictional) tells you on Day 1: “We are compliant. We have a written policy for every NIST family.”',
+          parts: [
+            { q: 'Which part of the three-part standard does this claim fail first?', concept: 'standard', options: ['Requirement, because NIST families are not CMMC requirements', 'Authority, because a policy is not a regulation', 'Evidence, because a policy states intent but does not prove practice', 'None of them, because a full policy set satisfies the Level 2 documentation requirement'], answer: 2, why: '“They have a policy” is the weak Evidence answer: a policy is a claim about intent, not proof of practice. A is wrong because the NIST SP 800-171 families are the Level 2 requirements. B mixes up two questions; authority is about what imposes the requirement. D is wrong because no rule says a policy set satisfies Level 2.' },
+            { q: 'A teammate writes, “CMMC requires them to protect CUI.” What would make this claim pass the Authority test?', concept: 'standard', options: ['Add that every accredited C3PAO enforces this obligation in every assessment', 'Name the clause or section that imposes it', 'Cite the slide in the training deck where the rule is stated', 'Say it comes from the CMMC program, which is the governing body'], answer: 1, why: 'Authority means naming what imposes the requirement: the clause, the section, or the Registry category. “CMMC requires it” names a program, not an instrument (D). C3PAOs assess against requirements; they do not create them (A). A training deck is instructional, never authority (C).' },
+            { q: 'Which statement meets all three parts of the standard?', concept: 'standard', options: ['Meridian is noncompliant: its network is flat, its policies are old, and the people we met could not explain how access is controlled.', 'IA.L2-3.5.3 requires MFA; DFARS 252.204-7012(b)(2) imposes NIST SP 800-171; the MFA export covers one of seven systems in scope.', 'The CEO told us MFA is enforced everywhere, so the requirement is met.', 'Multifactor authentication is a best practice under most security frameworks.'], answer: 1, why: 'B names the requirement (3.5.3), the authority that makes 800-171 binding (7012), and the evidence along with whether it is enough. A states a conclusion with no requirement or authority. C rests on a verbal assurance, which is neither adequate nor sufficient. D is a general claim with none of the three parts.' }
+          ]
+        },
+        {
+          title: 'Case 2: An outdated slide', text: 'A new colleague’s slide says: “The Cyber AB issues the CCP and CCA, accredits C3PAOs, and runs Level 3 assessments.”',
+          parts: [
+            { q: 'Which correction is accurate?', concept: 'eco', options: ['The Cyber AB accredits C3PAOs; ISACA, as CAICO, certifies individuals; DIBCAC runs Level 3', 'The slide is correct as written, though the Cyber AB delegates Level 3 work to DIBCAC under a memorandum', 'ISACA accredits C3PAOs; the Cyber AB certifies individuals; DIBCAC runs Level 3', 'The DoW CIO certifies individuals; the Cyber AB accredits C3PAOs and runs Level 3'], answer: 0, why: 'The Cyber AB accredits organizations (C3PAOs, under ISO/IEC 17020). ISACA, as CAICO, has certified individuals since December 2025. DIBCAC conducts government-led assessments, including Level 3. B keeps the outdated claim the lesson warns about, C swaps the two bodies, and D gives the program owner a credentialing role it does not have.' },
+            { q: 'Meridian asks the Cyber AB to recommend a C3PAO. What happens?', concept: 'eco', options: ['The Cyber AB assigns the next available C3PAO from its rotation list', 'ISACA makes the introduction instead, because it certifies the assessors', 'No body recommends one; the OSC picks an authorized C3PAO from the Marketplace', 'DoD introduces a C3PAO through the contracting officer once the clause is in the contract'], answer: 2, why: 'Under the CAP, the OSC approaches an authorized or accredited C3PAO listed in the Marketplace. Neither the Cyber AB, the CAICO, nor DoD may recommend or introduce a C3PAO, so A, B, and D each describe a role none of them has.' }
+          ]
+        },
+        {
+          title: 'Case 3: Off the record', text: 'During a walkthrough at Meridian (fictional), the IT Administrator asks the assessor, warmly: “Off the record, what would you do about the old VPN accounts?”',
+          parts: [
+            { q: 'What is the best response?', concept: 'role', options: ['Give a quick informal tip, since a corridor comment is not part of the findings report', 'Answer only if the OSC puts the request in writing first', 'Point him to a vendor guide that explains the usual fix', 'Decline politely, without a lecture, and continue the walkthrough'], answer: 3, why: 'Naming a fix is consulting, even off the record or in a corridor (A). Being asked, even in writing, does not change the rule (B), and pointing to a vendor guide still steers the remedy (C). The skill is to decline without lecturing and keep assessing.' }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'reflect', short: 'Reflect', title: 'Reflect on your practice and your teaching',
+      instr: 'Rate your confidence on each concept, then answer the prompts. Your responses appear in the summary report.',
+      prompts: [
+        { key: 'habit', label: 'Where in your current work do you act as a consultant? Name one habit you would have to drop as an assessor, and what you would do instead.' },
+        { key: 'teach', label: 'Faculty: how would you use the consultant-or-assessor sort with your own students? What one change would make it fit your course?' }
+      ]
+    }
+  ]
+};
+</script>
+<script src="practice.js"></script>
+</body>
+</html>

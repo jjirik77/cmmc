@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Practice Activities | CMMC 5-Day Faculty Workshop</title>
+<link rel="stylesheet" href="cmmc-lesson.css">
+<link rel="stylesheet" href="practice.css">
+<style>
+  .hub-intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .hub-intro div { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 4px; padding: 1rem 1.1rem; }
+  .hub-intro b { display: block; font: 700 1rem Georgia, serif; color: var(--text-primary); margin-bottom: .3rem; }
+  .hub-intro p { font: .86rem/1.6 Arial, sans-serif; color: var(--text-secondary); margin: 0; }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.6rem; }
+  .filter-bar button { font: 900 .72rem 'Arial Narrow', Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: .45rem .85rem; cursor: pointer; }
+  .filter-bar button:hover { border-color: var(--gold); }
+  .filter-bar button[aria-pressed=true] { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.1rem; margin-bottom: 2.6rem; }
+  .hub-card { background: var(--card-bg); border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 4px; padding: 1.1rem 1.2rem 1rem; display: flex; flex-direction: column; }
+  .hub-card[hidden] { display: none; }
+  .hub-top { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; margin-bottom: .35rem; }
+  .hub-id { font: 900 .78rem 'Arial Narrow', Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+  .hub-prog { font: 700 .68rem Arial, sans-serif; letter-spacing: .04em; color: var(--text-muted); }
+  .hub-prog.on { color: var(--navy-light); } .hub-prog.done { color: var(--correct); }
+  .hub-card h3 { font: 700 1.05rem/1.3 Georgia, serif; color: var(--text-primary); margin: 0 0 .5rem; }
+  .hub-card p { font: .86rem/1.55 Arial, sans-serif; color: var(--text-secondary); margin: 0 0 .8rem; flex: 1; }
+  .hub-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .9rem; }
+  .tag { font: 700 .68rem 'Arial Narrow', Arial, sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: .16rem .5rem; border-radius: 3px; }
+  .tag-dom { background: var(--navy); color: #fff; }
+  .tag-lvl { background: var(--blue-pale); color: var(--text-secondary); border: 1px solid var(--blue-pale-border); }
+  .tag-time { color: var(--text-muted); border: 1px solid var(--border); }
+  .hub-foot { display: flex; justify-content: space-between; align-items: center; gap: .6rem; border-top: 1px solid var(--border); padding-top: .75rem; }
+  .hub-foot a.lesson { font: .78rem Arial, sans-serif; color: var(--navy-light); }
+  .hub-foot .btn { padding: .5rem 1rem; font-size: .74rem; }
+  .hub-empty { font: .9rem Arial, sans-serif; color: var(--text-muted); }
+  .faculty { background: var(--blue-pale); border: 1px solid var(--blue-pale-border); border-left: 4px solid var(--navy); border-radius: 0 4px 4px 0; padding: 1.1rem 1.3rem; }
+  .faculty p, .faculty li { font: .88rem/1.65 Arial, sans-serif; color: var(--text-secondary); margin: 0 0 .5rem; }
+  .faculty b { color: var(--text-primary); }
+  .faculty ul { margin: 0; padding-left: 1.2rem; }
+  .hub-note { font: .84rem/1.6 Arial, sans-serif; color: var(--text-secondary); margin: 0 0 1.4rem; max-width: 820px; }
+  .hub-note a { color: var(--navy-light); }
+  @media (max-width: 700px) { nav.topnav .nav-links { display: none; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-seal">CMMC<br>PREP</div>
+    <span class="nav-title">5-Day Faculty Workshop</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#lessons">Lessons</a></li>
+      <li><a href="index.html#practice">Practice</a></li>
+      <li><a href="index.html#schedule">Schedule</a></li>
+      <li><a href="index.html#domains">Domains</a></li>
+      <li><a href="index.html#exam-prep">Exam Prep</a></li>
+      <li><a href="index.html#faculty-tools">Faculty Tools</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <p class="breadcrumb"><a href="index.html">Workshop</a> &nbsp;&rsaquo;&nbsp; <a href="index.html#practice">Practice</a> &nbsp;&rsaquo;&nbsp; <span>Practice Activities</span></p>
+    <span class="lesson-badge-lg">Concept Practice &middot; 9 Activities</span>
+    <h1>Practice Activities: <span>Practice It, Then Teach It</span></h1>
+    <p class="lesson-lede">Nine self-checking activities, one for each of Lessons 0 to 8. Work them yourself as a CCP candidate: sort, rank, calculate, and judge exam-style cases on the fictional Meridian company. Then use each one as a model for an activity in a course you teach.</p>
+    <div class="meta-chips"><span class="meta-chip">Activities: <strong>9</strong></span><span class="meta-chip">Each: <strong>30 to 45 min</strong></span><span class="meta-chip">Domains: <strong>All six CCP</strong></span><span class="meta-chip">Format: <strong>Self-checking</strong></span><span class="meta-chip">Reports: <strong>Print or PDF</strong></span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="block">
+    <p class="eyebrow">How practice works</p>
+    <h2 class="h2">Practice it yourself, then use it as a model in your course</h2>
+    <div class="rule"></div>
+    <div class="hub-intro">
+      <div><b>Stations</b><p>Each activity has two or three scored stations and a reflection: sorts, rankings, calculations, and exam-style cases.</p></div>
+      <div><b>Self-checking</b><p>Every answer is checked on demand, with the reasoning for the right answer and for each wrong one. Retry any station as often as you like.</p></div>
+      <div><b>Concept mastery</b><p>A meter tracks each concept as you work, with a percentage and a mark, and the report suggests what to review next.</p></div>
+      <div><b>Teach with it</b><p>Each reflection ends with a faculty prompt: how you would adapt the activity for your own students.</p></div>
+    </div>
+    <p class="hub-note"><b>Regulatory facts are dated.</b> Items reflect the regulatory position as of 16 November 2026, including the suspension of program Phase 2. Check the status notice on the <a href="index.html">workshop home page</a> and the primary sources before you teach. Meridian Precision Defense Systems, Harbor Point Avionics, Lakeview Composites, Northgate Assurance, and every person in the cases are fictional.</p>
+
+    <div class="filter-bar" role="group" aria-label="Filter by CCP exam domain">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="1" aria-pressed="false">D1 &middot; Ecosystem</button>
+      <button type="button" data-f="2" aria-pressed="false">D2 &middot; Conduct</button>
+      <button type="button" data-f="3" aria-pressed="false">D3 &middot; Governance</button>
+      <button type="button" data-f="4" aria-pressed="false">D4 &middot; Model</button>
+      <button type="button" data-f="5" aria-pressed="false">D5 &middot; Process</button>
+      <button type="button" data-f="6" aria-pressed="false">D6 &middot; Scoping</button>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-act">
+    <p class="eyebrow">Concept practice</p>
+    <h2 class="h2" id="h-act">The nine activities</h2>
+    <div class="rule"></div>
+    <div class="hub-grid" id="grid-act"></div>
+    <p class="hub-empty" id="hub-empty" hidden>No activity is tagged with this domain.</p>
+  </section>
+
+  <section class="block">
+    <div class="faculty" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between"><div style="flex:1 1 420px"><p class="eyebrow" style="margin-bottom:.3rem">Next step</p><p style="font:700 1.15rem Georgia,serif;color:var(--text-primary);margin:0 0 .3rem">Ready for the case work? Open the labs</p><p style="margin:0">Eight hands-on tools put you in the assessor&rsquo;s seat on the Meridian case: trace the clauses, determine CUI, rule on ethics, scope the assets, triage evidence, render determinations, compute the SPRS score, and build a POA&amp;M.</p></div><a class="btn" href="labs.html">Open the labs &#8594;</a></div>
+  </section>
+
+  <section class="block" aria-labelledby="h-fac">
+    <p class="eyebrow">For faculty</p>
+    <h2 class="h2" id="h-fac">Using these activities in your own course</h2>
+    <div class="rule"></div>
+    <div class="faculty">
+      <ul>
+        <li><b>Practice first:</b> complete each activity yourself before you assign it. Note which distractor tempted you; your students will likely pick the same one.</li>
+        <li><b>As a model:</b> each activity pairs one concept with one kind of judgment (sort, rank, calculate, or decide a case). Keep that pattern and swap in examples from your own field or region, labeled as fictional.</li>
+        <li><b>As submissions:</b> students can print the summary report to PDF and upload it. Reports show scores by station, attempts, missed items with the reasoning, reflections, and time spent.</li>
+        <li><b>In class:</b> run one station as a think-pair-share, then let pairs check answers and argue over the rationale before you discuss it.</li>
+        <li><b>Keep it current:</b> regulatory items will age. Recheck the Phase 2 status, the clause numbers, and the POA&amp;M rules against primary sources each term.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-logo">CMMC 5-DAY FACULTY WORKSHOP</div>
+  <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
+</footer>
+
+<script>
+(function () {
+  var DOM = { 1: 'D1 Ecosystem', 2: 'D2 Conduct', 3: 'D3 Governance', 4: 'D4 Model', 5: 'D5 Process', 6: 'D6 Scoping' };
+  // [id, file, domains, title, summary, level, time, lesson link, lesson label, stations incl. reflection]
+  var ACT = [
+    ['A1', 'activity01.html', [1, 2], 'The Assessor Mindset: Consultant or Assessor?', 'Tell the consultant’s answer from the assessor’s, hold claims to the requirement, authority, and evidence standard, and name who certifies whom.', 'Foundational', '30 min', 'lesson00.html', 'Lesson 0', 3],
+    ['A2', 'activity02.html', [3, 1], 'The Regulatory Chain: From Standard to Contract Term', 'Match obligations to FAR 52.204-21, DFARS 7012 and 7021, and 32 CFR Part 170, then read the 2026 Phase 2 suspension as an assessor.', 'Foundational', '35 min', 'lesson01.html', 'Lesson 1', 3],
+    ['A3', 'activity03.html', [3], 'FCI or CUI? Origin, Not Sensitivity', 'Sort information by origin, not sensitivity, and settle who designates CUI, what an unmarked file means, and what data rights do not change.', 'Foundational to Intermediate', '30 min', 'lesson02.html', 'Lesson 2', 3],
+    ['A4', 'activity04.html', [2, 5], 'Code of Professional Conduct: Independence Under Pressure', 'Work conflicts, the three-year bar, outcome-contingent fees, and AI use as decision rules: what is the threat, and who decides?', 'Intermediate', '35 min', 'lesson03.html', 'Lesson 3', 3],
+    ['A5', 'activity05.html', [6], 'Scoping the Boundary: Five Categories, Two Conditions', 'Categorize assets against the defining test, see why the conditional categories are earned, and separate ESPs from cloud providers.', 'Intermediate', '40 min', 'lesson04.html', 'Lesson 4', 3],
+    ['A6', 'activity06.html', [5, 4], 'Evidence That Holds Up: Adequate, Sufficient, or Neither?', 'Choose examine, interview, or test, rate real artifacts for adequacy and sufficiency, and write requests an OSC can act on.', 'Intermediate', '40 min', 'lesson05.html', 'Lesson 5', 4],
+    ['A7', 'activity07.html', [4], 'Objective-Level Determinations: MET, NOT MET, or N/A', 'Determine at the objective level, resist invited N/A claims, place responsibility with providers, and write findings a stranger could check.', 'Intermediate to Advanced', '40 min', 'lesson06.html', 'Lesson 6', 3],
+    ['A8', 'activity08.html', [4, 5], 'Scoring and POA&M Rules: The Number and the Gate', 'Compute two SPRS scores with the 5, 3, and 1 weighting and the two partial-credit exceptions, then apply the 0.8 threshold and the never-defer list.', 'Intermediate to Advanced', '45 min', 'lesson07.html', 'Lesson 7', 3],
+    ['A9', 'activity09.html', [5], 'Running the Assessment: Phases, Briefs, and Reports', 'Order the engagement from request to closeout, then handle the in-brief, the evidence log, the quality review, and the CEO’s request.', 'Intermediate', '35 min', 'lesson08.html', 'Lesson 8', 3]
+  ];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function read(k) { try { var r = localStorage.getItem(k); return r ? JSON.parse(r) : null; } catch (e) { return null; } }
+  function prog(r) {
+    var s = read('cmmc-practice-' + r[0]); if (!s) return ['', 'Not started'];
+    var n = Object.keys(s.checked || {}).filter(function (k) { return s.checked[k]; }).length;
+    return n >= r[9] ? ['done', '✓ Completed'] : (n ? ['on', '◐ ' + n + ' of ' + r[9] + ' stations'] : ['on', '◐ Started']);
+  }
+  function card(r) {
+    var p = prog(r);
+    return '<article class="hub-card" data-d="' + r[2].join(' ') + '"><div class="hub-top"><span class="hub-id">Activity ' + r[0] + '</span><span class="hub-prog ' + p[0] + '">' + p[1] + '</span></div>' +
+      '<h3>' + esc(r[3]) + '</h3><p>' + esc(r[4]) + '</p>' +
+      '<div class="hub-tags">' + r[2].map(function (d) { return '<span class="tag tag-dom">' + DOM[d] + '</span>'; }).join('') + '<span class="tag tag-lvl">' + esc(r[5]) + '</span><span class="tag tag-time">&#9201; ' + esc(r[6]) + '</span></div>' +
+      '<div class="hub-foot"><a class="lesson" href="' + r[7] + '">Review ' + esc(r[8]) + '</a><a class="btn" href="' + r[1] + '" aria-label="Open activity ' + r[0] + ': ' + esc(r[3]) + '">Open &#8594;</a></div></article>';
+  }
+  document.getElementById('grid-act').innerHTML = ACT.map(card).join('');
+  var btns = [].slice.call(document.querySelectorAll('.filter-bar button'));
+  function apply(f) {
+    var shown = 0;
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === f); });
+    [].forEach.call(document.querySelectorAll('.hub-card'), function (c) { var on = f === 'all' || c.dataset.d.split(' ').indexOf(f) >= 0; c.hidden = !on; if (on) shown++; });
+    document.getElementById('hub-empty').hidden = shown > 0;
+    try { localStorage.setItem('cmmc-hub-filter', f); } catch (e) { }
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.f); }); });
+  var saved = null; try { saved = localStorage.getItem('cmmc-hub-filter'); } catch (e) { }
+  apply(saved && /^(all|[1-6])$/.test(saved) ? saved : 'all');
+})();
+</script>
+</body>
+</html>
