@@ -363,6 +363,25 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media print{footer{display:none}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+/* LAB FIELD CONTROLS (drop-downs, checkbox groups, auto-check) */
+[hidden]{display:none!important}
+.fhint{font-family:Arial,sans-serif;font-size:.78rem;color:var(--text-muted);margin:-.1rem 0 .35rem;line-height:1.5}
+textarea.short{min-height:3.4rem}
+fieldset.ckgroup{border:1px solid var(--border);border-radius:3px;padding:.55rem .9rem .75rem;margin:0 0 .8rem;min-width:0}
+fieldset.ckgroup legend{font-family:Arial,sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--text-secondary);padding:0 .3rem}
+.cks{display:flex;flex-direction:column;gap:.3rem}
+label.ck{display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.85rem;color:var(--text-primary);line-height:1.5;cursor:pointer;margin:0}
+label.ck input{width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)}
+.legacy{font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.3rem 0 0}
+.autocheck{border:1px solid var(--border);border-left:4px solid var(--navy-light);background:var(--card-bg);border-radius:3px;padding:.8rem 1rem;margin:.9rem 0 0;font-family:Arial,sans-serif}
+.autocheck .ac-head{font-weight:700;font-size:.8rem;letter-spacing:.04em;margin:0 0 .45rem;color:var(--text-primary)}
+.autocheck ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem}
+.autocheck li{font-size:.84rem;line-height:1.55;color:var(--text-primary)}
+.autocheck .st{font-weight:700;margin-right:.4rem}
+.autocheck .st.good{color:var(--ok)}
+.autocheck .st.bad{color:var(--bad)}
+.autocheck .st.skip{color:var(--text-muted)}
+.autocheck .ex{margin:.2rem 0 0;color:var(--text-secondary);font-size:.8rem}
 </style>
 </head>
 <body>
@@ -419,7 +438,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">1</span>
     <h2 style="margin:0">Actuator housing technical data packages</h2></div>
   <p>Engineering drawings, dimensional tolerances, material specifications and qualification test protocols furnished by AMCOM after award under W58RGZ-23-C-0174. Portions bear Distribution Statement D and are ITAR-controlled. Held on SYS-003 and in the Arena PLM.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>CUI &mdash; &ldquo;ITAR Data&rdquo;</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c1-det">Your determination</label><select id="c1-det" data-f="c1-det" class="" data-ok="CUI"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c1-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c1-cite" data-f="c1-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c1-err">Is the company right? If not, what kind of error is it?</label><textarea id="c1-err" data-f="c1-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c1-det">Your determination</label><select id="c1-det" data-f="c1-det" data-list="det"></select></div><div class="fld" data-show-if="c1-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c1-cat">Registry category</label><select id="c1-cat" data-f="c1-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c1-bs">Basic or Specified</label><select id="c1-bs" data-f="c1-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c1-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c1-cite" data-f="c1-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c1-errtype">Is the company right? If not, what kind of error is it?</label><select id="c1-errtype" data-f="c1-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c1-err">Why &mdash; one line</label><textarea id="c1-err" data-f="c1-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>CUI &mdash; and the company is right about that.</strong> Controlled Technical Information &middot;
@@ -437,7 +456,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">2</span>
     <h2 style="margin:0">UAV airframe bracket design files</h2></div>
   <p>FEA reports and engineering drawings to MIL-DTL-31000C, produced <em>by Meridian</em> under the Raytheon subcontract RTX-SUB-2024-4489 and delivered to the prime. Held in the PLM and the GCC High tenant.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>CUI &mdash; &ldquo;CTI&rdquo;</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c2-det">Your determination</label><select id="c2-det" data-f="c2-det" class="" data-ok="CUI"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c2-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c2-cite" data-f="c2-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c2-err">Is the company right? If not, what kind of error is it?</label><textarea id="c2-err" data-f="c2-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c2-det">Your determination</label><select id="c2-det" data-f="c2-det" data-list="det"></select></div><div class="fld" data-show-if="c2-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c2-cat">Registry category</label><select id="c2-cat" data-f="c2-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c2-bs">Basic or Specified</label><select id="c2-bs" data-f="c2-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c2-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c2-cite" data-f="c2-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c2-errtype">Is the company right? If not, what kind of error is it?</label><select id="c2-errtype" data-f="c2-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c2-err">Why &mdash; one line</label><textarea id="c2-err" data-f="c2-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>CUI, and correct.</strong> Controlled Technical Information &middot; CTI &middot; Specified.</p>
@@ -453,7 +472,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">3</span>
     <h2 style="margin:0">Personnel security submissions</h2></div>
   <p>SF-86 data and DISS records for staff requiring a determination, collected on behalf of the Government. Held by Gregory Farris, FSO, in a restricted SharePoint library in the GCC High tenant.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>CUI &mdash; &ldquo;Privacy&mdash;Personnel&rdquo;</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c3-det">Your determination</label><select id="c3-det" data-f="c3-det" class="" data-ok="CUI"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c3-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c3-cite" data-f="c3-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c3-err">Is the company right? If not, what kind of error is it?</label><textarea id="c3-err" data-f="c3-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c3-det">Your determination</label><select id="c3-det" data-f="c3-det" data-list="det"></select></div><div class="fld" data-show-if="c3-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c3-cat">Registry category</label><select id="c3-cat" data-f="c3-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c3-bs">Basic or Specified</label><select id="c3-bs" data-f="c3-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c3-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c3-cite" data-f="c3-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c3-errtype">Is the company right? If not, what kind of error is it?</label><select id="c3-errtype" data-f="c3-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c3-err">Why &mdash; one line</label><textarea id="c3-err" data-f="c3-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>CUI, and the company is right in substance.</strong> Privacy index: <strong>Personnel Records
@@ -468,7 +487,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">4</span>
     <h2 style="margin:0">SBIR final technical report and composite actuator research data</h2></div>
   <p>Research output under NAVAIR SBIR Phase II N68335-22-C-0552, now in its final reports phase. The contract identifies CUI//SP-EXPT. Analysis data is held in AWS GovCloud; the draft report is on SYS-003.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>&ldquo;Proprietary R&amp;D &mdash; company confidential&rdquo;</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c4-det">Your determination</label><select id="c4-det" data-f="c4-det" class="" data-ok="CUI"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c4-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c4-cite" data-f="c4-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c4-err">Is the company right? If not, what kind of error is it?</label><textarea id="c4-err" data-f="c4-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c4-det">Your determination</label><select id="c4-det" data-f="c4-det" data-list="det"></select></div><div class="fld" data-show-if="c4-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c4-cat">Registry category</label><select id="c4-cat" data-f="c4-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c4-bs">Basic or Specified</label><select id="c4-bs" data-f="c4-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c4-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c4-cite" data-f="c4-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c4-errtype">Is the company right? If not, what kind of error is it?</label><select id="c4-errtype" data-f="c4-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c4-err">Why &mdash; one line</label><textarea id="c4-err" data-f="c4-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>CUI.</strong> <strong>Export Controlled &middot; EXPT</strong>, and the contract itself identifies
@@ -489,7 +508,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">5</span>
     <h2 style="margin:0">Payroll, ESOP participant records, and commercial supplier invoices</h2></div>
   <p>Payroll and benefits for all 147 employees, ESOP participant statements, and invoices from commercial raw-material suppliers. Collected and generated by Meridian as an employer and as a business, at its own expense. Payroll and accounting in QuickBooks, read-only access held by an external CPA.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>Inconsistent &mdash; two company records disagree</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c5-det">Your determination</label><select id="c5-det" data-f="c5-det" class="" data-ok="Neither CUI nor FCI"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c5-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c5-cite" data-f="c5-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c5-err">Is the company right? If not, what kind of error is it?</label><textarea id="c5-err" data-f="c5-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c5-det">Your determination</label><select id="c5-det" data-f="c5-det" data-list="det"></select></div><div class="fld" data-show-if="c5-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c5-cat">Registry category</label><select id="c5-cat" data-f="c5-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c5-bs">Basic or Specified</label><select id="c5-bs" data-f="c5-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c5-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c5-cite" data-f="c5-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c5-errtype">Is the company right? If not, what kind of error is it?</label><select id="c5-errtype" data-f="c5-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c5-err">Why &mdash; one line</label><textarea id="c5-err" data-f="c5-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>Neither CUI nor FCI.</strong> Fails 32 CFR 2002.4 &mdash; created and held by Meridian as an employer
@@ -507,7 +526,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">6</span>
     <h2 style="margin:0">Cost and pricing data under the Raytheon subcontract</h2></div>
   <p>Indirect cost pools, negotiated labour rates, cost proposals and the supporting build-ups behind them, submitted to the prime under the CPFF subcontract and flowed to AFLCMC. Held on SYS-003 and in email.</p><div class="in-practice"><div class="ip-label">The company&rsquo;s classification</div><p style="margin:0"><strong>FCI</strong></p></div>
-  <div style="margin-bottom:.8rem"><label for="c6-det">Your determination</label><select id="c6-det" data-f="c6-det" class="" data-ok="Arguably CUI — at minimum not settled"><option value=""></option><option value="CUI">CUI</option><option value="FCI">FCI</option><option value="Neither CUI nor FCI">Neither CUI nor FCI</option><option value="Open item — cannot be settled from the Registry">Open item — cannot be settled from the Registry</option><option value="Arguably CUI — at minimum not settled">Arguably CUI — at minimum not settled</option></select></div><div style="margin-bottom:.8rem"><label for="c6-cite">Category / marking / Basic or Specified / authority — or the definition element it fails</label><textarea id="c6-cite" data-f="c6-cite" class="" placeholder="Exact Registry category name, marking, Basic or Specified, and the authority cited."></textarea></div><div style="margin-bottom:.8rem"><label for="c6-err">Is the company right? If not, what kind of error is it?</label><textarea id="c6-err" data-f="c6-err" class="" placeholder="A category that does not exist, one that exists but does not fit, an internal contradiction, or classified too low."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c6-det">Your determination</label><select id="c6-det" data-f="c6-det" data-list="det"></select></div><div class="fld" data-show-if="c6-det" data-show-list="cuiDet" hidden><div style="margin-bottom:.8rem"><label for="c6-cat">Registry category</label><select id="c6-cat" data-f="c6-cat" data-list="cat"></select></div><div style="margin-bottom:.8rem"><label for="c6-bs">Basic or Specified</label><select id="c6-bs" data-f="c6-bs" data-list="bs"></select></div></div><div style="margin-bottom:.8rem"><label for="c6-cite">Marking and authority cited &mdash; or the definition element it fails</label><textarea id="c6-cite" data-f="c6-cite" class="short" placeholder="CUI: the banner marking and the authority the Registry cites. FCI or neither: the element of the definition it fails, and which definition."></textarea></div><div style="margin-bottom:.8rem"><label for="c6-errtype">Is the company right? If not, what kind of error is it?</label><select id="c6-errtype" data-f="c6-errtype" data-list="err"></select></div><div style="margin-bottom:.8rem"><label for="c6-err">Why &mdash; one line</label><textarea id="c6-err" data-f="c6-err" class="short" placeholder="What in the item, the Registry, or the definition shows this."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>Arguably CUI, and at minimum not settled.</strong> <strong>General Procurement and Acquisition
@@ -528,7 +547,7 @@ information a company develops purely at its own expense for its own purposes.</
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">7</span>
     <h2 style="margin:0">The determination that follows: level, boundary, and what you tell Priya Mehta</h2></div>
   <p>Three contracts are in play and all three carry DFARS 252.204-7012. State the level obligation and where the CUI boundary falls &mdash; naming systems, because &ldquo;the network&rdquo; is not a boundary.</p>
-  <div style="margin-bottom:.8rem"><label for="c7-lvl">Level obligation and authority</label><textarea id="c7-lvl" data-f="c7-lvl" class="" placeholder="All three contracts. Name the authority for each."></textarea></div><div style="margin-bottom:.8rem"><label for="c7-bnd">Inside the boundary / outside the boundary</label><textarea id="c7-bnd" data-f="c7-bnd" class="" placeholder="Named systems, with what places each there."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="c7-level">Level obligation</label><select id="c7-level" data-f="c7-level" data-list="level"></select></div><div style="margin-bottom:.8rem"><label for="c7-clause">Which contract carries the CMMC clause (DFARS 252.204-7021) expressly?</label><select id="c7-clause" data-f="c7-clause" data-list="cmmcClause"></select></div><div style="margin-bottom:.8rem"><label for="c7-7012">Which contracts does the DFARS 252.204-7012 safeguarding obligation attach to?</label><select id="c7-7012" data-f="c7-7012" data-list="scope7012"></select></div><div style="margin-bottom:.8rem"><label for="c7-lvl">Level obligation and authority &mdash; explain</label><textarea id="c7-lvl" data-f="c7-lvl" class="" placeholder="All three contracts. Name the authority for each."></textarea></div><fieldset class="ckgroup" data-group="c7-in"><legend>Tick each system or party that is inside the CUI boundary</legend><div class="cks"></div></fieldset><div style="margin-bottom:.8rem"><label for="c7-bnd">Inside the boundary / outside the boundary &mdash; what places each there</label><textarea id="c7-bnd" data-f="c7-bnd" class="" placeholder="Named systems, with what places each there."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>Level.</strong> CMMC Level 2 under DFARS 252.204-7021 for the Army prime contract, which carries
@@ -581,14 +600,157 @@ deferral is a strength, not a gap.</p></div>
 </footer>
 <script>
 var TOOLID='cui-determination';
+/* ===== EDITABLE CONTENT: option lists and answer keys. Faculty may edit this block; do not edit below it. ===== */
+/* How this block works
+   LISTS  : the choices shown in each drop-down. A drop-down names its list in the page (data-list="...").
+            Changing a choice's wording here also changes the answer it must match in CHECKS, so edit both.
+   CHECKS : what "Check my answer" marks for each item (c1 ... c7).
+     f        the field checked          label    the name shown in the feedback
+     ok       every accepted answer      explain  the explanation shown after Check (from the model answer)
+     when     only check this field when the determination is one listed in LISTS.cuiDet
+     group    a checkbox group; each item has key: true (should be ticked), false (should not), or null (either is accepted)
+   Typed fields (authority, why, level and boundary explanations) are not auto-checked; compare them with the model answer. */
+var LISTS = {
+  det: ["CUI", "FCI", "Neither CUI nor FCI",
+        "Open item — cannot be settled from the Registry", "Arguably CUI — at minimum not settled"],
+  /* Determinations that show the Registry category and Basic/Specified fields */
+  cuiDet: ["CUI", "Open item — cannot be settled from the Registry", "Arguably CUI — at minimum not settled"],
+  /* Registry categories named in this tool and Lesson 2. Names as the NARA CUI Registry writes them. */
+  cat: ["Controlled Technical Information (CTI)",
+        "Export Controlled (EXPT)",
+        "General Privacy (PRVCY)",
+        "Personnel Records (PERS)",
+        "General Procurement and Acquisition (PROCURE)",
+        "Source Selection (SSEL)"],
+  bs: ["Basic", "Specified"],
+  /* Error types, as "How to work this" names them */
+  err: ["The company is right",
+        "A category that does not exist",
+        "A category that exists but does not fit",
+        "An internal contradiction",
+        "Classified too low"],
+  level: ["CMMC Level 1", "CMMC Level 2", "CMMC Level 3"],
+  cmmcClause: ["Army prime contract (W58RGZ-23-C-0174)",
+               "Raytheon subcontract (RTX-SUB-2024-4489)",
+               "NAVAIR SBIR (N68335-22-C-0552)",
+               "All three contracts"],
+  scope7012: ["All three contracts",
+              "Only the contract that carries the CMMC clause",
+              "Only contracts where the Government furnished the CUI"]
+};
+var CUIWHEN = function (item) { return { f: item + "-det", list: "cuiDet" }; };
+var CHECKS = {
+  c1: [
+    { f: "c1-det", label: "Determination", ok: ["CUI"],
+      explain: "CUI, and the company is right about that. The error is the citation, not the determination." },
+    { f: "c1-cat", label: "Registry category", ok: ["Controlled Technical Information (CTI)"], when: CUIWHEN("c1"),
+      explain: "Controlled Technical Information (CTI). The Registry cites 48 CFR 252.204-7012. “ITAR Data” is not a Registry category: ITAR is a control regime under 22 CFR Parts 120–130 that may apply to the same information." },
+    { f: "c1-bs", label: "Basic or Specified", ok: ["Specified"], when: CUIWHEN("c1"),
+      explain: "Specified. The banner is CUI//SP-CTI." },
+    { f: "c1-errtype", label: "Error type", ok: ["A category that does not exist"],
+      explain: "Invented category name. People know the material is controlled and reach for the regime they hear about most, not the Registry." }
+  ],
+  c2: [
+    { f: "c2-det", label: "Determination", ok: ["CUI"],
+      explain: "CUI. Meridian made this material itself, but 32 CFR 2002.4 reaches information an entity creates for or on behalf of the Government, and DFARS 252.204-7012 covers information the contractor develops in support of contract performance." },
+    { f: "c2-cat", label: "Registry category", ok: ["Controlled Technical Information (CTI)"], when: CUIWHEN("c2"),
+      explain: "Controlled Technical Information (CTI). The company's label is correct." },
+    { f: "c2-bs", label: "Basic or Specified", ok: ["Specified"], when: CUIWHEN("c2"),
+      explain: "Specified (CTI · Specified in the model answer)." },
+    { f: "c2-errtype", label: "Error type", ok: ["The company is right"],
+      explain: "Correct. Mark it right and say why. An inventory where every correct call is an accident is not one you can rely on." }
+  ],
+  c3: [
+    { f: "c3-det", label: "Determination", ok: ["CUI"],
+      explain: "CUI. SF-86 and DISS material is collected and held for the Government under a personnel security process. That puts it inside the CUI definition." },
+    { f: "c3-cat", label: "Registry category", ok: ["Personnel Records (PERS)", "General Privacy (PRVCY)"], when: CUIWHEN("c3"),
+      explain: "Privacy index: Personnel Records (PERS), and/or General Privacy (PRVCY). The model answer accepts either." },
+    { f: "c3-bs", label: "Basic or Specified", ok: ["Basic", "Specified"], when: CUIWHEN("c3"),
+      explain: "The model answer does not state Basic or Specified for this item, so either is accepted. Confirm it on the Registry category page and cite what you found." },
+    { f: "c3-errtype", label: "Error type", ok: ["A category that does not exist", "The company is right"],
+      explain: "“Privacy—Personnel” is not a Registry name, but the substance is correct. Either reading is accepted; say which one and why." }
+  ],
+  c4: [
+    { f: "c4-det", label: "Determination", ok: ["CUI"],
+      explain: "CUI. The contract itself identifies CUI//SP-EXPT, and the CUI definition reaches information created for or on behalf of the Government under a federal contract." },
+    { f: "c4-cat", label: "Registry category", ok: ["Export Controlled (EXPT)"], when: CUIWHEN("c4"),
+      explain: "Export Controlled (EXPT), the category the contract names." },
+    { f: "c4-bs", label: "Basic or Specified", ok: ["Specified", "Basic"], when: CUIWHEN("c4"),
+      explain: "The contract marks it CUI//SP-EXPT. The model answer asks you to read the category page to confirm whether the authority relied on makes it Specified or Basic — that is the point of the item. Either is accepted here; your authority field should show what you checked." },
+    { f: "c4-errtype", label: "Error type", ok: ["A category that exists but does not fit", "Classified too low"],
+      explain: "Treated as company property when the contract says otherwise: a category error, not a citation error. SBIR data rights govern what the Government may do with the data; CUI status governs how it must be protected." }
+  ],
+  c5: [
+    { f: "c5-det", label: "Determination", ok: ["Neither CUI nor FCI"],
+      explain: "Neither CUI nor FCI. It fails 32 CFR 2002.4: created by Meridian as an employer and a business, at its own expense, for its own purposes. It fails FAR 52.204-21(a): not provided by or generated for the Government under any of the three contracts." },
+    { f: "c5-errtype", label: "Error type", ok: ["An internal contradiction"],
+      explain: "Internal contradiction. The data classification page (outside the CUI definition) is right. The third-party register's “employee PII / CUI-Privacy” entry is wrong. Resolve the contradiction; do not average it." }
+  ],
+  c6: [
+    { f: "c6-det", label: "Determination", ok: ["Arguably CUI — at minimum not settled"],
+      explain: "Arguably CUI, and at minimum not settled. What would settle it: the subcontract terms, any markings Raytheon applied, and in the end the contracting officer." },
+    { f: "c6-cat", label: "Registry category", ok: ["General Procurement and Acquisition (PROCURE)"], when: CUIWHEN("c6"),
+      explain: "General Procurement and Acquisition (PROCURE) covers cost or pricing data, indirect costs and direct labor rates on its face (48 CFR 3.104-4; 41 U.S.C. 2105). Source Selection (SSEL) would fit pre-award proposal evaluation material held by the Government instead." },
+    { f: "c6-bs", label: "Basic or Specified", ok: ["Specified"], when: CUIWHEN("c6"),
+      explain: "Specified. The banner is CUI//SP-PROCURE." },
+    { f: "c6-errtype", label: "Error type", ok: ["Classified too low"],
+      explain: "Classified too low: the company calls it FCI. This is the direction that costs money. Material on SYS-003 and in email has been handled at the FCI standard when it should have been handled at the CUI standard." }
+  ],
+  c7: [
+    { f: "c7-level", label: "Level", ok: ["CMMC Level 2"],
+      explain: "CMMC Level 2. 32 CFR 170.14 sets the level structure." },
+    { f: "c7-clause", label: "Contract that carries the CMMC clause", ok: ["Army prime contract (W58RGZ-23-C-0174)"],
+      explain: "The Army prime contract carries DFARS 252.204-7021 expressly." },
+    { f: "c7-7012", label: "Where 252.204-7012 attaches", ok: ["All three contracts"],
+      explain: "All three contracts carry DFARS 252.204-7012 and involve CUI, so the safeguarding obligation attaches across all three, whichever one carries the CMMC clause." },
+    { group: "c7-in", label: "Inside the CUI boundary",
+      missText: "Inside the boundary, but not ticked", extraText: "Outside the boundary, but ticked",
+      explain: "No VLAN enforcement between CORP-LAN and ENG-LAN pulls in everything that can reach the CUI stores. Outside: Whitmore & Associates as a service, and FastenerTech. Little else with confidence.",
+      items: [
+        { v: "sys001", text: "SYS-001 and SYS-002 (domain controllers)", key: true },
+        { v: "sys003", text: "SYS-003 (file server, primary CUI store)", key: true },
+        { v: "sys004", text: "SYS-004 (PLM)", key: true },
+        { v: "sys005", text: "SYS-005 ×14 (engineering workstations)", key: true },
+        { v: "sys006", text: "SYS-006 ×6 (engineering workstations)", key: true },
+        { v: "sys007", text: "SYS-007 (GCC High tenant)", key: true },
+        { v: "sys008", text: "SYS-008 (AWS GovCloud)", key: true },
+        { v: "sys009", text: "SYS-009 and SYS-010 (firewall and VPN)", key: true },
+        { v: "sys011", text: "SYS-011 (IDS)", key: true },
+        { v: "sys012", text: "SYS-012 (MFP)", key: true },
+        { v: "coresw", text: "The core switch", key: true },
+        { v: "corplan", text: "CORP-LAN workstations", key: true, note: "pulled in because CORP-LAN and ENG-LAN are not segmented" },
+        { v: "hsvnet", text: "Huntsville network equipment", key: true },
+        { v: "whitmore", text: "Whitmore & Associates (as a service)", key: false },
+        { v: "fastener", text: "FastenerTech", key: false }
+      ] }
+  ]
+};
+/* ===== END EDITABLE CONTENT ===== */
 function _k(){return 'cmmc-'+TOOLID;}
-function _val(e){return e.type==='checkbox' ? (e.checked?'1':'0') : e.value;}
-function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}else{e.value=v;}}
+function _isSel(e){return e.tagName==='SELECT';}
+function _val(e){if(e.type==='checkbox')return e.checked?'1':'0';
+ if(_isSel(e)&&!e.value&&e.dataset.legacy)return e.dataset.legacy;
+ return e.value;}
+function _hasOpt(e,v){for(var i=0;i<e.options.length;i++){if(e.options[i].value===v)return true;}return false;}
+function _set(e,v){if(v===null||v===undefined)return;
+ if(typeof v!=='string')v=String(v);
+ if(e.type==='checkbox'){e.checked=(v==='1');return;}
+ if(_isSel(e)){
+  if(v===''||_hasOpt(e,v)){e.value=v;delete e.dataset.legacy;_legacy(e,'');return;}
+  e.value='';e.dataset.legacy=v;_legacy(e,v);return;}
+ e.value=v;}
+/* An answer typed in the older version of this page that is not one of the new options is kept and shown, not lost. */
+function _legacy(e,v){var w=e.parentNode;if(!w)return;var p=w.querySelector('.legacy');
+ if(!v||!v.trim()){if(p)p.parentNode.removeChild(p);return;}
+ if(!p){p=document.createElement('p');p.className='legacy';w.appendChild(p);}
+ p.textContent='Your earlier typed answer (kept for reference until you choose an option): “'+v+'”';}
+function _obj(d){return (d&&typeof d==='object')?d:{};}
+function _apply(d){d=_obj(d);
+ document.querySelectorAll('[data-f]').forEach(function(e){if(Object.prototype.hasOwnProperty.call(d,e.dataset.f))_set(e,d[e.dataset.f]);});}
 function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
-function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
- document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});}catch(e){}
- document.querySelectorAll('.rubric').forEach(rtally);}
+function load(){try{_apply(JSON.parse(localStorage.getItem(_k())||'{}'));}catch(e){}
+ document.querySelectorAll('.rubric').forEach(rtally);syncWhen();}
 function rtally(r){var b=r.querySelectorAll('input[type=checkbox]'),n=0;
  b.forEach(function(c){if(c.checked)n++;});
  var o=r.querySelector('.rtally');
@@ -600,32 +762,96 @@ function setMsg(t){var m=document.getElementById('msg');if(m){m.textContent=t;cl
 function total(){return document.querySelectorAll('.item').length;}
 function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it){
  var ok=false;it.querySelectorAll('[data-f]').forEach(function(e){
-  if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;});
+  if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;
+  if(e.type==='checkbox'&&e.checked&&!e.closest('.rubric'))ok=true;});
  if(ok)n++;});return n;}
+/* ---------- option lists, conditional fields, auto-check ---------- */
+function _f(f){return document.querySelector('[data-f="'+f+'"]');}
+function _fill(sel){var L=LISTS[sel.getAttribute('data-list')];if(!L)return;
+ while(sel.firstChild)sel.removeChild(sel.firstChild);
+ var o=document.createElement('option');o.value='';o.textContent='— Select —';sel.appendChild(o);
+ var grp=null,gname=null;
+ L.forEach(function(v){var k=v.indexOf('['),g=(k>0&&v.charAt(v.length-1)===']')?v.slice(0,k):null,parent=sel;
+  if(g){if(g!==gname){grp=document.createElement('optgroup');grp.setAttribute('label',g);sel.appendChild(grp);gname=g;}parent=grp;}
+  else{grp=null;gname=null;}
+  var op=document.createElement('option');op.value=v;op.textContent=v;parent.appendChild(op);});}
+function _groupRule(g){var hit=null;Object.keys(CHECKS).forEach(function(id){CHECKS[id].forEach(function(r){if(r.group===g)hit=r;});});return hit;}
+function _buildGroups(){document.querySelectorAll('fieldset[data-group]').forEach(function(fs){
+ var g=fs.getAttribute('data-group'),r=_groupRule(g),box=fs.querySelector('.cks');if(!r||!box)return;
+ while(box.firstChild)box.removeChild(box.firstChild);
+ r.items.forEach(function(x){var id=g+'-'+x.v,lab=document.createElement('label'),inp=document.createElement('input'),sp=document.createElement('span');
+  lab.className='ck';lab.setAttribute('for',id);inp.type='checkbox';inp.id=id;inp.setAttribute('data-f',id);
+  sp.textContent=x.text;lab.appendChild(inp);lab.appendChild(sp);box.appendChild(lab);});});}
+function _shown(f,list){var e=_f(f);return !!e&&(LISTS[list]||[]).indexOf(e.value)>=0;}
+function syncWhen(){document.querySelectorAll('[data-show-if]').forEach(function(w){
+ var on=_shown(w.getAttribute('data-show-if'),w.getAttribute('data-show-list'));
+ if(on)w.removeAttribute('hidden');else w.setAttribute('hidden','');});}
+function _q(v){return '“'+v+'”';}
+function _chkSelect(r){var e=_f(r.f),v=e?e.value:'',good=false;
+ if(v!==''){if(r.ok&&r.ok.indexOf(v)>=0)good=true;
+  if(r.okPrefix&&r.okPrefix.indexOf(v.split('[')[0])>=0)good=true;}
+ var msg=v===''?'No answer chosen.':'You chose '+_q(v)+'.';
+ if(!good){var acc=r.okText||(r.ok||[]).concat((r.okPrefix||[]).map(function(p){return 'any objective of '+p;})).join(' or ');
+  msg+=' Accepted: '+acc+'.';}
+ else if(r.ok&&r.ok.length>1)msg+=' (More than one answer is accepted here.)';
+ return {st:good?'good':'bad',label:r.label,msg:msg,explain:r.explain};}
+function _chkGroup(r){var miss=[],extra=[],either=[];
+ r.items.forEach(function(x){var e=_f(r.group+'-'+x.v),c=!!(e&&e.checked),t=x.tag||x.text;
+  if(x.key===null||x.key===undefined){either.push(t);return;}
+  if(x.key&&!c)miss.push(t+(x.note?' — '+x.note:''));
+  if(!x.key&&c)extra.push(t+(x.note?' — '+x.note:''));});
+ var good=!miss.length&&!extra.length,parts=[];
+ if(good)parts.push('Your ticks match the model answer.');
+ if(miss.length)parts.push((r.missText||'Should be ticked')+': '+miss.join('; ')+'.');
+ if(extra.length)parts.push((r.extraText||'Should not be ticked')+': '+extra.join('; ')+'.');
+ if(either.length)parts.push('Either answer accepted for '+either.join(', ')+' (the model answer does not decide '+(either.length>1?'them':'it')+').');
+ return {st:good?'good':'bad',label:r.label,msg:parts.join(' '),explain:r.explain};}
+var _ST={good:'✓ Correct',bad:'✕ Not this one',skip:'– Not checked'};
+function _render(it,out,ok,n){var box=it.querySelector('.autocheck'),v=it.querySelector('.verdict');
+ if(!box){box=document.createElement('div');box.className='autocheck';it.insertBefore(box,v);}
+ while(box.firstChild)box.removeChild(box.firstChild);
+ var h=document.createElement('p');h.className='ac-head';h.textContent='Auto-check: '+ok+' of '+n+' answers correct';box.appendChild(h);
+ var ul=document.createElement('ul');box.appendChild(ul);
+ out.forEach(function(o){var li=document.createElement('li'),st=document.createElement('span'),b=document.createElement('strong'),t=document.createElement('span');
+  st.className='st '+o.st;st.textContent=_ST[o.st]+' ';b.textContent=o.label+': ';t.textContent=o.msg;
+  li.appendChild(st);li.appendChild(b);li.appendChild(t);
+  if(o.explain&&o.st!=='skip'){var p=document.createElement('p');p.className='ex';p.textContent=o.explain;li.appendChild(p);}
+  ul.appendChild(li);});}
+function autoCheck(it){var rules=CHECKS[it.id];if(!rules||!rules.length)return null;
+ var out=[],n=0,ok=0;
+ rules.forEach(function(r){
+  if(r.when&&!_shown(r.when.f,r.when.list)){out.push({st:'skip',label:r.label,msg:r.skipText||'Applies only when your determination is CUI or arguably CUI.'});return;}
+  var res=r.group?_chkGroup(r):_chkSelect(r);n++;if(res.st==='good')ok++;out.push(res);});
+ _render(it,out,ok,n);return {n:n,ok:ok};}
 function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
- var sel=it.querySelector('select[data-ok]');
- if(sel){var good=sel.value===sel.dataset.ok;
-   v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
-   var h=v.querySelector('h4');if(h)h.textContent=good?'Correct \u2014 and here is the full reasoning':'Not this one \u2014 here is why';}
- v.classList.add('show');btn.textContent='Model answer shown';btn.disabled=true;
+ var r=autoCheck(it);
+ if(r&&r.n){var all=(r.ok===r.n);
+   v.classList.remove('good','bad');v.classList.add(all?'good':'bad');
+   var h=v.querySelector('h4');if(h)h.textContent=all?'Correct — and here is the full reasoning':(r.ok?'Partly right — here is the full reasoning':'Not this one — here is why');}
+ v.classList.add('show');
+ if(r){btn.textContent='Check again';}else{btn.textContent='Model answer shown';btn.disabled=true;}
  var need=it.querySelector('.needchange');
  if(need&&!need.value.trim()){var w=it.querySelector('.nc-warn');if(w)w.style.display='block';}
- save();}
+ save();
+ if(r&&r.n)setMsg('Checked: '+r.ok+' of '+r.n+' answers correct. Details appear above the model answer.');}
 function revealAll(){document.querySelectorAll('.rvbtn').forEach(function(b){if(!b.disabled)reveal(b);});}
 function resetAll(){if(!confirm('Clear every answer on this page?'))return;
  try{localStorage.removeItem(_k());}catch(e){}location.reload();}
 function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  var s=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
  var t=document.getElementById('codebox');t.style.display='block';t.value=s;t.select();
- setMsg('Progress code generated \u2014 copy and keep it.');}
+ setMsg('Progress code generated — copy and keep it.');}
 function restore(){var t=document.getElementById('codebox');t.style.display='block';
  if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
  try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
-  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
+  if(!d||typeof d!=='object')throw new Error('bad code');
+  _apply(d);syncWhen();
   document.querySelectorAll('.rubric').forEach(rtally);
   save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}
-window.addEventListener('DOMContentLoaded',function(){load();
- document.querySelectorAll('[data-f]').forEach(function(e){e.addEventListener('change',save);});
+window.addEventListener('DOMContentLoaded',function(){
+ document.querySelectorAll('select[data-list]').forEach(_fill);_buildGroups();
+ load();
+ document.querySelectorAll('[data-f]').forEach(function(e){e.addEventListener('change',function(){syncWhen();save();});});
  setMsg('');});
 </script><script src="case-window.js" data-tab="contracts"></script>
 </body></html>

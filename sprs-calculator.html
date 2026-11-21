@@ -363,6 +363,25 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media print{footer{display:none}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+/* AUTO-CHECK FIELDS (lab field conversion, 2026-11-20) */
+input[type=number],input[type=date]{width:100%;max-width:260px;font-family:Arial,sans-serif;font-size:.86rem;
+  color:var(--text-primary);background:var(--body-bg);border:1px solid var(--border);border-radius:3px;
+  padding:.5rem .65rem;line-height:1.6}
+.ac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 1rem}
+.ac-grid input[type=date]{max-width:none}
+.ac-out{margin-top:1rem;font-family:Arial,sans-serif}
+.ac-out:empty{display:none}
+.panel .ac-out p.ac-sum{font-size:.8rem;color:var(--text-muted);margin:0 0 .5rem}
+.panel .ac-out ul{list-style:none;margin:0;display:flex;flex-direction:column;gap:.45rem}
+.panel .ac-out li{margin:0;padding:.4rem .75rem;border:1px solid var(--border);border-left-width:5px;border-radius:3px;
+  background:var(--card-bg);font-size:.83rem;color:var(--text-primary);line-height:1.6}
+.panel .ac-out li.ac-ok{border-left-color:var(--ok)}
+.panel .ac-out li.ac-no{border-left-color:var(--bad)}
+.panel .ac-out li.ac-na{border-left-color:var(--warn)}
+.ac-mark{font-weight:700}
+.ac-ok .ac-mark{color:var(--ok)}
+.ac-no .ac-mark{color:var(--bad)}
+.ac-na .ac-mark{color:var(--warn)}
 </style>
 </head>
 <body>
@@ -514,9 +533,10 @@ unrelated party. The FortiGate retains authentication events; SYS-003 and SYS-00
 not reviewed, so file-level access records for three of the four sessions have already rolled off.</p>
 <p><strong>Nakamura's position:</strong> &ldquo;It is almost certainly Jared. He was finishing a handover and he is
 a good guy. Nothing has been taken &mdash; we would see it.&rdquo;</p></div>
-  <div style="margin-bottom:.8rem"><label for="inc-t">Does this trigger the 72-hour reporting obligation?</label><select id="inc-t" data-f="inc-t" class="" data-ok="Yes — report"><option value=""></option><option value="Yes — report">Yes — report</option><option value="No — does not meet the threshold">No — does not meet the threshold</option><option value="Not yet — report only if compromise is confirmed">Not yet — report only if compromise is confirmed</option></select></div><div style="margin-bottom:.8rem"><label for="inc-cl">Clause paragraph, clock start, and who is entitled to decide</label><textarea id="inc-cl" data-f="inc-cl" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="inc-ca">The strongest argument against your decision — and your answer to it</label><textarea id="inc-ca" data-f="inc-ca" class="" placeholder=""></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="inc-t">Does this trigger the 72-hour reporting obligation?</label><select id="inc-t" data-f="inc-t" class="" data-ok="Yes — report"><option value=""></option><option value="Yes — report">Yes — report</option><option value="No — does not meet the threshold">No — does not meet the threshold</option><option value="Not yet — report only if compromise is confirmed">Not yet — report only if compromise is confirmed</option></select></div><div style="margin-bottom:.8rem"><label for="inc-par">Which clause paragraph requires the report?</label><select id="inc-par" data-f="inc-par"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="inc-clk">When does the 72-hour clock start?</label><select id="inc-clk" data-f="inc-clk"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="inc-who">Who is entitled to decide?</label><select id="inc-who" data-f="inc-who"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="inc-cl">Why &mdash; the paragraph, the clock start, and the decision-maker</label><textarea id="inc-cl" data-f="inc-cl" placeholder="Why that paragraph, why that moment and not another, and why that person."></textarea></div><div style="margin-bottom:.8rem"><label for="inc-ca">The strongest argument against your decision — and your answer to it</label><textarea id="inc-ca" data-f="inc-ca" class="" placeholder=""></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><div class="tw"><table><tbody>
 <tr><td style="width:190px"><strong>Does it trigger?</strong></td><td><strong>Yes.</strong> A cyber incident
 includes actions resulting in an actual or <em>potentially</em> adverse effect on an information system or the
@@ -576,13 +596,167 @@ your career.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;b
   <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
 </footer>
 <script>
+/* ===== EDITABLE CONTENT: option lists and answer keys. Faculty may edit this block; do not edit below it. ===== */
+/* How this block works
+   LISTS  : the choices in each kind of drop-down, in display order. A choice's text is also its stored value,
+            so if you reword a choice, reword it everywhere it appears in this block (keys and NOTES too).
+   NOTES  : extra feedback shown whenever a learner picks that choice (right or wrong).
+   CHECKS : one entry per checked field. f = the field's id. label = the name shown in the result.
+            keys = every accepted answer (copy the choice text exactly). ok / no = the explanation shown when the
+            answer is accepted / not accepted.
+   The gap-list deduction drop-downs keep their own keys in the page (data-ok) and the scoring key table.
+   Sources: every key and explanation below comes from this tool's own model answer for INC-003.
+   Items marked OWNER REVIEW are judgment calls flagged for the workshop owner. */
+var LISTS = {
+  trigger: ["Yes — report", "No — does not meet the threshold", "Not yet — report only if compromise is confirmed"],
+  paragraph: [
+    "252.204-7012(c)(1) — rapid reporting within 72 hours",
+    "252.204-7012(a) — definitions, including “cyber incident”",
+    "252.204-7012(e) — media preservation and protection",
+    "252.204-7012(m) — subcontract flow-down"
+  ],
+  clock: [
+    "Wednesday 09:40, when Nakamura discovered the authentications",
+    "The first jhollis VPN session, six weeks ago",
+    "The engineer’s separation date in November",
+    "The most recent session, eleven days ago",
+    "When a compromise of CUI is confirmed"
+  ],
+  decider: [
+    "The CISO (Diana L. Kowalczyk) and the CEO / Authorizing Official (Marcus T. Ellison)",
+    "Trevor J. Nakamura, who found it",
+    "The Incident Commander named in the 2022 IRP",
+    "ClearPath MSP, which runs the VPN",
+    "The contracting officer"
+  ]
+};
+
+var NOTES = {
+  "No — does not meet the threshold": "The threshold is “potentially adverse,” not “malicious.” An account that should not exist authenticated to a network holding CUI, with write access to the CUI store.",
+  "Not yet — report only if compromise is confirmed": "Waiting for confirmation misreads the definition: actual or potentially adverse effect is enough. And Meridian lacks the logs to confirm anything.",
+  "252.204-7012(a) — definitions, including “cyber incident”": "Paragraph (a) supplies the threshold through the definition of cyber incident, but the duty to report rapidly is in (c)(1).",
+  "252.204-7012(e) — media preservation and protection": "Preservation under (e) attaches once reported, and it is urgent here because logs are rolling off. The report itself is (c)(1).",
+  "252.204-7012(m) — subcontract flow-down": "Paragraph (m) is the flow-down duty (it matters for GAP-06), not the reporting duty.",
+  "The first jhollis VPN session, six weeks ago": "Not from the first session. The clock runs from discovery. Document the six-week gap: it is evidence about monitoring, not about the clock.",
+  "The engineer’s separation date in November": "Not from the separation date. The clock runs from discovery.",
+  "The most recent session, eleven days ago": "The clock runs from discovery, not from any session.",
+  "When a compromise of CUI is confirmed": "The trigger is discovery of a potentially adverse incident, not confirmed compromise.",
+  "Trevor J. Nakamura, who found it": "Not Nakamura. He found it, and he has already reached a conclusion (“almost certainly Jared”) the environment cannot support.",
+  "The Incident Commander named in the 2022 IRP": "The IRP names an Incident Commander, but the plan is three years stale and lists a departed employee. That the decision has nowhere to go is itself a finding under IR.L2-3.6.1.",
+  "ClearPath MSP, which runs the VPN": "The MSP is not Meridian’s decision-maker for its own reporting duty. (OWNER REVIEW)",
+  "The contracting officer": "The contracting officer receives questions later; Meridian must decide and report. (OWNER REVIEW)"
+};
+
+var CHECKS = [
+  {f:"inc-t", label:"Does it trigger?", list:"trigger", keys:["Yes — report"],
+   ok:"Yes. Unauthorized authentication to a network holding CUI, by an account that should not exist, with write access to the CUI store, is an actual unauthorized access. The only open question is what was done with it.",
+   no:"It triggers. A cyber incident includes actions with an actual or potentially adverse effect on a system or its information. This is an actual unauthorized access."},
+  {f:"inc-par", label:"Clause paragraph", list:"paragraph", keys:["252.204-7012(c)(1) — rapid reporting within 72 hours"],
+   ok:"252.204-7012(c)(1) for the rapid report. The definition of cyber incident at (a) supplies the threshold, and media preservation under (e) attaches once reported.",
+   no:"The rapid report is 252.204-7012(c)(1)."},
+  {f:"inc-clk", label:"Clock start", list:"clock", keys:["Wednesday 09:40, when Nakamura discovered the authentications"],
+   ok:"72 hours from discovery: Wednesday 09:40, when Nakamura identified the authentications.",
+   no:"The clock starts at discovery: Wednesday 09:40, when Nakamura identified the authentications."},
+  {f:"inc-who", label:"Who decides", list:"decider", keys:["The CISO (Diana L. Kowalczyk) and the CEO / Authorizing Official (Marcus T. Ellison)"],
+   ok:"Not Nakamura. With the IRP stale, in practice the CISO and the CEO, who is also the Authorizing Official, must be involved.",
+   no:"The model answer: not Nakamura. The IRP is stale, so in practice the CISO and the CEO, who is also the Authorizing Official, must be involved. (OWNER REVIEW)"}
+];
+/* ===== END EDITABLE CONTENT ===== */
+
+var AC_LEGACY_MAP={};
+/* Auto-check engine for the drop-down, number and date fields. It reads LISTS, NOTES, CHECKS (and PLAN, if
+   present) from the editable block above. */
+var AC_MARK={ok:['✓','Correct'],no:['✕','Not this one'],na:['○','Not answered']};
+function _acField(id){return document.querySelector('[data-f="'+id+'"]');}
+function _acChecks(){return (typeof CHECKS!=='undefined'&&CHECKS)||[];}
+function _acFill(){
+ _acChecks().forEach(function(c){
+  var e=_acField(c.f); if(!e||!c.list||e.tagName!=='SELECT')return;
+  var opts=(typeof LISTS!=='undefined'&&LISTS[c.list])||null; if(!opts)return;
+  var cur=e.value;
+  while(e.firstChild)e.removeChild(e.firstChild);
+  var o0=document.createElement('option');o0.value='';o0.textContent='Choose one…';e.appendChild(o0);
+  opts.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=t;e.appendChild(o);});
+  e.value=(opts.indexOf(cur)>=0)?cur:'';
+  if(e.hasAttribute('data-ok')&&c.keys&&c.keys.length)e.setAttribute('data-ok',c.keys[0]);
+ });
+}
+function _acDate(v){if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v))return null;var p=v.split('-');
+ return Date.UTC(+p[0],+p[1]-1,+p[2]);}
+function _acEval(c){
+ var e=_acField(c.f); if(!e)return null;
+ var v=String(e.value||'').trim(), ok=false, extra='';
+ if(!v)return {state:'na',text:c.empty||'Choose or enter an answer, then check again.'};
+ var P=(typeof PLAN!=='undefined'&&PLAN)||{};
+ if(c.type==='number'){
+  var n=Number(v); if(isNaN(n))return {state:'na',text:'Enter a whole number.'};
+  ok=(n>=c.min&&n<=c.max);
+ }else if(c.type==='date'){
+  var d=_acDate(v); if(d===null)return {state:'na',text:'Enter a full date.'};
+  var se=_acField(P.startField||''), s=se?_acDate(se.value):null;
+  if(s===null)return {state:'na',text:P.noStart||'Enter the start date first.'};
+  var day=Math.round((d-s)/86400000);
+  if(c.mode==='before'){ok=d<s; extra=ok?'':(c.late||'');}
+  else{ok=day<=P.windowDays; extra=ok?'':(c.late||'');
+   v='day '+day+' of '+P.windowDays;}
+  (c.after||[]).forEach(function(f){var oe=_acField(f),od=oe?_acDate(oe.value):null;
+   if(ok&&od!==null&&d<od){ok=false;extra=c.seq||'';}});
+  (c.first||[]).forEach(function(f){var oe=_acField(f),od=oe?_acDate(oe.value):null;
+   if(ok&&od!==null&&d>od){ok=false;extra=c.seq||'';}});
+ }else{
+  ok=(c.keys||[]).indexOf(v)>=0;
+ }
+ var note=(c.notes&&c.notes[v])||((typeof NOTES!=='undefined'&&NOTES)?(NOTES[v]||''):'');
+ var text=(ok?(c.ok||''):(c.no||''));
+ if(extra)text+=(text?' ':'')+extra;
+ if(note)text+=(text?' ':'')+note;
+ return {state:ok?'ok':'no',text:text};
+}
+function autocheck(it){
+ var list=_acChecks().filter(function(c){var e=_acField(c.f);return e&&e.closest('.item')===it;});
+ if(!list.length)return null;
+ var out=it.querySelector('.ac-out');
+ if(!out){out=document.createElement('div');out.className='ac-out';it.insertBefore(out,it.querySelector('.verdict'));}
+ while(out.firstChild)out.removeChild(out.firstChild);
+ var good=0,answered=0,ul=document.createElement('ul');
+ list.forEach(function(c){var r=_acEval(c); if(!r)return;
+  if(r.state==='ok')good++; if(r.state!=='na')answered++;
+  var li=document.createElement('li');li.className='ac-'+r.state;
+  var m=document.createElement('span');m.className='ac-mark';m.textContent=AC_MARK[r.state][0]+' '+AC_MARK[r.state][1]+': ';
+  var b=document.createElement('strong');var lb=(c.label||c.f);b.textContent=lb+(/[.?!]$/.test(lb)?' ':'. ');
+  var t=document.createElement('span');t.textContent=r.text;
+  li.appendChild(m);li.appendChild(b);li.appendChild(t);ul.appendChild(li);});
+ var sum=document.createElement('p');sum.className='ac-sum';
+ sum.textContent='Auto-check: '+good+' of '+list.length+' correct'+(answered<list.length?' ('+(list.length-answered)+' not answered)':'')+'. Typed answers are not scored: compare them with the model answer below.';
+ out.appendChild(sum);out.appendChild(ul);
+ return {good:good,total:list.length,answered:answered,summary:sum.textContent};
+}
+var AC_LEGACY=(typeof AC_LEGACY_MAP!=='undefined')?AC_LEGACY_MAP:{};
+function _acMigrate(d){
+ if(!d||typeof d!=='object'||Array.isArray(d))return {};
+ _acChecks().forEach(function(c){
+  if(!(c.f in d))return;
+  var v=d[c.f]; if(v===null||v===undefined){delete d[c.f];return;}
+  v=String(v);
+  if(c.type==='number'){var m=v.match(/-?\d+(\.\d+)?/); if(m)d[c.f]=m[0]; else{
+    if(AC_LEGACY[c.f]&&!d[AC_LEGACY[c.f]])d[AC_LEGACY[c.f]]=v; delete d[c.f];}}
+  else if(c.type==='date'){if(_acDate(v)===null)delete d[c.f];}
+  else if(c.list&&typeof LISTS!=='undefined'&&LISTS[c.list]&&LISTS[c.list].indexOf(v)<0){
+   if(AC_LEGACY[c.f]&&v.trim()&&!d[AC_LEGACY[c.f]])d[AC_LEGACY[c.f]]=v;
+   delete d[c.f];}
+ });
+ return d;
+}
+_acFill();
 var TOOLID='sprs-calculator';
 function _k(){return 'cmmc-'+TOOLID;}
 function _val(e){return e.type==='checkbox' ? (e.checked?'1':'0') : e.value;}
-function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}else{e.value=v;}}
+function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}
+ else if(e.tagName==='SELECT'){var ok=false;for(var i=0;i<e.options.length;i++){if(e.options[i].value===String(v))ok=true;}e.value=ok?String(v):'';}
+ else{e.value=(v==null)?'':String(v);}}
 function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
-function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
+function load(){try{var d=_acMigrate(JSON.parse(localStorage.getItem(_k())||'{}'));
  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});}catch(e){}
  document.querySelectorAll('.rubric').forEach(rtally);}
 function rtally(r){var b=r.querySelectorAll('input[type=checkbox]'),n=0;
@@ -599,6 +773,10 @@ function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it
   if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;});
  if(ok)n++;});return n;}
 function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
+ var ac=autocheck(it);
+ if(ac){v.classList.remove('good','bad');v.classList.add(ac.good===ac.total?'good':'bad');
+  var h4=v.querySelector('h4');if(h4)h4.textContent=ac.good===ac.total?'Correct \u2014 and here is the full reasoning':'Not all correct yet \u2014 here is the full reasoning';
+  v.classList.add('show');btn.textContent='Check again';save();setMsg(ac.summary);return;}
  var sel=it.querySelector('select[data-ok]');
  if(sel){var good=sel.value===sel.dataset.ok;
    v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
@@ -616,7 +794,7 @@ function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(
  setMsg('Progress code generated \u2014 copy and keep it.');}
 function restore(){var t=document.getElementById('codebox');t.style.display='block';
  if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
- try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
+ try{var d=_acMigrate(JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))));
   document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
   document.querySelectorAll('.rubric').forEach(rtally);
   save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}

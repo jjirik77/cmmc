@@ -363,6 +363,10 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media print{footer{display:none}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+.fcheck{margin-top:.4rem;font-family:Arial,sans-serif;font-size:.8rem;line-height:1.6;padding:.45rem .65rem;border-radius:3px;border-left:4px solid var(--border);background:var(--card-bg);color:var(--text-primary)}
+.fcheck.ok{border-left-color:var(--ok);background:rgba(47,111,79,.08)}
+.fcheck.no{border-left-color:var(--bad);background:rgba(157,52,39,.07)}
+.fcheck[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -428,7 +432,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">1</span>
     <h2 style="margin:0">Marcus Reyes &mdash; CCA</h2></div>
   <p>Employed by Meridian as a systems administrator 2019&ndash;2022, where he built the Active Directory group structure and the file server permission model <em>still in use on SYS-003, including the CUI tree</em>. Left on good terms; no services since. Participated in Tidewater&rsquo;s gap assessment ten months ago.</p>
-  <div style="margin-bottom:.8rem"><label for="e1-d">Disposition</label><select id="e1-d" data-f="e1-d" class="" data-ok="Remove the individual"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e1-p">Principle and practice relied on</label><input type="text" id="e1-p" data-f="e1-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e1-w">Who decides, and why</label><textarea id="e1-w" data-f="e1-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e1-d">Disposition</label><select id="e1-d" data-f="e1-d" class="" data-ok="Remove the individual"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e1-pp">Guiding principle relied on</label><select id="e1-pp" data-f="e1-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e1-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e1-p">Practice relied on (cite the section)</label><input type="text" id="e1-p" data-f="e1-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e1-wd">Who decides</label><select id="e1-wd" data-f="e1-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e1-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e1-w">Why: the basis for that decision</label><textarea id="e1-w" data-f="e1-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>Two separate problems, and neither is cured by disclosure.</strong></p>
@@ -443,7 +447,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">2</span>
     <h2 style="margin:0">Priya Raghunathan &mdash; CCP</h2></div>
   <p>Two years alongside Meridian&rsquo;s IT Administrator, Trevor Nakamura, on the board of their local professional association chapter; they see each other monthly and occasionally dine with the wider board. No financial or family relationship. Participated in the gap assessment ten months ago.</p>
-  <div style="margin-bottom:.8rem"><label for="e2-d">Disposition</label><select id="e2-d" data-f="e2-d" class="" data-ok="Remove the individual"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e2-p">Principle and practice relied on</label><input type="text" id="e2-p" data-f="e2-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e2-w">Who decides, and why</label><textarea id="e2-w" data-f="e2-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e2-d">Disposition</label><select id="e2-d" data-f="e2-d" class="" data-ok="Remove the individual"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e2-pp">Guiding principle relied on</label><select id="e2-pp" data-f="e2-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e2-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e2-p">Practice relied on (cite the section)</label><input type="text" id="e2-p" data-f="e2-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e2-wd">Who decides</label><select id="e2-wd" data-f="e2-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e2-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e2-w">Why: the basis for that decision</label><textarea id="e2-w" data-f="e2-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p>The chapter-board relationship alone would be a <strong>disclose-and-mitigate</strong> question: an ongoing
@@ -459,7 +463,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">3</span>
     <h2 style="margin:0">Thomas Blalock &mdash; CCA</h2></div>
   <p>No relationship with Meridian. Holds approximately $30,000 of common stock in Cardinal Industrial Group, a publicly traded company. Cardinal is the parent of <strong>ClearPath IT Solutions</strong>, the managed service provider that holds standing domain administrator rights over Meridian&rsquo;s environment. Disclosed the holding to Tidewater when he joined.</p>
-  <div style="margin-bottom:.8rem"><label for="e3-d">Disposition</label><select id="e3-d" data-f="e3-d" class="" data-ok="Disclose and mitigate"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e3-p">Principle and practice relied on</label><input type="text" id="e3-p" data-f="e3-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e3-w">Who decides, and why</label><textarea id="e3-w" data-f="e3-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e3-d">Disposition</label><select id="e3-d" data-f="e3-d" class="" data-ok="Disclose and mitigate"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e3-pp">Guiding principle relied on</label><select id="e3-pp" data-f="e3-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e3-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e3-p">Practice relied on (cite the section)</label><input type="text" id="e3-p" data-f="e3-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e3-wd">Who decides</label><select id="e3-wd" data-f="e3-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e3-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e3-w">Why: the basis for that decision</label><textarea id="e3-w" data-f="e3-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p>A general disclosure on joining is <em>not</em> disclosure of a conflict in this engagement. The holding
@@ -475,7 +479,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">4</span>
     <h2 style="margin:0">Tidewater Assurance Group &mdash; the firm</h2></div>
   <p>Conducted a non-certification gap assessment for Meridian ten months ago. Three days on site at Dayton. The 26-page deliverable included <strong>Appendix C &mdash; Recommended Remediation Sequence</strong>, a prioritized plan with suggested tooling for five of the eight gaps and estimated timelines and costs. Meridian&rsquo;s POA&amp;M was built directly from Section 4 of that report.</p>
-  <div style="margin-bottom:.8rem"><label for="e4-d">Disposition</label><select id="e4-d" data-f="e4-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e4-p">Principle and practice relied on</label><input type="text" id="e4-p" data-f="e4-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e4-w">Who decides, and why</label><textarea id="e4-w" data-f="e4-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e4-d">Disposition</label><select id="e4-d" data-f="e4-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e4-pp">Guiding principle relied on</label><select id="e4-pp" data-f="e4-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e4-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e4-p">Practice relied on (cite the section)</label><input type="text" id="e4-p" data-f="e4-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e4-wd">Who decides</label><select id="e4-wd" data-f="e4-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e4-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e4-w">Why: the basis for that decision</label><textarea id="e4-w" data-f="e4-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>This is the conflict the packet does not label, and it is the one that decides the engagement.</strong></p>
@@ -492,7 +496,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">5</span>
     <h2 style="margin:0">The engagement letter</h2></div>
   <p><strong>Outcome provision:</strong> &ldquo;In the event a Certificate of CMMC Status is not issued, thirty percent (30%) of the fee shall be credited against a subsequent assessment conducted by Tidewater within twelve months.&rdquo;<br><strong>Support provision:</strong> &ldquo;Tidewater will make its assessors available to answer implementation questions arising from the assessment for a period of 60 days following the out-brief.&rdquo;</p>
-  <div style="margin-bottom:.8rem"><label for="e5-d">Disposition</label><select id="e5-d" data-f="e5-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e5-p">Principle and practice relied on</label><input type="text" id="e5-p" data-f="e5-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e5-w">Who decides, and why</label><textarea id="e5-w" data-f="e5-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e5-d">Disposition</label><select id="e5-d" data-f="e5-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e5-pp">Guiding principle relied on</label><select id="e5-pp" data-f="e5-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e5-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e5-p">Practice relied on (cite the section)</label><input type="text" id="e5-p" data-f="e5-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e5-wd">Who decides</label><select id="e5-wd" data-f="e5-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e5-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e5-w">Why: the basis for that decision</label><textarea id="e5-w" data-f="e5-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p><strong>Both terms are prohibited, for different reasons.</strong></p>
@@ -512,7 +516,7 @@ question at the end turns on it.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">6</span>
     <h2 style="margin:0">Ellison&rsquo;s request</h2></div>
   <p>&ldquo;Can you take a pass at the asset inventory and tidy up the SSP first, so we are not wasting your people&rsquo;s time?&rdquo; He has also asked twice whether fieldwork can be compressed.</p>
-  <div style="margin-bottom:.8rem"><label for="e6-d">Disposition</label><select id="e6-d" data-f="e6-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e6-p">Principle and practice relied on</label><input type="text" id="e6-p" data-f="e6-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e6-w">Who decides, and why</label><textarea id="e6-w" data-f="e6-w" class="" placeholder="Name the deciding party and the basis. Say whether the defect is curable."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="e6-d">Disposition</label><select id="e6-d" data-f="e6-d" class="" data-ok="Decline the engagement"><option value=""></option><option value="No conflict to disclose">No conflict to disclose</option><option value="Disclose, no mitigation">Disclose, no mitigation</option><option value="Disclose and mitigate">Disclose and mitigate</option><option value="Remove the individual">Remove the individual</option><option value="Decline the engagement">Decline the engagement</option></select></div><div style="margin-bottom:.8rem"><label for="e6-pp">Guiding principle relied on</label><select id="e6-pp" data-f="e6-pp" class=""><option value="">Choose one</option></select><div class="fcheck" id="e6-pp-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e6-p">Practice relied on (cite the section)</label><input type="text" id="e6-p" data-f="e6-p" class="" placeholder="e.g. CoPC §2.2(d); 32 CFR §170.8(b)(17)(ii)(G)"></div><div style="margin-bottom:.8rem"><label for="e6-wd">Who decides</label><select id="e6-wd" data-f="e6-wd" class=""><option value="">Choose one</option></select><div class="fcheck" id="e6-wd-res" hidden></div></div><div style="margin-bottom:.8rem"><label for="e6-w">Why: the basis for that decision</label><textarea id="e6-w" data-f="e6-w" class="" placeholder="Give the basis. Say whether the defect is curable."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
   <div class="verdict"><h4>Model answer</h4><p>The request is reasonable-sounding, made in good faith, by a company that has genuinely tried and is short
@@ -606,14 +610,83 @@ Ellison&rsquo;s request.</p><div class="rubric" style="margin-top:1.1rem;padding
 </footer>
 <script>
 var TOOLID='ethics-gate';
+/* ===== EDITABLE CONTENT: option lists and answer keys. Faculty may edit this block; do not edit below it. =====
+   lists:  the choices shown in each drop-down. "v" is the stored code (keep it stable); "t" is the text shown.
+   fields: one entry per drop-down, by element id. "list" names the option list, "key" holds every accepted
+           code (more than one = more than one defensible answer), "why" is the explanation shown after Check.
+*/
+var LAB = {
+  lists: {
+    principle: [
+      {v:"prof", t:"Professionalism"},
+      {v:"imp", t:"Impartiality"},
+      {v:"conf", t:"Confidentiality"},
+      {v:"integ", t:"Information Integrity"},
+      {v:"law", t:"Lawful and Ethical Behavior"},
+      {v:"equal", t:"Equal Opportunity"},
+      {v:"methods", t:"Proper Use of CMMC Methods"},
+      {v:"tech", t:"Proper Use of Technology and AI"}
+    ],
+    decider: [
+      {v:"c3pao", t:"The C3PAO (the assessment firm)"},
+      {v:"lead", t:"The Lead CCA"},
+      {v:"self", t:"The individual assessor, for themselves"},
+      {v:"osc", t:"The OSC (Meridian)"},
+      {v:"cyberab", t:"The Cyber AB"}
+    ]
+  },
+  fields: {
+    "e1-pp": {list:"principle", key:["imp"],
+      why:"Model answer: he would be assessing his own work, an impartiality failure under CoPC §2.2. His part in the gap assessment also engages the three-year bar (32 CFR §170.8(b)(17)(ii)(G) / CoPC §2.2(d))."},
+    "e1-wd": {list:"decider", key:["c3pao"],
+      why:"Model answer: the C3PAO decides. Not Reyes, and not the OSC."},
+    "e2-pp": {list:"principle", key:["imp"],
+      why:"Model answer: the chapter board alone is a disclose-and-mitigate impartiality question (it could reasonably appear to compromise impartiality). Her part in the gap assessment engages the three-year bar, and removal follows from that."},
+    "e2-wd": {list:"decider", key:["c3pao"],
+      why:"The model answer does not name the decider for this conflict. As in Reyes's case and the chapter-board scenario, the C3PAO decides on reassignment or removal."},
+    "e3-pp": {list:"principle", key:["imp"],
+      why:"Model answer: the holding becomes a live conflict once ClearPath is in scope. The duty is to disclose in writing as soon as the conflict is known or reasonably should be known."},
+    "e3-wd": {list:"decider", key:["c3pao"],
+      why:"Model answer: disposition is the C3PAO's. Blalock may not decide the interest is immaterial because it is in the parent company."},
+    "e4-pp": {list:"principle", key:["imp"],
+      why:"Model answer: the three-year bar binds the C3PAO as an organization. A remediation sequence with suggested tooling and costs is advisory activity by any reading."},
+    "e4-wd": {list:"decider", key:["c3pao"],
+      why:"Model answer: where a conflict cannot be sufficiently mitigated, the C3PAO does not proceed. Tidewater must decline."},
+    "e5-pp": {list:"principle", key:["prof", "imp"],
+      why:"Model answer: the outcome credit is an incentive contingent on the certificate (Lesson 3 places guarantees under Professionalism). The support term is post-assessment consulting and an interest in a continuing relationship (Impartiality)."},
+    "e5-wd": {list:"decider", key:["c3pao"],
+      why:"The model answer treats this as the firm's call: the letter is not executed, and a firm that strikes both terms has fixed the problem."},
+    "e6-pp": {list:"principle", key:["imp"],
+      why:"Model answer: building the inventory and revising the SSP is preparing the organization. It would trigger the three-year bar, and the firm would later assess documents it wrote."},
+    "e6-wd": {list:"decider", key:["c3pao"],
+      why:"Model answer: the C3PAO, the team, and anyone affiliated with it do not help the OSC get ready. A compressed schedule is refused if it would not support accurate determinations."}
+  }
+};
+/* ===== END EDITABLE CONTENT ===== */
+/* Old saved answers from before the drop-down change: free text that now lives in a typed field. */
+var LEGACY = [];
 function _k(){return 'cmmc-'+TOOLID;}
 function _val(e){return e.type==='checkbox' ? (e.checked?'1':'0') : e.value;}
-function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}else{e.value=v;}}
+function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}
+ else if(e.tagName==='SELECT'){var ok=false;for(var i=0;i<e.options.length;i++){if(e.options[i].value===v)ok=true;}e.value=ok?v:'';}
+ else{e.value=(v===null||v===undefined)?'':String(v);}}
+function _opts(f){var c=LAB.fields[f];return (c&&LAB.lists[c.list])||[];}
+function _txt(f,v){var l=_opts(f);for(var i=0;i<l.length;i++){if(l[i].v===v)return l[i].t;}return v;}
+function buildSelects(){Object.keys(LAB.fields).forEach(function(f){var e=document.getElementById(f);if(!e)return;
+ while(e.firstChild)e.removeChild(e.firstChild);
+ var o=document.createElement('option');o.value='';o.textContent='Choose one';e.appendChild(o);
+ _opts(f).forEach(function(it){var p=document.createElement('option');p.value=it.v;p.textContent=it.t;e.appendChild(p);});});}
+function _apply(d){if(!d||typeof d!=='object')return false;
+ document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
+ var moved=false;
+ LEGACY.forEach(function(m){var t=d[m.from];if(typeof t!=='string'||!t.trim())return;
+  var to=document.getElementById(m.to);if(!to)return;var line=m.label+': '+t.trim();
+  if(to.value.indexOf(line)===-1){to.value=(to.value.trim()?to.value.replace(/\s+$/,'')+'\n':'')+line;moved=true;}});
+ return moved;}
 function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
-function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
- document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});}catch(e){}
- document.querySelectorAll('.rubric').forEach(rtally);}
+function load(){var moved=false;try{var d=JSON.parse(localStorage.getItem(_k())||'{}');moved=_apply(d);}catch(e){}
+ document.querySelectorAll('.rubric').forEach(rtally);if(moved)save();}
 function rtally(r){var b=r.querySelectorAll('input[type=checkbox]'),n=0;
  b.forEach(function(c){if(c.checked)n++;});
  var o=r.querySelector('.rtally');
@@ -627,30 +700,49 @@ function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it
  var ok=false;it.querySelectorAll('[data-f]').forEach(function(e){
   if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;});
  if(ok)n++;});return n;}
-function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
- var sel=it.querySelector('select[data-ok]');
- if(sel){var good=sel.value===sel.dataset.ok;
-   v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
-   var h=v.querySelector('h4');if(h)h.textContent=good?'Correct \u2014 and here is the full reasoning':'Not this one \u2014 here is why';}
+/* Grade every keyed drop-down in one item; write a glyph + text result under each. */
+function grade(it){var n=0,good=0;
+ it.querySelectorAll('select[data-f]').forEach(function(s){var c=LAB.fields[s.id];if(!c)return;
+  var r=document.getElementById(s.id+'-res');if(!r)return;n++;
+  var keys=c.key||[],ok=keys.indexOf(s.value)!==-1,acc=keys.map(function(k){return _txt(s.id,k);});
+  var head=ok?'✓ Matches the model answer.':(s.value?'✕ Not the model answer.':'✕ Not answered.');
+  var also=(ok&&keys.length>1)?' Also accepted: '+acc.filter(function(a){return a!==_txt(s.id,s.value);}).join(' | ')+'.':'';
+  var want=ok?'':' Accepted: '+acc.join(' | ')+'.';
+  r.textContent=head+want+also+' '+c.why;
+  r.className='fcheck '+(ok?'ok':'no');r.hidden=false;s.setAttribute('aria-describedby',r.id);
+  if(ok)good++;});
+ var sel=it.querySelector('select[data-ok]'),catOk=true;
+ if(sel){var alt=(LAB.categoryAlso&&LAB.categoryAlso[sel.id])||[];catOk=(sel.value===sel.dataset.ok)||alt.indexOf(sel.value)!==-1;}
+ return {n:n,good:good,catOk:catOk,hasCat:!!sel};}
+function _head(it,g){var v=it.querySelector('.verdict');if(!v||!(g.hasCat||g.n))return;var good=g.catOk&&g.good===g.n;
+ v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
+ var h=v.querySelector('h4');if(h)h.textContent=good?'✓ Correct — and here is the full reasoning':'✕ Not this one — here is why';}
+function reveal(btn,silent){var it=btn.closest('.item'),v=it.querySelector('.verdict');
+ var g=grade(it);_head(it,g);
  v.classList.add('show');btn.textContent='Model answer shown';btn.disabled=true;
  var need=it.querySelector('.needchange');
  if(need&&!need.value.trim()){var w=it.querySelector('.nc-warn');if(w)w.style.display='block';}
- save();}
-function revealAll(){document.querySelectorAll('.rvbtn').forEach(function(b){if(!b.disabled)reveal(b);});}
+ save();
+ if(!silent&&g.n)setMsg('Checked: '+g.good+' of '+g.n+' drop-down answers match the model answer'+(g.hasCat?(g.catOk?'; classification matches.':'; classification does not match.'):'.'));
+ return g;}
+function revealAll(){var n=0,good=0;document.querySelectorAll('.rvbtn').forEach(function(b){if(!b.disabled){var g=reveal(b,true);n+=g.n;good+=g.good;}});
+ if(n)setMsg('Checked: '+good+' of '+n+' drop-down answers match the model answer.');}
 function resetAll(){if(!confirm('Clear every answer on this page?'))return;
  try{localStorage.removeItem(_k());}catch(e){}location.reload();}
 function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  var s=btoa(unescape(encodeURIComponent(JSON.stringify(d))));
  var t=document.getElementById('codebox');t.style.display='block';t.value=s;t.select();
- setMsg('Progress code generated \u2014 copy and keep it.');}
+ setMsg('Progress code generated — copy and keep it.');}
 function restore(){var t=document.getElementById('codebox');t.style.display='block';
  if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
  try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
-  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
+  _apply(d);
   document.querySelectorAll('.rubric').forEach(rtally);
   save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}
-window.addEventListener('DOMContentLoaded',function(){load();
+window.addEventListener('DOMContentLoaded',function(){buildSelects();load();
  document.querySelectorAll('[data-f]').forEach(function(e){e.addEventListener('change',save);});
+ document.querySelectorAll('select[data-f]').forEach(function(s){s.addEventListener('change',function(){
+  var it=s.closest('.item'),b=it&&it.querySelector('.rvbtn');if(b&&b.disabled)_head(it,grade(it));});});
  setMsg('');});
 </script><script src="case-window.js" data-tab="org"></script>
 </body></html>

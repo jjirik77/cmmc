@@ -363,6 +363,25 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media print{footer{display:none}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto!important}}
+/* AUTO-CHECK FIELDS (lab field conversion, 2026-11-20) */
+input[type=number],input[type=date]{width:100%;max-width:260px;font-family:Arial,sans-serif;font-size:.86rem;
+  color:var(--text-primary);background:var(--body-bg);border:1px solid var(--border);border-radius:3px;
+  padding:.5rem .65rem;line-height:1.6}
+.ac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 1rem}
+.ac-grid input[type=date]{max-width:none}
+.ac-out{margin-top:1rem;font-family:Arial,sans-serif}
+.ac-out:empty{display:none}
+.panel .ac-out p.ac-sum{font-size:.8rem;color:var(--text-muted);margin:0 0 .5rem}
+.panel .ac-out ul{list-style:none;margin:0;display:flex;flex-direction:column;gap:.45rem}
+.panel .ac-out li{margin:0;padding:.4rem .75rem;border:1px solid var(--border);border-left-width:5px;border-radius:3px;
+  background:var(--card-bg);font-size:.83rem;color:var(--text-primary);line-height:1.6}
+.panel .ac-out li.ac-ok{border-left-color:var(--ok)}
+.panel .ac-out li.ac-no{border-left-color:var(--bad)}
+.panel .ac-out li.ac-na{border-left-color:var(--warn)}
+.ac-mark{font-weight:700}
+.ac-ok .ac-mark{color:var(--ok)}
+.ac-no .ac-mark{color:var(--bad)}
+.ac-na .ac-mark{color:var(--warn)}
 </style>
 </head>
 <body>
@@ -420,9 +439,10 @@ it is still consulting on the last afternoon.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">1</span>
     <h2 style="margin:0">Part A &mdash; Eligibility, for Meridian as you assessed it</h2></div>
   <p>Work from your own findings and your own score. You will reach the conclusion quickly.</p>
-  <div style="margin-bottom:.8rem"><label for="pa-sc">Your assessed score</label><input type="text" id="pa-sc" data-f="pa-sc" class="" placeholder="From your D7 worksheet"></div><div style="margin-bottom:.8rem"><label for="pa-e">Is Meridian eligible for a POA&M?</label><select id="pa-e" data-f="pa-e" class="" data-ok="No — both tests fail"><option value=""></option><option value="Yes — both tests pass">Yes — both tests pass</option><option value="No — the score test fails">No — the score test fails</option><option value="No — both tests fail">No — both tests fail</option><option value="No — only the list test fails">No — only the list test fails</option></select></div><div style="margin-bottom:.8rem"><label for="pa-st">What CMMC status, if any, may issue — and under what provision?</label><textarea id="pa-st" data-f="pa-st" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="pa-cons">What it means for the company, commercially</label><textarea id="pa-cons" data-f="pa-cons" class="" placeholder="The AMCOM recompete, the clause it already holds, and the affirmation its CEO has already signed."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pa-sc">Your assessed score (a whole number from &minus;203 to 110)</label><input type="number" id="pa-sc" data-f="pa-sc" min="-203" max="110" step="1" placeholder="From your D7 worksheet"></div><div style="margin-bottom:.8rem"><label for="pa-e">Is Meridian eligible for a POA&M?</label><select id="pa-e" data-f="pa-e" class="" data-ok="No — both tests fail"><option value=""></option><option value="Yes — both tests pass">Yes — both tests pass</option><option value="No — the score test fails">No — the score test fails</option><option value="No — both tests fail">No — both tests fail</option><option value="No — only the list test fails">No — only the list test fails</option></select></div><div style="margin-bottom:.8rem"><label for="pa-st-s">What CMMC status, if any, may issue?</label><select id="pa-st-s" data-f="pa-st-s"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pa-st-p">Under what provision?</label><select id="pa-st-p" data-f="pa-st-p"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pa-st">Why &mdash; in a sentence or two</label><textarea id="pa-st" data-f="pa-st" placeholder="Name the test or tests that decide it."></textarea></div><div style="margin-bottom:.8rem"><label for="pa-cons">What it means for the company, commercially</label><textarea id="pa-cons" data-f="pa-cons" class="" placeholder="The AMCOM recompete, the clause it already holds, and the affirmation its CEO has already signed."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>Not eligible, on two independent grounds.</strong></p>
 <p><strong>The threshold.</strong> An assessed score around 44 gives 0.40 &mdash; half the 0.8 threshold. And 44 is
 an optimistic ceiling, since it derives from a thirteen-item gap list rather than an assessment of all 110
@@ -432,74 +452,83 @@ that may never be deferred are NOT MET: <code>CA.L2-3.12.4</code> and <code>PE.L
 <em>independently of the score</em>.</p>
 <p><strong>Status:</strong> none. No Conditional and no Final CMMC Status may issue.</p>
 <p><strong>Saying the consequence out loud.</strong> A determination of no issuance is not the end of the sentence.
-Meridian must win a AMCOM recompete that requires a current assessment of record it does not have. It is in breach
+Meridian must win an AMCOM recompete that requires a current, accurate assessment of record it does not have. (With program Phase 2 suspended since 13 July 2026, that recompete may call for a Level 2 self-assessment in SPRS rather than a C3PAO certificate. That does not help Meridian: its affirmed 88 is wrong either way.) It is in breach
 today of the DFARS 252.204-7012 clause in the contracts it already holds &mdash; an obligation that exists
 independently of CMMC entirely. And its chief executive has already affirmed a score of 88 in SPRS, in a federal system, under penalty,
-on the basis that other people told her the number was right.</p>
+on the basis that other people said the number was right.</p>
 <p><em>Assessors do not decide what happens to companies. They do have to be able to say plainly what their
 determination means, without softening it and without enjoying it.</em></p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pa-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pa-r0" data-f="pa-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I applied the score threshold <em>and</em> the never-defer list, as two separate tests.</span></label></li><li><label for="pa-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pa-r1" data-f="pa-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I named the ineligible requirements by identifier, not by description.</span></label></li><li><label for="pa-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pa-r2" data-f="pa-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I said what would have to change, specifically, for the answer to differ.</span></label></li><li><label for="pa-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pa-r3" data-f="pa-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I stated the commercial consequence plainly &mdash; without softening it and without advising on it.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
-</div><div class="item panel" id="pb1">
+</div><div class="panel" id="pb-plan"><h2>Your planning date for items 2 to 7</h2><div class="rule"></div>
+  <p>The case does not give a Conditional CMMC Status Date, so choose the one you are planning against. The target-date checks use it: a deferrable item must be closed within 180 days after it, and a never-defer item must be MET before it.</p>
+  <div style="margin-bottom:.4rem"><label for="pb-sd">Conditional CMMC Status Date (your planning assumption)</label><input type="date" id="pb-sd" data-f="pb-sd"></div></div><div class="item panel" id="pb1">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">2</span>
     <h2 style="margin:0">AC.L2-3.1.5 &mdash; Employ the principle of least privilege</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>3 points</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb1-el">Eligibility — work this column before anything else</label><select id="pb1-el" data-f="pb1-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb1-b">Basis in §170.21</label><input type="text" id="pb1-b" data-f="pb1-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb1-m">Milestone / target date / owner</label><textarea id="pb1-m" data-f="pb1-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb1-el">Eligibility — work this column before anything else</label><select id="pb1-el" data-f="pb1-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb1-b">Basis in 32 CFR 170</label><select id="pb1-b" data-f="pb1-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb1-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb1-bw" data-f="pb1-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb1-m">Milestone</label><input type="text" id="pb1-m" data-f="pb1-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb1-d">Target date</label><input type="date" id="pb1-d" data-f="pb1-d"></div><div style="margin-bottom:.8rem"><label for="pb1-o">Owner</label><select id="pb1-o" data-f="pb1-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May be deferred.</strong> Deferrable. Not on the enumerated list, and the score threshold is met.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb1-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb1-r0" data-f="pb1-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb1-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb1-r1" data-f="pb1-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb1-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb1-r2" data-f="pb1-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb1-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb1-r3" data-f="pb1-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pb2">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">3</span>
     <h2 style="margin:0">AU.L2-3.3.2 &mdash; Ensure actions can be traced to individual users</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>3 points</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb2-el">Eligibility — work this column before anything else</label><select id="pb2-el" data-f="pb2-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb2-b">Basis in §170.21</label><input type="text" id="pb2-b" data-f="pb2-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb2-m">Milestone / target date / owner</label><textarea id="pb2-m" data-f="pb2-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb2-el">Eligibility — work this column before anything else</label><select id="pb2-el" data-f="pb2-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb2-b">Basis in 32 CFR 170</label><select id="pb2-b" data-f="pb2-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb2-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb2-bw" data-f="pb2-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb2-m">Milestone</label><input type="text" id="pb2-m" data-f="pb2-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb2-d">Target date</label><input type="date" id="pb2-d" data-f="pb2-d"></div><div style="margin-bottom:.8rem"><label for="pb2-o">Owner</label><select id="pb2-o" data-f="pb2-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May be deferred.</strong> Deferrable. Note the dependency: actions cannot be traced to individuals while a shared Global Admin service account and shared MSP credentials remain, so sequence it after 3.1.5.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb2-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb2-r0" data-f="pb2-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb2-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb2-r1" data-f="pb2-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb2-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb2-r2" data-f="pb2-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb2-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb2-r3" data-f="pb2-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pb3">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">4</span>
     <h2 style="margin:0">CM.L2-3.4.1 &mdash; Establish and maintain baseline configurations and inventories</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>5 points</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb3-el">Eligibility — work this column before anything else</label><select id="pb3-el" data-f="pb3-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb3-b">Basis in §170.21</label><input type="text" id="pb3-b" data-f="pb3-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb3-m">Milestone / target date / owner</label><textarea id="pb3-m" data-f="pb3-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb3-el">Eligibility — work this column before anything else</label><select id="pb3-el" data-f="pb3-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb3-b">Basis in 32 CFR 170</label><select id="pb3-b" data-f="pb3-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb3-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb3-bw" data-f="pb3-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb3-m">Milestone</label><input type="text" id="pb3-m" data-f="pb3-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb3-d">Target date</label><input type="date" id="pb3-d" data-f="pb3-d"></div><div style="margin-bottom:.8rem"><label for="pb3-o">Owner</label><select id="pb3-o" data-f="pb3-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May be deferred.</strong> Deferrable, and the heaviest item at 5 points. It is also a dependency for several others &mdash; you cannot enforce a configuration you have not defined, and you cannot categorize assets you have not inventoried. Sequence it first.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb3-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb3-r0" data-f="pb3-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb3-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb3-r1" data-f="pb3-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb3-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb3-r2" data-f="pb3-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb3-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb3-r3" data-f="pb3-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pb4">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">5</span>
     <h2 style="margin:0">MA.L2-3.7.5 &mdash; MFA for nonlocal maintenance sessions; terminate them on completion</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>5 points</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb4-el">Eligibility — work this column before anything else</label><select id="pb4-el" data-f="pb4-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb4-b">Basis in §170.21</label><input type="text" id="pb4-b" data-f="pb4-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb4-m">Milestone / target date / owner</label><textarea id="pb4-m" data-f="pb4-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb4-el">Eligibility — work this column before anything else</label><select id="pb4-el" data-f="pb4-el" class="" data-ok="May be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb4-b">Basis in 32 CFR 170</label><select id="pb4-b" data-f="pb4-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb4-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb4-bw" data-f="pb4-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb4-m">Milestone</label><input type="text" id="pb4-m" data-f="pb4-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb4-d">Target date</label><input type="date" id="pb4-d" data-f="pb4-d"></div><div style="margin-bottom:.8rem"><label for="pb4-o">Owner</label><select id="pb4-o" data-f="pb4-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May be deferred.</strong> Deferrable. Depends on a contractual change with ClearPath as well as a technical one, which is worth reflecting in the milestone and the owner &mdash; this is the one item where Contracts, not IT, holds the critical path.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb4-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb4-r0" data-f="pb4-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb4-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb4-r1" data-f="pb4-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb4-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb4-r2" data-f="pb4-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb4-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb4-r3" data-f="pb4-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pb5">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">6</span>
     <h2 style="margin:0">CA.L2-3.12.4 &mdash; Develop, document, and periodically update the System Security Plan</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>1 point</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb5-el">Eligibility — work this column before anything else</label><select id="pb5-el" data-f="pb5-el" class="" data-ok="May never be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb5-b">Basis in §170.21</label><input type="text" id="pb5-b" data-f="pb5-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb5-m">Milestone / target date / owner</label><textarea id="pb5-m" data-f="pb5-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb5-el">Eligibility — work this column before anything else</label><select id="pb5-el" data-f="pb5-el" class="" data-ok="May never be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb5-b">Basis in 32 CFR 170</label><select id="pb5-b" data-f="pb5-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb5-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb5-bw" data-f="pb5-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb5-m">Milestone</label><input type="text" id="pb5-m" data-f="pb5-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb5-d">Target date (MET by)</label><input type="date" id="pb5-d" data-f="pb5-d"></div><div style="margin-bottom:.8rem"><label for="pb5-o">Owner</label><select id="pb5-o" data-f="pb5-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May never be deferred.</strong> <strong>May never be deferred.</strong> One of the six enumerated in &sect;170.21. Worth one point and an absolute barrier &mdash; it must be MET before any status can issue.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb5-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb5-r0" data-f="pb5-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb5-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb5-r1" data-f="pb5-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb5-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb5-r2" data-f="pb5-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb5-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb5-r3" data-f="pb5-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pb6">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">7</span>
     <h2 style="margin:0">PE.L2-3.10.3 &mdash; Escort visitors and monitor visitor activity</h2></div>
   <p style="font-family:Arial,sans-serif;font-size:.86rem;color:var(--text-secondary)"><strong>1 point</strong> &middot; NOT MET in the revised assessment.</p>
-  <div style="margin-bottom:.8rem"><label for="pb6-el">Eligibility — work this column before anything else</label><select id="pb6-el" data-f="pb6-el" class="" data-ok="May never be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb6-b">Basis in §170.21</label><input type="text" id="pb6-b" data-f="pb6-b" class="" placeholder="Cite by requirement identifier, not by risk level."></div><div style="margin-bottom:.8rem"><label for="pb6-m">Milestone / target date / owner</label><textarea id="pb6-m" data-f="pb6-m" class="" placeholder="A milestone with no owner is a wish. Dates must fall inside the window."></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pb6-el">Eligibility — work this column before anything else</label><select id="pb6-el" data-f="pb6-el" class="" data-ok="May never be deferred"><option value=""></option><option value="May be deferred">May be deferred</option><option value="May never be deferred">May never be deferred</option></select></div><div style="margin-bottom:.8rem"><label for="pb6-b">Basis in 32 CFR 170</label><select id="pb6-b" data-f="pb6-b"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pb6-bw">Why &mdash; by requirement identifier, not by risk level</label><input type="text" id="pb6-bw" data-f="pb6-bw" placeholder="One line."></div><div class="ac-grid"><div style="margin-bottom:.8rem"><label for="pb6-m">Milestone</label><input type="text" id="pb6-m" data-f="pb6-m" placeholder="Short and checkable. A milestone with no owner is a wish."></div><div style="margin-bottom:.8rem"><label for="pb6-d">Target date (MET by)</label><input type="date" id="pb6-d" data-f="pb6-d"></div><div style="margin-bottom:.8rem"><label for="pb6-o">Owner</label><select id="pb6-o" data-f="pb6-o"><option value="">Choose one…</option></select></div></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>May never be deferred.</strong> <strong>May never be deferred.</strong> Also one of the six, also worth one point. The Dayton escort policy for MSP technicians is informal and undocumented, and Huntsville has no visitor control Meridian operates at all.</p><div class="rubric" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border)"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem"><span style="font-family:Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)">Check your own answer against this</span><span class="rtally" style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:.75rem;letter-spacing:.06em;color:var(--text-muted)">0 of 4 met</span></div><ul style="list-style:none;margin:0;display:flex;flex-direction:column;gap:.4rem"><li><label for="pb6-r0" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb6-r0" data-f="pb6-r0" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I worked the eligibility column before the milestone column.</span></label></li><li><label for="pb6-r1" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb6-r1" data-f="pb6-r1" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My basis cites &sect;170.21 by requirement identifier, not by risk level.</span></label></li><li><label for="pb6-r2" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb6-r2" data-f="pb6-r2" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>My milestone has a dated target inside the window and a named individual owner.</span></label></li><li><label for="pb6-r3" style="display:flex;gap:.55rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:.83rem;color:var(--text-secondary);line-height:1.65;cursor:pointer;margin:0"><input type="checkbox" id="pb6-r3" data-f="pb6-r3" onchange="rcheck(this)" style="width:auto;margin-top:.25rem;flex-shrink:0;accent-color:var(--gold)"><span>I sequenced this item against the ones it depends on.</span></label></li></ul><p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--text-muted);margin:.7rem 0 0;line-height:1.6">Tick honestly. An unticked box is worth more to you than a ticked one &mdash; it is the specific thing to do differently on the next item.</p></div></div>
 </div><div class="item panel" id="pconc">
   <div style="display:flex;align-items:baseline;gap:.7rem;margin-bottom:.5rem">
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">8</span>
     <h2 style="margin:0">The conclusion that follows</h2></div>
   <div class="in-practice"><div class="ip-label">The revised assessment</div><p>Nine months later Meridian engages a closeout-capable C3PAO for a fresh Level 2 certification assessment. This time the company has <em>implemented</em> rather than documented. Every requirement is MET except the six above. Total deductions <strong>18</strong>. Assessment score <strong>92</strong>. 92 &divide; 110 = <strong>0.836</strong>.</p></div>
-  <div style="margin-bottom:.8rem"><label for="pconc-q1">Does the score alone permit a POA&M?</label><select id="pconc-q1" data-f="pconc-q1" class="" data-ok="Yes"><option value=""></option><option value="Yes">Yes</option><option value="No">No</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q2">Can every NOT MET requirement go on it?</label><select id="pconc-q2" data-f="pconc-q2" class="" data-ok="No"><option value=""></option><option value="Yes">Yes</option><option value="No">No</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q3">What status may the Lead CCA recommend, and when?</label><textarea id="pconc-q3" data-f="pconc-q3" class="" placeholder=""></textarea></div>
+  <div style="margin-bottom:.8rem"><label for="pconc-q1">Does the score alone permit a POA&M?</label><select id="pconc-q1" data-f="pconc-q1" class="" data-ok="Yes"><option value=""></option><option value="Yes">Yes</option><option value="No">No</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q2">Can every NOT MET requirement go on it?</label><select id="pconc-q2" data-f="pconc-q2" class="" data-ok="No"><option value=""></option><option value="Yes">Yes</option><option value="No">No</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q3s">What status may the Lead CCA recommend?</label><select id="pconc-q3s" data-f="pconc-q3s"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q3w">When?</label><select id="pconc-q3w" data-f="pconc-q3w"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q3p">Under what provision?</label><select id="pconc-q3p" data-f="pconc-q3p"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pconc-q3">Why &mdash; in a sentence or two</label><textarea id="pconc-q3" data-f="pconc-q3" placeholder=""></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><p><strong>The score alone: yes.</strong> 0.836 clears 0.8 comfortably, and a company reading only the
 threshold rule would expect a Conditional status.</p>
 <p><strong>Every requirement on the plan: no.</strong> <code>CA.L2-3.12.4</code> and <code>PE.L2-3.10.3</code> are on
@@ -519,9 +548,10 @@ while shared service accounts persist.</p></div>
     <span style="font-family:'Arial Narrow',Arial,sans-serif;font-weight:900;font-size:1.5rem;color:var(--gold)">9</span>
     <h2 style="margin:0">Part C &mdash; Closeout and sustainment</h2></div>
   <p>How the conditional status becomes final, and what carries afterward.</p>
-  <div style="margin-bottom:.8rem"><label for="pc-c">Closeout: window, coverage, who may conduct it, and what happens on expiry</label><textarea id="pc-c" data-f="pc-c" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="pc-s">Sustainment: the certification period, the affirmation, and who carries the exposure</label><textarea id="pc-s" data-f="pc-s" class="" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="pc-h">What would you say to Marcus Ellison about the affirmation she has already signed?</label><textarea id="pc-h" data-f="pc-h" class="" placeholder="Plainly, without softening it and without lecturing her."></textarea></div>
+  <h3>Closeout</h3><div style="margin-bottom:.8rem"><label for="pc-win">Closeout window</label><select id="pc-win" data-f="pc-win"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-who">Who may conduct the closeout assessment</label><select id="pc-who" data-f="pc-who"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-exp">What happens if the window expires</label><select id="pc-exp" data-f="pc-exp"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-c">Closeout in your own words: what it covers, and what the closing firm must do first</label><textarea id="pc-c" data-f="pc-c" placeholder=""></textarea></div><h3>Sustainment</h3><div style="margin-bottom:.8rem"><label for="pc-per">Certification period</label><select id="pc-per" data-f="pc-per"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-aff">Who submits the annual affirmation</label><select id="pc-aff" data-f="pc-aff"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-att">What the affirmation attests</label><select id="pc-att" data-f="pc-att"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-exq">Who carries the exposure if it is untrue</label><select id="pc-exq" data-f="pc-exq"><option value="">Choose one…</option></select></div><div style="margin-bottom:.8rem"><label for="pc-s">Sustainment in your own words: why the affirmation matters after the assessment</label><textarea id="pc-s" data-f="pc-s" placeholder=""></textarea></div><div style="margin-bottom:.8rem"><label for="pc-h">What would you say to Marcus Ellison about the affirmation already signed?</label><textarea id="pc-h" data-f="pc-h" class="" placeholder="Plainly, without softening it and without lecturing."></textarea></div>
   <div class="btnrow"><button class="btn rvbtn" onclick="reveal(this)">Check my answer</button></div>
   
+  <div class="ac-out"></div>
   <div class="verdict"><h4>Model answer</h4><div class="tw"><table><tbody>
 <tr><td style="width:210px"><strong>Window</strong></td><td>180 days from the Conditional CMMC Status Date.</td></tr>
 <tr><td><strong>Coverage</strong></td><td>The requirements on the POA&amp;M, assessed to confirm they are now MET.</td></tr>
@@ -538,9 +568,9 @@ present-tense statement, not a memory of the assessment.</td></tr>
 <tr><td><strong>The exposure</strong></td><td>An affirmation that is not true is a false statement in a federal
 system, with False Claims Act consequences attaching <em>personally</em> to the official who signed.</td></tr>
 </tbody></table></div>
-<p style="margin-top:1rem"><strong>On Ellison.</strong> She affirmed 88 because Dennis and the consultant said that
-was the number. She did not verify it and would not know how, and she does not know what an Affirming Official is
-personally liable for. Nobody at Meridian behaved dishonestly. The number is still wrong, and she is still the
+<p style="margin-top:1rem"><strong>On Ellison.</strong> Ellison affirmed 88 because Priya Mehta and the consultant said that
+was the number. Ellison did not verify it and would not know how, and does not know what an Affirming Official is
+personally liable for. Nobody at Meridian behaved dishonestly. The number is still wrong, and Ellison is still the
 person who attested to it in a federal system.</p>
 <p>What you say is what is true: what the affirmation is, what it attests, who carries it, and that a submitted
 score which overstates the position is a false statement. What you do <em>not</em> say is what she should do about
@@ -571,13 +601,346 @@ continuous monitoring, so that the affirmation reports something known rather th
   <p class="footer-disclaimer">An independent educational resource. Not affiliated with, endorsed by, or sponsored by the U.S. Department of Defense (Department of War), the Cyber AB, or ISACA. CMMC is a program of the U.S. Department of Defense; CCP and CCA are credentials administered by ISACA as the CMMC Assessor and Instructor Certification Organization. Meridian Precision Defense Systems, Acuitas Machining, and all people, contracts, and incidents depicted are fictional. Nothing here is legal or compliance advice. Requirements change: verify the current regulatory position before teaching or relying on this material.</p>
 </footer>
 <script>
+/* ===== EDITABLE CONTENT: option lists and answer keys. Faculty may edit this block; do not edit below it. ===== */
+/* How this block works
+   LISTS  : the choices in each kind of drop-down, in display order. A choice's text is also its stored value,
+            so if you reword a choice, reword it everywhere it appears in this block (keys and NOTES too).
+   NOTES  : extra feedback shown whenever a learner picks that choice (right or wrong).
+   PLAN   : the closeout window used by the target-date checks, and the field that holds the status date.
+   CHECKS : one entry per checked field. f = the field's id. label = the name shown in the result.
+            keys = every accepted answer (copy the choice text exactly). ok / no = the explanation shown when the
+            answer is accepted / not accepted. type "number" uses min and max (inclusive). type "date" uses
+            mode "within" (inside the PLAN window) or "before" (before the status date); "after" and "first"
+            list other date fields this date must not come before / after, with "seq" as the explanation.
+   Sources: every key and explanation below comes from this tool's own model answers and rules table.
+   Items marked OWNER REVIEW are judgment calls flagged for the workshop owner. */
+var LISTS = {
+  basis: [
+    "§170.21 — may go on a POA&M: the score is at least 0.8 of 110 and this is not one of the six never-defer requirements",
+    "§170.21 — one of the six requirements that may never be deferred; it must be MET",
+    "§170.21 — the encryption exception: only SC.L2-3.13.11, where encryption is used but not FIPS validated",
+    "§170.17 — limited deficiencies may be re-evaluated within ten business days",
+    "§170.19 — scoping: the requirement falls outside the assessment scope",
+    "No provision needed — the requirement is low risk or worth few points"
+  ],
+  eligibility: ["May be deferred", "May never be deferred"],
+  paEligible: ["Yes — both tests pass", "No — the score test fails", "No — both tests fail", "No — only the list test fails"],
+  yesNo: ["Yes", "No"],
+  owner: [
+    "Marcus T. Ellison — President / CEO",
+    "Diana L. Kowalczyk — CISO / IT Security Manager",
+    "Trevor J. Nakamura — IT Administrator",
+    "Priya S. Mehta — Contract Manager",
+    "Renata M. Bauer — HR Director",
+    "ClearPath MSP — the managed service provider",
+    "The Lead CCA — the assessor"
+  ],
+  status: ["Final Level 2 (C3PAO)", "Conditional Level 2 (C3PAO)", "No CMMC status"],
+  provision: [
+    "§170.21 — POA&M rules: the 0.8 threshold and the six never-defer requirements",
+    "§170.17 — Level 2 certification assessment by a C3PAO",
+    "§170.19 — CMMC scoping",
+    "§170.14 — the CMMC model and its levels"
+  ],
+  when: [
+    "Now, on the score of 92 (0.836)",
+    "Only after CA.L2-3.12.4 and PE.L2-3.10.3 are brought to MET",
+    "Only after every NOT MET requirement is fixed",
+    "At the closeout assessment, inside the 180 days"
+  ],
+  window: [
+    "180 days from the Conditional CMMC Status Date",
+    "180 days from the out-brief",
+    "Ten business days from the out-brief",
+    "270 days from the Conditional CMMC Status Date"
+  ],
+  closer: [
+    "Any authorized or accredited C3PAO, which may be a different firm",
+    "Only the C3PAO that ran the original assessment",
+    "The Lead CCA alone, without a C3PAO",
+    "The OSC itself, through a self-assessment"
+  ],
+  expiry: [
+    "The Conditional status expires",
+    "The window extends automatically",
+    "The Conditional status becomes Final",
+    "The status continues while the OSC keeps affirming in SPRS"
+  ],
+  period: [
+    "Three years from the CMMC Status Date",
+    "One year, renewed at each annual affirmation",
+    "Five years from the CMMC Status Date",
+    "No fixed period while annual affirmations continue"
+  ],
+  affirmer: [
+    "The Affirming Official — a senior official with authority to bind the OSC",
+    "The IT manager",
+    "The consultant who prepared the score",
+    "The Lead CCA who assessed the OSC"
+  ],
+  attests: [
+    "That the organization continues to meet the requirements now",
+    "That the organization passed its assessment on the assessment date",
+    "That remediation on the POA&M is under way",
+    "That the SPRS score was calculated correctly"
+  ],
+  exposure: [
+    "The Affirming Official, personally",
+    "The C3PAO that issued the certificate",
+    "Only the company, never an individual",
+    "The consultant who supplied the number"
+  ]
+};
+
+var NOTES = {
+  "§170.21 — the encryption exception: only SC.L2-3.13.11, where encryption is used but not FIPS validated": "The encryption exception covers SC.L2-3.13.11 only. It does not apply to this requirement.",
+  "§170.17 — limited deficiencies may be re-evaluated within ten business days": "That ten-business-day window is for limited deficiencies during the assessment. It is not the POA&M rule.",
+  "§170.19 — scoping: the requirement falls outside the assessment scope": "Scope is not in dispute here. The requirement is in scope and NOT MET.",
+  "No provision needed — the requirement is low risk or worth few points": "“Low risk” is not a basis for deferral; eligibility is. Point value measures exploitability, not POA&M eligibility.",
+  "ClearPath MSP — the managed service provider": "A milestone needs a named individual owner who answers for it. ClearPath may do the work, but it is a vendor, not a named Meridian owner. (OWNER REVIEW)",
+  "The Lead CCA — the assessor": "The assessor names what must be fixed and by when. Owning or designing the fix is consulting.",
+  "§170.19 — CMMC scoping": "Scoping decides what is assessed. It does not decide whether a POA&M or a status is available.",
+  "§170.14 — the CMMC model and its levels": "§170.14 sets out the model and levels. It is not where the POA&M and status rules sit.",
+  "Now, on the score of 92 (0.836)": "The score alone never answers the question. Two never-defer requirements are still NOT MET.",
+  "Only after every NOT MET requirement is fixed": "That describes a Final status. The four deferrable items may go on the POA&M.",
+  "At the closeout assessment, inside the 180 days": "Closeout turns a Conditional status into a Final one. The Conditional status has to exist first.",
+  "180 days from the out-brief": "The window is counted from the Conditional CMMC Status Date, not the out-brief.",
+  "Ten business days from the out-brief": "That is the §170.17 window for limited deficiencies during the assessment, not POA&M closeout.",
+  "270 days from the Conditional CMMC Status Date": "270 days is not in the rule. §170.21 sets a 180-day window, counted from the Conditional CMMC Status Date. If you see another figure quoted, check whether the rule itself has been amended.",
+  "Only the C3PAO that ran the original assessment": "The closing firm need not be the one that ran Phases 1 to 3.",
+  "The Lead CCA alone, without a C3PAO": "Closeout is a C3PAO assessment, not an individual's sign-off.",
+  "The OSC itself, through a self-assessment": "A Level 2 (C3PAO) POA&M is closed out by a C3PAO, not by the OSC.",
+  "The window extends automatically": "There is no automatic extension. Miss the window and the Conditional status expires.",
+  "The Conditional status becomes Final": "Final status comes only from a closeout assessment that finds the POA&M items MET.",
+  "The status continues while the OSC keeps affirming in SPRS": "An affirmation cannot keep an expired Conditional status alive.",
+  "One year, renewed at each annual affirmation": "The affirmation is annual, but the certification period is three years.",
+  "The IT manager": "Not the IT manager. The Affirming Official is a senior official with authority to bind the OSC.",
+  "The consultant who prepared the score": "Not the consultant. Meridian’s CEO affirmed 88 because others said it was right; she still carries it.",
+  "The Lead CCA who assessed the OSC": "Not the assessor. The OSC affirms its own compliance.",
+  "That the organization passed its assessment on the assessment date": "The affirmation is a present-tense statement, not a memory of the assessment.",
+  "That remediation on the POA&M is under way": "It attests that the requirements are met, not that work is in progress.",
+  "That the SPRS score was calculated correctly": "It attests to continued compliance, not to arithmetic.",
+  "The C3PAO that issued the certificate": "The affirmation is the OSC’s statement, signed by its official.",
+  "Only the company, never an individual": "False Claims Act consequences can attach personally to the official who signed.",
+  "The consultant who supplied the number": "The consultant did not sign. The official who signed carries it."
+};
+
+var PLAN = {
+  windowDays: 180,
+  startField: "pb-sd",
+  noStart: "Enter your planning Conditional CMMC Status Date (above item 2) first. The window is counted from it."
+};
+
+var OWNER_OK = "A named individual owner. In the case, Diana L. Kowalczyk (CISO) owns the SSP and manages the POA&M, and Trevor J. Nakamura runs day-to-day administration. The model answers do not name an owner for this item, so any named Meridian person is accepted. (OWNER REVIEW)";
+var OWNER_NO = "A milestone with no owner is a wish, and the owner must be a named individual who answers for it.";
+var MEETS = [LISTS.owner[0], LISTS.owner[1], LISTS.owner[2], LISTS.owner[3], LISTS.owner[4]];
+var WITHIN_OK = "Inside the 180-day window from your Conditional CMMC Status Date.";
+var WITHIN_LATE = "This falls after day 180. Miss the window and the Conditional status expires.";
+var BEFORE_OK = "Before your Conditional CMMC Status Date. Correct: this requirement may never be deferred, so it must be MET before any status can issue.";
+var BEFORE_LATE = "This is on or after the Conditional CMMC Status Date. A never-defer requirement cannot sit on a POA&M; it must be MET before any status can issue.";
+var BASIS_DEFER_NO = "Check the enumerated list first. This requirement is not one of the six, and the revised score (92, or 0.836) clears 0.8, so it may be deferred under §170.21.";
+var BASIS_NEVER_NO = "This requirement is one of the six enumerated in §170.21. It may never go on a POA&M and must be MET before any status can issue.";
+
+var CHECKS = [
+  /* Item 1: Part A */
+  {f:"pa-sc", label:"Your assessed score", type:"number", min:44, max:59,
+   ok:"In the key’s range. The model answer works from about 44 (0.40); the D7 scoring key accepts 50 to 59 with working shown. Either way it is far below 88, which is 0.8 of 110. Treat it as an optimistic ceiling: a gap list is not an assessment of all 110 requirements. (OWNER REVIEW: range 44 to 59)",
+   no:"Outside the key’s range (44 to 59). Recheck your D7 worksheet. If you entered 88, that is the score the CEO affirmed in SPRS, not an assessed score."},
+  {f:"pa-e", label:"Eligible for a POA&M?", list:"paEligible", keys:["No — both tests fail"],
+   ok:"Two independent grounds. The score is far below 0.8, and two never-defer requirements, CA.L2-3.12.4 and PE.L2-3.10.3, are NOT MET.",
+   no:"Apply both tests separately. The score test fails (well under 0.8), and the list test fails too: CA.L2-3.12.4 and PE.L2-3.10.3 are NOT MET, and they bind independently of the score."},
+  {f:"pa-st-s", label:"Status that may issue", list:"status", keys:["No CMMC status"],
+   ok:"None. No Conditional and no Final CMMC status may issue. (Program Phase 2 has been suspended since 13 July 2026, but §170.21 is unchanged, so this analysis still holds.)",
+   no:"No status may issue. A Conditional status needs a permitted POA&M, and Meridian fails both the 0.8 threshold and the never-defer list. A Final status needs every requirement MET."},
+  {f:"pa-st-p", label:"Provision", list:"provision",
+   keys:["§170.21 — POA&M rules: the 0.8 threshold and the six never-defer requirements", "§170.17 — Level 2 certification assessment by a C3PAO"],
+   notes:{"§170.17 — Level 2 certification assessment by a C3PAO":"Accepted, because §170.17 governs C3PAO status determinations. But the rule that blocks Meridian is in §170.21; name it in your why. (OWNER REVIEW)"},
+   ok:"§170.21 sets the POA&M rules, the 0.8 threshold and the six never-defer requirements, and those rules decide this case.",
+   no:"The rules that decide this case are the POA&M rules in §170.21: the 0.8 threshold and the six never-defer requirements."},
+
+  /* Items 2 to 7: Part B rows */
+  {f:"pb1-el", label:"Eligibility", list:"eligibility", keys:["May be deferred"],
+   ok:"AC.L2-3.1.5 is not on the enumerated list, and the score threshold is met.", no:BASIS_DEFER_NO},
+  {f:"pb1-b", label:"Basis", list:"basis", keys:[LISTS.basis[0]],
+   ok:"Deferrable. AC.L2-3.1.5 is not one of the six, and the score threshold is met.", no:BASIS_DEFER_NO},
+  {f:"pb1-d", label:"Target date", type:"date", mode:"within", ok:WITHIN_OK, no:"", late:WITHIN_LATE,
+   first:[], after:[]},
+  {f:"pb1-o", label:"Owner", list:"owner", keys:MEETS, ok:OWNER_OK, no:OWNER_NO},
+
+  {f:"pb2-el", label:"Eligibility", list:"eligibility", keys:["May be deferred"],
+   ok:"AU.L2-3.3.2 is not on the enumerated list.", no:BASIS_DEFER_NO},
+  {f:"pb2-b", label:"Basis", list:"basis", keys:[LISTS.basis[0]],
+   ok:"Deferrable. AU.L2-3.3.2 is not one of the six.", no:BASIS_DEFER_NO},
+  {f:"pb2-d", label:"Target date", type:"date", mode:"within", ok:WITHIN_OK, no:"", late:WITHIN_LATE,
+   after:["pb1-d"], seq:"Sequence AU.L2-3.3.2 after AC.L2-3.1.5: actions cannot be traced to individuals while the shared Global Admin account and shared MSP credentials remain."},
+  {f:"pb2-o", label:"Owner", list:"owner", keys:MEETS, ok:OWNER_OK, no:OWNER_NO},
+
+  {f:"pb3-el", label:"Eligibility", list:"eligibility", keys:["May be deferred"],
+   ok:"CM.L2-3.4.1 is not on the enumerated list.", no:BASIS_DEFER_NO},
+  {f:"pb3-b", label:"Basis", list:"basis", keys:[LISTS.basis[0]],
+   ok:"Deferrable. CM.L2-3.4.1 is not one of the six; at 5 points it is the heaviest item.", no:BASIS_DEFER_NO},
+  {f:"pb3-d", label:"Target date", type:"date", mode:"within", ok:WITHIN_OK, no:"", late:WITHIN_LATE,
+   first:["pb1-d","pb2-d","pb4-d"], seq:"Sequence CM.L2-3.4.1 first: you cannot enforce a configuration you have not defined, or categorize assets you have not inventoried."},
+  {f:"pb3-o", label:"Owner", list:"owner", keys:MEETS, ok:OWNER_OK, no:OWNER_NO},
+
+  {f:"pb4-el", label:"Eligibility", list:"eligibility", keys:["May be deferred"],
+   ok:"MA.L2-3.7.5 is not on the enumerated list.", no:BASIS_DEFER_NO},
+  {f:"pb4-b", label:"Basis", list:"basis", keys:[LISTS.basis[0]],
+   ok:"Deferrable. MA.L2-3.7.5 is not one of the six.", no:BASIS_DEFER_NO},
+  {f:"pb4-d", label:"Target date", type:"date", mode:"within", ok:WITHIN_OK, no:"", late:WITHIN_LATE},
+  {f:"pb4-o", label:"Owner", list:"owner", keys:["Priya S. Mehta — Contract Manager"],
+   ok:"Right. The fix depends on a contract change with ClearPath, so Contracts, not IT, holds the critical path.",
+   no:"The model answer: this is the one item where Contracts, not IT, holds the critical path, because the fix depends on a contract change with ClearPath. The owner is the Contract Manager, Priya S. Mehta. (OWNER REVIEW)"},
+
+  {f:"pb5-el", label:"Eligibility", list:"eligibility", keys:["May never be deferred"],
+   ok:"One of the six enumerated in §170.21.", no:BASIS_NEVER_NO},
+  {f:"pb5-b", label:"Basis", list:"basis", keys:[LISTS.basis[1]],
+   ok:"CA.L2-3.12.4 is one of the six. Worth one point and an absolute barrier: it must be MET before any status can issue.", no:BASIS_NEVER_NO},
+  {f:"pb5-d", label:"Target date (MET by)", type:"date", mode:"before", ok:BEFORE_OK, no:"", late:BEFORE_LATE},
+  {f:"pb5-o", label:"Owner", list:"owner", keys:MEETS, ok:OWNER_OK, no:OWNER_NO},
+
+  {f:"pb6-el", label:"Eligibility", list:"eligibility", keys:["May never be deferred"],
+   ok:"Also one of the six enumerated in §170.21.", no:BASIS_NEVER_NO},
+  {f:"pb6-b", label:"Basis", list:"basis", keys:[LISTS.basis[1]],
+   ok:"PE.L2-3.10.3 is one of the six. The Dayton escort policy is informal and undocumented, and Huntsville has no visitor control Meridian operates.", no:BASIS_NEVER_NO},
+  {f:"pb6-d", label:"Target date (MET by)", type:"date", mode:"before", ok:BEFORE_OK, no:"", late:BEFORE_LATE},
+  {f:"pb6-o", label:"Owner", list:"owner", keys:MEETS, ok:OWNER_OK, no:OWNER_NO},
+
+  /* Item 8: the conclusion */
+  {f:"pconc-q1", label:"Score alone", list:"yesNo", keys:["Yes"],
+   ok:"0.836 clears 0.8 comfortably.", no:"92 ÷ 110 = 0.836, which clears 0.8. The score test alone passes; the list test is what blocks."},
+  {f:"pconc-q2", label:"Every NOT MET on the plan", list:"yesNo", keys:["No"],
+   ok:"CA.L2-3.12.4 and PE.L2-3.10.3 are on the never-defer list.", no:"CA.L2-3.12.4 and PE.L2-3.10.3 are on the never-defer list, and they are the two cheapest items on the sheet."},
+  {f:"pconc-q3s", label:"Status the Lead CCA may recommend", list:"status", keys:["Conditional Level 2 (C3PAO)"],
+   notes:{"No CMMC status":"Nothing may issue yet, true. But once the two never-defer items are MET, a Conditional Level 2 status is available. (OWNER REVIEW)",
+          "Final Level 2 (C3PAO)":"Final needs every requirement MET, including the four on the POA&M. That comes only at closeout."},
+   ok:"Once both never-defer items are MET, the remaining four deferrable items (16 points, score then 94) may go on a POA&M supporting a Conditional Level 2 status.",
+   no:"The model answer: a Conditional Level 2 status, supported by a POA&M for the four deferrable items."},
+  {f:"pconc-q3w", label:"When", list:"when", keys:["Only after CA.L2-3.12.4 and PE.L2-3.10.3 are brought to MET"],
+   ok:"Both ineligible requirements must be brought to MET before any status can issue.",
+   no:"Both ineligible requirements, CA.L2-3.12.4 and PE.L2-3.10.3, must be brought to MET first. Then the Conditional status may issue."},
+  {f:"pconc-q3p", label:"Provision", list:"provision",
+   keys:["§170.21 — POA&M rules: the 0.8 threshold and the six never-defer requirements", "§170.17 — Level 2 certification assessment by a C3PAO"],
+   notes:{"§170.17 — Level 2 certification assessment by a C3PAO":"Accepted, because §170.17 governs C3PAO status determinations. The deciding rules are in §170.21. (OWNER REVIEW)"},
+   ok:"The never-defer list and the 0.8 threshold are §170.21 rules.",
+   no:"The deciding rules, the never-defer list and the 0.8 threshold, are in §170.21."},
+
+  /* Item 9: closeout and sustainment */
+  {f:"pc-win", label:"Closeout window", list:"window", keys:["180 days from the Conditional CMMC Status Date"],
+   ok:"180 days from the Conditional CMMC Status Date, closed out by a closeout assessment.", no:"The window is 180 days from the Conditional CMMC Status Date."},
+  {f:"pc-who", label:"Who may conduct closeout", list:"closer", keys:["Any authorized or accredited C3PAO, which may be a different firm"],
+   ok:"An authorized or accredited C3PAO, and it may be a different firm. It first runs its own conflict-of-interest review, then takes responsibility for the Final status determination.",
+   no:"Any authorized or accredited C3PAO may conduct it, including a different firm, after its own conflict-of-interest review."},
+  {f:"pc-exp", label:"On expiry", list:"expiry", keys:["The Conditional status expires"],
+   ok:"Miss the window and the Conditional status expires.", no:"On expiry, the Conditional status expires."},
+  {f:"pc-per", label:"Certification period", list:"period", keys:["Three years from the CMMC Status Date"],
+   ok:"Three years from the CMMC Status Date.", no:"The certification period is three years from the CMMC Status Date."},
+  {f:"pc-aff", label:"Who submits the annual affirmation", list:"affirmer", keys:["The Affirming Official — a senior official with authority to bind the OSC"],
+   ok:"Submitted in SPRS by the Affirming Official. Not the IT manager, not the consultant, not the assessor.",
+   no:"The Affirming Official submits it in SPRS: a senior official of the OSC with authority to bind it."},
+  {f:"pc-att", label:"What it attests", list:"attests", keys:["That the organization continues to meet the requirements now"],
+   ok:"A present-tense statement that the organization continues to meet the requirements.",
+   no:"It attests that the organization continues to meet the requirements: a present-tense statement, not a memory of the assessment."},
+  {f:"pc-exq", label:"Who carries the exposure", list:"exposure", keys:["The Affirming Official, personally"],
+   ok:"An untrue affirmation is a false statement in a federal system, with False Claims Act consequences attaching personally to the official who signed.",
+   no:"The official who signed carries it personally: an untrue affirmation is a false statement in a federal system, with False Claims Act consequences."}
+];
+/* ===== END EDITABLE CONTENT ===== */
+
+var AC_LEGACY_MAP={"pb1-b":"pb1-bw","pb2-b":"pb2-bw","pb3-b":"pb3-bw","pb4-b":"pb4-bw","pb5-b":"pb5-bw","pb6-b":"pb6-bw"};
+/* Auto-check engine for the drop-down, number and date fields. It reads LISTS, NOTES, CHECKS (and PLAN, if
+   present) from the editable block above. */
+var AC_MARK={ok:['✓','Correct'],no:['✕','Not this one'],na:['○','Not answered']};
+function _acField(id){return document.querySelector('[data-f="'+id+'"]');}
+function _acChecks(){return (typeof CHECKS!=='undefined'&&CHECKS)||[];}
+function _acFill(){
+ _acChecks().forEach(function(c){
+  var e=_acField(c.f); if(!e||!c.list||e.tagName!=='SELECT')return;
+  var opts=(typeof LISTS!=='undefined'&&LISTS[c.list])||null; if(!opts)return;
+  var cur=e.value;
+  while(e.firstChild)e.removeChild(e.firstChild);
+  var o0=document.createElement('option');o0.value='';o0.textContent='Choose one…';e.appendChild(o0);
+  opts.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=t;e.appendChild(o);});
+  e.value=(opts.indexOf(cur)>=0)?cur:'';
+  if(e.hasAttribute('data-ok')&&c.keys&&c.keys.length)e.setAttribute('data-ok',c.keys[0]);
+ });
+}
+function _acDate(v){if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v))return null;var p=v.split('-');
+ return Date.UTC(+p[0],+p[1]-1,+p[2]);}
+function _acEval(c){
+ var e=_acField(c.f); if(!e)return null;
+ var v=String(e.value||'').trim(), ok=false, extra='';
+ if(!v)return {state:'na',text:c.empty||'Choose or enter an answer, then check again.'};
+ var P=(typeof PLAN!=='undefined'&&PLAN)||{};
+ if(c.type==='number'){
+  var n=Number(v); if(isNaN(n))return {state:'na',text:'Enter a whole number.'};
+  ok=(n>=c.min&&n<=c.max);
+ }else if(c.type==='date'){
+  var d=_acDate(v); if(d===null)return {state:'na',text:'Enter a full date.'};
+  var se=_acField(P.startField||''), s=se?_acDate(se.value):null;
+  if(s===null)return {state:'na',text:P.noStart||'Enter the start date first.'};
+  var day=Math.round((d-s)/86400000);
+  if(c.mode==='before'){ok=d<s; extra=ok?'':(c.late||'');}
+  else{ok=day<=P.windowDays; extra=ok?'':(c.late||'');
+   v='day '+day+' of '+P.windowDays;}
+  (c.after||[]).forEach(function(f){var oe=_acField(f),od=oe?_acDate(oe.value):null;
+   if(ok&&od!==null&&d<od){ok=false;extra=c.seq||'';}});
+  (c.first||[]).forEach(function(f){var oe=_acField(f),od=oe?_acDate(oe.value):null;
+   if(ok&&od!==null&&d>od){ok=false;extra=c.seq||'';}});
+ }else{
+  ok=(c.keys||[]).indexOf(v)>=0;
+ }
+ var note=(c.notes&&c.notes[v])||((typeof NOTES!=='undefined'&&NOTES)?(NOTES[v]||''):'');
+ var text=(ok?(c.ok||''):(c.no||''));
+ if(extra)text+=(text?' ':'')+extra;
+ if(note)text+=(text?' ':'')+note;
+ return {state:ok?'ok':'no',text:text};
+}
+function autocheck(it){
+ var list=_acChecks().filter(function(c){var e=_acField(c.f);return e&&e.closest('.item')===it;});
+ if(!list.length)return null;
+ var out=it.querySelector('.ac-out');
+ if(!out){out=document.createElement('div');out.className='ac-out';it.insertBefore(out,it.querySelector('.verdict'));}
+ while(out.firstChild)out.removeChild(out.firstChild);
+ var good=0,answered=0,ul=document.createElement('ul');
+ list.forEach(function(c){var r=_acEval(c); if(!r)return;
+  if(r.state==='ok')good++; if(r.state!=='na')answered++;
+  var li=document.createElement('li');li.className='ac-'+r.state;
+  var m=document.createElement('span');m.className='ac-mark';m.textContent=AC_MARK[r.state][0]+' '+AC_MARK[r.state][1]+': ';
+  var b=document.createElement('strong');var lb=(c.label||c.f);b.textContent=lb+(/[.?!]$/.test(lb)?' ':'. ');
+  var t=document.createElement('span');t.textContent=r.text;
+  li.appendChild(m);li.appendChild(b);li.appendChild(t);ul.appendChild(li);});
+ var sum=document.createElement('p');sum.className='ac-sum';
+ sum.textContent='Auto-check: '+good+' of '+list.length+' correct'+(answered<list.length?' ('+(list.length-answered)+' not answered)':'')+'. Typed answers are not scored: compare them with the model answer below.';
+ out.appendChild(sum);out.appendChild(ul);
+ return {good:good,total:list.length,answered:answered,summary:sum.textContent};
+}
+var AC_LEGACY=(typeof AC_LEGACY_MAP!=='undefined')?AC_LEGACY_MAP:{};
+function _acMigrate(d){
+ if(!d||typeof d!=='object'||Array.isArray(d))return {};
+ _acChecks().forEach(function(c){
+  if(!(c.f in d))return;
+  var v=d[c.f]; if(v===null||v===undefined){delete d[c.f];return;}
+  v=String(v);
+  if(c.type==='number'){var m=v.match(/-?\d+(\.\d+)?/); if(m)d[c.f]=m[0]; else{
+    if(AC_LEGACY[c.f]&&!d[AC_LEGACY[c.f]])d[AC_LEGACY[c.f]]=v; delete d[c.f];}}
+  else if(c.type==='date'){if(_acDate(v)===null)delete d[c.f];}
+  else if(c.list&&typeof LISTS!=='undefined'&&LISTS[c.list]&&LISTS[c.list].indexOf(v)<0){
+   if(AC_LEGACY[c.f]&&v.trim()&&!d[AC_LEGACY[c.f]])d[AC_LEGACY[c.f]]=v;
+   delete d[c.f];}
+ });
+ return d;
+}
+_acFill();
 var TOOLID='poam-builder';
 function _k(){return 'cmmc-'+TOOLID;}
 function _val(e){return e.type==='checkbox' ? (e.checked?'1':'0') : e.value;}
-function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}else{e.value=v;}}
+function _set(e,v){if(e.type==='checkbox'){e.checked=(v==='1');}
+ else if(e.tagName==='SELECT'){var ok=false;for(var i=0;i<e.options.length;i++){if(e.options[i].value===String(v))ok=true;}e.value=ok?String(v):'';}
+ else{e.value=(v==null)?'':String(v);}}
 function save(){var d={};document.querySelectorAll('[data-f]').forEach(function(e){d[e.dataset.f]=_val(e);});
  try{localStorage.setItem(_k(),JSON.stringify(d));setMsg('Saved to this browser.');}catch(e){setMsg('Could not save.');}}
-function load(){try{var d=JSON.parse(localStorage.getItem(_k())||'{}');
+function load(){try{var d=_acMigrate(JSON.parse(localStorage.getItem(_k())||'{}'));
  document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});}catch(e){}
  document.querySelectorAll('.rubric').forEach(rtally);}
 function rtally(r){var b=r.querySelectorAll('input[type=checkbox]'),n=0;
@@ -594,6 +957,10 @@ function filled(){var n=0;document.querySelectorAll('.item').forEach(function(it
   if(e.type!=='checkbox'&&e.value&&e.value.trim())ok=true;});
  if(ok)n++;});return n;}
 function reveal(btn){var it=btn.closest('.item'),v=it.querySelector('.verdict');
+ var ac=autocheck(it);
+ if(ac){v.classList.remove('good','bad');v.classList.add(ac.good===ac.total?'good':'bad');
+  var h4=v.querySelector('h4');if(h4)h4.textContent=ac.good===ac.total?'Correct \u2014 and here is the full reasoning':'Not all correct yet \u2014 here is the full reasoning';
+  v.classList.add('show');btn.textContent='Check again';save();setMsg(ac.summary);return;}
  var sel=it.querySelector('select[data-ok]');
  if(sel){var good=sel.value===sel.dataset.ok;
    v.classList.remove('good','bad');v.classList.add(good?'good':'bad');
@@ -611,7 +978,7 @@ function code(){var d={};document.querySelectorAll('[data-f]').forEach(function(
  setMsg('Progress code generated \u2014 copy and keep it.');}
 function restore(){var t=document.getElementById('codebox');t.style.display='block';
  if(!t.value.trim()){setMsg('Paste a progress code into the box first.');return;}
- try{var d=JSON.parse(decodeURIComponent(escape(atob(t.value.trim()))));
+ try{var d=_acMigrate(JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))));
   document.querySelectorAll('[data-f]').forEach(function(e){if(d[e.dataset.f]!==undefined)_set(e,d[e.dataset.f]);});
   document.querySelectorAll('.rubric').forEach(rtally);
   save();setMsg('Restored.');}catch(e){setMsg('That code could not be read.');}}
